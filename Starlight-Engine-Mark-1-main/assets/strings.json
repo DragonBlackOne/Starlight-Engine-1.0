@@ -1,0 +1,12 @@
+{
+    "en": {
+        "WELCOME": "Welcome to Starlight",
+        "START_GAME": "Start Game",
+        "QUIT": "Quit"
+    },
+    "pt-br": {
+        "WELCOME": "Bem-vindo ao Starlight",
+        "START_GAME": "Iniciar Jogo",
+        "QUIT": "Sair"
+    }
+}

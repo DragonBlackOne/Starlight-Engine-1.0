@@ -1,0 +1,18 @@
+#pragma once
+#include <vector>
+#include <glm/glm.hpp>
+
+namespace titan {
+
+    struct AnimatorComponent {
+        std::vector<glm::mat4> jointMatrices;
+        bool active = false;
+        
+        static constexpr int MAX_JOINTS = 64;
+
+        AnimatorComponent() {
+            jointMatrices.resize(MAX_JOINTS, glm::mat4(1.0f));
+        }
+    };
+
+}

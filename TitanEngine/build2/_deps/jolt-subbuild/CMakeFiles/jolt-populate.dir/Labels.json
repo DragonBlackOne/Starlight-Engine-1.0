@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build2/_deps/jolt-subbuild/CMakeFiles/jolt-populate"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build2/_deps/jolt-subbuild/CMakeFiles/72b24493bbfb580d62fdec982d9b2720/jolt-populate.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build2/_deps/jolt-subbuild/CMakeFiles/7c48fe4ac8260fc5a5e3827617e6069d/jolt-populate-complete.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build2/_deps/jolt-subbuild/CMakeFiles/1588c453e69017a897b4dc9ecd0e6c88/jolt-populate-build.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build2/_deps/jolt-subbuild/CMakeFiles/1588c453e69017a897b4dc9ecd0e6c88/jolt-populate-configure.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build2/_deps/jolt-subbuild/CMakeFiles/1588c453e69017a897b4dc9ecd0e6c88/jolt-populate-download.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build2/_deps/jolt-subbuild/CMakeFiles/1588c453e69017a897b4dc9ecd0e6c88/jolt-populate-install.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build2/_deps/jolt-subbuild/CMakeFiles/1588c453e69017a897b4dc9ecd0e6c88/jolt-populate-mkdir.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build2/_deps/jolt-subbuild/CMakeFiles/1588c453e69017a897b4dc9ecd0e6c88/jolt-populate-patch.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build2/_deps/jolt-subbuild/CMakeFiles/1588c453e69017a897b4dc9ecd0e6c88/jolt-populate-test.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build2/_deps/jolt-subbuild/CMakeFiles/1588c453e69017a897b4dc9ecd0e6c88/jolt-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"jolt-populate"
+		],
+		"name" : "jolt-populate"
+	}
+}

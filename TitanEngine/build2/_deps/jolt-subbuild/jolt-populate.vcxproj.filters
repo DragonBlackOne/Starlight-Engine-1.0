@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\jolt-subbuild\CMakeFiles\1588c453e69017a897b4dc9ecd0e6c88\jolt-populate-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\jolt-subbuild\CMakeFiles\1588c453e69017a897b4dc9ecd0e6c88\jolt-populate-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\jolt-subbuild\CMakeFiles\1588c453e69017a897b4dc9ecd0e6c88\jolt-populate-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\jolt-subbuild\CMakeFiles\1588c453e69017a897b4dc9ecd0e6c88\jolt-populate-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\jolt-subbuild\CMakeFiles\1588c453e69017a897b4dc9ecd0e6c88\jolt-populate-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\jolt-subbuild\CMakeFiles\1588c453e69017a897b4dc9ecd0e6c88\jolt-populate-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\jolt-subbuild\CMakeFiles\1588c453e69017a897b4dc9ecd0e6c88\jolt-populate-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\jolt-subbuild\CMakeFiles\1588c453e69017a897b4dc9ecd0e6c88\jolt-populate-test.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\jolt-subbuild\CMakeFiles\7c48fe4ac8260fc5a5e3827617e6069d\jolt-populate-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\jolt-subbuild\CMakeFiles\72b24493bbfb580d62fdec982d9b2720\jolt-populate.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\jolt-subbuild\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\jolt-subbuild\CMakeFiles\jolt-populate" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{EE28A89F-7292-30E6-A3B0-7670F2BE9B58}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

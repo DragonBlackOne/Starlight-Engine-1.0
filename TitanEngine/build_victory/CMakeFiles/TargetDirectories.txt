@@ -1,0 +1,17 @@
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/CMakeFiles/lua.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/CMakeFiles/glad.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/CMakeFiles/TitanSandbox.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/CMakeFiles/INSTALL.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/CMakeFiles/ALL_BUILD.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/CMakeFiles/ZERO_CHECK.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/sdl2/CMakeFiles/sdl_headers_copy.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/sdl2/CMakeFiles/SDL2main.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/sdl2/CMakeFiles/SDL2.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/sdl2/CMakeFiles/SDL2-static.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/sdl2/CMakeFiles/SDL2_test.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/sdl2/CMakeFiles/uninstall.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/sdl2/CMakeFiles/INSTALL.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/sdl2/CMakeFiles/ALL_BUILD.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/jolt/CMakeFiles/Jolt.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/jolt/CMakeFiles/INSTALL.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/jolt/CMakeFiles/ALL_BUILD.dir

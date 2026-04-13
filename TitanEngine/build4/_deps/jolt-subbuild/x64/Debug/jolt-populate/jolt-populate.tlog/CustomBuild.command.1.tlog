@@ -1,0 +1,150 @@
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD4\_DEPS\JOLT-SUBBUILD\CMAKEFILES\8E61515F621618CE593A34C114C16622\JOLT-POPULATE-MKDIR.RULE
+setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -Dcfgdir=/Debug -P "D:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/jolt-subbuild/jolt-populate-prefix/tmp/jolt-populate-mkdirs.cmake"
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/jolt-subbuild/jolt-populate-prefix/src/jolt-populate-stamp/Debug/jolt-populate-mkdir"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD4\_DEPS\JOLT-SUBBUILD\CMAKEFILES\8E61515F621618CE593A34C114C16622\JOLT-POPULATE-DOWNLOAD.RULE
+setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P "D:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/jolt-subbuild/jolt-populate-prefix/tmp/jolt-populate-gitclone.cmake"
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/jolt-subbuild/jolt-populate-prefix/src/jolt-populate-stamp/Debug/jolt-populate-download"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD4\_DEPS\JOLT-SUBBUILD\CMAKEFILES\8E61515F621618CE593A34C114C16622\JOLT-POPULATE-UPDATE.RULE
+setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\jolt-src"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P "D:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/jolt-subbuild/jolt-populate-prefix/tmp/jolt-populate-gitupdate.cmake"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD4\_DEPS\JOLT-SUBBUILD\CMAKEFILES\8E61515F621618CE593A34C114C16622\JOLT-POPULATE-PATCH.RULE
+setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/jolt-subbuild/jolt-populate-prefix/src/jolt-populate-stamp/Debug/jolt-populate-patch"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD4\_DEPS\JOLT-SUBBUILD\CMAKEFILES\8E61515F621618CE593A34C114C16622\JOLT-POPULATE-CONFIGURE.RULE
+setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\jolt-build"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/jolt-subbuild/jolt-populate-prefix/src/jolt-populate-stamp/Debug/jolt-populate-configure"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD4\_DEPS\JOLT-SUBBUILD\CMAKEFILES\8E61515F621618CE593A34C114C16622\JOLT-POPULATE-BUILD.RULE
+setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\jolt-build"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/jolt-subbuild/jolt-populate-prefix/src/jolt-populate-stamp/Debug/jolt-populate-build"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD4\_DEPS\JOLT-SUBBUILD\CMAKEFILES\8E61515F621618CE593A34C114C16622\JOLT-POPULATE-INSTALL.RULE
+setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\jolt-build"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/jolt-subbuild/jolt-populate-prefix/src/jolt-populate-stamp/Debug/jolt-populate-install"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD4\_DEPS\JOLT-SUBBUILD\CMAKEFILES\8E61515F621618CE593A34C114C16622\JOLT-POPULATE-TEST.RULE
+setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\jolt-build"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/jolt-subbuild/jolt-populate-prefix/src/jolt-populate-stamp/Debug/jolt-populate-test"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD4\_DEPS\JOLT-SUBBUILD\CMAKEFILES\38213AE3DBB91FEFAC58B3E3CA3C6C26\JOLT-POPULATE-COMPLETE.RULE
+setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E make_directory "D:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/jolt-subbuild/CMakeFiles/Debug"
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/jolt-subbuild/CMakeFiles/Debug/jolt-populate-complete"
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/jolt-subbuild/jolt-populate-prefix/src/jolt-populate-stamp/Debug/jolt-populate-done"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD4\_DEPS\JOLT-SUBBUILD\CMAKEFILES\A3131F6AAD4D72091955DDC4F8952110\JOLT-POPULATE.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD4\_DEPS\JOLT-SUBBUILD\CMAKELISTS.TXT
+setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe "-SD:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/jolt-subbuild" "-BD:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/jolt-subbuild" --check-stamp-file "D:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/jolt-subbuild/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/entt-subbuild/CMakeFiles/entt-populate"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/entt-subbuild/CMakeFiles/8a42f4252b16a023491895677e257d63/entt-populate.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/entt-subbuild/CMakeFiles/c6502aa4f3350771a0c1410d8f5400f8/entt-populate-complete.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/entt-subbuild/CMakeFiles/58bd4cd975f0cfcb9013ee886840041f/entt-populate-build.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/entt-subbuild/CMakeFiles/58bd4cd975f0cfcb9013ee886840041f/entt-populate-configure.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/entt-subbuild/CMakeFiles/58bd4cd975f0cfcb9013ee886840041f/entt-populate-download.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/entt-subbuild/CMakeFiles/58bd4cd975f0cfcb9013ee886840041f/entt-populate-install.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/entt-subbuild/CMakeFiles/58bd4cd975f0cfcb9013ee886840041f/entt-populate-mkdir.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/entt-subbuild/CMakeFiles/58bd4cd975f0cfcb9013ee886840041f/entt-populate-patch.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/entt-subbuild/CMakeFiles/58bd4cd975f0cfcb9013ee886840041f/entt-populate-test.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/entt-subbuild/CMakeFiles/58bd4cd975f0cfcb9013ee886840041f/entt-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"entt-populate"
+		],
+		"name" : "entt-populate"
+	}
+}

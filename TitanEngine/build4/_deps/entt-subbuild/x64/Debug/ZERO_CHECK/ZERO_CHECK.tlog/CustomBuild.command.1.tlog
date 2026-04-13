@@ -1,0 +1,10 @@
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD4\_DEPS\ENTT-SUBBUILD\CMAKEFILES\71595A9832ED7846D996922DCA450C27\GENERATE.STAMP.RULE
+setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe "-SD:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/entt-subbuild" "-BD:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/entt-subbuild" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "D:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/entt-subbuild/entt-populate.slnx"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

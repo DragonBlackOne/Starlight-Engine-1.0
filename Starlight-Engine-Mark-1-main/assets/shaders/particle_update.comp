@@ -1,0 +1,87 @@
+#version 430
+
+// Physics constants
+const float GRAVITY = -9.81;
+const float DRAG = 0.5;
+
+layout(local_size_x = 256) in;
+
+struct Particle {
+    vec4 position; // xyz = pos, w = life (0.0 = dead)
+    vec4 velocity; // xyz = vel, w = size
+    vec4 color;    // rgba
+};
+
+// Bindings
+layout(std430, binding = 0) buffer ParticleBuffer {
+    Particle particles[];
+};
+
+uniform float dt;
+uniform vec3 emitter_pos;
+uniform float max_life;
+
+// Random helper
+float rand(vec2 co){
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
+void main() {
+    uint id = gl_GlobalInvocationID.x;
+    
+    // Load particle
+    Particle p = particles[id];
+    
+    if (p.position.w > 0.0) {
+        // --- UPDATE ALIVE PARTICLE ---
+        
+        // Physics
+        p.velocity.y += GRAVITY * dt;
+        p.velocity.xyz *= (1.0 - DRAG * dt);
+        p.position.xyz += p.velocity.xyz * dt;
+        
+        // Floor collision (y = 0)
+        if (p.position.y < 0.0) {
+            p.position.y = 0.0;
+            p.velocity.y *= -0.5; // Bounce
+            p.velocity.xz *= 0.8; // Friction
+        }
+        
+        // Age
+        p.position.w -= dt;
+        
+        // Fade out
+        p.color.a = smoothstep(0.0, 0.2, p.position.w / max_life);
+        
+    } else {
+        // --- RESPAWN DEAD PARTICLE (Simple Emitter) ---
+        // Only respawn if we want continuous emission (can be controlled by uniform)
+        
+        // Random seed based on ID and time
+        float seed = float(id) * dt;
+        
+        // Reset life
+        p.position.w = max_life * (0.5 + 0.5 * rand(vec2(seed, 1.0)));
+        
+        // Reset position (emitter pos + random offset)
+        p.position.xyz = emitter_pos + vec3(
+            (rand(vec2(seed, 2.0)) - 0.5) * 2.0,
+            (rand(vec2(seed, 3.0)) - 0.5) * 0.5,
+            (rand(vec2(seed, 4.0)) - 0.5) * 2.0
+        );
+        
+        // Reset velocity (upwards + random spread)
+        p.velocity.xyz = vec3(
+            (rand(vec2(seed, 5.0)) - 0.5) * 2.0,
+            5.0 + rand(vec2(seed, 6.0)) * 2.0,
+            (rand(vec2(seed, 7.0)) - 0.5) * 2.0
+        );
+        
+        // Reset color (Fire-ish)
+        p.color = vec4(1.0, 0.5 + rand(vec2(seed, 8.0))*0.5, 0.0, 1.0);
+        p.velocity.w = 0.1 + rand(vec2(seed, 9.0)) * 0.1; // Size
+    }
+    
+    // Store back
+    particles[id] = p;
+}

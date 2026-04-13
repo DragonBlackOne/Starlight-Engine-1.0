@@ -1,0 +1,10 @@
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD\JOLT\CMAKEFILES\_CMAKELTOTEST-C\BIN\CMAKEFILES\9B090AAA95E6CD0AC52683113C6CBDD6\GENERATE.STAMP.RULE
+setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe "-SD:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src" "-BD:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin/lto-test.slnx"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

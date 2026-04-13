@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/physfs-subbuild/CMakeFiles/physfs-populate"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/physfs-subbuild/CMakeFiles/578bb21bdcf2b8a672a06482838d21e9/physfs-populate.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/physfs-subbuild/CMakeFiles/bf7c6034aedbe7c414811b09891e5ddb/physfs-populate-complete.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/physfs-subbuild/CMakeFiles/88be2739a675dfac86f5da89c6a5fa17/physfs-populate-build.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/physfs-subbuild/CMakeFiles/88be2739a675dfac86f5da89c6a5fa17/physfs-populate-configure.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/physfs-subbuild/CMakeFiles/88be2739a675dfac86f5da89c6a5fa17/physfs-populate-download.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/physfs-subbuild/CMakeFiles/88be2739a675dfac86f5da89c6a5fa17/physfs-populate-install.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/physfs-subbuild/CMakeFiles/88be2739a675dfac86f5da89c6a5fa17/physfs-populate-mkdir.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/physfs-subbuild/CMakeFiles/88be2739a675dfac86f5da89c6a5fa17/physfs-populate-patch.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/physfs-subbuild/CMakeFiles/88be2739a675dfac86f5da89c6a5fa17/physfs-populate-test.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/physfs-subbuild/CMakeFiles/88be2739a675dfac86f5da89c6a5fa17/physfs-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"physfs-populate"
+		],
+		"name" : "physfs-populate"
+	}
+}

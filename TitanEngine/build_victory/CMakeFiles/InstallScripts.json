@@ -1,0 +1,9 @@
+{
+	"InstallScripts" : 
+	[
+		"D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/cmake_install.cmake",
+		"D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/sdl2/cmake_install.cmake",
+		"D:/Projetos/Fusion ENGINE/TitanEngine/build_victory/jolt/cmake_install.cmake"
+	],
+	"Parallel" : false
+}

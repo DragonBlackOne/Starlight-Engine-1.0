@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\sdl2-subbuild\CMakeFiles\7caccfd91fe5f2354575d56a3d49bf48\sdl2-populate-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\sdl2-subbuild\CMakeFiles\7caccfd91fe5f2354575d56a3d49bf48\sdl2-populate-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\sdl2-subbuild\CMakeFiles\7caccfd91fe5f2354575d56a3d49bf48\sdl2-populate-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\sdl2-subbuild\CMakeFiles\7caccfd91fe5f2354575d56a3d49bf48\sdl2-populate-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\sdl2-subbuild\CMakeFiles\7caccfd91fe5f2354575d56a3d49bf48\sdl2-populate-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\sdl2-subbuild\CMakeFiles\7caccfd91fe5f2354575d56a3d49bf48\sdl2-populate-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\sdl2-subbuild\CMakeFiles\7caccfd91fe5f2354575d56a3d49bf48\sdl2-populate-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\sdl2-subbuild\CMakeFiles\7caccfd91fe5f2354575d56a3d49bf48\sdl2-populate-test.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\sdl2-subbuild\CMakeFiles\7582fbb1ef009928795e8f2cade48006\sdl2-populate-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\sdl2-subbuild\CMakeFiles\cd03098dc5c97930f480f3826c7e84d2\sdl2-populate.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\sdl2-subbuild\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Projetos\Fusion ENGINE\TitanEngine\build4\_deps\sdl2-subbuild\CMakeFiles\sdl2-populate" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{385922AD-66D0-3107-A936-752FF3A7ACCE}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

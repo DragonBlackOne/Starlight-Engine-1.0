@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 3.20...3.31)
+project(TestFetch)
+include(FetchContent)
+FetchContent_Declare(entt GIT_REPOSITORY https://github.com/skypjack/entt.git GIT_TAG v3.13.2)
+FetchContent_MakeAvailable(entt)

@@ -1,0 +1,15 @@
+# CMake generation dependency list for this directory.
+C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDependentOption.cmake
+C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake
+C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported/CMakeLists-C.txt.in
+C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported/CMakeLists-CXX.txt.in
+C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported/foo.c
+C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported/foo.cpp
+C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported/main.c
+C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported/main.cpp
+C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/FindPackageHandleStandardArgs.cmake
+C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/FindPackageMessage.cmake
+C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/FindVulkan.cmake
+C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/GNUInstallDirs.cmake
+d:/deps/JoltPhysics-master/Build/CMakeLists.txt
+d:/deps/JoltPhysics-master/Jolt/Jolt.cmake

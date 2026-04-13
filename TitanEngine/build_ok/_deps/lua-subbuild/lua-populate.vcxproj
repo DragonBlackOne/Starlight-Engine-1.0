@@ -1,0 +1,303 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{2E537562-849A-3780-A1D3-79785701D4B8}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>lua-populate</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Utility</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+    <UseDebugLibraries>true</UseDebugLibraries>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(Platform)\$(Configuration)\$(ProjectName)\</IntDir>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Midl>
+      <AdditionalIncludeDirectories>%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeFiles\1b1bf950f5efda2d3da890c596daba0a\lua-populate-mkdir.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Creating directories for 'lua-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -Dcfgdir=/Debug -P "D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/lua-populate-prefix/tmp/lua-populate-mkdirs.cmake"
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/lua-populate-prefix/src/lua-populate-stamp/Debug/lua-populate-mkdir"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-mkdir</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeFiles\1b1bf950f5efda2d3da890c596daba0a\lua-populate-download.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Performing download step (git clone) for 'lua-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P "D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/lua-populate-prefix/tmp/lua-populate-gitclone.cmake"
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/lua-populate-prefix/src/lua-populate-stamp/Debug/lua-populate-download"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\lua-populate-gitinfo.txt;D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-mkdir;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-download</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeFiles\1b1bf950f5efda2d3da890c596daba0a\lua-populate-update.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Performing update step for 'lua-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-src"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P "D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/lua-populate-prefix/tmp/lua-populate-gitupdate.cmake"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\tmp\lua-populate-gitupdate.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\lua-populate-update-info.txt;D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-download;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-update</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeFiles\1b1bf950f5efda2d3da890c596daba0a\lua-populate-patch.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No patch step for 'lua-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/lua-populate-prefix/src/lua-populate-stamp/Debug/lua-populate-patch"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\lua-populate-patch-info.txt;D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-update;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-patch</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeFiles\1b1bf950f5efda2d3da890c596daba0a\lua-populate-configure.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No configure step for 'lua-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-build"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/lua-populate-prefix/src/lua-populate-stamp/Debug/lua-populate-configure"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\tmp\lua-populate-cfgcmd.txt;D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-patch;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-configure</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeFiles\1b1bf950f5efda2d3da890c596daba0a\lua-populate-build.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No build step for 'lua-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-build"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/lua-populate-prefix/src/lua-populate-stamp/Debug/lua-populate-build"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-configure;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-build</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeFiles\1b1bf950f5efda2d3da890c596daba0a\lua-populate-install.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No install step for 'lua-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-build"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/lua-populate-prefix/src/lua-populate-stamp/Debug/lua-populate-install"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-build;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-install</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeFiles\1b1bf950f5efda2d3da890c596daba0a\lua-populate-test.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">No test step for 'lua-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-build"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/lua-populate-prefix/src/lua-populate-stamp/Debug/lua-populate-test"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-install;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-test</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeFiles\bb51f38f79c69dfb43b7e2c86a6893c9\lua-populate-complete.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Completed 'lua-populate'</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E make_directory "D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/CMakeFiles/Debug"
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/CMakeFiles/Debug/lua-populate-complete"
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/lua-populate-prefix/src/lua-populate-stamp/Debug/lua-populate-done"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-install;D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-mkdir;D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-download;D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-update;D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-patch;D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-configure;D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-build;D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\src\lua-populate-stamp\Debug\lua-populate-test;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeFiles\Debug\lua-populate-complete</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeFiles\ea0050dcc0e4ee154a6f1967b7050e20\lua-populate.rule">
+      <BuildInParallel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</BuildInParallel>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'"></Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeFiles\Debug\lua-populate-complete;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeFiles\lua-populate</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <VerifyInputsAndOutputsExist Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</VerifyInputsAndOutputsExist>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe "-SD:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild" "-BD:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild" --check-stamp-file "D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeDetermineSystem.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeSystem.cmake.in;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\ExternalProject.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\ExternalProject\PatchInfo.txt.in;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\ExternalProject\RepositoryInfo.txt.in;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\ExternalProject\UpdateInfo.txt.in;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\ExternalProject\cfgcmd.txt.in;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\ExternalProject\gitclone.cmake.in;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\ExternalProject\gitupdate.cmake.in;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\ExternalProject\mkdirs.cmake.in;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\ExternalProject\shared_internal_commands.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeFiles\4.2.3\CMakeSystem.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\lua-populate-prefix\tmp\lua-populate-mkdirs.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\CMakeFiles\lua-populate">
+    </None>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_ok\_deps\lua-subbuild\ZERO_CHECK.vcxproj">
+      <Project>{665F3525-3773-3B34-B831-C01E4117F007}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

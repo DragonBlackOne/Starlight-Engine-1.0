@@ -1,0 +1,27 @@
+name: Starlight Issue
+description: Reporte um bug reproduzível na Engine.
+title: "[BUG] "
+labels: ["bug"]
+
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Descrição do Problema
+      description: Explique o que está ocorrendo ou qual crash está vendo.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Passos para Reproduzir
+      description: Como podemos recriar o bug? (ex: 1. Abrir Studio 2. Clique X)
+    validations:
+      required: true
+  - type: input
+    id: env
+    attributes:
+      label: Ambiente
+      description: Sistema Operacional e Placa de Vídeo (ex: Win 11, GTX 1050)
+    validations:
+      required: true

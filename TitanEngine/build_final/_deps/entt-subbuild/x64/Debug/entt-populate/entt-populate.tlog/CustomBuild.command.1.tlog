@@ -1,0 +1,150 @@
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_FINAL\_DEPS\ENTT-SUBBUILD\CMAKEFILES\2C63750729128FA68D883D093BCAE547\ENTT-POPULATE-MKDIR.RULE
+setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -Dcfgdir=/Debug -P "D:/Projetos/Fusion ENGINE/TitanEngine/build_final/_deps/entt-subbuild/entt-populate-prefix/tmp/entt-populate-mkdirs.cmake"
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_final/_deps/entt-subbuild/entt-populate-prefix/src/entt-populate-stamp/Debug/entt-populate-mkdir"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_FINAL\_DEPS\ENTT-SUBBUILD\CMAKEFILES\2C63750729128FA68D883D093BCAE547\ENTT-POPULATE-DOWNLOAD.RULE
+setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P "D:/Projetos/Fusion ENGINE/TitanEngine/build_final/_deps/entt-subbuild/entt-populate-prefix/tmp/entt-populate-gitclone.cmake"
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_final/_deps/entt-subbuild/entt-populate-prefix/src/entt-populate-stamp/Debug/entt-populate-download"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_FINAL\_DEPS\ENTT-SUBBUILD\CMAKEFILES\2C63750729128FA68D883D093BCAE547\ENTT-POPULATE-UPDATE.RULE
+setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-src"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -Dcan_fetch=YES -DCMAKE_MESSAGE_LOG_LEVEL=VERBOSE -P "D:/Projetos/Fusion ENGINE/TitanEngine/build_final/_deps/entt-subbuild/entt-populate-prefix/tmp/entt-populate-gitupdate.cmake"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_FINAL\_DEPS\ENTT-SUBBUILD\CMAKEFILES\2C63750729128FA68D883D093BCAE547\ENTT-POPULATE-PATCH.RULE
+setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_final/_deps/entt-subbuild/entt-populate-prefix/src/entt-populate-stamp/Debug/entt-populate-patch"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_FINAL\_DEPS\ENTT-SUBBUILD\CMAKEFILES\2C63750729128FA68D883D093BCAE547\ENTT-POPULATE-CONFIGURE.RULE
+setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-build"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_final/_deps/entt-subbuild/entt-populate-prefix/src/entt-populate-stamp/Debug/entt-populate-configure"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_FINAL\_DEPS\ENTT-SUBBUILD\CMAKEFILES\2C63750729128FA68D883D093BCAE547\ENTT-POPULATE-BUILD.RULE
+setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-build"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_final/_deps/entt-subbuild/entt-populate-prefix/src/entt-populate-stamp/Debug/entt-populate-build"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_FINAL\_DEPS\ENTT-SUBBUILD\CMAKEFILES\2C63750729128FA68D883D093BCAE547\ENTT-POPULATE-INSTALL.RULE
+setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-build"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_final/_deps/entt-subbuild/entt-populate-prefix/src/entt-populate-stamp/Debug/entt-populate-install"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_FINAL\_DEPS\ENTT-SUBBUILD\CMAKEFILES\2C63750729128FA68D883D093BCAE547\ENTT-POPULATE-TEST.RULE
+setlocal
+cd "D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-build"
+if %errorlevel% neq 0 goto :cmEnd
+D:
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E echo_append
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_final/_deps/entt-subbuild/entt-populate-prefix/src/entt-populate-stamp/Debug/entt-populate-test"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_FINAL\_DEPS\ENTT-SUBBUILD\CMAKEFILES\53167EAC2A390FB9C058054FEC4E6CF2\ENTT-POPULATE-COMPLETE.RULE
+setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E make_directory "D:/Projetos/Fusion ENGINE/TitanEngine/build_final/_deps/entt-subbuild/CMakeFiles/Debug"
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_final/_deps/entt-subbuild/CMakeFiles/Debug/entt-populate-complete"
+if %errorlevel% neq 0 goto :cmEnd
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe -E touch "D:/Projetos/Fusion ENGINE/TitanEngine/build_final/_deps/entt-subbuild/entt-populate-prefix/src/entt-populate-stamp/Debug/entt-populate-done"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_FINAL\_DEPS\ENTT-SUBBUILD\CMAKEFILES\6112B5811D95746B3440C39ABCBD331B\ENTT-POPULATE.RULE
+setlocal
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_FINAL\_DEPS\ENTT-SUBBUILD\CMAKELISTS.TXT
+setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe "-SD:/Projetos/Fusion ENGINE/TitanEngine/build_final/_deps/entt-subbuild" "-BD:/Projetos/Fusion ENGINE/TitanEngine/build_final/_deps/entt-subbuild" --check-stamp-file "D:/Projetos/Fusion ENGINE/TitanEngine/build_final/_deps/entt-subbuild/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

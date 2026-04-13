@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-subbuild\CMakeFiles\2c63750729128fa68d883d093bcae547\entt-populate-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-subbuild\CMakeFiles\2c63750729128fa68d883d093bcae547\entt-populate-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-subbuild\CMakeFiles\2c63750729128fa68d883d093bcae547\entt-populate-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-subbuild\CMakeFiles\2c63750729128fa68d883d093bcae547\entt-populate-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-subbuild\CMakeFiles\2c63750729128fa68d883d093bcae547\entt-populate-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-subbuild\CMakeFiles\2c63750729128fa68d883d093bcae547\entt-populate-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-subbuild\CMakeFiles\2c63750729128fa68d883d093bcae547\entt-populate-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-subbuild\CMakeFiles\2c63750729128fa68d883d093bcae547\entt-populate-test.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-subbuild\CMakeFiles\53167eac2a390fb9c058054fec4e6cf2\entt-populate-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-subbuild\CMakeFiles\6112b5811d95746b3440c39abcbd331b\entt-populate.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-subbuild\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final\_deps\entt-subbuild\CMakeFiles\entt-populate" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{28E2C850-DF50-3DEE-8D9F-A14A5D9B15B9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

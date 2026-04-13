@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\glm-subbuild\CMakeFiles\b555c6ed2794b25f45f31fb7fe8c997e\glm-populate-mkdir.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\glm-subbuild\CMakeFiles\b555c6ed2794b25f45f31fb7fe8c997e\glm-populate-download.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\glm-subbuild\CMakeFiles\b555c6ed2794b25f45f31fb7fe8c997e\glm-populate-update.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\glm-subbuild\CMakeFiles\b555c6ed2794b25f45f31fb7fe8c997e\glm-populate-patch.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\glm-subbuild\CMakeFiles\b555c6ed2794b25f45f31fb7fe8c997e\glm-populate-configure.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\glm-subbuild\CMakeFiles\b555c6ed2794b25f45f31fb7fe8c997e\glm-populate-build.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\glm-subbuild\CMakeFiles\b555c6ed2794b25f45f31fb7fe8c997e\glm-populate-install.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\glm-subbuild\CMakeFiles\b555c6ed2794b25f45f31fb7fe8c997e\glm-populate-test.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\glm-subbuild\CMakeFiles\d90939cd231e5b4c1af3e6f2b00e9f0b\glm-populate-complete.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\glm-subbuild\CMakeFiles\91589edee7d7079288130bbc8802a94a\glm-populate.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\glm-subbuild\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Projetos\Fusion ENGINE\TitanEngine\build2\_deps\glm-subbuild\CMakeFiles\glm-populate" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{8A1DBE16-B1E3-39AA-AA5B-3747B1C29742}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

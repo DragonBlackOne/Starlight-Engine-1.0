@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build5\_deps\entt-subbuild\CMakeFiles\8a42f4252b16a023491895677e257d63\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{363DBE92-898C-36F6-84EE-AFB507991EAD}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -1,0 +1,9 @@
+# CMake generation dependency list for this directory.
+C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in
+C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakePackageConfigHelpers.cmake
+C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/GNUInstallDirs.cmake
+C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/WriteBasicConfigVersionFile.cmake
+D:/Projetos/Fusion ENGINE/TitanEngine/build_test/_deps/entt-src/CMakeLists.txt
+D:/Projetos/Fusion ENGINE/TitanEngine/build_test/_deps/entt-src/cmake/in/EnTTConfig.cmake.in
+D:/Projetos/Fusion ENGINE/TitanEngine/build_test/_deps/entt-src/cmake/in/entt.pc.in
+D:/Projetos/Fusion ENGINE/TitanEngine/build_test/_deps/entt-src/cmake/modules/JoinPaths.cmake

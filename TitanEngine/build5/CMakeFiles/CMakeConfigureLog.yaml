@@ -1,0 +1,2487 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineSystem.cmake:212 (message)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      The system is: Windows - 10.0.26100 - AMD64
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCCompilerId.c.in"
+    candidate_directories:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/"
+    found: "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeCCompilerId.c.in"
+    search_context:
+      ENV{PATH}:
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\IncrediBuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\alyss\\.cargo\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\LOVE"
+        - "C:\\Users\\alyss\\AppData\\Roaming\\npm"
+        - "C:\\Users\\alyss\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Antigravity\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:122 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
+      Compila├º├úo de 12/04/2026 06:48:27 iniciada.
+      
+      Projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\4.2.3\\CompilerIdC\\CompilerIdC.vcxproj" no n├│ 1 (destinos padr├úo).
+      PrepareForBuild:
+        Criando o diret├│rio "Debug\\".
+        A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+        Criando o diret├│rio "Debug\\CompilerIdC.tlog\\".
+      InitializeBuildStatus:
+        Criando "Debug\\CompilerIdC.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+        Tocando "Debug\\CompilerIdC.tlog\\unsuccessfulbuild".
+      ClCompile:
+        C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc145.pdb" /external:W0 /Gd /TC /FC /errorReport:queue CMakeCCompilerId.c
+        CMakeCCompilerId.c
+      Link:
+        C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdC.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdC.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdC.lib" /MACHINE:X64 Debug\\CMakeCCompilerId.obj
+        CompilerIdC.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\4.2.3\\CompilerIdC\\CompilerIdC.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_C_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_C_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\Hostx64\\x64\\cl.exe
+      FinalizeBuildStatus:
+        Excluindo o arquivo "Debug\\CompilerIdC.tlog\\unsuccessfulbuild".
+        Tocando "Debug\\CompilerIdC.tlog\\CompilerIdC.lastbuildstate".
+      Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\4.2.3\\CompilerIdC\\CompilerIdC.vcxproj" (destinos padr├úo).
+      
+      Compila├º├úo com ├¬xito.
+          0 Aviso(s)
+          0 Erro(s)
+      
+      Tempo Decorrido 00:00:00.60
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.exe"
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "CompilerIdC.vcxproj"
+      
+      The C compiler identification is MSVC, found in:
+        D:/Projetos/Fusion ENGINE/TitanEngine/build5/CMakeFiles/4.2.3/CompilerIdC/CompilerIdC.exe
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:103 (__resolve_linker_path)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/nodejs/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/IncrediBuild/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/"
+      - "C:/Users/alyss/.cargo/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Program Files/LOVE/"
+      - "C:/Users/alyss/AppData/Roaming/npm/"
+      - "C:/Users/alyss/AppData/Local/Python/bin/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/link.com"
+    found: "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/link.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\IncrediBuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\alyss\\.cargo\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\LOVE"
+        - "C:\\Users\\alyss\\AppData\\Roaming\\npm"
+        - "C:\\Users\\alyss\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Antigravity\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:104 (__resolve_linker_path)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lld-link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/nodejs/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/IncrediBuild/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/"
+      - "C:/Users/alyss/.cargo/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Program Files/LOVE/"
+      - "C:/Users/alyss/AppData/Roaming/npm/"
+      - "C:/Users/alyss/AppData/Local/Python/bin/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/lld-link.com"
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/lld-link.exe"
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/lld-link"
+      - "C:/Windows/System32/lld-link.com"
+      - "C:/Windows/System32/lld-link.exe"
+      - "C:/Windows/System32/lld-link"
+      - "C:/Windows/lld-link.com"
+      - "C:/Windows/lld-link.exe"
+      - "C:/Windows/lld-link"
+      - "C:/Windows/System32/wbem/lld-link.com"
+      - "C:/Windows/System32/wbem/lld-link.exe"
+      - "C:/Windows/System32/wbem/lld-link"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link"
+      - "C:/Windows/System32/OpenSSH/lld-link.com"
+      - "C:/Windows/System32/OpenSSH/lld-link.exe"
+      - "C:/Windows/System32/OpenSSH/lld-link"
+      - "C:/Program Files/nodejs/lld-link.com"
+      - "C:/Program Files/nodejs/lld-link.exe"
+      - "C:/Program Files/nodejs/lld-link"
+      - "C:/ProgramData/chocolatey/bin/lld-link.com"
+      - "C:/ProgramData/chocolatey/bin/lld-link.exe"
+      - "C:/ProgramData/chocolatey/bin/lld-link"
+      - "C:/Program Files/Git/cmd/lld-link.com"
+      - "C:/Program Files/Git/cmd/lld-link.exe"
+      - "C:/Program Files/Git/cmd/lld-link"
+      - "C:/Program Files (x86)/IncrediBuild/lld-link.com"
+      - "C:/Program Files (x86)/IncrediBuild/lld-link.exe"
+      - "C:/Program Files (x86)/IncrediBuild/lld-link"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/lld-link"
+      - "C:/Users/alyss/.cargo/bin/lld-link.com"
+      - "C:/Users/alyss/.cargo/bin/lld-link.exe"
+      - "C:/Users/alyss/.cargo/bin/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/lld-link"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/lld-link"
+      - "C:/Program Files/LOVE/lld-link.com"
+      - "C:/Program Files/LOVE/lld-link.exe"
+      - "C:/Program Files/LOVE/lld-link"
+      - "C:/Users/alyss/AppData/Roaming/npm/lld-link.com"
+      - "C:/Users/alyss/AppData/Roaming/npm/lld-link.exe"
+      - "C:/Users/alyss/AppData/Roaming/npm/lld-link"
+      - "C:/Users/alyss/AppData/Local/Python/bin/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Python/bin/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Python/bin/lld-link"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/lld-link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\IncrediBuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\alyss\\.cargo\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\LOVE"
+        - "C:\\Users\\alyss\\AppData\\Roaming\\npm"
+        - "C:\\Users\\alyss\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Antigravity\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_LINKER"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/nodejs/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/IncrediBuild/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/"
+      - "C:/Users/alyss/.cargo/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Program Files/LOVE/"
+      - "C:/Users/alyss/AppData/Roaming/npm/"
+      - "C:/Users/alyss/AppData/Local/Python/bin/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/link.com"
+    found: "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/link.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\IncrediBuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\alyss\\.cargo\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\LOVE"
+        - "C:\\Users\\alyss\\AppData\\Roaming\\npm"
+        - "C:\\Users\\alyss\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Antigravity\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_MT"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "mt"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/nodejs/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/IncrediBuild/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/"
+      - "C:/Users/alyss/.cargo/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Program Files/LOVE/"
+      - "C:/Users/alyss/AppData/Roaming/npm/"
+      - "C:/Users/alyss/AppData/Local/Python/bin/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/mt.com"
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/mt.exe"
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/mt"
+      - "C:/Windows/System32/mt.com"
+      - "C:/Windows/System32/mt.exe"
+      - "C:/Windows/System32/mt"
+      - "C:/Windows/mt.com"
+      - "C:/Windows/mt.exe"
+      - "C:/Windows/mt"
+      - "C:/Windows/System32/wbem/mt.com"
+      - "C:/Windows/System32/wbem/mt.exe"
+      - "C:/Windows/System32/wbem/mt"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/mt"
+      - "C:/Windows/System32/OpenSSH/mt.com"
+      - "C:/Windows/System32/OpenSSH/mt.exe"
+      - "C:/Windows/System32/OpenSSH/mt"
+      - "C:/Program Files/nodejs/mt.com"
+      - "C:/Program Files/nodejs/mt.exe"
+      - "C:/Program Files/nodejs/mt"
+      - "C:/ProgramData/chocolatey/bin/mt.com"
+      - "C:/ProgramData/chocolatey/bin/mt.exe"
+      - "C:/ProgramData/chocolatey/bin/mt"
+      - "C:/Program Files/Git/cmd/mt.com"
+      - "C:/Program Files/Git/cmd/mt.exe"
+      - "C:/Program Files/Git/cmd/mt"
+      - "C:/Program Files (x86)/IncrediBuild/mt.com"
+      - "C:/Program Files (x86)/IncrediBuild/mt.exe"
+      - "C:/Program Files (x86)/IncrediBuild/mt"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/mt"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/mt.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/mt.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/mt"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/mt.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/mt.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/mt"
+      - "C:/Users/alyss/.cargo/bin/mt.com"
+      - "C:/Users/alyss/.cargo/bin/mt.exe"
+      - "C:/Users/alyss/.cargo/bin/mt"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/mt.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/mt.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/mt"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/mt.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/mt.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/mt"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/mt.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/mt.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/mt"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/mt.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/mt.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/mt"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/mt.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/mt.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/mt"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/mt.com"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/mt.exe"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/mt"
+      - "C:/Program Files/LOVE/mt.com"
+      - "C:/Program Files/LOVE/mt.exe"
+      - "C:/Program Files/LOVE/mt"
+      - "C:/Users/alyss/AppData/Roaming/npm/mt.com"
+      - "C:/Users/alyss/AppData/Roaming/npm/mt.exe"
+      - "C:/Users/alyss/AppData/Roaming/npm/mt"
+      - "C:/Users/alyss/AppData/Local/Python/bin/mt.com"
+      - "C:/Users/alyss/AppData/Local/Python/bin/mt.exe"
+      - "C:/Users/alyss/AppData/Local/Python/bin/mt"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/mt.com"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/mt.exe"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/mt"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/mt.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/mt.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/mt"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/mt.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/mt.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/mt"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\IncrediBuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\alyss\\.cargo\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\LOVE"
+        - "C:\\Users\\alyss\\AppData\\Roaming\\npm"
+        - "C:\\Users\\alyss\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Antigravity\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:243 (find_program)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCCompiler.cmake:200 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_AR"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lib"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/nodejs/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/IncrediBuild/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/"
+      - "C:/Users/alyss/.cargo/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Program Files/LOVE/"
+      - "C:/Users/alyss/AppData/Roaming/npm/"
+      - "C:/Users/alyss/AppData/Local/Python/bin/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/lib.com"
+    found: "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/lib.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\IncrediBuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\alyss\\.cargo\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\LOVE"
+        - "C:\\Users\\alyss\\AppData\\Roaming\\npm"
+        - "C:\\Users\\alyss\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Antigravity\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:462 (find_file)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:500 (CMAKE_DETERMINE_COMPILER_ID_WRITE)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:8 (CMAKE_DETERMINE_COMPILER_ID_BUILD)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "file"
+    variable: "src_in"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "CMakeCXXCompilerId.cpp.in"
+    candidate_directories:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/"
+    found: "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeCXXCompilerId.cpp.in"
+    search_context:
+      ENV{PATH}:
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\IncrediBuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\alyss\\.cargo\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\LOVE"
+        - "C:\\Users\\alyss\\AppData\\Roaming\\npm"
+        - "C:\\Users\\alyss\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Antigravity\\bin"
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:125 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler:  
+      Build flags: 
+      Id flags:  
+      
+      The output was:
+      0
+      Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
+      Compila├º├úo de 12/04/2026 06:48:27 iniciada.
+      
+      Projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\4.2.3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" no n├│ 1 (destinos padr├úo).
+      PrepareForBuild:
+        Criando o diret├│rio "Debug\\".
+        A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+        Criando o diret├│rio "Debug\\CompilerIdCXX.tlog\\".
+      InitializeBuildStatus:
+        Criando "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+        Tocando "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
+      ClCompile:
+        C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /nologo /W0 /WX- /diagnostics:column /Od /D _MBCS /Gm- /EHsc /RTC1 /MDd /GS /fp:precise /Zc:wchar_t /Zc:forScope /Zc:inline /Fo"Debug\\\\" /Fd"Debug\\vc145.pdb" /external:W0 /Gd /TP /FC /errorReport:queue CMakeCXXCompilerId.cpp
+        CMakeCXXCompilerId.cpp
+      Link:
+        C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /ERRORREPORT:QUEUE /OUT:".\\CompilerIdCXX.exe" /INCREMENTAL:NO /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /PDB:".\\CompilerIdCXX.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /DYNAMICBASE /NXCOMPAT /IMPLIB:".\\CompilerIdCXX.lib" /MACHINE:X64 Debug\\CMakeCXXCompilerId.obj
+        CompilerIdCXX.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\4.2.3\\CompilerIdCXX\\CompilerIdCXX.exe
+      PostBuildEvent:
+        for %%i in (cl.exe) do @echo CMAKE_CXX_COMPILER=%%~$PATH:i
+        :VCEnd
+        CMAKE_CXX_COMPILER=C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\Hostx64\\x64\\cl.exe
+      FinalizeBuildStatus:
+        Excluindo o arquivo "Debug\\CompilerIdCXX.tlog\\unsuccessfulbuild".
+        Tocando "Debug\\CompilerIdCXX.tlog\\CompilerIdCXX.lastbuildstate".
+      Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\4.2.3\\CompilerIdCXX\\CompilerIdCXX.vcxproj" (destinos padr├úo).
+      
+      Compila├º├úo com ├¬xito.
+          0 Aviso(s)
+          0 Erro(s)
+      
+      Tempo Decorrido 00:00:00.62
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.exe"
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "CompilerIdCXX.vcxproj"
+      
+      The CXX compiler identification is MSVC, found in:
+        D:/Projetos/Fusion ENGINE/TitanEngine/build5/CMakeFiles/4.2.3/CompilerIdCXX/CompilerIdCXX.exe
+      
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:37 (find_program)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:65 (__resolve_tool_path)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeFindBinUtils.cmake:104 (__resolve_linker_path)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCXXCompiler.cmake:206 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "_CMAKE_TOOL_WITH_PATH"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: false
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: false
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "lld-link"
+    candidate_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/nodejs/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/IncrediBuild/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/"
+      - "C:/Users/alyss/.cargo/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Program Files/LOVE/"
+      - "C:/Users/alyss/AppData/Roaming/npm/"
+      - "C:/Users/alyss/AppData/Local/Python/bin/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/"
+    searched_directories:
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/lld-link.com"
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/lld-link.exe"
+      - "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/lld-link"
+      - "C:/Windows/System32/lld-link.com"
+      - "C:/Windows/System32/lld-link.exe"
+      - "C:/Windows/System32/lld-link"
+      - "C:/Windows/lld-link.com"
+      - "C:/Windows/lld-link.exe"
+      - "C:/Windows/lld-link"
+      - "C:/Windows/System32/wbem/lld-link.com"
+      - "C:/Windows/System32/wbem/lld-link.exe"
+      - "C:/Windows/System32/wbem/lld-link"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/lld-link"
+      - "C:/Windows/System32/OpenSSH/lld-link.com"
+      - "C:/Windows/System32/OpenSSH/lld-link.exe"
+      - "C:/Windows/System32/OpenSSH/lld-link"
+      - "C:/Program Files/nodejs/lld-link.com"
+      - "C:/Program Files/nodejs/lld-link.exe"
+      - "C:/Program Files/nodejs/lld-link"
+      - "C:/ProgramData/chocolatey/bin/lld-link.com"
+      - "C:/ProgramData/chocolatey/bin/lld-link.exe"
+      - "C:/ProgramData/chocolatey/bin/lld-link"
+      - "C:/Program Files/Git/cmd/lld-link.com"
+      - "C:/Program Files/Git/cmd/lld-link.exe"
+      - "C:/Program Files/Git/cmd/lld-link"
+      - "C:/Program Files (x86)/IncrediBuild/lld-link.com"
+      - "C:/Program Files (x86)/IncrediBuild/lld-link.exe"
+      - "C:/Program Files (x86)/IncrediBuild/lld-link"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/lld-link"
+      - "C:/Users/alyss/.cargo/bin/lld-link.com"
+      - "C:/Users/alyss/.cargo/bin/lld-link.exe"
+      - "C:/Users/alyss/.cargo/bin/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/lld-link"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/lld-link"
+      - "C:/Program Files/LOVE/lld-link.com"
+      - "C:/Program Files/LOVE/lld-link.exe"
+      - "C:/Program Files/LOVE/lld-link"
+      - "C:/Users/alyss/AppData/Roaming/npm/lld-link.com"
+      - "C:/Users/alyss/AppData/Roaming/npm/lld-link.exe"
+      - "C:/Users/alyss/AppData/Roaming/npm/lld-link"
+      - "C:/Users/alyss/AppData/Local/Python/bin/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Python/bin/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Python/bin/lld-link"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/lld-link"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/lld-link.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/lld-link.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/lld-link"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\IncrediBuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\alyss\\.cargo\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\LOVE"
+        - "C:\\Users\\alyss\\AppData\\Roaming\\npm"
+        - "C:\\Users\\alyss\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Antigravity\\bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineRCCompiler.cmake:40 (find_program)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/Platform/Windows-MSVC.cmake:580 (enable_language)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/Platform/Windows-MSVC.cmake:553 (__windows_compiler_msvc_enable_rc)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/Platform/Windows-MSVC-C.cmake:5 (__windows_compiler_msvc)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeCInformation.cmake:48 (include)"
+      - "CMakeLists.txt:2 (project)"
+    mode: "program"
+    variable: "CMAKE_RC_COMPILER"
+    description: "RC compiler"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "rc"
+    candidate_directories:
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/nodejs/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/IncrediBuild/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/"
+      - "C:/Users/alyss/.cargo/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Program Files/LOVE/"
+      - "C:/Users/alyss/AppData/Roaming/npm/"
+      - "C:/Users/alyss/AppData/Local/Python/bin/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/"
+      - "C:/Program Files/bin/"
+      - "C:/Program Files/sbin/"
+      - "C:/Program Files/"
+      - "C:/Program Files (x86)/bin/"
+      - "C:/Program Files (x86)/sbin/"
+      - "C:/Program Files (x86)/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/"
+      - "C:/Program Files (x86)/TitanEngine/bin/"
+      - "C:/Program Files (x86)/TitanEngine/sbin/"
+      - "C:/Program Files (x86)/TitanEngine/"
+    searched_directories:
+      - "C:/Windows/System32/rc.com"
+      - "C:/Windows/System32/rc.exe"
+      - "C:/Windows/System32/rc"
+      - "C:/Windows/rc.com"
+      - "C:/Windows/rc.exe"
+      - "C:/Windows/rc"
+      - "C:/Windows/System32/wbem/rc.com"
+      - "C:/Windows/System32/wbem/rc.exe"
+      - "C:/Windows/System32/wbem/rc"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/rc"
+      - "C:/Windows/System32/OpenSSH/rc.com"
+      - "C:/Windows/System32/OpenSSH/rc.exe"
+      - "C:/Windows/System32/OpenSSH/rc"
+      - "C:/Program Files/nodejs/rc.com"
+      - "C:/Program Files/nodejs/rc.exe"
+      - "C:/Program Files/nodejs/rc"
+      - "C:/ProgramData/chocolatey/bin/rc.com"
+      - "C:/ProgramData/chocolatey/bin/rc.exe"
+      - "C:/ProgramData/chocolatey/bin/rc"
+      - "C:/Program Files/Git/cmd/rc.com"
+      - "C:/Program Files/Git/cmd/rc.exe"
+      - "C:/Program Files/Git/cmd/rc"
+      - "C:/Program Files (x86)/IncrediBuild/rc.com"
+      - "C:/Program Files (x86)/IncrediBuild/rc.exe"
+      - "C:/Program Files (x86)/IncrediBuild/rc"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/rc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/rc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/rc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/rc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/rc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/rc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/rc"
+      - "C:/Users/alyss/.cargo/bin/rc.com"
+      - "C:/Users/alyss/.cargo/bin/rc.exe"
+      - "C:/Users/alyss/.cargo/bin/rc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/rc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/rc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/rc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/rc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/rc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/rc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/rc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/rc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/rc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/rc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/rc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/rc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/rc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/rc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/rc"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/rc.com"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/rc.exe"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/rc"
+      - "C:/Program Files/LOVE/rc.com"
+      - "C:/Program Files/LOVE/rc.exe"
+      - "C:/Program Files/LOVE/rc"
+      - "C:/Users/alyss/AppData/Roaming/npm/rc.com"
+      - "C:/Users/alyss/AppData/Roaming/npm/rc.exe"
+      - "C:/Users/alyss/AppData/Roaming/npm/rc"
+      - "C:/Users/alyss/AppData/Local/Python/bin/rc.com"
+      - "C:/Users/alyss/AppData/Local/Python/bin/rc.exe"
+      - "C:/Users/alyss/AppData/Local/Python/bin/rc"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/rc.com"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/rc.exe"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/rc"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/rc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/rc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/rc"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/rc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/rc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/rc"
+      - "C:/Program Files/bin/rc.com"
+      - "C:/Program Files/bin/rc.exe"
+      - "C:/Program Files/bin/rc"
+      - "C:/Program Files/sbin/rc.com"
+      - "C:/Program Files/sbin/rc.exe"
+      - "C:/Program Files/sbin/rc"
+      - "C:/Program Files/rc.com"
+      - "C:/Program Files/rc.exe"
+      - "C:/Program Files/rc"
+      - "C:/Program Files (x86)/bin/rc.com"
+      - "C:/Program Files (x86)/bin/rc.exe"
+      - "C:/Program Files (x86)/bin/rc"
+      - "C:/Program Files (x86)/sbin/rc.com"
+      - "C:/Program Files (x86)/sbin/rc.exe"
+      - "C:/Program Files (x86)/sbin/rc"
+      - "C:/Program Files (x86)/rc.com"
+      - "C:/Program Files (x86)/rc.exe"
+      - "C:/Program Files (x86)/rc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/rc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/rc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/rc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/rc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/rc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/rc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/rc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/rc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/rc"
+      - "C:/Program Files (x86)/TitanEngine/bin/rc.com"
+      - "C:/Program Files (x86)/TitanEngine/bin/rc.exe"
+      - "C:/Program Files (x86)/TitanEngine/bin/rc"
+      - "C:/Program Files (x86)/TitanEngine/sbin/rc.com"
+      - "C:/Program Files (x86)/TitanEngine/sbin/rc.exe"
+      - "C:/Program Files (x86)/TitanEngine/sbin/rc"
+      - "C:/Program Files (x86)/TitanEngine/rc.com"
+      - "C:/Program Files (x86)/TitanEngine/rc.exe"
+      - "C:/Program Files (x86)/TitanEngine/rc"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\IncrediBuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\alyss\\.cargo\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\LOVE"
+        - "C:\\Users\\alyss\\AppData\\Roaming\\npm"
+        - "C:\\Users\\alyss\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Antigravity\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/TitanEngine"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data"
+        - "C:/Program Files (x86)/TitanEngine"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "D:/Projetos/Fusion ENGINE/TitanEngine/build5/CMakeFiles/CMakeScratch/TryCompile-l03dp6"
+      binary: "D:/Projetos/Fusion ENGINE/TitanEngine/build5/CMakeFiles/CMakeScratch/TryCompile-l03dp6"
+    cmakeVariables:
+      CMAKE_C_FLAGS: "/DWIN32 /D_WINDOWS"
+      CMAKE_C_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projetos/Fusion ENGINE/TitanEngine/build5/CMakeFiles/CMakeScratch/TryCompile-l03dp6'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_2e13b.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
+        Compila├º├úo de 12/04/2026 06:48:28 iniciada.
+        
+        Projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-l03dp6\\cmTC_2e13b.vcxproj" no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-l03dp6\\Debug\\".
+          Criando o diret├│rio "cmTC_2e13b.dir\\Debug\\cmTC_2e13b.tlog\\".
+        InitializeBuildStatus:
+          Criando "cmTC_2e13b.dir\\Debug\\cmTC_2e13b.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "cmTC_2e13b.dir\\Debug\\cmTC_2e13b.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_2e13b.dir\\Debug\\\\" /Fd"cmTC_2e13b.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\cmake\\data\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"cmTC_2e13b.dir\\Debug\\\\" /Fd"cmTC_2e13b.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\cmake\\data\\share\\cmake-4.2\\Modules\\CMakeCCompilerABI.c"
+          CMakeCCompilerABI.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-l03dp6\\Debug\\cmTC_2e13b.exe" /INCREMENTAL /ILK:"cmTC_2e13b.dir\\Debug\\cmTC_2e13b.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Projetos/Fusion ENGINE/TitanEngine/build5/CMakeFiles/CMakeScratch/TryCompile-l03dp6/Debug/cmTC_2e13b.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/Projetos/Fusion ENGINE/TitanEngine/build5/CMakeFiles/CMakeScratch/TryCompile-l03dp6/Debug/cmTC_2e13b.lib" /MACHINE:X64  /machine:x64 cmTC_2e13b.dir\\Debug\\CMakeCCompilerABI.obj
+          cmTC_2e13b.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-l03dp6\\Debug\\cmTC_2e13b.exe
+        FinalizeBuildStatus:
+          Excluindo o arquivo "cmTC_2e13b.dir\\Debug\\cmTC_2e13b.tlog\\unsuccessfulbuild".
+          Tocando "cmTC_2e13b.dir\\Debug\\cmTC_2e13b.tlog\\cmTC_2e13b.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-l03dp6\\cmTC_2e13b.vcxproj" (destinos padr├úo).
+        
+        Compila├º├úo com ├¬xito.
+            0 Aviso(s)
+            0 Erro(s)
+        
+        Tempo Decorrido 00:00:00.58
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:253 (message)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        linker tool regex: [^[ 	]*(->|"|[0-9]+>[ 	-]*Build:[ 	0-9]+ ms[ 	]*)?[ 	]*(([^"]*[/\\])?(ld[0-9]*(|\\.[a-rt-z][a-z]*|\\.s[a-np-z][a-z]*|\\.so[a-z]+)|link\\.exe|lld-link(\\.exe)?))("|,| |$)]
+        linker tool for 'C': C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/HostX64/x64/link.exe
+        implicit libs: []
+        implicit objs: []
+        implicit dirs: []
+        implicit fwks: []
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/Internal/CMakeDetermineLinkerId.cmake:38 (message)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:299 (cmake_determine_linker_id)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    message: |
+      Running the C compiler's linker: "C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/HostX64/x64/link.exe" "-v"
+      Microsoft (R) Incremental Linker Version 14.50.35728.0
+      Copyright (C) Microsoft Corporation.  All rights reserved.
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeDetermineCompilerABI.cmake:83 (try_compile)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "D:/Projetos/Fusion ENGINE/TitanEngine/build5/CMakeFiles/CMakeScratch/TryCompile-hwgcve"
+      binary: "D:/Projetos/Fusion ENGINE/TitanEngine/build5/CMakeFiles/CMakeScratch/TryCompile-hwgcve"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projetos/Fusion ENGINE/TitanEngine/build5/CMakeFiles/CMakeScratch/TryCompile-hwgcve'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_74e17.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
+        Compila├º├úo de 12/04/2026 06:48:29 iniciada.
+        
+        Projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-hwgcve\\cmTC_74e17.vcxproj" no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-hwgcve\\Debug\\".
+          Criando o diret├│rio "cmTC_74e17.dir\\Debug\\cmTC_74e17.tlog\\".
+        InitializeBuildStatus:
+          Criando "cmTC_74e17.dir\\Debug\\cmTC_74e17.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "cmTC_74e17.dir\\Debug\\cmTC_74e17.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"cmTC_74e17.dir\\Debug\\\\" /Fd"cmTC_74e17.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\cmake\\data\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"cmTC_74e17.dir\\Debug\\\\" /Fd"cmTC_74e17.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\cmake\\data\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp"
+          CMakeCXXCompilerABI.cpp
+        C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\cmake\\data\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp(1,1): error C1090: Falha na chamada ├á API PDB, c├│digo de erro '3': D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-hwgcve\\cmTC_74e17.dir\\Debug\\vc145.pdb [D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-hwgcve\\cmTC_74e17.vcxproj]
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-hwgcve\\cmTC_74e17.vcxproj" (destinos padr├úo) -- FALHA.
+        
+        FALHA da compila├º├úo.
+        
+        "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-hwgcve\\cmTC_74e17.vcxproj" (destino padr├úo) (1) ->
+        (ClCompile destino) -> 
+          C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Lib\\site-packages\\cmake\\data\\share\\cmake-4.2\\Modules\\CMakeCXXCompilerABI.cpp(1,1): error C1090: Falha na chamada ├á API PDB, c├│digo de erro '3': D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-hwgcve\\cmTC_74e17.dir\\Debug\\vc145.pdb [D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-hwgcve\\cmTC_74e17.vcxproj]
+        
+            0 Aviso(s)
+            1 Erro(s)
+        
+        Tempo Decorrido 00:00:00.46
+        
+      exitCode: 1
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CMakeTestCXXCompiler.cmake:56 (try_compile)"
+      - "CMakeLists.txt:2 (project)"
+    checks:
+      - "Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.50.35717/bin/Hostx64/x64/cl.exe"
+    directories:
+      source: "D:/Projetos/Fusion ENGINE/TitanEngine/build5/CMakeFiles/CMakeScratch/TryCompile-5h6lf1"
+      binary: "D:/Projetos/Fusion ENGINE/TitanEngine/build5/CMakeFiles/CMakeScratch/TryCompile-5h6lf1"
+    cmakeVariables:
+      CMAKE_CXX_FLAGS: "/DWIN32 /D_WINDOWS /EHsc"
+      CMAKE_CXX_FLAGS_DEBUG: "/Zi /Ob0 /Od /RTC1"
+      CMAKE_CXX_SCAN_FOR_MODULES: "OFF"
+      CMAKE_EXE_LINKER_FLAGS: "/machine:x64"
+    buildResult:
+      variable: "CMAKE_CXX_COMPILER_WORKS"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projetos/Fusion ENGINE/TitanEngine/build5/CMakeFiles/CMakeScratch/TryCompile-5h6lf1'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" cmTC_b6739.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
+        Compila├º├úo de 12/04/2026 06:48:30 iniciada.
+        
+        Projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-5h6lf1\\cmTC_b6739.vcxproj" no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-5h6lf1\\Debug\\".
+          Criando o diret├│rio "cmTC_b6739.dir\\Debug\\cmTC_b6739.tlog\\".
+        InitializeBuildStatus:
+          Criando "cmTC_b6739.dir\\Debug\\cmTC_b6739.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "cmTC_b6739.dir\\Debug\\cmTC_b6739.tlog\\unsuccessfulbuild".
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"cmTC_b6739.dir\\Debug\\\\" /Fd"cmTC_b6739.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-5h6lf1\\testCXXCompiler.cxx"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"cmTC_b6739.dir\\Debug\\\\" /Fd"cmTC_b6739.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-5h6lf1\\testCXXCompiler.cxx"
+          testCXXCompiler.cxx
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-5h6lf1\\Debug\\cmTC_b6739.exe" /INCREMENTAL /ILK:"cmTC_b6739.dir\\Debug\\cmTC_b6739.ilk" /NOLOGO kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Projetos/Fusion ENGINE/TitanEngine/build5/CMakeFiles/CMakeScratch/TryCompile-5h6lf1/Debug/cmTC_b6739.pdb" /SUBSYSTEM:CONSOLE /TLBID:1 /IMPLIB:"D:/Projetos/Fusion ENGINE/TitanEngine/build5/CMakeFiles/CMakeScratch/TryCompile-5h6lf1/Debug/cmTC_b6739.lib" /MACHINE:X64  /machine:x64 cmTC_b6739.dir\\Debug\\testCXXCompiler.obj
+          cmTC_b6739.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-5h6lf1\\Debug\\cmTC_b6739.exe
+        FinalizeBuildStatus:
+          Excluindo o arquivo "cmTC_b6739.dir\\Debug\\cmTC_b6739.tlog\\unsuccessfulbuild".
+          Tocando "cmTC_b6739.dir\\Debug\\cmTC_b6739.tlog\\cmTC_b6739.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\CMakeFiles\\CMakeScratch\\TryCompile-5h6lf1\\cmTC_b6739.vcxproj" (destinos padr├úo).
+        
+        Compila├º├úo com ├¬xito.
+            0 Aviso(s)
+            0 Erro(s)
+        
+        Tempo Decorrido 00:00:00.61
+        
+      exitCode: 0
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/FindGit.cmake:111 (find_program)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/FetchContent.cmake:1884 (find_package)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/FetchContent.cmake:1619 (__FetchContent_populateSubbuild)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/FetchContent.cmake:2155:EVAL:2 (__FetchContent_doPopulation)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/FetchContent.cmake:2155 (cmake_language)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/FetchContent.cmake:2394 (__FetchContent_Populate)"
+      - "CMakeLists.txt:12 (FetchContent_MakeAvailable)"
+    mode: "program"
+    variable: "GIT_EXECUTABLE"
+    description: "Git command line client"
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "git.cmd"
+      - "git"
+    candidate_directories:
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/nodejs/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/IncrediBuild/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/"
+      - "C:/Users/alyss/.cargo/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Program Files/LOVE/"
+      - "C:/Users/alyss/AppData/Roaming/npm/"
+      - "C:/Users/alyss/AppData/Local/Python/bin/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/"
+      - "C:/Program Files/bin/"
+      - "C:/Program Files/sbin/"
+      - "C:/Program Files/"
+      - "C:/Program Files (x86)/bin/"
+      - "C:/Program Files (x86)/sbin/"
+      - "C:/Program Files (x86)/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/"
+      - "C:/Program Files (x86)/TitanEngine/bin/"
+      - "C:/Program Files (x86)/TitanEngine/sbin/"
+      - "C:/Program Files (x86)/TitanEngine/"
+      - "C:/Users/alyss/AppData/Local/Atlassian/SourceTree/git_local/bin/"
+    searched_directories:
+      - "C:/Windows/System32/git.cmd.com"
+      - "C:/Windows/System32/git.cmd.exe"
+      - "C:/Windows/System32/git.cmd"
+      - "C:/Windows/git.cmd.com"
+      - "C:/Windows/git.cmd.exe"
+      - "C:/Windows/git.cmd"
+      - "C:/Windows/System32/wbem/git.cmd.com"
+      - "C:/Windows/System32/wbem/git.cmd.exe"
+      - "C:/Windows/System32/wbem/git.cmd"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/git.cmd.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/git.cmd.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/git.cmd"
+      - "C:/Windows/System32/OpenSSH/git.cmd.com"
+      - "C:/Windows/System32/OpenSSH/git.cmd.exe"
+      - "C:/Windows/System32/OpenSSH/git.cmd"
+      - "C:/Program Files/nodejs/git.cmd.com"
+      - "C:/Program Files/nodejs/git.cmd.exe"
+      - "C:/Program Files/nodejs/git.cmd"
+      - "C:/ProgramData/chocolatey/bin/git.cmd.com"
+      - "C:/ProgramData/chocolatey/bin/git.cmd.exe"
+      - "C:/ProgramData/chocolatey/bin/git.cmd"
+      - "C:/Program Files/Git/cmd/git.cmd.com"
+      - "C:/Program Files/Git/cmd/git.cmd.exe"
+      - "C:/Program Files/Git/cmd/git.cmd"
+      - "C:/Program Files (x86)/IncrediBuild/git.cmd.com"
+      - "C:/Program Files (x86)/IncrediBuild/git.cmd.exe"
+      - "C:/Program Files (x86)/IncrediBuild/git.cmd"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/git.cmd.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/git.cmd.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/git.cmd"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/git.cmd.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/git.cmd"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/git.cmd.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/git.cmd"
+      - "C:/Users/alyss/.cargo/bin/git.cmd.com"
+      - "C:/Users/alyss/.cargo/bin/git.cmd.exe"
+      - "C:/Users/alyss/.cargo/bin/git.cmd"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/git.cmd.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/git.cmd"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/git.cmd.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/git.cmd"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/git.cmd.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/git.cmd"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/git.cmd.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/git.cmd"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/git.cmd.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/git.cmd"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/git.cmd.com"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/git.cmd"
+      - "C:/Program Files/LOVE/git.cmd.com"
+      - "C:/Program Files/LOVE/git.cmd.exe"
+      - "C:/Program Files/LOVE/git.cmd"
+      - "C:/Users/alyss/AppData/Roaming/npm/git.cmd.com"
+      - "C:/Users/alyss/AppData/Roaming/npm/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Roaming/npm/git.cmd"
+      - "C:/Users/alyss/AppData/Local/Python/bin/git.cmd.com"
+      - "C:/Users/alyss/AppData/Local/Python/bin/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Local/Python/bin/git.cmd"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/git.cmd.com"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/git.cmd"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/git.cmd.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/git.cmd"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/git.cmd.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/git.cmd"
+      - "C:/Program Files/bin/git.cmd.com"
+      - "C:/Program Files/bin/git.cmd.exe"
+      - "C:/Program Files/bin/git.cmd"
+      - "C:/Program Files/sbin/git.cmd.com"
+      - "C:/Program Files/sbin/git.cmd.exe"
+      - "C:/Program Files/sbin/git.cmd"
+      - "C:/Program Files/git.cmd.com"
+      - "C:/Program Files/git.cmd.exe"
+      - "C:/Program Files/git.cmd"
+      - "C:/Program Files (x86)/bin/git.cmd.com"
+      - "C:/Program Files (x86)/bin/git.cmd.exe"
+      - "C:/Program Files (x86)/bin/git.cmd"
+      - "C:/Program Files (x86)/sbin/git.cmd.com"
+      - "C:/Program Files (x86)/sbin/git.cmd.exe"
+      - "C:/Program Files (x86)/sbin/git.cmd"
+      - "C:/Program Files (x86)/git.cmd.com"
+      - "C:/Program Files (x86)/git.cmd.exe"
+      - "C:/Program Files (x86)/git.cmd"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/git.cmd.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/git.cmd"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/git.cmd.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/git.cmd"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/git.cmd.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/git.cmd"
+      - "C:/Program Files (x86)/TitanEngine/bin/git.cmd.com"
+      - "C:/Program Files (x86)/TitanEngine/bin/git.cmd.exe"
+      - "C:/Program Files (x86)/TitanEngine/bin/git.cmd"
+      - "C:/Program Files (x86)/TitanEngine/sbin/git.cmd.com"
+      - "C:/Program Files (x86)/TitanEngine/sbin/git.cmd.exe"
+      - "C:/Program Files (x86)/TitanEngine/sbin/git.cmd"
+      - "C:/Program Files (x86)/TitanEngine/git.cmd.com"
+      - "C:/Program Files (x86)/TitanEngine/git.cmd.exe"
+      - "C:/Program Files (x86)/TitanEngine/git.cmd"
+      - "C:/Users/alyss/AppData/Local/Atlassian/SourceTree/git_local/bin/git.cmd.com"
+      - "C:/Users/alyss/AppData/Local/Atlassian/SourceTree/git_local/bin/git.cmd.exe"
+      - "C:/Users/alyss/AppData/Local/Atlassian/SourceTree/git_local/bin/git.cmd"
+      - "C:/Windows/System32/git.com"
+      - "C:/Windows/System32/git.exe"
+      - "C:/Windows/System32/git"
+      - "C:/Windows/git.com"
+      - "C:/Windows/git.exe"
+      - "C:/Windows/git"
+      - "C:/Windows/System32/wbem/git.com"
+      - "C:/Windows/System32/wbem/git.exe"
+      - "C:/Windows/System32/wbem/git"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/git.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/git.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/git"
+      - "C:/Windows/System32/OpenSSH/git.com"
+      - "C:/Windows/System32/OpenSSH/git.exe"
+      - "C:/Windows/System32/OpenSSH/git"
+      - "C:/Program Files/nodejs/git.com"
+      - "C:/Program Files/nodejs/git.exe"
+      - "C:/Program Files/nodejs/git"
+      - "C:/ProgramData/chocolatey/bin/git.com"
+      - "C:/ProgramData/chocolatey/bin/git.exe"
+      - "C:/ProgramData/chocolatey/bin/git"
+      - "C:/Program Files/Git/cmd/git.com"
+    found: "C:/Program Files/Git/cmd/git.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\IncrediBuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\alyss\\.cargo\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\LOVE"
+        - "C:\\Users\\alyss\\AppData\\Roaming\\npm"
+        - "C:\\Users\\alyss\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Antigravity\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/TitanEngine"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data"
+        - "C:/Program Files (x86)/TitanEngine"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:197 (try_compile)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:320 (_ipo_run_language_check)"
+      - "build5/_deps/jolt-src/Build/CMakeLists.txt:309 (check_ipo_supported)"
+      - "build5/_deps/jolt-src/Build/CMakeLists.txt:320 (SET_INTERPROCEDURAL_OPTIMIZATION)"
+    directories:
+      source: "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-build/CMakeFiles/_CMakeLTOTest-CXX/src"
+      binary: "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-build/CMakeFiles/_CMakeLTOTest-CXX/bin"
+    buildResult:
+      variable: "_IPO_LANGUAGE_CHECK_RESULT"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-build/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" ALL_BUILD.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Versão do MSBuild 18.4.0+6e61e96ac para .NET Framework
+        Compilação de 12/04/2026 06:49:00 iniciada.
+        
+        Projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" no nó 1 (destinos padrão).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" (1) está compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ZERO_CHECK.vcxproj" (2) no nó 1 (destinos padrão).
+        PrepareForBuild:
+          Criando o diretório "x64\\Debug\\ZERO_CHECK\\".
+          A saída estruturada está habilitada. A formatação do diagnóstico do compilador refletirá a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diretório "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          1>Checking Build System
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\ZERO_CHECK.lastbuildstate".
+        Projeto de compilação pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ZERO_CHECK.vcxproj" (destinos padrão).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" (1) está compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\boo.vcxproj" (3) no nó 1 (destinos padrão).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\boo.vcxproj" (3) está compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\foo.vcxproj" (4) no nó 1 (destinos padrão).
+        PrepareForBuild:
+          A saída estruturada está habilitada. A formatação do diagnóstico do compilador refletirá a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diretório "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\".
+          Criando o diretório "foo.dir\\Debug\\foo.tlog\\".
+        InitializeBuildStatus:
+          Criando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-build/CMakeFiles/_CMakeLTOTest-CXX/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\foo.cpp"
+          Microsoft (R) C/C++ Optimizing Compiler Versão 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\foo.cpp"
+          foo.cpp
+        Lib:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\Lib.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.lib" /NOLOGO /MACHINE:X64 /LTCG foo.dir\\Debug\\foo.obj
+          foo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.lib
+        FinalizeBuildStatus:
+          Excluindo o arquivo "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+          Tocando "foo.dir\\Debug\\foo.tlog\\foo.lastbuildstate".
+        Projeto de compilação pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\foo.vcxproj" (destinos padrão).
+        PrepareForBuild:
+          A saída estruturada está habilitada. A formatação do diagnóstico do compilador refletirá a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diretório "boo.dir\\Debug\\boo.tlog\\".
+        InitializeBuildStatus:
+          Criando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-build/CMakeFiles/_CMakeLTOTest-CXX/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\main.cpp"
+          Microsoft (R) C/C++ Optimizing Compiler Versão 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\main.cpp"
+          main.cpp
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\boo.exe" /NOLOGO Debug\\foo.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-build/CMakeFiles/_CMakeLTOTest-CXX/bin/Debug/boo.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"boo.dir\\Debug\\boo.iobj" /TLBID:1 /IMPLIB:"D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-build/CMakeFiles/_CMakeLTOTest-CXX/bin/Debug/boo.lib" /MACHINE:X64 boo.dir\\Debug\\main.obj
+          Gerando código
+          Not all modules are compiled with -Gy (function comdat), build without incremental LTCG.
+          Finalizada a geração de código
+          boo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\boo.exe
+        FinalizeBuildStatus:
+          Excluindo o arquivo "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+          Tocando "boo.dir\\Debug\\boo.tlog\\boo.lastbuildstate".
+        Projeto de compilação pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\boo.vcxproj" (destinos padrão).
+        PrepareForBuild:
+          Criando o diretório "x64\\Debug\\ALL_BUILD\\".
+          A saída estruturada está habilitada. A formatação do diagnóstico do compilador refletirá a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diretório "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-build/CMakeFiles/_CMakeLTOTest-CXX/src/CMakeLists.txt
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\ALL_BUILD.lastbuildstate".
+        Projeto de compilação pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" (destinos padrão).
+        
+        Compilação com êxito.
+            0 Aviso(s)
+            0 Erro(s)
+        
+        Tempo Decorrido 00:00:01.64
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:197 (try_compile)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:320 (_ipo_run_language_check)"
+      - "build5/_deps/jolt-src/Build/CMakeLists.txt:309 (check_ipo_supported)"
+      - "build5/_deps/jolt-src/Build/CMakeLists.txt:320 (SET_INTERPROCEDURAL_OPTIMIZATION)"
+    directories:
+      source: "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-build/CMakeFiles/_CMakeLTOTest-C/src"
+      binary: "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-build/CMakeFiles/_CMakeLTOTest-C/bin"
+    buildResult:
+      variable: "_IPO_LANGUAGE_CHECK_RESULT"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-build/CMakeFiles/_CMakeLTOTest-C/bin'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" ALL_BUILD.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Versão do MSBuild 18.4.0+6e61e96ac para .NET Framework
+        Compilação de 12/04/2026 06:49:02 iniciada.
+        
+        Projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" no nó 1 (destinos padrão).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" (1) está compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ZERO_CHECK.vcxproj" (2) no nó 1 (destinos padrão).
+        PrepareForBuild:
+          Criando o diretório "x64\\Debug\\ZERO_CHECK\\".
+          A saída estruturada está habilitada. A formatação do diagnóstico do compilador refletirá a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diretório "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          1>Checking Build System
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\ZERO_CHECK.lastbuildstate".
+        Projeto de compilação pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ZERO_CHECK.vcxproj" (destinos padrão).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" (1) está compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\boo.vcxproj" (3) no nó 1 (destinos padrão).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\boo.vcxproj" (3) está compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\foo.vcxproj" (4) no nó 1 (destinos padrão).
+        PrepareForBuild:
+          A saída estruturada está habilitada. A formatação do diagnóstico do compilador refletirá a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diretório "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\".
+          Criando o diretório "foo.dir\\Debug\\foo.tlog\\".
+        InitializeBuildStatus:
+          Criando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-build/CMakeFiles/_CMakeLTOTest-C/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\src\\foo.c"
+          Microsoft (R) C/C++ Optimizing Compiler Versão 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\src\\foo.c"
+          foo.c
+        Lib:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\Lib.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.lib" /NOLOGO /MACHINE:X64 /LTCG foo.dir\\Debug\\foo.obj
+          foo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.lib
+        FinalizeBuildStatus:
+          Excluindo o arquivo "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+          Tocando "foo.dir\\Debug\\foo.tlog\\foo.lastbuildstate".
+        Projeto de compilação pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\foo.vcxproj" (destinos padrão).
+        PrepareForBuild:
+          A saída estruturada está habilitada. A formatação do diagnóstico do compilador refletirá a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diretório "boo.dir\\Debug\\boo.tlog\\".
+        InitializeBuildStatus:
+          Criando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-build/CMakeFiles/_CMakeLTOTest-C/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\src\\main.c"
+          Microsoft (R) C/C++ Optimizing Compiler Versão 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\src\\main.c"
+          main.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\boo.exe" /NOLOGO Debug\\foo.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-build/CMakeFiles/_CMakeLTOTest-C/bin/Debug/boo.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"boo.dir\\Debug\\boo.iobj" /TLBID:1 /IMPLIB:"D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-build/CMakeFiles/_CMakeLTOTest-C/bin/Debug/boo.lib" /MACHINE:X64 boo.dir\\Debug\\main.obj
+          Gerando código
+          Not all modules are compiled with -Gy (function comdat), build without incremental LTCG.
+          Finalizada a geração de código
+          boo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\boo.exe
+        FinalizeBuildStatus:
+          Excluindo o arquivo "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+          Tocando "boo.dir\\Debug\\boo.tlog\\boo.lastbuildstate".
+        Projeto de compilação pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\boo.vcxproj" (destinos padrão).
+        PrepareForBuild:
+          Criando o diretório "x64\\Debug\\ALL_BUILD\\".
+          A saída estruturada está habilitada. A formatação do diagnóstico do compilador refletirá a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diretório "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-build/CMakeFiles/_CMakeLTOTest-C/src/CMakeLists.txt
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\ALL_BUILD.lastbuildstate".
+        Projeto de compilação pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build5\\_deps\\jolt-build\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" (destinos padrão).
+        
+        Compilação com êxito.
+            0 Aviso(s)
+            0 Erro(s)
+        
+        Tempo Decorrido 00:00:01.43
+        
+      exitCode: 0
+  -
+    kind: "find-v1"
+    backtrace:
+      - "build5/_deps/jolt-src/Jolt/Jolt.cmake:601 (find_program)"
+      - "build5/_deps/jolt-src/Build/CMakeLists.txt:326 (include)"
+    mode: "program"
+    variable: "DXC_COMPILER"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "dxc"
+    candidate_directories:
+      - "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-src/Build/x64/"
+      - "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64/"
+    searched_directories:
+      - "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-src/Build/x64/dxc.com"
+      - "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-src/Build/x64/dxc.exe"
+      - "D:/Projetos/Fusion ENGINE/TitanEngine/build5/_deps/jolt-src/Build/x64/dxc"
+      - "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64/dxc.com"
+    found: "C:/Program Files (x86)/Windows Kits/10/bin/10.0.26100.0/x64/dxc.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\IncrediBuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\alyss\\.cargo\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\LOVE"
+        - "C:\\Users\\alyss\\AppData\\Roaming\\npm"
+        - "C:\\Users\\alyss\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Antigravity\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/TitanEngine"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data"
+        - "C:/Program Files (x86)/TitanEngine"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/FindVulkan.cmake:392 (find_path)"
+      - "build5/_deps/jolt-src/Jolt/Jolt.cmake:718 (find_package)"
+      - "build5/_deps/jolt-src/Build/CMakeLists.txt:326 (include)"
+    mode: "path"
+    variable: "Vulkan_INCLUDE_DIR"
+    description: "Path to a file."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "vulkan/vulkan.h"
+    candidate_directories:
+      - "/include/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/nodejs/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/IncrediBuild/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/"
+      - "C:/Users/alyss/.cargo/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Program Files/LOVE/"
+      - "C:/Users/alyss/AppData/Roaming/npm/"
+      - "C:/Users/alyss/AppData/Local/Python/bin/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/"
+      - "C:/Program Files/include/"
+      - "C:/Program Files/"
+      - "C:/Program Files (x86)/include/"
+      - "C:/Program Files (x86)/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/include/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/"
+      - "C:/Program Files (x86)/TitanEngine/include/"
+      - "C:/Program Files (x86)/TitanEngine/"
+    searched_directories:
+      - "/include/vulkan/vulkan.h"
+      - "C:/Windows/System32/vulkan/vulkan.h"
+      - "C:/Windows/vulkan/vulkan.h"
+      - "C:/Windows/System32/wbem/vulkan/vulkan.h"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/vulkan/vulkan.h"
+      - "C:/Windows/System32/OpenSSH/vulkan/vulkan.h"
+      - "C:/Program Files/nodejs/vulkan/vulkan.h"
+      - "C:/ProgramData/chocolatey/bin/vulkan/vulkan.h"
+      - "C:/Program Files/Git/cmd/vulkan/vulkan.h"
+      - "C:/Program Files (x86)/IncrediBuild/vulkan/vulkan.h"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/vulkan/vulkan.h"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/vulkan/vulkan.h"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/vulkan/vulkan.h"
+      - "C:/Users/alyss/.cargo/bin/vulkan/vulkan.h"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/vulkan/vulkan.h"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/vulkan/vulkan.h"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/vulkan/vulkan.h"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/vulkan/vulkan.h"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/vulkan/vulkan.h"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/vulkan/vulkan.h"
+      - "C:/Program Files/LOVE/vulkan/vulkan.h"
+      - "C:/Users/alyss/AppData/Roaming/npm/vulkan/vulkan.h"
+      - "C:/Users/alyss/AppData/Local/Python/bin/vulkan/vulkan.h"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/vulkan/vulkan.h"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/vulkan/vulkan.h"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/vulkan/vulkan.h"
+      - "C:/Program Files/include/vulkan/vulkan.h"
+      - "C:/Program Files/vulkan/vulkan.h"
+      - "C:/Program Files (x86)/include/vulkan/vulkan.h"
+      - "C:/Program Files (x86)/vulkan/vulkan.h"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/include/vulkan/vulkan.h"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/vulkan/vulkan.h"
+      - "C:/Program Files (x86)/TitanEngine/include/vulkan/vulkan.h"
+      - "C:/Program Files (x86)/TitanEngine/vulkan/vulkan.h"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\IncrediBuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\alyss\\.cargo\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\LOVE"
+        - "C:\\Users\\alyss\\AppData\\Roaming\\npm"
+        - "C:\\Users\\alyss\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Antigravity\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/TitanEngine"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data"
+        - "C:/Program Files (x86)/TitanEngine"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/FindVulkan.cmake:399 (find_library)"
+      - "build5/_deps/jolt-src/Jolt/Jolt.cmake:718 (find_package)"
+      - "build5/_deps/jolt-src/Build/CMakeLists.txt:326 (include)"
+    mode: "library"
+    variable: "Vulkan_LIBRARY"
+    description: "Path to a library."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "vulkan-1"
+    candidate_directories:
+      - "/lib/"
+      - "/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/nodejs/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/IncrediBuild/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/"
+      - "C:/Users/alyss/.cargo/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Program Files/LOVE/"
+      - "C:/Users/alyss/AppData/Roaming/npm/"
+      - "C:/Users/alyss/AppData/Local/Python/bin/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/"
+      - "C:/Program Files/lib/"
+      - "C:/Program Files/"
+      - "C:/Program Files (x86)/lib/"
+      - "C:/Program Files (x86)/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/lib/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/"
+      - "C:/Program Files (x86)/TitanEngine/lib/"
+      - "C:/Program Files (x86)/TitanEngine/"
+      - "C:/Program Files (x86)/TitanEngine/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/"
+    searched_directories:
+      - "/lib/"
+      - "/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/nodejs/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/IncrediBuild/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/"
+      - "C:/Users/alyss/.cargo/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Program Files/LOVE/"
+      - "C:/Users/alyss/AppData/Roaming/npm/"
+      - "C:/Users/alyss/AppData/Local/Python/bin/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/"
+      - "C:/Program Files/lib/"
+      - "C:/Program Files/"
+      - "C:/Program Files (x86)/lib/"
+      - "C:/Program Files (x86)/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/lib/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/"
+      - "C:/Program Files (x86)/TitanEngine/lib/"
+      - "C:/Program Files (x86)/TitanEngine/"
+      - "C:/Program Files (x86)/TitanEngine/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\IncrediBuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\alyss\\.cargo\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\LOVE"
+        - "C:\\Users\\alyss\\AppData\\Roaming\\npm"
+        - "C:\\Users\\alyss\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Antigravity\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/TitanEngine"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data"
+        - "C:/Program Files (x86)/TitanEngine"
+      CMAKE_SYSTEM_LIBRARY_PATH:
+        - "C:/Program Files (x86)/TitanEngine/bin"
+        - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin"
+        - "/bin"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/FindVulkan.cmake:407 (find_program)"
+      - "build5/_deps/jolt-src/Jolt/Jolt.cmake:718 (find_package)"
+      - "build5/_deps/jolt-src/Build/CMakeLists.txt:326 (include)"
+    mode: "program"
+    variable: "Vulkan_GLSLC_EXECUTABLE"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "glslc"
+    candidate_directories:
+      - "/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/nodejs/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/IncrediBuild/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/"
+      - "C:/Users/alyss/.cargo/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Program Files/LOVE/"
+      - "C:/Users/alyss/AppData/Roaming/npm/"
+      - "C:/Users/alyss/AppData/Local/Python/bin/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/"
+      - "C:/Program Files/bin/"
+      - "C:/Program Files/sbin/"
+      - "C:/Program Files/"
+      - "C:/Program Files (x86)/bin/"
+      - "C:/Program Files (x86)/sbin/"
+      - "C:/Program Files (x86)/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/"
+      - "C:/Program Files (x86)/TitanEngine/bin/"
+      - "C:/Program Files (x86)/TitanEngine/sbin/"
+      - "C:/Program Files (x86)/TitanEngine/"
+    searched_directories:
+      - "/bin/glslc.com"
+      - "/bin/glslc.exe"
+      - "/bin/glslc"
+      - "C:/Windows/System32/glslc.com"
+      - "C:/Windows/System32/glslc.exe"
+      - "C:/Windows/System32/glslc"
+      - "C:/Windows/glslc.com"
+      - "C:/Windows/glslc.exe"
+      - "C:/Windows/glslc"
+      - "C:/Windows/System32/wbem/glslc.com"
+      - "C:/Windows/System32/wbem/glslc.exe"
+      - "C:/Windows/System32/wbem/glslc"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/glslc.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/glslc.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/glslc"
+      - "C:/Windows/System32/OpenSSH/glslc.com"
+      - "C:/Windows/System32/OpenSSH/glslc.exe"
+      - "C:/Windows/System32/OpenSSH/glslc"
+      - "C:/Program Files/nodejs/glslc.com"
+      - "C:/Program Files/nodejs/glslc.exe"
+      - "C:/Program Files/nodejs/glslc"
+      - "C:/ProgramData/chocolatey/bin/glslc.com"
+      - "C:/ProgramData/chocolatey/bin/glslc.exe"
+      - "C:/ProgramData/chocolatey/bin/glslc"
+      - "C:/Program Files/Git/cmd/glslc.com"
+      - "C:/Program Files/Git/cmd/glslc.exe"
+      - "C:/Program Files/Git/cmd/glslc"
+      - "C:/Program Files (x86)/IncrediBuild/glslc.com"
+      - "C:/Program Files (x86)/IncrediBuild/glslc.exe"
+      - "C:/Program Files (x86)/IncrediBuild/glslc"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/glslc.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/glslc.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/glslc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/glslc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/glslc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/glslc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/glslc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/glslc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/glslc"
+      - "C:/Users/alyss/.cargo/bin/glslc.com"
+      - "C:/Users/alyss/.cargo/bin/glslc.exe"
+      - "C:/Users/alyss/.cargo/bin/glslc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/glslc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/glslc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/glslc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/glslc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/glslc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/glslc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/glslc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/glslc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/glslc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/glslc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/glslc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/glslc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/glslc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/glslc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/glslc"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/glslc.com"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/glslc.exe"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/glslc"
+      - "C:/Program Files/LOVE/glslc.com"
+      - "C:/Program Files/LOVE/glslc.exe"
+      - "C:/Program Files/LOVE/glslc"
+      - "C:/Users/alyss/AppData/Roaming/npm/glslc.com"
+      - "C:/Users/alyss/AppData/Roaming/npm/glslc.exe"
+      - "C:/Users/alyss/AppData/Roaming/npm/glslc"
+      - "C:/Users/alyss/AppData/Local/Python/bin/glslc.com"
+      - "C:/Users/alyss/AppData/Local/Python/bin/glslc.exe"
+      - "C:/Users/alyss/AppData/Local/Python/bin/glslc"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/glslc.com"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/glslc.exe"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/glslc"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/glslc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/glslc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/glslc"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/glslc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/glslc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/glslc"
+      - "C:/Program Files/bin/glslc.com"
+      - "C:/Program Files/bin/glslc.exe"
+      - "C:/Program Files/bin/glslc"
+      - "C:/Program Files/sbin/glslc.com"
+      - "C:/Program Files/sbin/glslc.exe"
+      - "C:/Program Files/sbin/glslc"
+      - "C:/Program Files/glslc.com"
+      - "C:/Program Files/glslc.exe"
+      - "C:/Program Files/glslc"
+      - "C:/Program Files (x86)/bin/glslc.com"
+      - "C:/Program Files (x86)/bin/glslc.exe"
+      - "C:/Program Files (x86)/bin/glslc"
+      - "C:/Program Files (x86)/sbin/glslc.com"
+      - "C:/Program Files (x86)/sbin/glslc.exe"
+      - "C:/Program Files (x86)/sbin/glslc"
+      - "C:/Program Files (x86)/glslc.com"
+      - "C:/Program Files (x86)/glslc.exe"
+      - "C:/Program Files (x86)/glslc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/glslc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/glslc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/glslc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/glslc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/glslc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/glslc"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/glslc.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/glslc.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/glslc"
+      - "C:/Program Files (x86)/TitanEngine/bin/glslc.com"
+      - "C:/Program Files (x86)/TitanEngine/bin/glslc.exe"
+      - "C:/Program Files (x86)/TitanEngine/bin/glslc"
+      - "C:/Program Files (x86)/TitanEngine/sbin/glslc.com"
+      - "C:/Program Files (x86)/TitanEngine/sbin/glslc.exe"
+      - "C:/Program Files (x86)/TitanEngine/sbin/glslc"
+      - "C:/Program Files (x86)/TitanEngine/glslc.com"
+      - "C:/Program Files (x86)/TitanEngine/glslc.exe"
+      - "C:/Program Files (x86)/TitanEngine/glslc"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\IncrediBuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\alyss\\.cargo\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\LOVE"
+        - "C:\\Users\\alyss\\AppData\\Roaming\\npm"
+        - "C:\\Users\\alyss\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Antigravity\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/TitanEngine"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data"
+        - "C:/Program Files (x86)/TitanEngine"
+  -
+    kind: "find-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/FindVulkan.cmake:415 (find_program)"
+      - "build5/_deps/jolt-src/Jolt/Jolt.cmake:718 (find_package)"
+      - "build5/_deps/jolt-src/Build/CMakeLists.txt:326 (include)"
+    mode: "program"
+    variable: "Vulkan_GLSLANG_VALIDATOR_EXECUTABLE"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "glslangValidator"
+    candidate_directories:
+      - "/bin/"
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/nodejs/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/IncrediBuild/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/"
+      - "C:/Users/alyss/.cargo/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Program Files/LOVE/"
+      - "C:/Users/alyss/AppData/Roaming/npm/"
+      - "C:/Users/alyss/AppData/Local/Python/bin/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/"
+      - "C:/Program Files/bin/"
+      - "C:/Program Files/sbin/"
+      - "C:/Program Files/"
+      - "C:/Program Files (x86)/bin/"
+      - "C:/Program Files (x86)/sbin/"
+      - "C:/Program Files (x86)/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/"
+      - "C:/Program Files (x86)/TitanEngine/bin/"
+      - "C:/Program Files (x86)/TitanEngine/sbin/"
+      - "C:/Program Files (x86)/TitanEngine/"
+    searched_directories:
+      - "/bin/glslangValidator.com"
+      - "/bin/glslangValidator.exe"
+      - "/bin/glslangValidator"
+      - "C:/Windows/System32/glslangValidator.com"
+      - "C:/Windows/System32/glslangValidator.exe"
+      - "C:/Windows/System32/glslangValidator"
+      - "C:/Windows/glslangValidator.com"
+      - "C:/Windows/glslangValidator.exe"
+      - "C:/Windows/glslangValidator"
+      - "C:/Windows/System32/wbem/glslangValidator.com"
+      - "C:/Windows/System32/wbem/glslangValidator.exe"
+      - "C:/Windows/System32/wbem/glslangValidator"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/glslangValidator.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/glslangValidator.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/glslangValidator"
+      - "C:/Windows/System32/OpenSSH/glslangValidator.com"
+      - "C:/Windows/System32/OpenSSH/glslangValidator.exe"
+      - "C:/Windows/System32/OpenSSH/glslangValidator"
+      - "C:/Program Files/nodejs/glslangValidator.com"
+      - "C:/Program Files/nodejs/glslangValidator.exe"
+      - "C:/Program Files/nodejs/glslangValidator"
+      - "C:/ProgramData/chocolatey/bin/glslangValidator.com"
+      - "C:/ProgramData/chocolatey/bin/glslangValidator.exe"
+      - "C:/ProgramData/chocolatey/bin/glslangValidator"
+      - "C:/Program Files/Git/cmd/glslangValidator.com"
+      - "C:/Program Files/Git/cmd/glslangValidator.exe"
+      - "C:/Program Files/Git/cmd/glslangValidator"
+      - "C:/Program Files (x86)/IncrediBuild/glslangValidator.com"
+      - "C:/Program Files (x86)/IncrediBuild/glslangValidator.exe"
+      - "C:/Program Files (x86)/IncrediBuild/glslangValidator"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/glslangValidator.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/glslangValidator.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/glslangValidator"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/glslangValidator.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/glslangValidator.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/glslangValidator"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/glslangValidator.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/glslangValidator.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/glslangValidator"
+      - "C:/Users/alyss/.cargo/bin/glslangValidator.com"
+      - "C:/Users/alyss/.cargo/bin/glslangValidator.exe"
+      - "C:/Users/alyss/.cargo/bin/glslangValidator"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/glslangValidator.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/glslangValidator.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/glslangValidator"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/glslangValidator.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/glslangValidator.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/glslangValidator"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/glslangValidator.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/glslangValidator.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/glslangValidator"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/glslangValidator.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/glslangValidator.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/glslangValidator"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/glslangValidator.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/glslangValidator.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/glslangValidator"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/glslangValidator.com"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/glslangValidator.exe"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/glslangValidator"
+      - "C:/Program Files/LOVE/glslangValidator.com"
+      - "C:/Program Files/LOVE/glslangValidator.exe"
+      - "C:/Program Files/LOVE/glslangValidator"
+      - "C:/Users/alyss/AppData/Roaming/npm/glslangValidator.com"
+      - "C:/Users/alyss/AppData/Roaming/npm/glslangValidator.exe"
+      - "C:/Users/alyss/AppData/Roaming/npm/glslangValidator"
+      - "C:/Users/alyss/AppData/Local/Python/bin/glslangValidator.com"
+      - "C:/Users/alyss/AppData/Local/Python/bin/glslangValidator.exe"
+      - "C:/Users/alyss/AppData/Local/Python/bin/glslangValidator"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/glslangValidator.com"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/glslangValidator.exe"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/glslangValidator"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/glslangValidator.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/glslangValidator.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/glslangValidator"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/glslangValidator.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/glslangValidator.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/glslangValidator"
+      - "C:/Program Files/bin/glslangValidator.com"
+      - "C:/Program Files/bin/glslangValidator.exe"
+      - "C:/Program Files/bin/glslangValidator"
+      - "C:/Program Files/sbin/glslangValidator.com"
+      - "C:/Program Files/sbin/glslangValidator.exe"
+      - "C:/Program Files/sbin/glslangValidator"
+      - "C:/Program Files/glslangValidator.com"
+      - "C:/Program Files/glslangValidator.exe"
+      - "C:/Program Files/glslangValidator"
+      - "C:/Program Files (x86)/bin/glslangValidator.com"
+      - "C:/Program Files (x86)/bin/glslangValidator.exe"
+      - "C:/Program Files (x86)/bin/glslangValidator"
+      - "C:/Program Files (x86)/sbin/glslangValidator.com"
+      - "C:/Program Files (x86)/sbin/glslangValidator.exe"
+      - "C:/Program Files (x86)/sbin/glslangValidator"
+      - "C:/Program Files (x86)/glslangValidator.com"
+      - "C:/Program Files (x86)/glslangValidator.exe"
+      - "C:/Program Files (x86)/glslangValidator"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/glslangValidator.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/glslangValidator.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/glslangValidator"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/glslangValidator.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/glslangValidator.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/glslangValidator"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/glslangValidator.com"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/glslangValidator.exe"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/glslangValidator"
+      - "C:/Program Files (x86)/TitanEngine/bin/glslangValidator.com"
+      - "C:/Program Files (x86)/TitanEngine/bin/glslangValidator.exe"
+      - "C:/Program Files (x86)/TitanEngine/bin/glslangValidator"
+      - "C:/Program Files (x86)/TitanEngine/sbin/glslangValidator.com"
+      - "C:/Program Files (x86)/TitanEngine/sbin/glslangValidator.exe"
+      - "C:/Program Files (x86)/TitanEngine/sbin/glslangValidator"
+      - "C:/Program Files (x86)/TitanEngine/glslangValidator.com"
+      - "C:/Program Files (x86)/TitanEngine/glslangValidator.exe"
+      - "C:/Program Files (x86)/TitanEngine/glslangValidator"
+    found: false
+    search_context:
+      ENV{PATH}:
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\IncrediBuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\alyss\\.cargo\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\LOVE"
+        - "C:\\Users\\alyss\\AppData\\Roaming\\npm"
+        - "C:\\Users\\alyss\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Antigravity\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/TitanEngine"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data"
+        - "C:/Program Files (x86)/TitanEngine"
+...

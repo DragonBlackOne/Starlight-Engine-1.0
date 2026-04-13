@@ -1,0 +1,3 @@
+D:/Projetos/Fusion ENGINE/TitanEngine/build2/_deps/physfs-subbuild/CMakeFiles/physfs-populate.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build2/_deps/physfs-subbuild/CMakeFiles/ALL_BUILD.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build2/_deps/physfs-subbuild/CMakeFiles/ZERO_CHECK.dir

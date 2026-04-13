@@ -1,0 +1,10 @@
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD4\_DEPS\SDL2-SUBBUILD\CMAKEFILES\CD03098DC5C97930F480F3826C7E84D2\GENERATE.STAMP.RULE
+setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe "-SD:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/sdl2-subbuild" "-BD:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/sdl2-subbuild" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "D:/Projetos/Fusion ENGINE/TitanEngine/build4/_deps/sdl2-subbuild/sdl2-populate.slnx"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

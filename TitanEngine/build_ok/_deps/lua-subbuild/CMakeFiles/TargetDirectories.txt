@@ -1,0 +1,3 @@
+D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/CMakeFiles/lua-populate.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/CMakeFiles/ALL_BUILD.dir
+D:/Projetos/Fusion ENGINE/TitanEngine/build_ok/_deps/lua-subbuild/CMakeFiles/ZERO_CHECK.dir
