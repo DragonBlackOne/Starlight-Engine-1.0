@@ -41,9 +41,18 @@ namespace titan {
         std::shared_ptr<Shader> GetBasicShader() { return m_basicShader; }
         std::shared_ptr<Shader> GetPBRShader() { return m_pbrShader; }
         std::shared_ptr<Shader> GetPostComposeShader() { return m_postComposeShader; }
+        std::shared_ptr<Shader> GetUIShader() { return m_uiShader; }
         std::shared_ptr<Mesh> GetCubeMesh() { return m_cubeMesh; }
         DashboardSystem& GetDashboard() { return *m_dashboardSystem; }
         OctreeSystem& GetOctree() { return *m_octreeSystem; }
+
+        uint32_t GetSceneTexture() const { return m_finalColorTex; }
+        void ResizeSceneFBO(uint32_t width, uint32_t height) { RecreateFBO(width, height); }
+
+        float m_bloomThreshold = 1.0f;
+        int m_bloomBlurSteps = 10;
+        float m_exposure = 1.0f;
+        float m_gamma = 2.2f;
 
     private:
         glm::mat4 m_view, m_projectionMatrix;
@@ -54,6 +63,13 @@ namespace titan {
         uint32_t m_fboTexture = 0;
         uint32_t m_depthTexture = 0;
         uint32_t m_rbo = 0;
+        
+        uint32_t m_fboWidth = 1280;
+        uint32_t m_fboHeight = 720;
+        
+        uint32_t m_finalFBO = 0;
+        uint32_t m_finalColorTex = 0;
+        
         void RecreateFBO(int width, int height);
 
         // Default Shaders
@@ -61,6 +77,7 @@ namespace titan {
         std::shared_ptr<Shader> m_mode7Shader;
         std::shared_ptr<Shader> m_crtShader;
         std::shared_ptr<Shader> m_pbrShader;
+        std::shared_ptr<Shader> m_uiShader;
         
         // Default Meshes
         std::shared_ptr<Mesh> m_quadMesh;

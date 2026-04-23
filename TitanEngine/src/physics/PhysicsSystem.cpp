@@ -59,6 +59,8 @@ namespace titan {
         MyContactListener(std::vector<CollisionEvent>& events) : m_events(events) {}
         
         virtual void OnContactAdded(const JPH::Body& inBody1, const JPH::Body& inBody2, const JPH::ContactManifold& inManifold, JPH::ContactSettings& ioSettings) override {
+            (void)inManifold;
+            (void)ioSettings;
             m_events.push_back({inBody1.GetID(), inBody2.GetID()});
         }
     private:

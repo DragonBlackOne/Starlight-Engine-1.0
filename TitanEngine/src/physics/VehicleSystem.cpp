@@ -9,7 +9,8 @@
 namespace titan {
 
     void VehicleSystem::Update(entt::registry& registry, float dt) {
-        auto view = registry.view<TransformComponent, VehicleComponent>();
+        (void)dt;
+        auto view = registry.view<VehicleComponent, TransformComponent, PhysicsComponent>();
         auto* physics = Engine::Get().GetPhysics().GetSystem();
 
         for (auto entity : view) {

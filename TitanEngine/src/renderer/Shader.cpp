@@ -1,9 +1,29 @@
 #include "Shader.hpp"
 #include "Log.hpp"
 #include <iostream>
+#include <fstream>
+#include <sstream>
 #include <glm/gtc/type_ptr.hpp>
 
 namespace titan {
+    std::shared_ptr<Shader> Shader::LoadFromFile(const std::string& vertexPath, const std::string& fragmentPath) {
+        auto loadSource = [](const std::string& path) -> std::string {
+            std::ifstream file(path);
+            if (!file.is_open()) {
+                Log::Error("Failed to open shader file: " + path);
+                return "";
+            }
+            std::stringstream ss;
+            ss << file.rdbuf();
+            return ss.str();
+        };
+
+        std::string vCode = loadSource(vertexPath);
+        std::string fCode = loadSource(fragmentPath);
+        if (vCode.empty() || fCode.empty()) return nullptr;
+        
+        return std::make_shared<Shader>(vCode.c_str(), fCode.c_str());
+    }
     Shader::Shader(const char* vertexSource, const char* fragmentSource) {
         uint32_t vertex, fragment;
 
@@ -48,6 +68,10 @@ namespace titan {
 
     void Shader::SetVec3(const std::string& name, const glm::vec3& value) {
         glUniform3fv(glGetUniformLocation(m_id, name.c_str()), 1, glm::value_ptr(value));
+    }
+
+    void Shader::SetVec4(const std::string& name, const glm::vec4& value) {
+        glUniform4fv(glGetUniformLocation(m_id, name.c_str()), 1, glm::value_ptr(value));
     }
 
     void Shader::SetMat4(const std::string& name, const glm::mat4& value) {

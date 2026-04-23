@@ -716,7 +716,7 @@ Vulkan_INCLUDE_DIR:PATH=Vulkan_INCLUDE_DIR-NOTFOUND
 Vulkan_LIBRARY:FILEPATH=Vulkan_LIBRARY-NOTFOUND
 
 //Path to a program.
-WINDRES:FILEPATH=WINDRES-NOTFOUND
+WINDRES:FILEPATH=C:/ProgramData/mingw64/mingw64/bin/windres.exe
 
 
 ########################

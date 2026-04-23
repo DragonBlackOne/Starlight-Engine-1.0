@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\jolt\CMakeFiles\_CMakeLTOTest-C\bin\CMakeFiles\52764791330a9d0e9b051cccae8cf0b8\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{41A855FE-795D-35BF-9629-41E88F7BD116}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

@@ -88,6 +88,7 @@ namespace titan {
             int end = (i == numChunks - 1) ? m_activeCount : (i + 1) * chunkSize;
             
             wi::jobsystem::Execute(ctx, [this, start, end, dt](wi::jobsystem::JobArgs args) {
+                (void)args;
                 for (int j = start; j < end; ++j) {
                     auto& p = m_particles[j];
                     p.life -= dt;

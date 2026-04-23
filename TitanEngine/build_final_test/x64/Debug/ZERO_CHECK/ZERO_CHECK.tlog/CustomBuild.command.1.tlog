@@ -1,0 +1,10 @@
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_FINAL_TEST\CMAKEFILES\5DDE480DDC68012B3E5E03907DE59A27\GENERATE.STAMP.RULE
+setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe "-SD:/Projetos/Fusion ENGINE/TitanEngine" "-BD:/Projetos/Fusion ENGINE/TitanEngine/build_final_test" --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file "D:/Projetos/Fusion ENGINE/TitanEngine/build_final_test/TitanEngine.slnx"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

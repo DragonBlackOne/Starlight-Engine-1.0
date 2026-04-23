@@ -2,6 +2,8 @@
 #include <winsock2.h>
 #include <ws2tcpip.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/quaternion.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include <vector>
 #include <string>
 

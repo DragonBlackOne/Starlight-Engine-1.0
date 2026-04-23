@@ -38,7 +38,6 @@ namespace titan {
         }
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-        // Load Shadow Shader (usually very simple vertex shader)
         m_shadowShader = std::make_shared<Shader>(
             "#version 450 core\n"
             "layout (location = 0) in vec3 aPos;\n"
@@ -68,6 +67,8 @@ namespace titan {
             // (Simplified version: using full frustum for now, can be optimized per split)
             float prevSplit = (i == 0) ? nearP : m_cascadeSplits[i - 1];
             float nextSplit = m_cascadeSplits[i];
+            (void)prevSplit;
+            (void)nextSplit;
 
             std::vector<glm::vec4> corners;
             for (int x = 0; x < 2; ++x) {

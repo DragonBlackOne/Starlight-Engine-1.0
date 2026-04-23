@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Solution>
+	<Configurations>
+		<BuildType Name="Debug"/>
+		<BuildType Name="Release"/>
+		<BuildType Name="MinSizeRel"/>
+		<BuildType Name="RelWithDebInfo"/>
+		<Platform Name="x64"/>
+	</Configurations>
+	<Project Path="ALL_BUILD.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="3164f35f-904b-3c1e-8856-8a5f870d2733" DefaultStartup="true">
+		<BuildDependency Project="TitanEditor.vcxproj"/>
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="glad.vcxproj"/>
+		<BuildDependency Project="lua.vcxproj"/>
+	</Project>
+	<Project Path="INSTALL.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="fd63fb9c-49dd-3a9e-b9c3-c13ca8078c4b">
+		<BuildDependency Project="ALL_BUILD.vcxproj"/>
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<Build Solution="Debug|*" Project="false"/>
+		<Build Solution="Release|*" Project="false"/>
+		<Build Solution="MinSizeRel|*" Project="false"/>
+		<Build Solution="RelWithDebInfo|*" Project="false"/>
+	</Project>
+	<Project Path="jolt/Jolt.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="479f9ab2-6bdd-3231-8cad-2e4c5be1200a">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="sdl2/SDL2-static.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="7fdb8dde-35ef-3f80-8c56-c83b638ba48d">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="sdl2/sdl_headers_copy.vcxproj"/>
+	</Project>
+	<Project Path="sdl2/SDL2main.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="e33655b0-a0c8-3980-b7cd-31ac0613dc96">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="sdl2/sdl_headers_copy.vcxproj"/>
+	</Project>
+	<Project Path="TitanEditor.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="2774739e-1d53-3692-8b46-6435e5708df6">
+		<BuildDependency Project="jolt/Jolt.vcxproj"/>
+		<BuildDependency Project="sdl2/SDL2-static.vcxproj"/>
+		<BuildDependency Project="sdl2/SDL2main.vcxproj"/>
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+		<BuildDependency Project="glad.vcxproj"/>
+		<BuildDependency Project="lua.vcxproj"/>
+	</Project>
+	<Project Path="ZERO_CHECK.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="d1909aeb-6cc8-3244-8634-3340b1de8121"/>
+	<Project Path="glad.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="563813ce-2b4a-31f4-9672-a2af88018305">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="lua.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="5c392a4d-1351-3b74-9ec4-520401df5a23">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+	<Project Path="sdl2/sdl_headers_copy.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="80c2acc5-c6ee-380f-9fef-4e313961f886">
+		<BuildDependency Project="ZERO_CHECK.vcxproj"/>
+	</Project>
+</Solution>

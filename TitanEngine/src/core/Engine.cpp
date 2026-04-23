@@ -15,8 +15,13 @@
 #include "SSAO_System.hpp"
 #include "FileWatcher.hpp"
 #include "CoreMinimal.hpp"
+
+#undef APIENTRY
 #include <SDL2/SDL.h>
 #include <thread>
+#include "imgui.h"
+#include "imgui_impl_sdl2.h"
+#include "imgui_impl_opengl3.h"
 
 namespace titan {
 
@@ -51,6 +56,7 @@ namespace titan {
         m_input->Initialize();
         m_audio->Initialize();
         m_network->Initialize();
+        m_editor->Initialize();
         SSAO_System::Get().Initialize(); // Omega Final Integration
         
         m_scripting->ExecuteFile("assets/scripts/main.lua");
@@ -89,20 +95,28 @@ namespace titan {
     }
 
     void Engine::Update(float dt) {
-        m_scripting->Update(dt);
-        EventSystem::Get().Flush(); // Omega Final Integration
         m_audio->UpdateVoices(dt);
         m_tweenSystem.Update(dt);
         m_editor->Update(dt);
         m_fileWatcher->Update();
+
+        if (m_editor->IsPlayMode()) {
+            m_scripting->Update(dt);
+            EventSystem::Get().Flush(); // Omega Final Integration
+            
+            auto activeScene = m_sceneStack.Active();
+            if (activeScene) {
+                VehicleSystem::Update(activeScene->GetRegistry(), dt); // Phase 15 Singularity
+                ClothSystem::Update(activeScene->GetRegistry(), dt);   // Phase 15 Singularity
+                AISystem::Update(activeScene->GetRegistry(), dt);
+                activeScene->OnUpdate(dt);
+            }
+        }
         
+        // Hierarchy should always update for UI
         auto activeScene = m_sceneStack.Active();
         if (activeScene) {
             HierarchySystem::Update(activeScene->GetRegistry()); // Phase 14 Omega
-            VehicleSystem::Update(activeScene->GetRegistry(), dt); // Phase 15 Singularity
-            ClothSystem::Update(activeScene->GetRegistry(), dt);   // Phase 15 Singularity
-            AISystem::Update(activeScene->GetRegistry(), dt);
-            activeScene->OnUpdate(dt);
         }
 
         for (auto& module : m_modules) {
@@ -113,6 +127,7 @@ namespace titan {
     void Engine::FixedUpdate(float dt) {
         // Run Physics in a Job
         wi::jobsystem::Execute(m_physicsJobCtx, [this, dt](wi::jobsystem::JobArgs args) {
+            (void)args;
             m_physics->Update(dt);
         });
         
@@ -125,6 +140,7 @@ namespace titan {
         }
     }
 
+
     void Engine::Render() {
         m_renderer->BeginFrame();
         
@@ -133,14 +149,22 @@ namespace titan {
             activeScene->OnRender();
             m_renderer->RenderRegistry(activeScene->GetRegistry());
         }
-
-        m_editor->RenderUI();
-
+        
         for (auto& module : m_modules) {
             module->Render();
         }
 
         m_renderer->EndFrame();
+
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplSDL2_NewFrame();
+        ImGui::NewFrame();
+
+        m_editor->RenderUI();
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
         m_window->SwapBuffers();
     }
 

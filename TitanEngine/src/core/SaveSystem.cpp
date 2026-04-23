@@ -3,6 +3,7 @@
 #include <fstream>
 #include <iostream>
 #include <nlohmann/json.hpp>
+#include "Log.hpp"
 
 using json = nlohmann::json;
 
@@ -12,15 +13,15 @@ namespace titan {
         json j;
         j["entities"] = json::array();
 
-        auto view = registry.view<TransformComponent, NameComponent>();
+        auto view = registry.view<TransformComponent, TagComponent>();
         for (auto entity : view) {
             auto& t = view.get<TransformComponent>(entity);
-            auto& n = view.get<NameComponent>(entity);
+            auto& n = view.get<TagComponent>(entity);
 
             json e;
-            e["name"] = n.name;
+            e["name"] = n.tag;
             e["pos"] = { t.position.x, t.position.y, t.position.z };
-            e["rot"] = { t.rotation.x, t.rotation.y, t.rotation.z };
+            e["rot"] = { t.rotation.x, t.rotation.y, t.rotation.z, t.rotation.w };
             
             j["entities"].push_back(e);
         }
@@ -54,11 +55,15 @@ namespace titan {
 
         for (const auto& e : j["entities"]) {
             auto entity = registry.create();
-            registry.emplace<NameComponent>(entity, e["name"].get<std::string>());
+            registry.emplace<TagComponent>(entity, e["name"].get<std::string>());
             
             glm::vec3 pos(e["pos"][0], e["pos"][1], e["pos"][2]);
-            glm::vec3 rot(e["rot"][0], e["rot"][1], e["rot"][2]);
-            registry.emplace<TransformComponent>(entity, pos, rot);
+            glm::quat rot(e["rot"][3], e["rot"][0], e["rot"][1], e["rot"][2]); // w, x, y, z
+            
+            auto& tc = registry.emplace<TransformComponent>(entity);
+            tc.position = pos;
+            tc.rotation = rot;
+            tc.UpdateLocalMatrix();
         }
 
         return true;

@@ -1,6 +1,8 @@
 #include "Window.hpp"
 #include "Log.hpp"
 #include <glad/glad.h>
+#include "imgui.h"
+#include "imgui_impl_sdl2.h"
 
 namespace titan {
     Window::Window() : m_width(0), m_height(0), m_window(nullptr), m_glContext(nullptr), m_shouldClose(false) {}
@@ -77,6 +79,8 @@ namespace titan {
     void Window::PollEvents() {
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
+            ImGui_ImplSDL2_ProcessEvent(&event);
+            
             if (event.type == SDL_QUIT) {
                 m_shouldClose = true;
             }

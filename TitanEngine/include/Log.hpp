@@ -4,6 +4,7 @@
 #include <format>
 #include <chrono>
 #include <fstream>
+#include <vector>
 
 namespace titan {
     enum class LogLevel {
@@ -17,6 +18,10 @@ namespace titan {
     public:
         static void Init(const std::string& filename = "titan_engine.log") {
             Get().m_file.open(filename);
+        }
+
+        static const std::vector<std::string>& GetHistory() {
+            return Get().m_logHistory;
         }
 
         template<typename... Args>
@@ -63,8 +68,13 @@ namespace titan {
                 Get().m_file << std::format("[{}] {} {}\n", level_str, time_str, message);
                 Get().m_file.flush();
             }
+            Get().m_logHistory.push_back(std::format("[{}] {} {}", level_str, time_str, message));
+            if (Get().m_logHistory.size() > 1000) {
+                Get().m_logHistory.erase(Get().m_logHistory.begin());
+            }
         }
 
         std::ofstream m_file;
+        std::vector<std::string> m_logHistory;
     };
 }

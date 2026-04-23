@@ -14,6 +14,9 @@
 namespace titan {
     // Callback para tinyobj
     static void file_reader(void* ctx, const char* path, int is_mtl, const char* obj_path, char** buf, size_t* size) {
+        (void)ctx;
+        (void)is_mtl;
+        (void)obj_path;
         std::ifstream file(path, std::ios::binary | std::ios::ate);
         if (!file.is_open()) return;
         *size = file.tellg();

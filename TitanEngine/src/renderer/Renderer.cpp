@@ -12,22 +12,13 @@
 
 namespace titan {
 
-    static std::string LoadShaderSource(const std::string& path) {
-        std::ifstream file(path);
-        if (!file.is_open()) {
-            Log::Error("Failed to open shader file: " + path);
-            return "";
-        }
-        std::stringstream ss;
-        ss << file.rdbuf();
-        return ss.str();
-    }
-
     Renderer::Renderer() {}
     Renderer::~Renderer() {
         if (m_fbo) glDeleteFramebuffers(1, &m_fbo);
         if (m_fboTexture) glDeleteTextures(1, &m_fboTexture);
         if (m_rbo) glDeleteRenderbuffers(1, &m_rbo);
+        if (m_finalFBO) glDeleteFramebuffers(1, &m_finalFBO);
+        if (m_finalColorTex) glDeleteTextures(1, &m_finalColorTex);
     }
 
     void Renderer::Initialize() {
@@ -36,27 +27,15 @@ namespace titan {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
         // Compile Shaders from files
-        m_basicShader = std::make_shared<Shader>(
-            LoadShaderSource("assets/shaders/basic.vert").c_str(),
-            LoadShaderSource("assets/shaders/basic.frag").c_str()
-        );
-
-        m_mode7Shader = std::make_shared<Shader>(
-            LoadShaderSource("assets/shaders/mode7.vert").c_str(),
-            LoadShaderSource("assets/shaders/mode7.frag").c_str()
-        );
-
-        m_crtShader = std::make_shared<Shader>(
-            LoadShaderSource("assets/shaders/screen.vert").c_str(),
-            LoadShaderSource("assets/shaders/crt.frag").c_str()
-        );
+        m_basicShader = Shader::LoadFromFile("assets/shaders/basic.vert", "assets/shaders/basic.frag");
+        m_mode7Shader = Shader::LoadFromFile("assets/shaders/mode7.vert", "assets/shaders/mode7.frag");
+        m_crtShader = Shader::LoadFromFile("assets/shaders/screen.vert", "assets/shaders/crt.frag");
+        
         m_crtShader->Use();
         m_crtShader->SetInt("screenTexture", 0);
 
-        m_pbrShader = std::make_shared<Shader>(
-            LoadShaderSource("assets/shaders/pbr.vert").c_str(),
-            LoadShaderSource("assets/shaders/pbr.frag").c_str()
-        );
+        m_pbrShader = Shader::LoadFromFile("assets/shaders/pbr.vert", "assets/shaders/pbr.frag");
+        m_uiShader = Shader::LoadFromFile("assets/shaders/ui.vert", "assets/shaders/ui.frag");
 
         // Create Quad for Mode 7 and Screen
 
@@ -92,6 +71,7 @@ namespace titan {
         m_ssaoSystem = std::make_unique<SSAO_System>();
         m_ssaoSystem->Initialize();
         m_dashboardSystem = std::make_unique<DashboardSystem>();
+        m_dashboardSystem->Initialize();
         m_gizmoSystem = std::make_unique<GizmoSystem>();
         m_gizmoSystem->Initialize();
         
@@ -99,9 +79,9 @@ namespace titan {
         m_octreeSystem = std::make_unique<OctreeSystem>(worldBounds);
 
         // Phase 10: Shaders & FBOs
-        m_bloomBrightShader = std::make_shared<Shader>("assets/shaders/quad.vert", "assets/shaders/bloom_bright.frag");
-        m_bloomBlurShader = std::make_shared<Shader>("assets/shaders/quad.vert", "assets/shaders/bloom_blur.frag");
-        m_postComposeShader = std::make_shared<Shader>("assets/shaders/quad.vert", "assets/shaders/post_compose.frag");
+        m_bloomBrightShader = Shader::LoadFromFile("assets/shaders/screen.vert", "assets/shaders/bloom_bright.frag");
+        m_bloomBlurShader = Shader::LoadFromFile("assets/shaders/screen.vert", "assets/shaders/bloom_blur.frag");
+        m_postComposeShader = Shader::LoadFromFile("assets/shaders/screen.vert", "assets/shaders/post_compose.frag");
 
         glGenFramebuffers(2, m_pingpongFBO);
         glGenTextures(2, m_pingpongColorbuffers);
@@ -124,6 +104,8 @@ namespace titan {
     }
 
     void Renderer::RecreateFBO(int width, int height) {
+        m_fboWidth = width;
+        m_fboHeight = height;
         if (m_fbo) {
             glDeleteFramebuffers(1, &m_fbo);
             glDeleteTextures(1, &m_fboTexture);
@@ -149,18 +131,30 @@ namespace titan {
 
         if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
             Log::Error("Renderer: Framebuffer is not complete!");
+            
+        // Final FBO for ImGui Viewport
+        if (m_finalFBO) {
+            glDeleteFramebuffers(1, &m_finalFBO);
+            glDeleteTextures(1, &m_finalColorTex);
+        }
+        glGenFramebuffers(1, &m_finalFBO);
+        glBindFramebuffer(GL_FRAMEBUFFER, m_finalFBO);
+        glGenTextures(1, &m_finalColorTex);
+        glBindTexture(GL_TEXTURE_2D, m_finalColorTex);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_finalColorTex, 0);
+
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }
 
     void Renderer::UpdateProjection(float fov, float aspect, float nearP, float farP) {
         m_projectionMatrix = glm::perspective(glm::radians(fov), aspect, nearP, farP);
-        
-        int w = Engine::Get().GetWindow().GetWidth();
-        int h = Engine::Get().GetWindow().GetHeight();
-        if(w > 0 && h > 0) RecreateFBO(w, h);
     }
 
     void Renderer::BeginFrame() {
+        glViewport(0, 0, m_fboWidth, m_fboHeight);
         glBindFramebuffer(GL_FRAMEBUFFER, m_fbo);
         glClearColor(0.005f, 0.005f, 0.005f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -227,7 +221,7 @@ namespace titan {
 
         // --- Bloom Blur ---
         bool horizontal = true, first_iteration = true;
-        unsigned int amount = 10;
+        unsigned int amount = m_bloomBlurSteps;
         m_bloomBlurShader->Use();
         for (unsigned int i = 0; i < amount; i++) {
             glBindFramebuffer(GL_FRAMEBUFFER, m_pingpongFBO[horizontal]);
@@ -239,7 +233,8 @@ namespace titan {
         }
 
         // --- Final Composition (SSR + Bloom + ACES) ---
-        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glBindFramebuffer(GL_FRAMEBUFFER, m_finalFBO);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
         m_postComposeShader->Use();
         
         glActiveTexture(GL_TEXTURE0); glBindTexture(GL_TEXTURE_2D, m_fboTexture);
@@ -252,6 +247,9 @@ namespace titan {
         m_postComposeShader->SetInt("depthTexture", 2);
         m_postComposeShader->SetInt("ssaoTexture", 3);
         
+        m_postComposeShader->SetFloat("u_exposure", m_exposure);
+        m_postComposeShader->SetFloat("u_gamma", m_gamma);
+        
         // Matrices for SSR
         m_postComposeShader->SetMat4("u_view", m_view);
         m_postComposeShader->SetMat4("u_proj", m_projectionMatrix);
@@ -261,14 +259,31 @@ namespace titan {
         m_quadMesh->Draw();
 
         // 5. Dashboard / Debug UI Pass
-        m_dashboardSystem->Begin(Engine::Get().GetWindow().GetWidth(), Engine::Get().GetWindow().GetHeight());
-        // (UI implementation will be handled by the caller/module using GetDashboard)
+        // (UI implementation was handled by the caller/module in Update)
         m_dashboardSystem->End(*this);
 
         glEnable(GL_DEPTH_TEST);
+        
+        // Clear backbuffer so ImGui can draw over it cleanly
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glClearColor(0.1f, 0.1f, 0.1f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
     }
 
     void Renderer::RenderRegistry(entt::registry& registry) {
+        // Update View Matrix from Camera
+        auto mainCamView = registry.view<TransformComponent, CameraComponent>();
+        for (auto camEntity : mainCamView) {
+            auto& cam = mainCamView.get<CameraComponent>(camEntity);
+            if (cam.primary) {
+                auto& t = mainCamView.get<TransformComponent>(camEntity);
+                glm::vec3 front = t.rotation * glm::vec3(0.0f, 0.0f, -1.0f);
+                glm::vec3 up = t.rotation * glm::vec3(0.0f, 1.0f, 0.0f);
+                m_view = glm::lookAt(t.position, t.position + front, up);
+                break;
+            }
+        }
+
         // 1. Draw Retro Mode 7 Backgrounds first (No depth write)
         glDisable(GL_DEPTH_TEST);
         auto retroView = registry.view<RetroComponent>();

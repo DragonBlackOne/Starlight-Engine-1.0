@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\x64\Debug\ZERO_CHECK</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\x64\Debug\sdl_headers_copy</FullPath>
+    </ProjectOutput>
+    <ProjectOutput>
+      <FullPath>D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\Debug\TitanEditor.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles />
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>

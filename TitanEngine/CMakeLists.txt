@@ -55,18 +55,23 @@ file(GLOB_RECURSE CORE_SOURCES
     "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/wicked/core/wiJobSystem.cpp"
 )
 
-add_executable(TitanSandbox ${CORE_SOURCES} ${TITAN_SRC_DIR}/main.cpp)
-target_include_directories(TitanSandbox PRIVATE 
+file(GLOB IMGUI_SOURCES 
+    "${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui/*.cpp"
+)
+
+add_executable(TitanEditor ${CORE_SOURCES} ${IMGUI_SOURCES} ${TITAN_SRC_DIR}/main.cpp)
+target_include_directories(TitanEditor PRIVATE 
     ${TITAN_INCLUDE_DIR}
     ${TITAN_SRC_DIR}
     ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui
     ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/pl_mpeg
     ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/nlohmann
     ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/wicked/core
     ${DEPS_DIR}/JoltPhysics-master
 )
 
-target_link_libraries(TitanSandbox PRIVATE 
+target_link_libraries(TitanEditor PRIVATE 
     SDL2::SDL2main
     SDL2::SDL2-static
     glad
@@ -77,7 +82,7 @@ target_link_libraries(TitanSandbox PRIVATE
     lua
 )
 
-target_compile_definitions(TitanSandbox PRIVATE SDL_MAIN_HANDLED UNICODE _UNICODE)
+target_compile_definitions(TitanEditor PRIVATE SDL_MAIN_HANDLED UNICODE _UNICODE NOMINMAX _CRT_SECURE_NO_WARNINGS GLM_ENABLE_EXPERIMENTAL)
 if(MSVC)
-    target_compile_options(TitanSandbox PRIVATE /W4 /EHsc)
+    target_compile_options(TitanEditor PRIVATE /W4 /EHsc /FS /utf-8 /wd5321)
 endif()

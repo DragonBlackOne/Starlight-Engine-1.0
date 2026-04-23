@@ -2,8 +2,13 @@
 #include <glad/glad.h>
 #include <cstring>
 
+#pragma warning(push)
+#pragma warning(disable: 4244)
+#pragma warning(disable: 4267)
+#pragma warning(disable: 4305)
 #define PL_MPEG_IMPLEMENTATION
 #include "pl_mpeg.h"
+#pragma warning(pop)
 
 namespace titan {
     VideoPlayer::VideoPlayer() {}
@@ -36,6 +41,7 @@ namespace titan {
     }
 
     void VideoPlayer::Update(double deltaTime) {
+        (void)deltaTime;
         if (!m_playing || !m_plm) return;
 
         plm_frame_t* frame = plm_decode_video(m_plm);

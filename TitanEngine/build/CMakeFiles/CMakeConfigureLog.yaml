@@ -6303,3 +6303,974 @@ events:
         
       exitCode: 0
 ...
+
+---
+events:
+  -
+    kind: "find-v1"
+    backtrace:
+      - "d:/deps/SDL-release-2.30.0/CMakeLists.txt:1780 (find_program)"
+    mode: "program"
+    variable: "WINDRES"
+    description: "Path to a program."
+    settings:
+      SearchFramework: "NEVER"
+      SearchAppBundle: "NEVER"
+      CMAKE_FIND_USE_CMAKE_PATH: true
+      CMAKE_FIND_USE_CMAKE_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_SYSTEM_ENVIRONMENT_PATH: true
+      CMAKE_FIND_USE_CMAKE_SYSTEM_PATH: true
+      CMAKE_FIND_USE_INSTALL_PREFIX: true
+    names:
+      - "windres"
+    candidate_directories:
+      - "C:/Windows/System32/"
+      - "C:/Windows/"
+      - "C:/Windows/System32/wbem/"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/"
+      - "C:/Windows/System32/OpenSSH/"
+      - "C:/Program Files/nodejs/"
+      - "C:/ProgramData/chocolatey/bin/"
+      - "C:/Program Files/Git/cmd/"
+      - "C:/Program Files (x86)/IncrediBuild/"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/"
+      - "C:/ProgramData/mingw64/mingw64/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python311/"
+      - "C:/Users/alyss/.cargo/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/Scripts/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python314/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Launcher/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WindowsApps/"
+      - "C:/Program Files/LOVE/"
+      - "C:/Users/alyss/AppData/Roaming/npm/"
+      - "C:/Users/alyss/AppData/Local/Python/bin/"
+      - "C:/Users/alyss/AppData/Local/Microsoft/WinGet/Packages/yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe/ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Microsoft VS Code/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Antigravity/bin/"
+      - "C:/Program Files/bin/"
+      - "C:/Program Files/sbin/"
+      - "C:/Program Files/"
+      - "C:/Program Files (x86)/bin/"
+      - "C:/Program Files (x86)/sbin/"
+      - "C:/Program Files (x86)/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/bin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/sbin/"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/"
+      - "C:/Program Files (x86)/TitanEngine/bin/"
+      - "C:/Program Files (x86)/TitanEngine/sbin/"
+      - "C:/Program Files (x86)/TitanEngine/"
+    searched_directories:
+      - "C:/Windows/System32/windres.com"
+      - "C:/Windows/System32/windres.exe"
+      - "C:/Windows/System32/windres"
+      - "C:/Windows/windres.com"
+      - "C:/Windows/windres.exe"
+      - "C:/Windows/windres"
+      - "C:/Windows/System32/wbem/windres.com"
+      - "C:/Windows/System32/wbem/windres.exe"
+      - "C:/Windows/System32/wbem/windres"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/windres.com"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/windres.exe"
+      - "C:/Windows/System32/WindowsPowerShell/v1.0/windres"
+      - "C:/Windows/System32/OpenSSH/windres.com"
+      - "C:/Windows/System32/OpenSSH/windres.exe"
+      - "C:/Windows/System32/OpenSSH/windres"
+      - "C:/Program Files/nodejs/windres.com"
+      - "C:/Program Files/nodejs/windres.exe"
+      - "C:/Program Files/nodejs/windres"
+      - "C:/ProgramData/chocolatey/bin/windres.com"
+      - "C:/ProgramData/chocolatey/bin/windres.exe"
+      - "C:/ProgramData/chocolatey/bin/windres"
+      - "C:/Program Files/Git/cmd/windres.com"
+      - "C:/Program Files/Git/cmd/windres.exe"
+      - "C:/Program Files/Git/cmd/windres"
+      - "C:/Program Files (x86)/IncrediBuild/windres.com"
+      - "C:/Program Files (x86)/IncrediBuild/windres.exe"
+      - "C:/Program Files (x86)/IncrediBuild/windres"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/windres.com"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/windres.exe"
+      - "C:/Program Files (x86)/Windows Kits/10/Windows Performance Toolkit/windres"
+      - "C:/ProgramData/mingw64/mingw64/bin/windres.com"
+    found: "C:/ProgramData/mingw64/mingw64/bin/windres.exe"
+    search_context:
+      ENV{PATH}:
+        - "C:\\WINDOWS\\system32"
+        - "C:\\WINDOWS"
+        - "C:\\WINDOWS\\System32\\Wbem"
+        - "C:\\WINDOWS\\System32\\WindowsPowerShell\\v1.0\\"
+        - "C:\\WINDOWS\\System32\\OpenSSH\\"
+        - "C:\\Program Files\\nodejs\\"
+        - "C:\\ProgramData\\chocolatey\\bin"
+        - "C:\\Program Files\\Git\\cmd"
+        - "C:\\Program Files (x86)\\IncrediBuild"
+        - "C:\\Program Files (x86)\\Windows Kits\\10\\Windows Performance Toolkit\\"
+        - "C:\\ProgramData\\mingw64\\mingw64\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python311\\"
+        - "C:\\Users\\alyss\\.cargo\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python313\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\Scripts\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Python314\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Python\\Launcher\\"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WindowsApps"
+        - "C:\\Program Files\\LOVE"
+        - "C:\\Users\\alyss\\AppData\\Roaming\\npm"
+        - "C:\\Users\\alyss\\AppData\\Local\\Python\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Microsoft\\WinGet\\Packages\\yt-dlp.FFmpeg_Microsoft.Winget.Source_8wekyb3d8bbwe\\ffmpeg-N-121583-g4348bde2d2-win64-gpl/bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Microsoft VS Code\\bin"
+        - "C:\\Users\\alyss\\AppData\\Local\\Programs\\Antigravity\\bin"
+      CMAKE_INSTALL_PREFIX: "C:/Program Files (x86)/TitanEngine"
+      CMAKE_SYSTEM_PREFIX_PATH:
+        - "C:/Program Files"
+        - "C:/Program Files (x86)"
+        - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data"
+        - "C:/Program Files (x86)/TitanEngine"
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:197 (try_compile)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:320 (_ipo_run_language_check)"
+      - "d:/deps/JoltPhysics-master/Build/CMakeLists.txt:309 (check_ipo_supported)"
+      - "d:/deps/JoltPhysics-master/Build/CMakeLists.txt:320 (SET_INTERPROCEDURAL_OPTIMIZATION)"
+    directories:
+      source: "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/src"
+      binary: "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/bin"
+    buildResult:
+      variable: "_IPO_LANGUAGE_CHECK_RESULT"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" ALL_BUILD.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
+        Compila├º├úo de 20/04/2026 11:46:15 iniciada.
+        
+        Projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" no n├│ 1 (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" (1) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ZERO_CHECK.vcxproj" (2) no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "x64\\Debug\\ZERO_CHECK\\".
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          1>Checking Build System
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\ZERO_CHECK.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ZERO_CHECK.vcxproj" (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" (1) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\boo.vcxproj" (3) no n├│ 1 (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\boo.vcxproj" (3) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\foo.vcxproj" (4) no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\".
+          Criando o diret├│rio "foo.dir\\Debug\\foo.tlog\\".
+        InitializeBuildStatus:
+          Criando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\foo.cpp"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\foo.cpp"
+          foo.cpp
+        Lib:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\Lib.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.lib" /NOLOGO /MACHINE:X64 /LTCG foo.dir\\Debug\\foo.obj
+          foo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.lib
+        FinalizeBuildStatus:
+          Excluindo o arquivo "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+          Tocando "foo.dir\\Debug\\foo.tlog\\foo.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\foo.vcxproj" (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "boo.dir\\Debug\\boo.tlog\\".
+        InitializeBuildStatus:
+          Criando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\main.cpp"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\main.cpp"
+          main.cpp
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\boo.exe" /NOLOGO Debug\\foo.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/bin/Debug/boo.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"boo.dir\\Debug\\boo.iobj" /TLBID:1 /IMPLIB:"D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/bin/Debug/boo.lib" /MACHINE:X64 boo.dir\\Debug\\main.obj
+          Gerando c├│digo
+          Not all modules are compiled with -Gy (function comdat), build without incremental LTCG.
+          Finalizada a gera├º├úo de c├│digo
+          boo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\boo.exe
+        FinalizeBuildStatus:
+          Excluindo o arquivo "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+          Tocando "boo.dir\\Debug\\boo.tlog\\boo.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\boo.vcxproj" (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "x64\\Debug\\ALL_BUILD\\".
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/src/CMakeLists.txt
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\ALL_BUILD.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" (destinos padr├úo).
+        
+        Compila├º├úo com ├¬xito.
+            0 Aviso(s)
+            0 Erro(s)
+        
+        Tempo Decorrido 00:00:03.73
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:197 (try_compile)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:320 (_ipo_run_language_check)"
+      - "d:/deps/JoltPhysics-master/Build/CMakeLists.txt:309 (check_ipo_supported)"
+      - "d:/deps/JoltPhysics-master/Build/CMakeLists.txt:320 (SET_INTERPROCEDURAL_OPTIMIZATION)"
+    directories:
+      source: "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src"
+      binary: "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin"
+    buildResult:
+      variable: "_IPO_LANGUAGE_CHECK_RESULT"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" ALL_BUILD.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
+        Compila├º├úo de 20/04/2026 11:46:19 iniciada.
+        
+        Projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" no n├│ 1 (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" (1) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ZERO_CHECK.vcxproj" (2) no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "x64\\Debug\\ZERO_CHECK\\".
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          1>Checking Build System
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\ZERO_CHECK.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ZERO_CHECK.vcxproj" (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" (1) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\boo.vcxproj" (3) no n├│ 1 (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\boo.vcxproj" (3) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\foo.vcxproj" (4) no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\".
+          Criando o diret├│rio "foo.dir\\Debug\\foo.tlog\\".
+        InitializeBuildStatus:
+          Criando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\src\\foo.c"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\src\\foo.c"
+          foo.c
+        Lib:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\Lib.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.lib" /NOLOGO /MACHINE:X64 /LTCG foo.dir\\Debug\\foo.obj
+          foo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.lib
+        FinalizeBuildStatus:
+          Excluindo o arquivo "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+          Tocando "foo.dir\\Debug\\foo.tlog\\foo.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\foo.vcxproj" (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "boo.dir\\Debug\\boo.tlog\\".
+        InitializeBuildStatus:
+          Criando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\src\\main.c"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\src\\main.c"
+          main.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\boo.exe" /NOLOGO Debug\\foo.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin/Debug/boo.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"boo.dir\\Debug\\boo.iobj" /TLBID:1 /IMPLIB:"D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin/Debug/boo.lib" /MACHINE:X64 boo.dir\\Debug\\main.obj
+          Gerando c├│digo
+          Not all modules are compiled with -Gy (function comdat), build without incremental LTCG.
+          Finalizada a gera├º├úo de c├│digo
+          boo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\boo.exe
+        FinalizeBuildStatus:
+          Excluindo o arquivo "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+          Tocando "boo.dir\\Debug\\boo.tlog\\boo.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\boo.vcxproj" (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "x64\\Debug\\ALL_BUILD\\".
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src/CMakeLists.txt
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\ALL_BUILD.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" (destinos padr├úo).
+        
+        Compila├º├úo com ├¬xito.
+            0 Aviso(s)
+            0 Erro(s)
+        
+        Tempo Decorrido 00:00:01.51
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:197 (try_compile)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:320 (_ipo_run_language_check)"
+      - "d:/deps/JoltPhysics-master/Build/CMakeLists.txt:309 (check_ipo_supported)"
+      - "d:/deps/JoltPhysics-master/Build/CMakeLists.txt:320 (SET_INTERPROCEDURAL_OPTIMIZATION)"
+    directories:
+      source: "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/src"
+      binary: "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/bin"
+    buildResult:
+      variable: "_IPO_LANGUAGE_CHECK_RESULT"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" ALL_BUILD.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
+        Compila├º├úo de 20/04/2026 11:47:11 iniciada.
+        
+        Projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" no n├│ 1 (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" (1) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ZERO_CHECK.vcxproj" (2) no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "x64\\Debug\\ZERO_CHECK\\".
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          1>Checking Build System
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\ZERO_CHECK.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ZERO_CHECK.vcxproj" (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" (1) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\boo.vcxproj" (3) no n├│ 1 (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\boo.vcxproj" (3) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\foo.vcxproj" (4) no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\".
+          Criando o diret├│rio "foo.dir\\Debug\\foo.tlog\\".
+        InitializeBuildStatus:
+          Criando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\foo.cpp"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\foo.cpp"
+          foo.cpp
+        Lib:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\Lib.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.lib" /NOLOGO /MACHINE:X64 /LTCG foo.dir\\Debug\\foo.obj
+          foo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.lib
+        FinalizeBuildStatus:
+          Excluindo o arquivo "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+          Tocando "foo.dir\\Debug\\foo.tlog\\foo.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\foo.vcxproj" (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "boo.dir\\Debug\\boo.tlog\\".
+        InitializeBuildStatus:
+          Criando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\main.cpp"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\main.cpp"
+          main.cpp
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\boo.exe" /NOLOGO Debug\\foo.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/bin/Debug/boo.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"boo.dir\\Debug\\boo.iobj" /TLBID:1 /IMPLIB:"D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/bin/Debug/boo.lib" /MACHINE:X64 boo.dir\\Debug\\main.obj
+          Gerando c├│digo
+          Not all modules are compiled with -Gy (function comdat), build without incremental LTCG.
+          Finalizada a gera├º├úo de c├│digo
+          boo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\boo.exe
+        FinalizeBuildStatus:
+          Excluindo o arquivo "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+          Tocando "boo.dir\\Debug\\boo.tlog\\boo.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\boo.vcxproj" (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "x64\\Debug\\ALL_BUILD\\".
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/src/CMakeLists.txt
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\ALL_BUILD.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" (destinos padr├úo).
+        
+        Compila├º├úo com ├¬xito.
+            0 Aviso(s)
+            0 Erro(s)
+        
+        Tempo Decorrido 00:00:01.56
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:197 (try_compile)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:320 (_ipo_run_language_check)"
+      - "d:/deps/JoltPhysics-master/Build/CMakeLists.txt:309 (check_ipo_supported)"
+      - "d:/deps/JoltPhysics-master/Build/CMakeLists.txt:320 (SET_INTERPROCEDURAL_OPTIMIZATION)"
+    directories:
+      source: "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src"
+      binary: "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin"
+    buildResult:
+      variable: "_IPO_LANGUAGE_CHECK_RESULT"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" ALL_BUILD.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
+        Compila├º├úo de 20/04/2026 11:47:13 iniciada.
+        
+        Projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" no n├│ 1 (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" (1) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ZERO_CHECK.vcxproj" (2) no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "x64\\Debug\\ZERO_CHECK\\".
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          1>Checking Build System
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\ZERO_CHECK.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ZERO_CHECK.vcxproj" (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" (1) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\boo.vcxproj" (3) no n├│ 1 (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\boo.vcxproj" (3) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\foo.vcxproj" (4) no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\".
+          Criando o diret├│rio "foo.dir\\Debug\\foo.tlog\\".
+        InitializeBuildStatus:
+          Criando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\src\\foo.c"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\src\\foo.c"
+          foo.c
+        Lib:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\Lib.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.lib" /NOLOGO /MACHINE:X64 /LTCG foo.dir\\Debug\\foo.obj
+          foo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.lib
+        FinalizeBuildStatus:
+          Excluindo o arquivo "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+          Tocando "foo.dir\\Debug\\foo.tlog\\foo.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\foo.vcxproj" (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "boo.dir\\Debug\\boo.tlog\\".
+        InitializeBuildStatus:
+          Criando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\src\\main.c"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\src\\main.c"
+          main.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\boo.exe" /NOLOGO Debug\\foo.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin/Debug/boo.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"boo.dir\\Debug\\boo.iobj" /TLBID:1 /IMPLIB:"D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin/Debug/boo.lib" /MACHINE:X64 boo.dir\\Debug\\main.obj
+          Gerando c├│digo
+          Not all modules are compiled with -Gy (function comdat), build without incremental LTCG.
+          Finalizada a gera├º├úo de c├│digo
+          boo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\boo.exe
+        FinalizeBuildStatus:
+          Excluindo o arquivo "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+          Tocando "boo.dir\\Debug\\boo.tlog\\boo.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\boo.vcxproj" (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "x64\\Debug\\ALL_BUILD\\".
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src/CMakeLists.txt
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\ALL_BUILD.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" (destinos padr├úo).
+        
+        Compila├º├úo com ├¬xito.
+            0 Aviso(s)
+            0 Erro(s)
+        
+        Tempo Decorrido 00:00:01.48
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:197 (try_compile)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:320 (_ipo_run_language_check)"
+      - "d:/deps/JoltPhysics-master/Build/CMakeLists.txt:309 (check_ipo_supported)"
+      - "d:/deps/JoltPhysics-master/Build/CMakeLists.txt:320 (SET_INTERPROCEDURAL_OPTIMIZATION)"
+    directories:
+      source: "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/src"
+      binary: "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/bin"
+    buildResult:
+      variable: "_IPO_LANGUAGE_CHECK_RESULT"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" ALL_BUILD.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
+        Compila├º├úo de 20/04/2026 11:48:29 iniciada.
+        
+        Projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" no n├│ 1 (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" (1) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ZERO_CHECK.vcxproj" (2) no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "x64\\Debug\\ZERO_CHECK\\".
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          1>Checking Build System
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\ZERO_CHECK.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ZERO_CHECK.vcxproj" (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" (1) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\boo.vcxproj" (3) no n├│ 1 (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\boo.vcxproj" (3) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\foo.vcxproj" (4) no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\".
+          Criando o diret├│rio "foo.dir\\Debug\\foo.tlog\\".
+        InitializeBuildStatus:
+          Criando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\foo.cpp"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\foo.cpp"
+          foo.cpp
+        Lib:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\Lib.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.lib" /NOLOGO /MACHINE:X64 /LTCG foo.dir\\Debug\\foo.obj
+          foo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.lib
+        FinalizeBuildStatus:
+          Excluindo o arquivo "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+          Tocando "foo.dir\\Debug\\foo.tlog\\foo.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\foo.vcxproj" (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "boo.dir\\Debug\\boo.tlog\\".
+        InitializeBuildStatus:
+          Criando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\main.cpp"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\main.cpp"
+          main.cpp
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\boo.exe" /NOLOGO Debug\\foo.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/bin/Debug/boo.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"boo.dir\\Debug\\boo.iobj" /TLBID:1 /IMPLIB:"D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/bin/Debug/boo.lib" /MACHINE:X64 boo.dir\\Debug\\main.obj
+          Gerando c├│digo
+          Not all modules are compiled with -Gy (function comdat), build without incremental LTCG.
+          Finalizada a gera├º├úo de c├│digo
+          boo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\boo.exe
+        FinalizeBuildStatus:
+          Excluindo o arquivo "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+          Tocando "boo.dir\\Debug\\boo.tlog\\boo.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\boo.vcxproj" (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "x64\\Debug\\ALL_BUILD\\".
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/src/CMakeLists.txt
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\ALL_BUILD.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" (destinos padr├úo).
+        
+        Compila├º├úo com ├¬xito.
+            0 Aviso(s)
+            0 Erro(s)
+        
+        Tempo Decorrido 00:00:01.26
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:197 (try_compile)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:320 (_ipo_run_language_check)"
+      - "d:/deps/JoltPhysics-master/Build/CMakeLists.txt:309 (check_ipo_supported)"
+      - "d:/deps/JoltPhysics-master/Build/CMakeLists.txt:320 (SET_INTERPROCEDURAL_OPTIMIZATION)"
+    directories:
+      source: "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src"
+      binary: "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin"
+    buildResult:
+      variable: "_IPO_LANGUAGE_CHECK_RESULT"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" ALL_BUILD.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
+        Compila├º├úo de 20/04/2026 11:48:30 iniciada.
+        
+        Projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" no n├│ 1 (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" (1) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ZERO_CHECK.vcxproj" (2) no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "x64\\Debug\\ZERO_CHECK\\".
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          1>Checking Build System
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\ZERO_CHECK.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ZERO_CHECK.vcxproj" (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" (1) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\boo.vcxproj" (3) no n├│ 1 (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\boo.vcxproj" (3) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\foo.vcxproj" (4) no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\".
+          Criando o diret├│rio "foo.dir\\Debug\\foo.tlog\\".
+        InitializeBuildStatus:
+          Criando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\src\\foo.c"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\src\\foo.c"
+          foo.c
+        Lib:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\Lib.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.lib" /NOLOGO /MACHINE:X64 /LTCG foo.dir\\Debug\\foo.obj
+          foo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.lib
+        FinalizeBuildStatus:
+          Excluindo o arquivo "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+          Tocando "foo.dir\\Debug\\foo.tlog\\foo.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\foo.vcxproj" (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "boo.dir\\Debug\\boo.tlog\\".
+        InitializeBuildStatus:
+          Criando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\src\\main.c"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\src\\main.c"
+          main.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\boo.exe" /NOLOGO Debug\\foo.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin/Debug/boo.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"boo.dir\\Debug\\boo.iobj" /TLBID:1 /IMPLIB:"D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin/Debug/boo.lib" /MACHINE:X64 boo.dir\\Debug\\main.obj
+          Gerando c├│digo
+          Not all modules are compiled with -Gy (function comdat), build without incremental LTCG.
+          Finalizada a gera├º├úo de c├│digo
+          boo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\boo.exe
+        FinalizeBuildStatus:
+          Excluindo o arquivo "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+          Tocando "boo.dir\\Debug\\boo.tlog\\boo.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\boo.vcxproj" (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "x64\\Debug\\ALL_BUILD\\".
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src/CMakeLists.txt
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\ALL_BUILD.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" (destinos padr├úo).
+        
+        Compila├º├úo com ├¬xito.
+            0 Aviso(s)
+            0 Erro(s)
+        
+        Tempo Decorrido 00:00:01.17
+        
+      exitCode: 0
+...
+
+---
+events:
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:197 (try_compile)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:320 (_ipo_run_language_check)"
+      - "d:/deps/JoltPhysics-master/Build/CMakeLists.txt:309 (check_ipo_supported)"
+      - "d:/deps/JoltPhysics-master/Build/CMakeLists.txt:320 (SET_INTERPROCEDURAL_OPTIMIZATION)"
+    directories:
+      source: "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/src"
+      binary: "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/bin"
+    buildResult:
+      variable: "_IPO_LANGUAGE_CHECK_RESULT"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/bin'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" ALL_BUILD.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
+        Compila├º├úo de 20/04/2026 11:49:06 iniciada.
+        
+        Projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" no n├│ 1 (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" (1) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ZERO_CHECK.vcxproj" (2) no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "x64\\Debug\\ZERO_CHECK\\".
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          1>Checking Build System
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\ZERO_CHECK.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ZERO_CHECK.vcxproj" (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" (1) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\boo.vcxproj" (3) no n├│ 1 (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\boo.vcxproj" (3) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\foo.vcxproj" (4) no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\".
+          Criando o diret├│rio "foo.dir\\Debug\\foo.tlog\\".
+        InitializeBuildStatus:
+          Criando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\foo.cpp"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\foo.cpp"
+          foo.cpp
+        Lib:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\Lib.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.lib" /NOLOGO /MACHINE:X64 /LTCG foo.dir\\Debug\\foo.obj
+          foo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\foo.lib
+        FinalizeBuildStatus:
+          Excluindo o arquivo "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+          Tocando "foo.dir\\Debug\\foo.tlog\\foo.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\foo.vcxproj" (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "boo.dir\\Debug\\boo.tlog\\".
+        InitializeBuildStatus:
+          Criando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\main.cpp"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /EHsc /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TP /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\src\\main.cpp"
+          main.cpp
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\boo.exe" /NOLOGO Debug\\foo.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/bin/Debug/boo.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"boo.dir\\Debug\\boo.iobj" /TLBID:1 /IMPLIB:"D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/bin/Debug/boo.lib" /MACHINE:X64 boo.dir\\Debug\\main.obj
+          Gerando c├│digo
+          Not all modules are compiled with -Gy (function comdat), build without incremental LTCG.
+          Finalizada a gera├º├úo de c├│digo
+          boo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\Debug\\boo.exe
+        FinalizeBuildStatus:
+          Excluindo o arquivo "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+          Tocando "boo.dir\\Debug\\boo.tlog\\boo.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\boo.vcxproj" (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "x64\\Debug\\ALL_BUILD\\".
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-CXX/src/CMakeLists.txt
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\ALL_BUILD.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-CXX\\bin\\ALL_BUILD.vcxproj" (destinos padr├úo).
+        
+        Compila├º├úo com ├¬xito.
+            0 Aviso(s)
+            0 Erro(s)
+        
+        Tempo Decorrido 00:00:01.48
+        
+      exitCode: 0
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:197 (try_compile)"
+      - "C:/Users/alyss/AppData/Local/Programs/Python/Python313/Lib/site-packages/cmake/data/share/cmake-4.2/Modules/CheckIPOSupported.cmake:320 (_ipo_run_language_check)"
+      - "d:/deps/JoltPhysics-master/Build/CMakeLists.txt:309 (check_ipo_supported)"
+      - "d:/deps/JoltPhysics-master/Build/CMakeLists.txt:320 (SET_INTERPROCEDURAL_OPTIMIZATION)"
+    directories:
+      source: "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src"
+      binary: "D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin"
+    buildResult:
+      variable: "_IPO_LANGUAGE_CHECK_RESULT"
+      cached: true
+      stdout: |
+        Change Dir: 'D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin'
+        
+        Run Build Command(s): "C:/Program Files/Microsoft Visual Studio/18/Community/MSBuild/Current/Bin/amd64/MSBuild.exe" ALL_BUILD.vcxproj /p:Configuration=Debug /p:Platform=x64 /p:VisualStudioVersion=18.0 /v:n
+        Vers├úo do MSBuild 18.4.0+6e61e96ac para .NET Framework
+        Compila├º├úo de 20/04/2026 11:49:07 iniciada.
+        
+        Projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" no n├│ 1 (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" (1) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ZERO_CHECK.vcxproj" (2) no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "x64\\Debug\\ZERO_CHECK\\".
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          1>Checking Build System
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ZERO_CHECK\\ZERO_CHECK.tlog\\ZERO_CHECK.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ZERO_CHECK.vcxproj" (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" (1) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\boo.vcxproj" (3) no n├│ 1 (destinos padr├úo).
+        O projeto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\boo.vcxproj" (3) est├í compilando "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\foo.vcxproj" (4) no n├│ 1 (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\".
+          Criando o diret├│rio "foo.dir\\Debug\\foo.tlog\\".
+        InitializeBuildStatus:
+          Criando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\src\\foo.c"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"foo.dir\\Debug\\\\" /Fd"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\src\\foo.c"
+          foo.c
+        Lib:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\Lib.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.lib" /NOLOGO /MACHINE:X64 /LTCG foo.dir\\Debug\\foo.obj
+          foo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\foo.lib
+        FinalizeBuildStatus:
+          Excluindo o arquivo "foo.dir\\Debug\\foo.tlog\\unsuccessfulbuild".
+          Tocando "foo.dir\\Debug\\foo.tlog\\foo.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\foo.vcxproj" (destinos padr├úo).
+        PrepareForBuild:
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "boo.dir\\Debug\\boo.tlog\\".
+        InitializeBuildStatus:
+          Criando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src/CMakeLists.txt
+        ClCompile:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\CL.exe /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\src\\main.c"
+          Microsoft (R) C/C++ Optimizing Compiler Vers├úo 19.50.35728 para x64
+          Copyright (C) Microsoft Corporation. Todos os direitos reservados.
+          cl /c /Zi /W1 /WX- /diagnostics:column /Od /Ob0 /GL /D _MBCS /D WIN32 /D _WINDOWS /D _MBCS /D "CMAKE_INTDIR=\\"Debug\\"" /RTC1 /MDd /Fo"boo.dir\\Debug\\\\" /Fd"boo.dir\\Debug\\vc145.pdb" /external:W1 /TC /errorReport:queue "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\src\\main.c"
+          main.c
+        Link:
+          C:\\Program Files\\Microsoft Visual Studio\\18\\Community\\VC\\Tools\\MSVC\\14.50.35717\\bin\\HostX64\\x64\\link.exe /OUT:"D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\boo.exe" /NOLOGO Debug\\foo.lib kernel32.lib user32.lib gdi32.lib winspool.lib shell32.lib ole32.lib oleaut32.lib uuid.lib comdlg32.lib advapi32.lib /MANIFEST /MANIFESTUAC:"level='asInvoker' uiAccess='false'" /manifest:embed /DEBUG /PDB:"D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin/Debug/boo.pdb" /SUBSYSTEM:CONSOLE /OPT:REF /OPT:ICF /LTCG:incremental /LTCGOUT:"boo.dir\\Debug\\boo.iobj" /TLBID:1 /IMPLIB:"D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/bin/Debug/boo.lib" /MACHINE:X64 boo.dir\\Debug\\main.obj
+          Gerando c├│digo
+          Not all modules are compiled with -Gy (function comdat), build without incremental LTCG.
+          Finalizada a gera├º├úo de c├│digo
+          boo.vcxproj -> D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\Debug\\boo.exe
+        FinalizeBuildStatus:
+          Excluindo o arquivo "boo.dir\\Debug\\boo.tlog\\unsuccessfulbuild".
+          Tocando "boo.dir\\Debug\\boo.tlog\\boo.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\boo.vcxproj" (destinos padr├úo).
+        PrepareForBuild:
+          Criando o diret├│rio "x64\\Debug\\ALL_BUILD\\".
+          A sa├¡da estruturada est├í habilitada. A formata├º├úo do diagn├│stico do compilador refletir├í a hierarquia de erros. Consulte https://aka.ms/cpp/structured-output para obter mais detalhes.
+          Criando o diret├│rio "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\".
+        InitializeBuildStatus:
+          Criando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild" porque "AlwaysCreate" foi especificado.
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+        CustomBuild:
+          Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/build/jolt/CMakeFiles/_CMakeLTOTest-C/src/CMakeLists.txt
+        FinalizeBuildStatus:
+          Excluindo o arquivo "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\unsuccessfulbuild".
+          Tocando "x64\\Debug\\ALL_BUILD\\ALL_BUILD.tlog\\ALL_BUILD.lastbuildstate".
+        Projeto de compila├º├úo pronto "D:\\Projetos\\Fusion ENGINE\\TitanEngine\\build\\jolt\\CMakeFiles\\_CMakeLTOTest-C\\bin\\ALL_BUILD.vcxproj" (destinos padr├úo).
+        
+        Compila├º├úo com ├¬xito.
+            0 Aviso(s)
+            0 Erro(s)
+        
+        Tempo Decorrido 00:00:01.30
+        
+      exitCode: 0
+...

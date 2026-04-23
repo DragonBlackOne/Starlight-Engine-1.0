@@ -15,7 +15,8 @@ namespace titan {
             cShaderStream << cShaderFile.rdbuf();
             cShaderFile.close();
             computeCode = cShaderStream.str();
-        } catch (std::ifstream::failure& e) {
+        } catch (std::exception& e) {
+            (void)e;
             std::cerr << "ERROR::COMPUTE_SHADER::FILE_NOT_SUCCESSFULLY_READ" << std::endl;
         }
         const char* cShaderCode = computeCode.c_str();

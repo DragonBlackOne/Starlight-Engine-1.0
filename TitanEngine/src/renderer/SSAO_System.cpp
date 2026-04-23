@@ -14,8 +14,8 @@ namespace titan {
         SetupNoise();
 
         // Shaders
-        m_ssaoShader = std::make_shared<Shader>("assets/shaders/quad.vert", "assets/shaders/ssao.frag");
-        m_ssaoBlurShader = std::make_shared<Shader>("assets/shaders/quad.vert", "assets/shaders/ssao_blur.frag");
+        m_ssaoShader = Shader::LoadFromFile("assets/shaders/screen.vert", "assets/shaders/ssao.frag");
+        m_ssaoBlurShader = Shader::LoadFromFile("assets/shaders/screen.vert", "assets/shaders/ssao_blur.frag");
 
         // FBOs and Textures (1280x720)
         glGenFramebuffers(1, &m_ssaoFBO);
@@ -46,7 +46,7 @@ namespace titan {
             glm::vec3 sample(randomValues(generator) * 2.0 - 1.0, randomValues(generator) * 2.0 - 1.0, randomValues(generator));
             sample = glm::normalize(sample);
             sample *= randomValues(generator);
-            float scale = (float)i / 64.0;
+            float scale = (float)i / 64.0f;
             scale = 0.1f + scale * scale * (1.0f - 0.1f);
             m_ssaoKernel.push_back(sample * scale);
         }

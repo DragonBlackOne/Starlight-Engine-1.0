@@ -1,11 +1,16 @@
+#include <glm/gtx/norm.hpp>
 #include "MeshDeformSystem.hpp"
 #include "Components.hpp"
-#include <glm/gtx/norm.hpp>
 
 namespace titan {
 
     void MeshDeformSystem::ApplyDamage(entt::registry& registry, entt::entity entity, const glm::vec3& contactPoint, float impulse) {
-        if (!registry.has<MeshDeformComponent>(entity)) return;
+        (void)registry;
+        (void)entity;
+        (void)contactPoint;
+        (void)impulse;
+
+        if (!registry.all_of<MeshDeformComponent>(entity)) return;
 
         auto& deform = registry.get<MeshDeformComponent>(entity);
         auto& t = registry.get<TransformComponent>(entity);
@@ -28,6 +33,8 @@ namespace titan {
     }
 
     void MeshDeformSystem::Update(entt::registry& registry, float dt) {
+        (void)registry;
+        (void)dt;
         // Here we would update the actual GPU buffers with currentOffsets
         // for each entity...
     }

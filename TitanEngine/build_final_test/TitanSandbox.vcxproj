@@ -1,0 +1,459 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{79B0EECC-91F6-33DC-8BB2-D44EA342322F}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>10.0.26100.0</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>TitanSandbox</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>Unicode</CharacterSet>
+    <PlatformToolset>v145</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">TitanSandbox.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">TitanSandbox</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TitanSandbox.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">TitanSandbox</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">TitanSandbox.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">TitanSandbox</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">TitanSandbox.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">TitanSandbox</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Projetos\Fusion ENGINE\TitanEngine\include;D:\Projetos\Fusion ENGINE\TitanEngine\src;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\pl_mpeg;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\nlohmann;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\wicked\core;d:\deps\JoltPhysics-master;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include-config-debug\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\include\glad\include;d:\deps\JoltPhysics-master\Build\..;d:\deps\glm-1.0.1;d:\deps\entt-3.13.2\src;d:\deps\sol2-3.3.0\include;d:\deps\lua-5.4.6;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /FS</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;SDL_MAIN_HANDLED;UNICODE;_UNICODE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;GLM_ENABLE_EXPERIMENTAL;JPH_FLOATING_POINT_EXCEPTIONS_ENABLED;JPH_USE_DX12;JPH_USE_CPU_COMPUTE;JPH_DEBUG_RENDERER;JPH_PROFILE_ENABLED;JPH_OBJECT_STREAM;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;SDL_MAIN_HANDLED;UNICODE;_UNICODE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;GLM_ENABLE_EXPERIMENTAL;JPH_FLOATING_POINT_EXCEPTIONS_ENABLED;JPH_USE_DX12;JPH_USE_CPU_COMPUTE;JPH_DEBUG_RENDERER;JPH_PROFILE_ENABLED;JPH_OBJECT_STREAM;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projetos\Fusion ENGINE\TitanEngine\include;D:\Projetos\Fusion ENGINE\TitanEngine\src;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\pl_mpeg;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\nlohmann;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\wicked\core;d:\deps\JoltPhysics-master;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include-config-debug\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\include\glad\include;d:\deps\JoltPhysics-master\Build\..;d:\deps\glm-1.0.1;d:\deps\entt-3.13.2\src;d:\deps\sol2-3.3.0\include;d:\deps\lua-5.4.6;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projetos\Fusion ENGINE\TitanEngine\include;D:\Projetos\Fusion ENGINE\TitanEngine\src;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\pl_mpeg;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\nlohmann;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\wicked\core;d:\deps\JoltPhysics-master;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include-config-debug\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\include\glad\include;d:\deps\JoltPhysics-master\Build\..;d:\deps\glm-1.0.1;d:\deps\entt-3.13.2\src;d:\deps\sol2-3.3.0\include;d:\deps\lua-5.4.6;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>sdl2\Debug\SDL2maind.lib;sdl2\Debug\SDL2-staticd.lib;Debug\glad.lib;jolt\Debug\Jolt.lib;Debug\lua.lib;kernel32.lib;user32.lib;gdi32.lib;winmm.lib;imm32.lib;ole32.lib;oleaut32.lib;version.lib;uuid.lib;advapi32.lib;setupapi.lib;shell32.lib;dinput8.lib;dxgi.lib;d3d12.lib;d3dcompiler.lib;dxguid.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/Projetos/Fusion ENGINE/TitanEngine/build_final_test/Debug/TitanSandbox.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/Projetos/Fusion ENGINE/TitanEngine/build_final_test/Debug/TitanSandbox.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Projetos\Fusion ENGINE\TitanEngine\include;D:\Projetos\Fusion ENGINE\TitanEngine\src;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\pl_mpeg;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\nlohmann;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\wicked\core;d:\deps\JoltPhysics-master;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include-config-release\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\include\glad\include;d:\deps\JoltPhysics-master\Build\..;d:\deps\glm-1.0.1;d:\deps\entt-3.13.2\src;d:\deps\sol2-3.3.0\include;d:\deps\lua-5.4.6;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /FS</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SDL_MAIN_HANDLED;UNICODE;_UNICODE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;GLM_ENABLE_EXPERIMENTAL;JPH_FLOATING_POINT_EXCEPTIONS_ENABLED;JPH_USE_DX12;JPH_USE_CPU_COMPUTE;JPH_DEBUG_RENDERER;JPH_PROFILE_ENABLED;JPH_OBJECT_STREAM;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SDL_MAIN_HANDLED;UNICODE;_UNICODE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;GLM_ENABLE_EXPERIMENTAL;JPH_FLOATING_POINT_EXCEPTIONS_ENABLED;JPH_USE_DX12;JPH_USE_CPU_COMPUTE;JPH_DEBUG_RENDERER;JPH_PROFILE_ENABLED;JPH_OBJECT_STREAM;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projetos\Fusion ENGINE\TitanEngine\include;D:\Projetos\Fusion ENGINE\TitanEngine\src;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\pl_mpeg;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\nlohmann;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\wicked\core;d:\deps\JoltPhysics-master;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include-config-release\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\include\glad\include;d:\deps\JoltPhysics-master\Build\..;d:\deps\glm-1.0.1;d:\deps\entt-3.13.2\src;d:\deps\sol2-3.3.0\include;d:\deps\lua-5.4.6;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projetos\Fusion ENGINE\TitanEngine\include;D:\Projetos\Fusion ENGINE\TitanEngine\src;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\pl_mpeg;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\nlohmann;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\wicked\core;d:\deps\JoltPhysics-master;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include-config-release\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\include\glad\include;d:\deps\JoltPhysics-master\Build\..;d:\deps\glm-1.0.1;d:\deps\entt-3.13.2\src;d:\deps\sol2-3.3.0\include;d:\deps\lua-5.4.6;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>sdl2\Release\SDL2main.lib;sdl2\Release\SDL2-static.lib;Release\glad.lib;jolt\Release\Jolt.lib;Release\lua.lib;kernel32.lib;user32.lib;gdi32.lib;winmm.lib;imm32.lib;ole32.lib;oleaut32.lib;version.lib;uuid.lib;advapi32.lib;setupapi.lib;shell32.lib;dinput8.lib;dxgi.lib;d3d12.lib;d3dcompiler.lib;dxguid.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/Projetos/Fusion ENGINE/TitanEngine/build_final_test/Release/TitanSandbox.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/Projetos/Fusion ENGINE/TitanEngine/build_final_test/Release/TitanSandbox.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Projetos\Fusion ENGINE\TitanEngine\include;D:\Projetos\Fusion ENGINE\TitanEngine\src;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\pl_mpeg;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\nlohmann;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\wicked\core;d:\deps\JoltPhysics-master;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include-config-minsizerel\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\include\glad\include;d:\deps\JoltPhysics-master\Build\..;d:\deps\glm-1.0.1;d:\deps\entt-3.13.2\src;d:\deps\sol2-3.3.0\include;d:\deps\lua-5.4.6;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /FS</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SDL_MAIN_HANDLED;UNICODE;_UNICODE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;GLM_ENABLE_EXPERIMENTAL;JPH_USE_DX12;JPH_USE_CPU_COMPUTE;JPH_OBJECT_STREAM;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SDL_MAIN_HANDLED;UNICODE;_UNICODE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;GLM_ENABLE_EXPERIMENTAL;JPH_USE_DX12;JPH_USE_CPU_COMPUTE;JPH_OBJECT_STREAM;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projetos\Fusion ENGINE\TitanEngine\include;D:\Projetos\Fusion ENGINE\TitanEngine\src;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\pl_mpeg;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\nlohmann;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\wicked\core;d:\deps\JoltPhysics-master;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include-config-minsizerel\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\include\glad\include;d:\deps\JoltPhysics-master\Build\..;d:\deps\glm-1.0.1;d:\deps\entt-3.13.2\src;d:\deps\sol2-3.3.0\include;d:\deps\lua-5.4.6;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projetos\Fusion ENGINE\TitanEngine\include;D:\Projetos\Fusion ENGINE\TitanEngine\src;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\pl_mpeg;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\nlohmann;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\wicked\core;d:\deps\JoltPhysics-master;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include-config-minsizerel\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\include\glad\include;d:\deps\JoltPhysics-master\Build\..;d:\deps\glm-1.0.1;d:\deps\entt-3.13.2\src;d:\deps\sol2-3.3.0\include;d:\deps\lua-5.4.6;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>sdl2\MinSizeRel\SDL2main.lib;sdl2\MinSizeRel\SDL2-static.lib;MinSizeRel\glad.lib;jolt\MinSizeRel\Jolt.lib;MinSizeRel\lua.lib;kernel32.lib;user32.lib;gdi32.lib;winmm.lib;imm32.lib;ole32.lib;oleaut32.lib;version.lib;uuid.lib;advapi32.lib;setupapi.lib;shell32.lib;dinput8.lib;dxgi.lib;d3d12.lib;d3dcompiler.lib;dxguid.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/Projetos/Fusion ENGINE/TitanEngine/build_final_test/MinSizeRel/TitanSandbox.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/Projetos/Fusion ENGINE/TitanEngine/build_final_test/MinSizeRel/TitanSandbox.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>D:\Projetos\Fusion ENGINE\TitanEngine\include;D:\Projetos\Fusion ENGINE\TitanEngine\src;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\pl_mpeg;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\nlohmann;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\wicked\core;d:\deps\JoltPhysics-master;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include-config-relwithdebinfo\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\include\glad\include;d:\deps\JoltPhysics-master\Build\..;d:\deps\glm-1.0.1;d:\deps\entt-3.13.2\src;d:\deps\sol2-3.3.0\include;d:\deps\lua-5.4.6;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /FS</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>Default</BasicRuntimeChecks>
+      <BufferSecurityCheck></BufferSecurityCheck>
+      <CallingConvention></CallingConvention>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <EnableEnhancedInstructionSet>AdvancedVectorExtensions2</EnableEnhancedInstructionSet>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FloatingPointModel></FloatingPointModel>
+      <ForceConformanceInForLoopScope></ForceConformanceInForLoopScope>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MinimalRebuild></MinimalRebuild>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RemoveUnreferencedCodeData></RemoveUnreferencedCodeData>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <SupportJustMyCode></SupportJustMyCode>
+      <TreatWChar_tAsBuiltInType></TreatWChar_tAsBuiltInType>
+      <UseFullPaths>false</UseFullPaths>
+      <WarningLevel>Level4</WarningLevel>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SDL_MAIN_HANDLED;UNICODE;_UNICODE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;GLM_ENABLE_EXPERIMENTAL;JPH_USE_DX12;JPH_USE_CPU_COMPUTE;JPH_OBJECT_STREAM;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;SDL_MAIN_HANDLED;UNICODE;_UNICODE;NOMINMAX;_CRT_SECURE_NO_WARNINGS;GLM_ENABLE_EXPERIMENTAL;JPH_USE_DX12;JPH_USE_CPU_COMPUTE;JPH_OBJECT_STREAM;JPH_USE_AVX2;JPH_USE_AVX;JPH_USE_SSE4_1;JPH_USE_SSE4_2;JPH_USE_LZCNT;JPH_USE_TZCNT;JPH_USE_F16C;JPH_USE_FMADD;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>D:\Projetos\Fusion ENGINE\TitanEngine\include;D:\Projetos\Fusion ENGINE\TitanEngine\src;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\pl_mpeg;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\nlohmann;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\wicked\core;d:\deps\JoltPhysics-master;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include-config-relwithdebinfo\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\include\glad\include;d:\deps\JoltPhysics-master\Build\..;d:\deps\glm-1.0.1;d:\deps\entt-3.13.2\src;d:\deps\sol2-3.3.0\include;d:\deps\lua-5.4.6;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>D:\Projetos\Fusion ENGINE\TitanEngine\include;D:\Projetos\Fusion ENGINE\TitanEngine\src;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\pl_mpeg;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\nlohmann;D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\wicked\core;d:\deps\JoltPhysics-master;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\include-config-relwithdebinfo\SDL2;D:\Projetos\Fusion ENGINE\TitanEngine\include\glad\include;d:\deps\JoltPhysics-master\Build\..;d:\deps\glm-1.0.1;d:\deps\entt-3.13.2\src;d:\deps\sol2-3.3.0\include;d:\deps\lua-5.4.6;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalDependencies>sdl2\RelWithDebInfo\SDL2main.lib;sdl2\RelWithDebInfo\SDL2-static.lib;RelWithDebInfo\glad.lib;jolt\RelWithDebInfo\Jolt.lib;RelWithDebInfo\lua.lib;kernel32.lib;user32.lib;gdi32.lib;winmm.lib;imm32.lib;ole32.lib;oleaut32.lib;version.lib;uuid.lib;advapi32.lib;setupapi.lib;shell32.lib;dinput8.lib;dxgi.lib;d3d12.lib;d3dcompiler.lib;dxguid.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <DataExecutionPrevention></DataExecutionPrevention>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImageHasSafeExceptionHandlers></ImageHasSafeExceptionHandlers>
+      <ImportLibrary>D:/Projetos/Fusion ENGINE/TitanEngine/build_final_test/RelWithDebInfo/TitanSandbox.lib</ImportLibrary>
+      <LinkErrorReporting></LinkErrorReporting>
+      <ProgramDataBaseFile>D:/Projetos/Fusion ENGINE/TitanEngine/build_final_test/RelWithDebInfo/TitanSandbox.pdb</ProgramDataBaseFile>
+      <RandomizedBaseAddress></RandomizedBaseAddress>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe "-SD:/Projetos/Fusion ENGINE/TitanEngine" "-BD:/Projetos/Fusion ENGINE/TitanEngine/build_final_test" --check-stamp-file "D:/Projetos/Fusion ENGINE/TitanEngine/build_final_test/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeCInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeCXXInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeLanguageInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeRCInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Compiler\MSVC-C.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Compiler\MSVC-CXX.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Compiler\MSVC.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Linker\MSVC-C.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Linker\MSVC-CXX.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Linker\MSVC.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-MSVC.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\4.2.3\CMakeCCompiler.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\4.2.3\CMakeCXXCompiler.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\4.2.3\CMakeRCCompiler.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\4.2.3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe "-SD:/Projetos/Fusion ENGINE/TitanEngine" "-BD:/Projetos/Fusion ENGINE/TitanEngine/build_final_test" --check-stamp-file "D:/Projetos/Fusion ENGINE/TitanEngine/build_final_test/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeCInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeCXXInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeLanguageInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeRCInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Compiler\MSVC-C.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Compiler\MSVC-CXX.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Compiler\MSVC.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Linker\MSVC-C.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Linker\MSVC-CXX.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Linker\MSVC.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-MSVC.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\4.2.3\CMakeCCompiler.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\4.2.3\CMakeCXXCompiler.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\4.2.3\CMakeRCCompiler.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\4.2.3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe "-SD:/Projetos/Fusion ENGINE/TitanEngine" "-BD:/Projetos/Fusion ENGINE/TitanEngine/build_final_test" --check-stamp-file "D:/Projetos/Fusion ENGINE/TitanEngine/build_final_test/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeCInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeCXXInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeLanguageInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeRCInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Compiler\MSVC-C.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Compiler\MSVC-CXX.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Compiler\MSVC.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Linker\MSVC-C.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Linker\MSVC-CXX.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Linker\MSVC.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-MSVC.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\4.2.3\CMakeCCompiler.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\4.2.3\CMakeCXXCompiler.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\4.2.3\CMakeRCCompiler.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\4.2.3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule D:/Projetos/Fusion ENGINE/TitanEngine/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe "-SD:/Projetos/Fusion ENGINE/TitanEngine" "-BD:/Projetos/Fusion ENGINE/TitanEngine/build_final_test" --check-stamp-file "D:/Projetos/Fusion ENGINE/TitanEngine/build_final_test/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeCInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeCXXInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeGenericSystem.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeInitializeConfigs.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeLanguageInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeRCInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeSystemSpecificInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\CMakeSystemSpecificInitialize.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Compiler\MSVC-C.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Compiler\MSVC-CXX.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Compiler\MSVC.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Internal\CMakeCLinkerInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Internal\CMakeCXXLinkerInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Internal\CMakeCommonLinkerInformation.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Linker\MSVC-C.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Linker\MSVC-CXX.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Linker\MSVC.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-C.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC-CXX.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Linker\Windows-MSVC.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-Initialize.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-MSVC-C.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-MSVC-CXX.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows-MSVC.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\Windows.cmake;C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\share\cmake-4.2\Modules\Platform\WindowsPaths.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\4.2.3\CMakeCCompiler.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\4.2.3\CMakeCXXCompiler.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\4.2.3\CMakeRCCompiler.cmake;D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\4.2.3\CMakeSystem.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\ai\BehaviorTree.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\ai\NavigationSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\audio\AudioSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\AISystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\ConsoleSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\EditorSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\Engine.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\EventSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\FileWatcher.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\HierarchySystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\InputSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\JobSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\Log.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\OctreeSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\PickerSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\SaveSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\SceneLoader.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\SceneSerializer.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\ScriptSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\VFSSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\core\Window.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\gui\DashboardSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\main.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\network\NetworkSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\physics\ClothSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\physics\MeshDeformSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\physics\PhysicsSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\physics\VehicleSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\renderer\AssetLoader.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\renderer\ComputeShader.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\renderer\GizmoSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\renderer\Mesh.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\renderer\ParticleSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\renderer\Renderer.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\renderer\SSAO_System.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\renderer\Shader.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\renderer\ShadowSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\renderer\Terrain.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\src\tools\VideoPlayer.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\wicked\core\wiJobSystem.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui\imgui.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui\imgui_demo.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui\imgui_draw.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui\imgui_impl_sdl2.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui\imgui_tables.cpp" />
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\thirdparty\imgui\imgui_widgets.cpp" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\ZERO_CHECK.vcxproj">
+      <Project>{D1909AEB-6CC8-3244-8634-3340B1DE8121}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\jolt\Jolt.vcxproj">
+      <Project>{479F9AB2-6BDD-3231-8CAD-2E4C5BE1200A}</Project>
+      <Name>Jolt</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\SDL2-static.vcxproj">
+      <Project>{7FDB8DDE-35EF-3F80-8C56-C83B638BA48D}</Project>
+      <Name>SDL2-static</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\sdl2\SDL2main.vcxproj">
+      <Project>{E33655B0-A0C8-3980-B7CD-31AC0613DC96}</Project>
+      <Name>SDL2main</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\glad.vcxproj">
+      <Project>{563813CE-2B4A-31F4-9672-A2AF88018305}</Project>
+      <Name>glad</Name>
+    </ProjectReference>
+    <ProjectReference Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_final_test\lua.vcxproj">
+      <Project>{5C392A4D-1351-3B74-9EC4-520401DF5A23}</Project>
+      <Name>lua</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
