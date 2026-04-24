@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #pragma once
 // ============================================================
 // Vamos Engine - Navigation Module (Recast/Detour)

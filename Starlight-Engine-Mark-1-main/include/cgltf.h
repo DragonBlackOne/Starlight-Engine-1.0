@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 /**
  * cgltf - a single-file glTF 2.0 parser written in C99.
  *

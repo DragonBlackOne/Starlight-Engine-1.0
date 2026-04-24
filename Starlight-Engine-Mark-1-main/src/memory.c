@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #include "memory.h"
 #include <stdlib.h>
 #include <string.h>

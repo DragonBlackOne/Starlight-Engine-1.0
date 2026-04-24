@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 /*
 ** $Id: lstrlib.c $
 ** Standard library for string operations and pattern-matching

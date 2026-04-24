@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 /*
 ** $Id: ldebug.h $
 ** Auxiliary functions from Debug Interface module

@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #ifndef STARLIGHT_PBR_H
 #define STARLIGHT_PBR_H
 

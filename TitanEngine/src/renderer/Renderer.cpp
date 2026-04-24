@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #include "Renderer.hpp"
 #include "InstancedMeshComponent.hpp"
 #include "LODComponent.hpp"
@@ -108,7 +109,7 @@ namespace titan {
         RecreateFBO(w, h);
 
         m_renderGraph = std::make_unique<RenderGraph>();
-        // Futura conversão completa: Adicionar passes aqui
+        // Futura conversÃ£o completa: Adicionar passes aqui
         // auto mainPass = std::make_shared<RenderPass>("MainPass");
         // m_renderGraph->AddPass(mainPass);
         m_renderGraph->Compile();

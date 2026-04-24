@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #include "Engine.hpp"
 #include "InputSystem.hpp"
 #include "Log.hpp"
@@ -411,7 +412,7 @@ public:
     void Shutdown() override {}
 };
 
-// Cena vazia (o jogo é todo via ImGui)
+// Cena vazia (o jogo Ã© todo via ImGui)
 class SandboxScene : public Scene {
 public:
     void OnEnter() override { Log::Info("SandboxScene: Scene entered."); }

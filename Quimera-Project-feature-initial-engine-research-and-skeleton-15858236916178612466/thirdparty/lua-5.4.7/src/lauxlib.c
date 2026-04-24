@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 /*
 ** $Id: lauxlib.c $
 ** Auxiliary functions for building Lua libraries

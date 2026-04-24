@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -81,8 +82,8 @@ namespace titan {
     struct MeshComponent {
         std::shared_ptr<Mesh> mesh;
         Material material;
-        float boundingRadius = 1.0f; // Para Frustum Culling esférico rápido
-        bool isVisible = true;       // Escrita atômica ou bool para culling multithread
+        float boundingRadius = 1.0f; // Para Frustum Culling esfÃ©rico rÃ¡pido
+        bool isVisible = true;       // Escrita atÃ´mica ou bool para culling multithread
     };
 
     struct PointLightComponent {

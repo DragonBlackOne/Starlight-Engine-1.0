@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 /*
 ** $Id: llimits.h $
 ** Limits, basic types, and some other 'installation-dependent' definitions

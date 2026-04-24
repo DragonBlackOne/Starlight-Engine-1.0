@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #include "pbr.h"
 #include "shader.h"
 #include "stb_image.h"

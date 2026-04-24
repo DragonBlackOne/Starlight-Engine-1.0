@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #pragma once
 #include <vector>
 #include <memory>
@@ -97,7 +98,7 @@ namespace titan {
         std::shared_ptr<Shader> m_postComposeShader;
         uint32_t m_pingpongFBO[2], m_pingpongColorbuffers[2];
 
-        // Escala 10 Trilhões
+        // Escala 10 TrilhÃµes
         std::unique_ptr<RenderGraph> m_renderGraph;
     };
 }

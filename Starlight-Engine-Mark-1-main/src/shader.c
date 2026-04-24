@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #include "shader.h"
 #include <stdio.h>
 #include <stdlib.h>

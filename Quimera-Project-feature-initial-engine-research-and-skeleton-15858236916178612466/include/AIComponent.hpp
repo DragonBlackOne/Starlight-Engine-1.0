@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #pragma once
 #include <string>
 #include <behaviortree_cpp/bt_factory.h>

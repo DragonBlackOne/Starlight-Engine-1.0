@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #ifndef ANIMATION_H
 #define ANIMATION_H
 

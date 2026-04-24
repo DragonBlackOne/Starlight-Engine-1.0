@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #ifndef STARLIGHT_MEMORY_H
 #define STARLIGHT_MEMORY_H
 

@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #version 450 core
 layout (location = 0) in vec3 aPos;
 layout (location = 2) in vec2 aTexCoords;

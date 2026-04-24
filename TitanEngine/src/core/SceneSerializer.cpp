@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #include "SceneSerializer.hpp"
 #include "CoreMinimal.hpp"
 #include "Components.hpp"
@@ -153,7 +154,7 @@ namespace titan {
                 c.primary = cj["primary"].get<bool>();
             }
 
-            // MeshComponent (material only — mesh assignment must be done by the module)
+            // MeshComponent (material only â€” mesh assignment must be done by the module)
             if (entityObj.contains("material")) {
                 auto& mj = entityObj["material"];
                 auto& mc = registry.emplace<MeshComponent>(entity);

@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #pragma once
 #include <spdlog/spdlog.h>
 #include <spdlog/sinks/stdout_color_sinks.h>

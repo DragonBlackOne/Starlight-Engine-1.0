@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 /*
 ** $Id: ldblib.c $
 ** Interface from Lua to its debug API

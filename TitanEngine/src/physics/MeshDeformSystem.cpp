@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #include <glm/gtx/norm.hpp>
 #include "MeshDeformSystem.hpp"
 #include "Components.hpp"

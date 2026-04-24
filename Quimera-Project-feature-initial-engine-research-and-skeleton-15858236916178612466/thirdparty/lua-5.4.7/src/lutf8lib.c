@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 /*
 ** $Id: lutf8lib.c $
 ** Standard library for UTF-8 manipulation

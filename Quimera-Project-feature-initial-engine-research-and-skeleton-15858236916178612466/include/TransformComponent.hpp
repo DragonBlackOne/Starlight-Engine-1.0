@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #pragma once
 #include "godot/core/math/vector3.h"
 #include <entt/entt.hpp>

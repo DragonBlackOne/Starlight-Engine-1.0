@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #define SDL_MAIN_HANDLED
 #include "starlight.h"
 #include <stdio.h>

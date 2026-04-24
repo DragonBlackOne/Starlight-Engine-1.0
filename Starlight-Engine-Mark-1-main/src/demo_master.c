@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #include <glad/glad.h>
 #include <SDL2/SDL.h>
 #include <cglm/cglm.h>

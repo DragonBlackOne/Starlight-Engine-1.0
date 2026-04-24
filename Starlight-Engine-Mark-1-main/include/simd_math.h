@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #ifndef SIMD_MATH_H
 #define SIMD_MATH_H
 

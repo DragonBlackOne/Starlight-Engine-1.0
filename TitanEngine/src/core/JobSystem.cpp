@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #include "JobSystem.hpp"
 #include "Log.hpp"
 #include "wicked/core/wiJobSystem.h"

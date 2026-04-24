@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #include "pbr.h"
 #include <glad/glad.h>
 #include <cglm/cglm.h>

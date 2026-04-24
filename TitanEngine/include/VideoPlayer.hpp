@@ -1,9 +1,10 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #pragma once
 #include <string>
 #include <memory>
 #include "Log.hpp"
 
-// Forward declaration - implementação interna via pl_mpeg
+// Forward declaration - implementaÃ§Ã£o interna via pl_mpeg
 typedef struct plm_t plm_t;
 
 namespace titan {

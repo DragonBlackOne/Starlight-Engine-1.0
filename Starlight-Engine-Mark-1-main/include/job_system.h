@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #ifndef JOB_SYSTEM_H
 #define JOB_SYSTEM_H
 

@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #ifndef SCENE_GRAPH_H
 #define SCENE_GRAPH_H
 

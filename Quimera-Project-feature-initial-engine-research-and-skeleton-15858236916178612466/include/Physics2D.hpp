@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #pragma once
 // ============================================================
 // Vamos Engine - 2D Physics Module (Box2D v3)

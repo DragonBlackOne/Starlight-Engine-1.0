@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 /*
   Copyright (c) 2009-2017 Dave Gamble and cJSON contributors
 

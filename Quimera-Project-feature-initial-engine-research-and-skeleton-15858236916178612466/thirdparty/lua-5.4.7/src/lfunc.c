@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 /*
 ** $Id: lfunc.c $
 ** Auxiliary functions to manipulate prototypes and closures

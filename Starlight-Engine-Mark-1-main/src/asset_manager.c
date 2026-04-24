@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #include "asset_manager.h"
 #include "loader.h"
 #include <string.h>

@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #include "PickerSystem.hpp"
 #include "Components.hpp"
 #include <glm/gtc/matrix_transform.hpp>

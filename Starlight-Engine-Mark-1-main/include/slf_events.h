@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #ifndef SLF_EVENTS_H
 #define SLF_EVENTS_H
 

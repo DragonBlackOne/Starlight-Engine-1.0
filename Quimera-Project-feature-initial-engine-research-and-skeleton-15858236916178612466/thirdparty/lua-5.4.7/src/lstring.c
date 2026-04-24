@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 /*
 ** $Id: lstring.c $
 ** String table (keeps all strings handled by Lua)

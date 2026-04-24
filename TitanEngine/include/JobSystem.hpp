@@ -1,8 +1,9 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #pragma once
 #include <cstdint>
 #include <functional>
 
-// Forward declaration para evitar inclusões pesadas nos headers
+// Forward declaration para evitar inclusÃµes pesadas nos headers
 namespace wi::jobsystem {
     struct context;
 }

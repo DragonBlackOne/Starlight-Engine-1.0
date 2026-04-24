@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #include "Engine.hpp"
 #include "Log.hpp"
 #include "Renderer.hpp"

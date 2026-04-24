@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #ifndef POST_PROCESS_H
 #define POST_PROCESS_H
 

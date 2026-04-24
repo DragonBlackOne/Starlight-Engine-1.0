@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #ifndef __khrplatform_h_
 #define __khrplatform_h_
 

@@ -1,3 +1,4 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 #include "job_system.h"
 #include <SDL2/SDL.h>
 #include <stdio.h>
