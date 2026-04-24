@@ -27,6 +27,7 @@ namespace titan {
         virtual void Initialize() = 0;
         virtual void Update(float dt) = 0;
         virtual void Render() {}
+        virtual void RenderUI() {}  // Called inside ImGui frame context
         virtual void Shutdown() = 0;
         virtual std::string GetName() const = 0;
     };

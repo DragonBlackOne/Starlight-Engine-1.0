@@ -12,6 +12,7 @@
 #include "DashboardSystem.hpp"
 #include "GizmoSystem.hpp"
 #include "OctreeSystem.hpp"
+#include "RenderGraph.hpp"
 
 namespace titan {
     class ParticleSystem;
@@ -95,5 +96,8 @@ namespace titan {
         std::shared_ptr<Shader> m_bloomBlurShader;
         std::shared_ptr<Shader> m_postComposeShader;
         uint32_t m_pingpongFBO[2], m_pingpongColorbuffers[2];
+
+        // Escala 10 Trilhões
+        std::unique_ptr<RenderGraph> m_renderGraph;
     };
 }

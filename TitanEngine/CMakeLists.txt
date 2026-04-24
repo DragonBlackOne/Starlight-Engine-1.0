@@ -5,6 +5,34 @@ set(CMAKE_CXX_STANDARD 20)
 set(MSVC_RUNTIME "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 set(CMAKE_MSVC_RUNTIME_LIBRARY ${MSVC_RUNTIME})
 
+# --- Open Source Dependencies (MIT License) via FetchContent ---
+include(FetchContent)
+
+# meshoptimizer (by zeux) - Vertex cache, overdraw & vertex fetch optimization
+# License: MIT | Used by: Valve, AMD, Godot Engine
+FetchContent_Declare(
+    meshoptimizer
+    GIT_REPOSITORY https://github.com/zeux/meshoptimizer.git
+    GIT_TAG        v0.21
+    GIT_SHALLOW    TRUE
+)
+set(MESHOPT_BUILD_DEMO OFF CACHE BOOL "" FORCE)
+set(MESHOPT_BUILD_TOOLS OFF CACHE BOOL "" FORCE)
+set(MESHOPT_BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(meshoptimizer)
+
+# cgltf (by jkuhlmann) - Single-header glTF 2.0 parser
+# License: MIT | Industry standard 3D format for PBR assets
+FetchContent_Declare(
+    cgltf
+    GIT_REPOSITORY https://github.com/jkuhlmann/cgltf.git
+    GIT_TAG        v1.14
+    GIT_SHALLOW    TRUE
+)
+FetchContent_MakeAvailable(cgltf)
+add_library(cgltf INTERFACE)
+target_include_directories(cgltf INTERFACE ${cgltf_SOURCE_DIR})
+
 # --- Local Dependencies ---
 set(DEPS_DIR "d:/deps")
 
@@ -80,9 +108,13 @@ target_link_libraries(TitanEditor PRIVATE
     entt
     sol2
     lua
+    meshoptimizer
+    cgltf
 )
 
 target_compile_definitions(TitanEditor PRIVATE SDL_MAIN_HANDLED UNICODE _UNICODE NOMINMAX _CRT_SECURE_NO_WARNINGS GLM_ENABLE_EXPERIMENTAL)
 if(MSVC)
     target_compile_options(TitanEditor PRIVATE /W4 /EHsc /FS /utf-8 /wd5321)
+else()
+    target_compile_options(TitanEditor PRIVATE -Wall -Wextra -Wpedantic)
 endif()

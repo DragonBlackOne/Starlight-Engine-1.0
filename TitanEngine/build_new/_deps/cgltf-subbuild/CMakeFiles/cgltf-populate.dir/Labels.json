@@ -1,0 +1,46 @@
+{
+	"sources" : 
+	[
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build_new/_deps/cgltf-subbuild/CMakeFiles/cgltf-populate"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build_new/_deps/cgltf-subbuild/CMakeFiles/e6fa1f9cec64bcd8a55b587dbd481643/cgltf-populate.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build_new/_deps/cgltf-subbuild/CMakeFiles/af065ba50af10425224a96acb5ba6ea2/cgltf-populate-complete.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build_new/_deps/cgltf-subbuild/CMakeFiles/45c9529b08f0b7d72510263e42272b40/cgltf-populate-build.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build_new/_deps/cgltf-subbuild/CMakeFiles/45c9529b08f0b7d72510263e42272b40/cgltf-populate-configure.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build_new/_deps/cgltf-subbuild/CMakeFiles/45c9529b08f0b7d72510263e42272b40/cgltf-populate-download.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build_new/_deps/cgltf-subbuild/CMakeFiles/45c9529b08f0b7d72510263e42272b40/cgltf-populate-install.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build_new/_deps/cgltf-subbuild/CMakeFiles/45c9529b08f0b7d72510263e42272b40/cgltf-populate-mkdir.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build_new/_deps/cgltf-subbuild/CMakeFiles/45c9529b08f0b7d72510263e42272b40/cgltf-populate-patch.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build_new/_deps/cgltf-subbuild/CMakeFiles/45c9529b08f0b7d72510263e42272b40/cgltf-populate-test.rule"
+		},
+		{
+			"file" : "D:/Projetos/Fusion ENGINE/TitanEngine/build_new/_deps/cgltf-subbuild/CMakeFiles/45c9529b08f0b7d72510263e42272b40/cgltf-populate-update.rule"
+		}
+	],
+	"target" : 
+	{
+		"labels" : 
+		[
+			"cgltf-populate"
+		],
+		"name" : "cgltf-populate"
+	}
+}

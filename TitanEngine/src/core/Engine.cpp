@@ -15,6 +15,8 @@
 #include "SSAO_System.hpp"
 #include "FileWatcher.hpp"
 #include "CoreMinimal.hpp"
+#include "CameraSystem.hpp"
+#include "LODSystem.hpp"
 
 #undef APIENTRY
 #include <SDL2/SDL.h>
@@ -66,12 +68,13 @@ namespace titan {
 
     void Engine::Run() {
         m_running = true;
-        Uint32 lastTime = SDL_GetTicks();
+        Uint64 lastTime = SDL_GetPerformanceCounter();
+        Uint64 frequency = SDL_GetPerformanceFrequency();
         float accumulator = 0.0f;
 
         while (m_running && !m_window->ShouldClose()) {
-            Uint32 currentTime = SDL_GetTicks();
-            float deltaTime = (currentTime - lastTime) / 1000.0f;
+            Uint64 currentTime = SDL_GetPerformanceCounter();
+            float deltaTime = static_cast<float>(currentTime - lastTime) / static_cast<float>(frequency);
             lastTime = currentTime;
 
             if (deltaTime > 0.25f) deltaTime = 0.25f;
@@ -116,6 +119,9 @@ namespace titan {
         // Hierarchy should always update for UI
         auto activeScene = m_sceneStack.Active();
         if (activeScene) {
+            float aspect = (float)m_window->GetWidth() / (float)m_window->GetHeight();
+            CameraSystem::Update(activeScene->GetRegistry(), aspect);
+            LODSystem::Update(activeScene->GetRegistry());
             HierarchySystem::Update(activeScene->GetRegistry()); // Phase 14 Omega
         }
 
@@ -159,6 +165,11 @@ namespace titan {
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
+
+        // Module ImGui rendering (overlays, 2D games, etc.)
+        for (auto& module : m_modules) {
+            module->RenderUI();
+        }
 
         m_editor->RenderUI();
 

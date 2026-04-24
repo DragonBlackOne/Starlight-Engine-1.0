@@ -9,6 +9,7 @@
 #include <fstream>
 #include <sstream>
 #include "Engine.hpp"
+#include "JobSystem.hpp"
 
 namespace titan {
 
@@ -16,9 +17,13 @@ namespace titan {
     Renderer::~Renderer() {
         if (m_fbo) glDeleteFramebuffers(1, &m_fbo);
         if (m_fboTexture) glDeleteTextures(1, &m_fboTexture);
+        if (m_depthTexture) glDeleteTextures(1, &m_depthTexture);
         if (m_rbo) glDeleteRenderbuffers(1, &m_rbo);
         if (m_finalFBO) glDeleteFramebuffers(1, &m_finalFBO);
         if (m_finalColorTex) glDeleteTextures(1, &m_finalColorTex);
+        
+        glDeleteFramebuffers(2, m_pingpongFBO);
+        glDeleteTextures(2, m_pingpongColorbuffers);
     }
 
     void Renderer::Initialize() {
@@ -101,6 +106,12 @@ namespace titan {
         int w = Engine::Get().GetWindow().GetWidth();
         int h = Engine::Get().GetWindow().GetHeight();
         RecreateFBO(w, h);
+
+        m_renderGraph = std::make_unique<RenderGraph>();
+        // Futura conversão completa: Adicionar passes aqui
+        // auto mainPass = std::make_shared<RenderPass>("MainPass");
+        // m_renderGraph->AddPass(mainPass);
+        m_renderGraph->Compile();
     }
 
     void Renderer::RecreateFBO(int width, int height) {
@@ -271,15 +282,16 @@ namespace titan {
     }
 
     void Renderer::RenderRegistry(entt::registry& registry) {
-        // Update View Matrix from Camera
+        glm::vec3 activeCamPos = glm::vec3(0.0f, 2.0f, 5.0f);
+
+        // Fetch cached View and Projection Matrices from CameraSystem
         auto mainCamView = registry.view<TransformComponent, CameraComponent>();
         for (auto camEntity : mainCamView) {
             auto& cam = mainCamView.get<CameraComponent>(camEntity);
             if (cam.primary) {
-                auto& t = mainCamView.get<TransformComponent>(camEntity);
-                glm::vec3 front = t.rotation * glm::vec3(0.0f, 0.0f, -1.0f);
-                glm::vec3 up = t.rotation * glm::vec3(0.0f, 1.0f, 0.0f);
-                m_view = glm::lookAt(t.position, t.position + front, up);
+                m_view = cam.view;
+                m_projectionMatrix = cam.projection;
+                activeCamPos = mainCamView.get<TransformComponent>(camEntity).position;
                 break;
             }
         }
@@ -323,11 +335,46 @@ namespace titan {
             lightColors.push_back(glm::vec3(0.0f));
         }
 
-        // 2. Submit 3D Meshes
+        // 2. Multithreaded Frustum Culling & Submission Prep
+        glm::mat4 vp = m_projectionMatrix * m_view;
+        glm::mat4 tvp = glm::transpose(vp);
+        glm::vec4 planes[6];
+        planes[0] = tvp[3] + tvp[0]; planes[1] = tvp[3] - tvp[0]; // L, R
+        planes[2] = tvp[3] + tvp[1]; planes[3] = tvp[3] - tvp[1]; // B, T
+        planes[4] = tvp[3] + tvp[2]; planes[5] = tvp[3] - tvp[2]; // N, F
+        for (int i = 0; i < 6; i++) planes[i] = planes[i] / glm::length(glm::vec3(planes[i]));
+
         auto meshView = registry.view<TransformComponent, MeshComponent>();
+        std::vector<entt::entity> cullingList(meshView.begin(), meshView.end());
+
+        if (!cullingList.empty()) {
+            JobContext cullCtx;
+            JobSystem::Dispatch(cullCtx, (uint32_t)cullingList.size(), 256, [&](uint32_t i) {
+                auto entity = cullingList[i];
+                auto& transform = registry.get<TransformComponent>(entity);
+                auto& meshComp = registry.get<MeshComponent>(entity);
+
+                float maxScale = std::max({transform.scale.x, transform.scale.y, transform.scale.z});
+                float radius = meshComp.boundingRadius * maxScale;
+                
+                meshComp.isVisible = true;
+                for (int p = 0; p < 6; ++p) {
+                    float dist = glm::dot(glm::vec3(planes[p]), transform.position) + planes[p].w;
+                    if (dist < -radius) {
+                        meshComp.isVisible = false;
+                        break;
+                    }
+                }
+            });
+            JobSystem::Wait(cullCtx);
+        }
+
+        // 3. Submit 3D Meshes
         for (auto entity : meshView) {
             auto& transform = meshView.get<TransformComponent>(entity);
             auto& meshComp = meshView.get<MeshComponent>(entity);
+            
+            if (!meshComp.isVisible) continue;
             
             if(meshComp.material.isPBR && meshComp.material.shader) {
                 meshComp.material.shader->Use();
@@ -337,15 +384,15 @@ namespace titan {
                 }
                 
                 // Camera position for specular
-                glm::vec3 camPos = glm::vec3(0.0f, 2.0f, 5.0f); // Fallback camera pos
-                auto camView = registry.view<TransformComponent, CameraComponent>();
-                for (auto camEntity : camView) {
-                    if (camView.get<CameraComponent>(camEntity).primary) {
-                        camPos = camView.get<TransformComponent>(camEntity).position;
-                        break;
-                    }
-                }
-                meshComp.material.shader->SetVec3("camPos", camPos);
+                meshComp.material.shader->SetVec3("camPos", activeCamPos);
+
+                // PBR Material uniforms (CRITICAL - shader needs these!)
+                glm::vec3 albedo = meshComp.material.albedo;
+                if (albedo == glm::vec3(0.0f)) albedo = meshComp.material.color; // fallback to color
+                meshComp.material.shader->SetVec3("albedo", albedo);
+                meshComp.material.shader->SetFloat("metallic", meshComp.material.metallic);
+                meshComp.material.shader->SetFloat("roughness", meshComp.material.roughness);
+                meshComp.material.shader->SetFloat("ao", meshComp.material.ao > 0.0f ? meshComp.material.ao : 1.0f);
                 
                 // --- Skeletal Animation ---
                 if (registry.all_of<AnimatorComponent>(entity)) {
@@ -384,30 +431,13 @@ namespace titan {
         // 4. Draw LOD Components
         auto lodView = registry.view<TransformComponent, LODComponent>();
         
-        // Find main camera for distance calculation
-        glm::vec3 camPos = glm::vec3(0.0f, 2.0f, 5.0f);
-        auto camView = registry.view<TransformComponent, CameraComponent>();
-        for (auto camEntity : camView) {
-            if (camView.get<CameraComponent>(camEntity).primary) {
-                camPos = camView.get<TransformComponent>(camEntity).position;
-                break;
-            }
-        }
-
         for (auto entity : lodView) {
             auto& t = lodView.get<TransformComponent>(entity);
             auto& lod = lodView.get<LODComponent>(entity);
             
-            float dist = glm::distance(t.position, camPos);
-            std::shared_ptr<Mesh> selectedMesh = nullptr;
-            
-            for (auto& level : lod.levels) {
-                if (dist < level.distance || selectedMesh == nullptr) {
-                    selectedMesh = level.mesh;
-                } else {
-                    break;
-                }
-            }
+            if (lod.levels.empty()) continue;
+
+            std::shared_ptr<Mesh> selectedMesh = lod.levels[lod.currentLevel].mesh;
 
             if (selectedMesh) {
                 RenderCommand cmd = { selectedMesh, m_pbrShader, t.GetMatrix() };

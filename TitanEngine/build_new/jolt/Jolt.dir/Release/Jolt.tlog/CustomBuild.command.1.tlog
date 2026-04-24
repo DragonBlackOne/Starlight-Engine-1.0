@@ -1,0 +1,180 @@
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\HAIRAPPLYDELTATRANSFORM.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairApplyDeltaTransform.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairApplyDeltaTransform.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\HAIRAPPLYGLOBALPOSE.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairApplyGlobalPose.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairApplyGlobalPose.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\HAIRCALCULATECOLLISIONPLANES.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairCalculateCollisionPlanes.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairCalculateCollisionPlanes.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\HAIRCALCULATERENDERPOSITIONS.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairCalculateRenderPositions.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairCalculateRenderPositions.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\HAIRGRIDACCUMULATE.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairGridAccumulate.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairGridAccumulate.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\HAIRGRIDCLEAR.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairGridClear.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairGridClear.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\HAIRGRIDNORMALIZE.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairGridNormalize.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairGridNormalize.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\HAIRINTEGRATE.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairIntegrate.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairIntegrate.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\HAIRSKINROOTS.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairSkinRoots.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairSkinRoots.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\HAIRSKINVERTICES.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairSkinVertices.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairSkinVertices.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\HAIRTELEPORT.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairTeleport.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairTeleport.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\HAIRUPDATEROOTS.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairUpdateRoots.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairUpdateRoots.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\HAIRUPDATESTRANDS.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairUpdateStrands.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairUpdateStrands.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\HAIRUPDATEVELOCITY.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairUpdateVelocity.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairUpdateVelocity.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\HAIRUPDATEVELOCITYINTEGRATE.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairUpdateVelocityIntegrate.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/HairUpdateVelocityIntegrate.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\TESTCOMPUTE.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/TestCompute.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/TestCompute.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\PROJETOS\FUSION ENGINE\TITANENGINE\BUILD_NEW\CMAKEFILES\3BCA8014809B6F610931FD303A9121CE\TESTCOMPUTE2.DXIL.RULE
+setlocal
+"C:\Program Files (x86)\Windows Kits\10\bin\10.0.26100.0\x64\dxc.exe" -E main -T cs_6_0 -I Jolt/Shaders -WX -all_resources_bound -O3 d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/TestCompute2.hlsl -Fo d:/deps/JoltPhysics-master/Build/..//Jolt/Shaders/TestCompute2.dxil
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^D:\DEPS\JOLTPHYSICS-MASTER\BUILD\CMAKELISTS.TXT
+setlocal
+C:\Users\alyss\AppData\Local\Programs\Python\Python313\Lib\site-packages\cmake\data\bin\cmake.exe "-SD:/Projetos/Fusion ENGINE/TitanEngine" "-BD:/Projetos/Fusion ENGINE/TitanEngine/build_new" --check-stamp-file "D:/Projetos/Fusion ENGINE/TitanEngine/build_new/jolt/CMakeFiles/generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

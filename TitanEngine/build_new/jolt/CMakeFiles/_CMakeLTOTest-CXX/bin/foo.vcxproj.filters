@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_new\jolt\CMakeFiles\_CMakeLTOTest-CXX\src\foo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_new\jolt\CMakeFiles\_CMakeLTOTest-CXX\src\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{AF28D4AC-6440-304F-A7B1-A60DC281F086}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

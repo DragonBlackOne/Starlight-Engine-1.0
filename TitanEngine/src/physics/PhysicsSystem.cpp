@@ -75,7 +75,7 @@ namespace titan {
         JPH::Factory::sInstance = new JPH::Factory();
         JPH::RegisterTypes();
 
-        m_tempAllocator = new JPH::TempAllocatorImpl(10 * 1024 * 1024);
+        m_tempAllocator = new JPH::TempAllocatorImpl(64 * 1024 * 1024);
         m_jobSystem = new JPH::JobSystemThreadPool(JPH::cMaxPhysicsJobs, JPH::cMaxPhysicsBarriers, (int)std::thread::hardware_concurrency() - 1);
 
         m_bpLayerInterface = new BPLayerInterfaceImpl();
@@ -83,7 +83,7 @@ namespace titan {
         m_objLayerPairFilter = new ObjectLayerPairFilterImpl();
 
         m_physicsSystem = new JPH::PhysicsSystem();
-        m_physicsSystem->Init(1024, 0, 1024, 1024, *m_bpLayerInterface, *m_objVsBpFilter, *m_objLayerPairFilter);
+        m_physicsSystem->Init(8192, 0, 8192, 8192, *m_bpLayerInterface, *m_objVsBpFilter, *m_objLayerPairFilter);
         
         m_contactListener = new MyContactListener(m_collisionEvents);
         m_physicsSystem->SetContactListener(m_contactListener);

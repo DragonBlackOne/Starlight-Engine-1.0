@@ -23,6 +23,10 @@ namespace titan {
         bool IsPlayMode() const { return m_playMode; }
         void SetPlayMode(bool play) { m_playMode = play; }
 
+        glm::vec2 GetViewportMin() const { return m_viewportBounds[0]; }
+        glm::vec2 GetViewportMax() const { return m_viewportBounds[1]; }
+        glm::vec2 GetViewportSize() const { return m_viewportSize; }
+
     private:
         EditorSystem() = default;
         bool m_active = true;

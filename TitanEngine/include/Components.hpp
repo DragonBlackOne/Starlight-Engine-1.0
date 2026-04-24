@@ -81,6 +81,8 @@ namespace titan {
     struct MeshComponent {
         std::shared_ptr<Mesh> mesh;
         Material material;
+        float boundingRadius = 1.0f; // Para Frustum Culling esférico rápido
+        bool isVisible = true;       // Escrita atômica ou bool para culling multithread
     };
 
     struct PointLightComponent {

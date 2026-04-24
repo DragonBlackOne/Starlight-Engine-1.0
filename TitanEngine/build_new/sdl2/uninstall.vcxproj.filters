@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="18.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_new\CMakeFiles\0ce81039c6b1c6179f8b3efaaad62ded\uninstall.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="d:\deps\SDL-release-2.30.0\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="D:\Projetos\Fusion ENGINE\TitanEngine\build_new\sdl2\CMakeFiles\uninstall" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{C1D40608-530A-37F2-8D71-86DFDE9E7EEC}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
