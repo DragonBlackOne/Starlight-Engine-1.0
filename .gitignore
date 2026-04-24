@@ -1,0 +1,52 @@
+# Build directories
+build/
+build*/
+bin/
+obj/
+out/
+Release/
+Debug/
+x64/
+ARM64/
+
+# TitanEngine specific builds
+TitanEngine/build*/
+TitanEngine/sdk/
+TitanEngine/bin/
+TitanEngine/lib/
+
+# IDE files
+.vs/
+*.sln
+*.vcxproj
+*.filters
+*.user
+.vscode/
+.idea/
+
+# Dependencies
+# thirdparty/ (we keep this as we ported things there, but maybe ignore sub-builds)
+*/build/
+*/_deps/
+
+# Logs and temp
+*.log
+*.tmp
+*.bak
+imgui.ini
+titan_engine.log
+build_errors.txt
+build_log*.txt
+directory_audit.csv
+knowledge_audit.csv
+total_audit.csv
+total_source_audit.csv
+void_search.csv
+
+# Python temp
+__pycache__/
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db

@@ -1,48 +1,51 @@
 // Este projeto é feito por IA e só o prompt é feito por um humano.
 #pragma once
-#include <winsock2.h>
-#include <ws2tcpip.h>
+#include "CoreMinimal.hpp"
 #include <glm/glm.hpp>
 #include <glm/gtc/quaternion.hpp>
-#include <glm/gtx/quaternion.hpp>
-#include <vector>
 #include <string>
+#include <vector>
 
+#ifdef _WIN32
+#include <winsock2.h>
 #pragma comment(lib, "ws2_32.lib")
+#else
+#include <sys/socket.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
+#include <unistd.h>
+#endif
 
 namespace titan {
 
-    struct NetSnapshot {
-        uint32_t tickId;
+    struct NetworkSnapshot {
+        uint32_t tick;
         glm::vec3 position;
         glm::quat rotation;
     };
 
-    class NetworkSystem {
+    class NetworkSystem : public EngineModule {
     public:
-        NetworkSystem();
-        ~NetworkSystem();
+        std::string GetName() const override { return "NetworkSystem"; }
 
-        bool Initialize();
-        bool CreateSocket(const std::string& ip, int port, bool isServer);
-        
-        int Send(const void* data, int size);
-        int Recv(void* data, int size);
-        
-        void Shutdown();
+        void Initialize() override;
+        void Update(float dt) override {}
+        void Shutdown() override;
 
-        // State interpolation helpers
-        void PushSnapshot(const NetSnapshot& snap);
-        bool GetInterpolatedState(uint32_t targetTick, NetSnapshot& outA, NetSnapshot& outB, float& outAlpha);
+        bool StartServer(int port);
+        bool Connect(const std::string& ip, int port);
+
+        void SendState(const NetworkSnapshot& snap);
+        bool ReceiveState(NetworkSnapshot& outSnap);
+
+        // Client-Side Interpolation
+        static NetworkSnapshot LerpSnapshots(const NetworkSnapshot& a, const NetworkSnapshot& b, float alpha);
 
     private:
-        SOCKET m_socket = INVALID_SOCKET;
-        sockaddr_in m_addr;
+        int m_socket = -1;
+        sockaddr_in m_remoteAddr;
         bool m_isServer = false;
-
-        static constexpr int MAX_SNAPSHOTS = 64;
-        NetSnapshot m_history[MAX_SNAPSHOTS];
-        uint32_t m_latestTick = 0;
+        bool m_initialized = false;
     };
 
 }

@@ -1,0 +1,66 @@
+#version 430
+
+layout(local_size_x = 256) in;
+
+struct FluidParticle {
+    vec4 position; // xyz = pos, w = density
+    vec4 velocity; // xyz = vel, w = pressure
+};
+
+layout(std430, binding = 0) buffer FluidBuffer {
+    FluidParticle particles[];
+};
+
+uniform int particle_count;
+uniform float smoothing_radius; // h
+uniform float particle_mass;
+uniform float rest_density;
+uniform float gas_constant; // k
+
+// Poly6 Kernel for Density
+// W(r, h) = (315 / (64 * pi * h^9)) * (h^2 - r^2)^3
+float poly6_kernel(float r2, float h2) {
+    if (r2 > h2) return 0.0;
+    float diff = h2 - r2;
+    return diff * diff * diff;
+}
+
+void main() {
+    uint id = gl_GlobalInvocationID.x;
+    if (id >= particle_count) return;
+
+    vec3 pos = particles[id].position.xyz;
+    float h2 = smoothing_radius * smoothing_radius;
+    float density = 0.0;
+    
+    // Brute force neighbor search (O(N^2) total, O(N) per thread)
+    // Optimized for < 5000 particles
+    for (int i = 0; i < particle_count; i++) {
+        vec3 other_pos = particles[i].position.xyz;
+        vec3 diff = pos - other_pos;
+        float r2 = dot(diff, diff);
+        
+        if (r2 < h2) {
+            density += poly6_kernel(r2, h2);
+        }
+    }
+    
+    // Normalize kernel
+    // Coeff = 315.0 / (64.0 * 3.14159 * pow(smoothing_radius, 9.0));
+    // But we can bake mass and coeff together for performance
+    // Let's assume the kernel function returns the unscaled value and we scale here
+    
+    float poly6_coeff = 315.0 / (64.0 * 3.14159 * pow(smoothing_radius, 9.0));
+    density *= particle_mass * poly6_coeff;
+    
+    // Clamp density to avoid negative pressure issues (though Poly6 is positive)
+    density = max(density, rest_density);
+    
+    // Calculate Pressure (Tait Equation or Ideal Gas)
+    // P = k * (rho - rho0)
+    float pressure = gas_constant * (density - rest_density);
+    
+    // Store
+    particles[id].position.w = density;
+    particles[id].velocity.w = pressure;
+}

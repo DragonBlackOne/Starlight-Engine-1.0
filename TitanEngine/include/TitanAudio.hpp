@@ -61,6 +61,7 @@ namespace titan {
         void PlayNote(float freq, float duration, WaveType type = WaveType::Square);
         void PlayFMNote(float freq, float duration, int algorithm = 0);
         void UpdateVoices(float dt);
+        void SetOcclusion(float occlusionFactor);
 
         std::vector<ChiptuneVoice> m_voices;
         std::vector<FMVoice> m_fmVoices;

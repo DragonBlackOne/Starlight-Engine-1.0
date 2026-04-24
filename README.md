@@ -1,77 +1,50 @@
-<!-- Este projeto é feito por IA e só o prompt é feito por um humano. -->
-# ♾️ Fusion ENGINE: Multiverse Singularity
+# Fusion ENGINE - Industrial AI-Powered SDK 🌌
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
-![Build](https://img.shields.io/badge/build-passing-brightgreen.svg)
-![License](https://img.shields.io/badge/license-MIT-orange.svg)
+// Este projeto é feito por IA e só o prompt é feito por um humano.
 
-> [!IMPORTANT]
-> **AI-Generated Project Notice**
-> Este projeto é feito por **IA** e só o **prompt** é feito por um humano.
-
-## 🌌 Visão Geral
-
-O **Fusion ENGINE** é uma suíte de desenvolvimento de jogos e simulações de alto desempenho, consolidada a partir de mais de 15 repositórios e tecnologias industriais. O núcleo do projeto é o **TitanEngine**, um simulador PBR (Physically Based Rendering) de nível AAA projetado para estabilidade e escala multiversal.
+O **Fusion ENGINE** é um ecossistema de desenvolvimento de jogos de classe industrial que unifica o poder de três motores de ponta (**Titan**, **Starlight** e **Quimera**) em um único **SDK Comercial** de alta performance.
 
 ---
 
-## 🛠️ Componentes do Ecossistema
+## 💎 TitanEngine SDK (The Sovereign Core)
+O núcleo soberano do ecossistema, agora estruturado como um SDK profissional pronto para lançamentos comerciais.
 
-| Motor | Propósito | Principais Tecnologias |
-| :--- | :--- | :--- |
-| **TitanEngine** | Simulação 3D Industrial | C++20, Jolt Physics, Vulkan/OpenGL, ECS (EnTT), Lua |
-| **Starlight Engine** | Framework Retro/Mini-games | C puro, OpenGL 2.1+, Chiptune Audio |
-| **Quimera Project** | Pesquisa e Skeleton Engine | Arquitetura Modular, Testes de Integração |
-
----
-
-## 🚀 TitanEngine: Principais Funcionalidades
-
-### 🎨 Visual Suite (Phase 10 AAA)
-- **PBR Rendering**: Materiais fisicamente realistas com suporte total a Albedo, Metallic, Roughness e AO.
-- **Post-Processing**: Bloom (High-quality Gaussian), SSAO, SSR (Screen Space Reflections), e Tonemapping ACES.
-- **Instanced Rendering**: Capacidade de processar 50+ entidades PBR dinâmicas com performance otimizada para GPUs integradas e dedicadas.
-- **Cinema Lighting**: Rig de 4 luzes cinematográficas (Key, Fill, Rim, Bounce) integrado.
-
-### ⚙️ Physics & Core
-- **Jolt Physics**: Integração de física industrial com suporte a milhares de corpos rígidos e alocação de memória temporária de 64MB.
-- **Job System**: Baseado no Wicked Engine para multithreading massivo.
-- **Scripting (Lua)**: Lógica dirigida por scripts com bindings avançados para sistemas de câmera e entidades.
-- **ECS (EnTT)**: Arquitetura baseada em entidades e componentes para máximo cache-locality.
+### 🚀 Destaques da Versão Industrial:
+- **SDK Modular**: Arquitetura desacoplada que permite criar jogos independentes vinculando-se à biblioteca `TitanCore`.
+- **AVX2 SIMD Math**: Motor matemático ultra-rápido que utiliza instruções de CPU modernas para transformar milhares de objetos em microssegundos.
+- **TPAK Asset Protection**: Sistema de Arquivos Virtual (VFS) com suporte a arquivos `.pak` para proteção e compressão de assets comerciais.
+* **Unified Pipeline**: Integração total de PBR, SSR, SSGI, Terrenos Procedurais e Física Jolt em um único núcleo.
 
 ---
 
-## 🎮 Ricochete (Showcase Game)
+## 📁 Estrutura do Repositório
 
-Dentro do ecossistema Fusion, incluímos o **Ricochete**, um minijogo que demonstra as capacidades da engine:
-- **Modo 2D**: Rodando via ImGui Foreground DrawList com efeitos CRT e Scanlines.
-- **Modo 3D**: Arena Neon com chão espelhado e física de impacto Jolt.
+### [TitanEngine/](file:///d:/Projetos/Fusion%20ENGINE/TitanEngine)
+O coração do ecossistema. Contém o código fonte do SDK, as bibliotecas do motor e o sistema de build industrial.
+- `/include` & `/src`: Núcleo do motor.
+- `/examples`: Projetos de demonstração e o **Titan Arcade Suite**.
+- `/docs`: Documentação técnica detalhada.
+
+### [Genesis_Project_01/](file:///d:/Projetos/Fusion%20ENGINE/Genesis_Project_01)
+O primeiro projeto comercial criado a partir do SDK. Serve como template e prova de conceito da modularidade do sistema.
 
 ---
 
-## 🔨 Como Compilar
-
-O projeto utiliza **CMake** para orquestração de build.
-
-1. **Pré-requisitos**:
-   - Visual Studio 2022 (ou compilador C++20 compatível).
-   - CMake 3.20+.
-   - Dependências externas (SDL2, Jolt, Lua, EnTT, GLM).
-
-2. **Passos**:
+## 🛠️ Começando
+Para iniciar um novo projeto comercial no nível do Genesis:
+1. Navegue até a pasta `TitanEngine`.
+2. Execute o script de criação:
    ```powershell
-   cmake -B build_new -S TitanEngine
-   cmake --build build_new --config Release
+   ./create_project.ps1 -ProjectName "NomeDoSeuJogo"
    ```
-
-3. **Execução**:
-   Localize o executável `TitanEditor.exe` na pasta `build_new/Release` e execute-o.
+3. O script gerará toda a estrutura de pastas e o sistema de build configurado para você.
 
 ---
 
-## 📜 Licença
-
-Este projeto utiliza licenças permissivas (MIT/Zlib) para todas as suas dependências, permitindo o uso industrial e educacional.
+## 🕹️ Titan Arcade Suite (Integrado)
+Acesse a suíte de jogos retro-modernos dentro dos exemplos para estudar a lógica de gameplay:
+- **F2**: Toggle Editor
+- **F3**: Alternar entre Ricochete, Titan Invaders, Neon Breakout e Void Runner.
 
 ---
-*Gerado com ❤️ por Antigravity (Advanced Agentic Coding AI).*
+*Fusion ENGINE: Onde o poder da IA encontra a robustez da engenharia industrial.*

@@ -2,6 +2,7 @@
 #include "TitanAudio.hpp"
 #include "Log.hpp"
 #include <cmath>
+#include <algorithm>
 
 #ifdef PlaySound
 #undef PlaySound
@@ -224,5 +225,19 @@ namespace titan {
     void AudioSystem::UpdateVoices(float dt) {
         for (auto& v : m_voices) if (v.active) { v.timer += dt; if (v.timer >= v.duration) v.active = false; }
         for (auto& v : m_fmVoices) if (v.active) { v.timer += dt; if (v.timer >= v.duration) v.active = false; }
+    }
+
+    void AudioSystem::SetOcclusion(float occlusionFactor) {
+        if (!m_initialized) return;
+        // occlusionFactor: 0.0 (Clear) to 1.0 (Fully Blocked)
+        float clamped = std::clamp(occlusionFactor, 0.0f, 1.0f);
+        
+        // Simular abafamento (Muffling)
+        float vol = 1.0f - (clamped * 0.7f);
+        float pitch = 1.0f - (clamped * 0.2f);
+        
+        ma_engine_set_volume(&((InternalAudioState*)m_audioEngine)->engine, vol);
+        // ma_engine não tem set_pitch global direto fácil via miniaudio simples sem grupos, 
+        // mas o volume já dá a sensação de oclusão.
     }
 }
