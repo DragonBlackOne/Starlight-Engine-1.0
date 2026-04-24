@@ -1,3 +1,0 @@
-# Stub
-class FaunaBehaviors:
-    pass

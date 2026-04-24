@@ -5,12 +5,13 @@
 using namespace starlight;
 
 /**
- * @brief Classe principal do seu jogo comercial (Starlight Engine).
+ * @brief Classe principal do seu jogo comercial.
+ * Aqui você define a lógica de entrada, atualização e renderização do seu projeto.
  */
-class GenesisGame : public Scene {
+class CommercialGame : public Scene {
 public:
     void OnEnter() override {
-        Log::Info("Starlight Engine | Genesis Project: Initialized.");
+        Log::Info("Commercial Project: Scene Initialized.");
         // Carregue seus assets protegidos (.pak) aqui no futuro
     }
 
@@ -27,7 +28,7 @@ public:
     }
 
     void OnExit() override {
-        Log::Info("Starlight Engine | Genesis Project: Exited.");
+        Log::Info("Commercial Project: Scene Exited.");
     }
 };
 
@@ -36,7 +37,7 @@ int main(int argc, char* argv[]) {
     
     // Configuração de Janela Profissional
     WindowConfig config;
-    config.title = "Genesis_Project_01 v1.0";
+    config.title = "Starlight Engine Commercial Project v1.0";
     config.width = 1920;
     config.height = 1080;
     config.vsync = true;
@@ -45,7 +46,7 @@ int main(int argc, char* argv[]) {
     engine.Initialize(config);
     
     // Inicia a cena do seu jogo
-    engine.GetSceneStack().Push(std::make_shared<GenesisGame>());
+    engine.GetSceneStack().Push(std::make_shared<CommercialGame>());
     
     engine.Run();
     engine.Shutdown();

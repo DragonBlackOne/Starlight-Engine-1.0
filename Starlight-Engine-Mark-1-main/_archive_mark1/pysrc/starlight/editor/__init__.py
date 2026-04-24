@@ -1,1 +1,0 @@
-# Starlight Editor Package

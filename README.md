@@ -1,50 +1,75 @@
-# Fusion ENGINE - Industrial AI-Powered SDK 🌌
+# 🌌 STARLIGHT ENGINE - The Sovereign Industrial SDK
 
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+![Starlight Engine Banner](file:///d:/Projetos/Fusion%20ENGINE/StarlightEngine/docs/images/banner.png)
 
-O **Fusion ENGINE** é um ecossistema de desenvolvimento de jogos de classe industrial que unifica o poder de três motores de ponta (**Titan**, **Starlight** e **Quimera**) em um único **SDK Comercial** de alta performance.
+> "The silence of the multiverse was shattered by the eternal glow of Starlight." ⚔️🏆🌌
 
----
-
-## 💎 TitanEngine SDK (The Sovereign Core)
-O núcleo soberano do ecossistema, agora estruturado como um SDK profissional pronto para lançamentos comerciais.
-
-### 🚀 Destaques da Versão Industrial:
-- **SDK Modular**: Arquitetura desacoplada que permite criar jogos independentes vinculando-se à biblioteca `TitanCore`.
-- **AVX2 SIMD Math**: Motor matemático ultra-rápido que utiliza instruções de CPU modernas para transformar milhares de objetos em microssegundos.
-- **TPAK Asset Protection**: Sistema de Arquivos Virtual (VFS) com suporte a arquivos `.pak` para proteção e compressão de assets comerciais.
-* **Unified Pipeline**: Integração total de PBR, SSR, SSGI, Terrenos Procedurais e Física Jolt em um único núcleo.
+**Starlight Engine** is a high-performance, industrial-grade game engine SDK built for the next generation of commercial projects. Born from the total unification of the *Fusion*, *Titan*, and *Quimera* ecosystems, it provides a self-contained, production-ready framework for AAA visual fidelity and sub-millisecond core logic.
 
 ---
 
-## 📁 Estrutura do Repositório
+## 💎 Core Architecture (Industrial-Grade)
 
-### [TitanEngine/](file:///d:/Projetos/Fusion%20ENGINE/TitanEngine)
-O coração do ecossistema. Contém o código fonte do SDK, as bibliotecas do motor e o sistema de build industrial.
-- `/include` & `/src`: Núcleo do motor.
-- `/examples`: Projetos de demonstração e o **Titan Arcade Suite**.
-- `/docs`: Documentação técnica detalhada.
+The engine is built on a **Modular Static Library** architecture (`StarlightCore`), allowing seamless integration into commercial templates like the **Genesis_Project_01**.
 
-### [Genesis_Project_01/](file:///d:/Projetos/Fusion%20ENGINE/Genesis_Project_01)
-O primeiro projeto comercial criado a partir do SDK. Serve como template e prova de conceito da modularidade do sistema.
-
----
-
-## 🛠️ Começando
-Para iniciar um novo projeto comercial no nível do Genesis:
-1. Navegue até a pasta `TitanEngine`.
-2. Execute o script de criação:
-   ```powershell
-   ./create_project.ps1 -ProjectName "NomeDoSeuJogo"
-   ```
-3. O script gerará toda a estrutura de pastas e o sistema de build configurado para você.
+### 🚀 Technical Powerhouse
+- **[AVX2 SIMD Math]**: Custom-built mathematical core utilizing CPU intrinsics for massive vertex and point transformations.
+- **[Logarithmic Depth]**: Native support for astronomical scales (Solar System scale) with zero Z-fighting.
+- **[VFS & TPAK Protection]**: Virtual File System with encrypted asset packing for IP security.
+- **[Jolt Physics]**: Fully integrated state-of-the-art physics engine for rigid bodies, cloth, and vehicles.
+- **[BehaviorTree.CPP]**: Industrial AI logic for complex entity decision making.
 
 ---
 
-## 🕹️ Titan Arcade Suite (Integrado)
-Acesse a suíte de jogos retro-modernos dentro dos exemplos para estudar a lógica de gameplay:
-- **F2**: Toggle Editor
-- **F3**: Alternar entre Ricochete, Titan Invaders, Neon Breakout e Void Runner.
+## 🎨 Advanced Visual Suite (Phase 10)
+
+The rendering pipeline is designed for "Industrial Beauty", focusing on modern PBR and atmospheric phenomena.
+
+- **Volumetric Clouds**: Real-time Ray-Marching clouds with dynamic density.
+- **Atmospheric Scattering**: Physical simulation of light scattering for realistic horizons.
+- **PBR Water System**: High-fidelity oceans with SSR (Screen Space Reflections) and refraction.
+- **VFX Studio**: Integrated Effekseer runtime for cinematic particle effects.
+- **Post-Process**: SSAO, Bloom, SSR, ACES Tonemapping, and FXAA.
 
 ---
-*Fusion ENGINE: Onde o poder da IA encontra a robustez da engenharia industrial.*
+
+## 📁 Repository Structure
+
+| Component | Description |
+| :--- | :--- |
+| **[StarlightEngine/](file:///d:/Projetos/Fusion%20ENGINE/StarlightEngine)** | The Sovereign SDK. Source code, headers, and industrial tools. |
+| **[Genesis_Project_01/](file:///d:/Projetos/Fusion%20ENGINE/Genesis_Project_01)** | Commercial project template. A clean starting point for AAA games. |
+| **[tools/](file:///d:/Projetos/Fusion%20ENGINE/StarlightEngine/tools)** | Industrial asset processors, texture converters, and pak-generators. |
+
+---
+
+## 🛠️ Getting Started
+
+### 1. Build the Core
+```powershell
+cd StarlightEngine
+mkdir build; cd build
+cmake ..
+cmake --build . --config Release
+```
+
+### 2. Launch the Showcase
+The `StarlightShowcase` executable demonstrates the full power of the unifed systems. 
+*Press **F2** in-game to toggle the **Studio Inspector**.*
+
+### 3. Create Your Project
+Use our automated script to generate a new project linked to the Starlight SDK:
+```powershell
+./StarlightEngine/create_project.ps1 MyNewGame
+```
+
+---
+
+## 🏆 Development Principles
+1. **Zero-Waste Policy**: Every algorithm is optimized; no legacy code is retained.
+2. **Industrial Parity**: 100% parity between research algorithms and production implementation.
+3. **Sovereign Performance**: The engine is designed to own the hardware, from SIMD to GPU pipelines.
+
+---
+
+*Developed by AI under human creative vision. Part of the **Fusion ENGINE** Legacy Preservation.* ⚔️✨

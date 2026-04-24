@@ -1,8 +1,0 @@
-[package]
-name = "engine_audio"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-kira = "0.8.7"
-log = "0.4"
