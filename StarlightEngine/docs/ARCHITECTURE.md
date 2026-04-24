@@ -1,13 +1,13 @@
-# Starlight Engine: Arquitetura Técnica de Elite 🏗️
+# Starlight Engine: Elite Technical Architecture 🏗️
 
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// This project is AI-driven with human creative vision.
 
-Este documento detalha o "esqueleto" do motor e as decisões de engenharia que garantem a performance AAA do **Fusion ENGINE**.
+This document details the "skeleton" of the engine and the engineering decisions that ensure the AAA performance of the **Starlight Engine**.
 
 ---
 
-## 1. Núcleo Modular (EngineModule)
-O motor é composto por módulos independentes que herdam de `EngineModule`. Isso permite que sistemas como **Áudio**, **Física** e **Rede** sejam ligados ou desligados conforme a necessidade do projeto.
+## 1. Modular Core (EngineModule)
+The engine is composed of independent modules that inherit from `EngineModule`. This allows systems like **Audio**, **Physics**, and **Network** to be toggled on or off as needed.
 
 ```mermaid
 graph TD
@@ -19,32 +19,32 @@ graph TD
     SceneStack --> ActiveScene
 ```
 
-## 2. Pipeline de Renderização (Hybrid PBR)
-O `Renderer.cpp` implementa um pipeline híbrido:
-- **Deferred G-Buffer**: Para luzes dinâmicas e AO.
-- **Forward+**: Para transparências e materiais especiais.
-- **Clustered Lighting**: Gerencia centenas de luzes pontuais com custo O(log N).
+## 2. Rendering Pipeline (Hybrid PBR)
+The `Renderer.cpp` implements a hybrid pipeline:
+- **Deferred G-Buffer**: For dynamic lights and AO.
+- **Forward+**: For transparencies and special materials.
+- **Clustered Lighting**: Manages hundreds of point lights with O(log N) cost.
 
-### Recursos de Pós-Processamento:
-- **SSR**: Reflexos baseados em Screen-Space.
-- **SSGI**: Iluminação global simplificada.
-- **Bloom**: Filtro gaussiano de alta qualidade.
-- **ACES**: Tone mapping padrão de cinema.
+### Post-Processing Features:
+- **SSR**: Screen-Space Reflections.
+- **SSGI**: Simplified Global Illumination.
+- **Bloom**: High-quality Gaussian filter.
+- **ACES**: Cinema-standard tone mapping.
 
-## 3. Matemática Acelerada (SIMD AVX2)
-Utilizamos instruções intrínsecas da Intel para acelerar o gargalo da CPU.
-- **Alinhamento de Memória**: Estruturas de dados são alinhadas em 32-bytes para evitar "cache misses" e permitir carregamento vetorial direto.
-- **Transformação Paralela**: Uma única instrução `_mm256_mul_ps` processa múltiplos vértices simultaneamente.
+## 3. Accelerated Mathematics (SIMD AVX2)
+We use Intel intrinsic instructions to accelerate CPU bottlenecks.
+- **Memory Alignment**: Data structures are 32-byte aligned to avoid cache misses and allow direct vector loading.
+- **Parallel Transformation**: A single `_mm256_mul_ps` instruction processes multiple vertices simultaneously.
 
 ## 4. Virtual File System (VFS)
-O VFS permite abstrair a localização física dos arquivos.
-- **Mount Points**: `@assets` pode apontar para uma pasta local no desenvolvimento e para um arquivo criptografado `.pak` na produção.
-- **Thread Safety**: O carregamento de assets é thread-safe, permitindo streaming de texturas em segundo plano (Background Loading).
+The VFS abstracts the physical location of files.
+- **Mount Points**: `@assets` can point to a local folder during development and to an encrypted `.pak` file in production.
+- **Thread Safety**: Asset loading is thread-safe, allowing Background Loading.
 
-## 5. Scripting & IA (Lua/Sol2)
-A lógica de alto nível é exposta para **Lua 5.4**.
-- **Bindings**: Usamos `sol2` para expor componentes C++ diretamente para o script.
-- **Behavior Trees**: Sistema de IA que permite comportamentos complexos de NPCs sem sobrecarregar a CPU.
+## 5. Scripting & AI (Lua/Sol2)
+High-level logic is exposed to **Lua 5.4**.
+- **Bindings**: We use `sol2` to expose C++ components directly to the script.
+- **Behavior Trees**: AI system that allows complex NPC behaviors without overloading the CPU.
 
 ---
-*A arquitetura da Starlight Engine foi desenhada para ser extensível, rápida e, acima de tudo, confiável para aplicações comerciais.*
+*The Starlight Engine architecture was designed to be extensible, fast, and, above all, reliable for commercial applications.*
