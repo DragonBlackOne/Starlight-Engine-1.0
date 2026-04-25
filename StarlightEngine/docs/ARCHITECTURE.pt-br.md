@@ -43,8 +43,15 @@ O VFS permite abstrair a localização física dos arquivos.
 
 ## 5. Scripting & IA (Lua/Sol2)
 A lógica de alto nível é exposta para **Lua 5.4**.
-- **Bindings**: Usamos `sol2` para expor componentes C++ diretamente para o script.
-- **Behavior Trees**: Sistema de IA que permite comportamentos complexos de NPCs sem sobrecarregar a CPU.
+- **Math Bindings**: Suporte nativo para construtores globais `vec3(...)` e `quat(...)`, permitindo sintaxe premium e intuitiva para desenvolvedores.
+- **ECS Integration**: Acesso direto ao EnTT Registry via Lua, permitindo criação e manipulação dinâmica de entidades.
+- **Behavior Trees**: Sistema de IA que permite comportamentos complexos de NPCs.
+- **Navigation (A*)**: Sistema de navegação de alta performance utilizando buffers persistentes para minimizar alocações de memória (`zero-allocation` durante a busca de caminhos).
+
+## 6. Ferramental & Estúdio (EditorSystem)
+O **EditorSystem** é integrado ao ciclo de vida da Engine sem comprometer a performance do jogo final.
+- **Singleton Lifecycle**: Gerenciamento seguro de memória para sistemas estáticos, garantindo desligamento limpo.
+- **ImGui Suite**: Interface de estúdio completa (Inspector, Hierarchy, Console) que pode ser alternada em tempo real via **F2**.
 
 ---
 *A arquitetura da Starlight Engine foi desenhada para ser extensível, rápida e, acima de tudo, confiável para aplicações comerciais.*

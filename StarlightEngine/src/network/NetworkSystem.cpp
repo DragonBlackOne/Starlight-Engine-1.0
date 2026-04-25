@@ -37,6 +37,14 @@ namespace starlight {
         m_socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
         if (m_socket == -1) return false;
 
+        // Set non-blocking
+#ifdef _WIN32
+        u_long mode = 1;
+        ioctlsocket(m_socket, FIONBIO, &mode);
+#else
+        fcntl(m_socket, F_SETFL, O_NONBLOCK);
+#endif
+
         sockaddr_in addr;
         addr.sin_family = AF_INET;
         addr.sin_port = htons((unsigned short)port);
@@ -55,6 +63,14 @@ namespace starlight {
     bool NetworkSystem::Connect(const std::string& ip, int port) {
         m_socket = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP);
         if (m_socket == -1) return false;
+
+        // Set non-blocking
+#ifdef _WIN32
+        u_long mode = 1;
+        ioctlsocket(m_socket, FIONBIO, &mode);
+#else
+        fcntl(m_socket, F_SETFL, O_NONBLOCK);
+#endif
 
         m_remoteAddr.sin_family = AF_INET;
         m_remoteAddr.sin_port = htons((unsigned short)port);

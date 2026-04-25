@@ -100,5 +100,5 @@ if(EXISTS "${STARLIGHT_SDK_ROOT}/examples/StarlightShowcase")
 endif()
 
 if(MSVC)
-    target_compile_options(StarlightCore PRIVATE /W4 /EHsc /FS /utf-8 /wd5321)
+    target_compile_options(StarlightCore PRIVATE /W4 /EHsc /FS /utf-8 /wd5321 /bigobj)
 endif()

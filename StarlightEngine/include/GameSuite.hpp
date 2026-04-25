@@ -139,4 +139,18 @@ namespace starlight {
         void ResetBall(int dir);
     };
 
+    // --- Cinema 3D ---
+    class Cinema3DModule : public EngineModule {
+    public:
+        void Initialize() override;
+        void Update(float dt) override;
+        void RenderUI() override;
+        void Shutdown() override {}
+        std::string GetName() const override { return "3D Cinema"; }
+    private:
+        float totalTime = 0;
+        float rotation = 0;
+        bool showWireframe = false;
+    };
+
 }

@@ -10,6 +10,9 @@ namespace starlight {
     NavigationSystem::NavigationSystem(int gridSize, float worldSize) 
         : m_gridSize(gridSize), m_worldSize(worldSize) {
         m_grid.resize(gridSize * gridSize, false);
+        m_nodeIdxGrid.resize(gridSize * gridSize, -1);
+        m_closedSet.resize(gridSize * gridSize, false);
+        m_allNodes.reserve(1024);
     }
 
     void NavigationSystem::SetObstacle(int x, int z, bool blocked) {
@@ -45,35 +48,35 @@ namespace starlight {
         if (startPos == endPos) return false;
         if (m_grid[endPos.z * m_gridSize + endPos.x]) return false;
 
-        std::vector<Node> allNodes;
+        m_allNodes.clear();
+        std::fill(m_nodeIdxGrid.begin(), m_nodeIdxGrid.end(), -1);
+        std::fill(m_closedSet.begin(), m_closedSet.end(), false);
+
         std::priority_queue<int, std::vector<int>, std::function<bool(int, int)>> openSet(
-            [&allNodes](int a, int b) { return allNodes[a].f > allNodes[b].f; }
+            [this](int a, int b) { return m_allNodes[a].f > m_allNodes[b].f; }
         );
 
-        std::vector<int> nodeIdxGrid(m_gridSize * m_gridSize, -1);
-        std::vector<bool> closedSet(m_gridSize * m_gridSize, false);
-
-        allNodes.push_back({ startPos, 0, 0, -1 });
+        m_allNodes.push_back({ startPos, 0, 0, -1 });
         openSet.push(0);
-        nodeIdxGrid[startPos.z * m_gridSize + startPos.x] = 0;
+        m_nodeIdxGrid[startPos.z * m_gridSize + startPos.x] = 0;
 
         while (!openSet.empty()) {
             int currentIdx = openSet.top();
             openSet.pop();
-            Node current = allNodes[currentIdx];
+            Node current = m_allNodes[currentIdx];
 
             if (current.pos == endPos) {
                 // Reconstruct Path
                 int p = currentIdx;
                 while (p != -1) {
-                    outPath.push_back(GridToWorld(allNodes[p].pos));
-                    p = allNodes[p].parentIdx;
+                    outPath.push_back(GridToWorld(m_allNodes[p].pos));
+                    p = m_allNodes[p].parentIdx;
                 }
                 std::reverse(outPath.begin(), outPath.end());
                 return true;
             }
 
-            closedSet[current.pos.z * m_gridSize + current.pos.x] = true;
+            m_closedSet[current.pos.z * m_gridSize + current.pos.x] = true;
 
             // 8 Neighbors
             for (int dx = -1; dx <= 1; dx++) {
@@ -84,22 +87,22 @@ namespace starlight {
                     int nz = current.pos.z + dz;
 
                     if (nx < 0 || nx >= m_gridSize || nz < 0 || nz >= m_gridSize) continue;
-                    if (closedSet[nz * m_gridSize + nx] || m_grid[nz * m_gridSize + nx]) continue;
+                    if (m_closedSet[nz * m_gridSize + nx] || m_grid[nz * m_gridSize + nx]) continue;
 
                     float stepCost = (dx == 0 || dz == 0) ? 1.0f : 1.414f;
                     float ng = current.g + stepCost;
                     float nf = ng + static_cast<float>(abs(nx - endPos.x) + abs(nz - endPos.z));
 
-                    int existingIdx = nodeIdxGrid[nz * m_gridSize + nx];
-                    if (existingIdx == -1 || ng < allNodes[existingIdx].g) {
+                    int existingIdx = m_nodeIdxGrid[nz * m_gridSize + nx];
+                    if (existingIdx == -1 || ng < m_allNodes[existingIdx].g) {
                         if (existingIdx == -1) {
-                            nodeIdxGrid[nz * m_gridSize + nx] = (int)allNodes.size();
-                            allNodes.push_back({ {nx, nz}, ng, nf, currentIdx });
-                            openSet.push((int)allNodes.size() - 1);
+                            m_nodeIdxGrid[nz * m_gridSize + nx] = (int)m_allNodes.size();
+                            m_allNodes.push_back({ {nx, nz}, ng, nf, currentIdx });
+                            openSet.push((int)m_allNodes.size() - 1);
                         } else {
-                            allNodes[existingIdx].g = ng;
-                            allNodes[existingIdx].f = nf;
-                            allNodes[existingIdx].parentIdx = currentIdx;
+                            m_allNodes[existingIdx].g = ng;
+                            m_allNodes[existingIdx].f = nf;
+                            m_allNodes[existingIdx].parentIdx = currentIdx;
                         }
                     }
                 }

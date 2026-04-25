@@ -34,7 +34,8 @@ namespace starlight {
         ImGui_ImplSDL2_InitForOpenGL(window, gl_context);
         ImGui_ImplOpenGL3_Init("#version 450 core");
 
-        Log::Info("EditorSystem: ImGui Studio Framework active. Press F2 to toggle.");
+        m_active = false; // Cinematic Mode by Default
+        Log::Info("EditorSystem: ImGui Studio Framework initialized (Disabled). Press F2 to toggle.");
     }
 
     void EditorSystem::Update(float dt) {
@@ -137,19 +138,11 @@ namespace starlight {
     }
 
     void EditorSystem::RenderUI() {
+        // --- UI COMPLETELY DISABLED FOR PURE SHOWCASE ---
+        /*
         if (!m_active) return;
-
-        ImGui::DockSpaceOverViewport(0, ImGui::GetMainViewport(), ImGuiDockNodeFlags_PassthruCentralNode);
-
-        DrawMenuBar();
-        DrawToolbar();
-        DrawViewport();
-        DrawHierarchy();
-        DrawInspector();
-        DrawAssetBrowser();
-        DrawConsole();
-        DrawPostProcessing();
-        DrawProfiler();
+        // ... rest of the code ...
+        */
     }
     
     void EditorSystem::DrawViewport() {

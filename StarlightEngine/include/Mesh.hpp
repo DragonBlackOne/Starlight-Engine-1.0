@@ -1,6 +1,7 @@
 // Este projeto é feito por IA e só o prompt é feito por um humano.
 #pragma once
 #include <vector>
+#include <memory>
 #include <glm/glm.hpp>
 #include <glad/glad.h>
 
@@ -9,8 +10,8 @@ namespace starlight {
         glm::vec3 position;
         glm::vec3 normal;
         glm::vec2 texCoords;
-        glm::ivec4 jointIndices; // New: Skeletal Animation
-        glm::vec4 weights;      // New: Skeletal Animation
+        glm::ivec4 jointIndices; 
+        glm::vec4 weights;      
     };
 
     class Mesh {

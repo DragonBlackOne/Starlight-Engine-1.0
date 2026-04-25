@@ -40,7 +40,7 @@ namespace starlight {
         m_audio = std::make_unique<AudioSystem>();
         m_network = std::make_unique<NetworkSystem>();
         m_nav = std::make_unique<NavigationSystem>();
-        m_editor = std::unique_ptr<EditorSystem>(&EditorSystem::Get());
+        m_editor = &EditorSystem::Get();
         m_fileWatcher = std::make_unique<FileWatcher>();
     }
 
@@ -64,7 +64,14 @@ namespace starlight {
         
         m_scripting->ExecuteFile("assets/scripts/main.lua");
 
-        Log::Info("Starlight Engine CORE Initialized.");
+        // Force PlayMode for Pure Showcase
+        m_editor->SetPlayMode(true);
+        
+        // Initialize Default Projection
+        float aspect = (float)m_window->GetWidth() / (float)m_window->GetHeight();
+        m_renderer->UpdateProjection(60.0f, aspect, 0.1f, 1000.0f);
+
+        Log::Info("Starlight Engine CORE Initialized (Showcase Mode).");
     }
 
     void Engine::Run() {
@@ -104,21 +111,18 @@ namespace starlight {
         m_editor->Update(dt);
         m_fileWatcher->Update();
 
-        if (m_editor->IsPlayMode()) {
-            m_scripting->Update(dt);
-            EventSystem::Get().Flush(); // Omega Final Integration
-            
-            auto activeScene = m_sceneStack.Active();
-            if (activeScene) {
-                VehicleSystem::Update(activeScene->GetRegistry(), dt); // Phase 15 Singularity
-                ClothSystem::Update(activeScene->GetRegistry(), dt);   // Phase 15 Singularity
-                AISystem::Update(activeScene->GetRegistry(), dt);
-                activeScene->OnUpdate(dt);
-            }
+        m_scripting->Update(dt);
+        EventSystem::Get().Flush(); 
+        
+        auto activeScene = m_sceneStack.Active();
+        if (activeScene) {
+            VehicleSystem::Update(activeScene->GetRegistry(), dt); 
+            ClothSystem::Update(activeScene->GetRegistry(), dt);   
+            AISystem::Update(activeScene->GetRegistry(), dt);
+            activeScene->OnUpdate(dt);
         }
         
         // Hierarchy should always update for UI
-        auto activeScene = m_sceneStack.Active();
         if (activeScene) {
             float aspect = (float)m_window->GetWidth() / (float)m_window->GetHeight();
             CameraSystem::Update(activeScene->GetRegistry(), aspect);
@@ -149,6 +153,12 @@ namespace starlight {
 
 
     void Engine::Render() {
+        static uint64_t frameCount = 0;
+        if (frameCount % 60 == 0) {
+            Log::Info("--- ENGINE_FRAME: " + std::to_string(frameCount) + " ---");
+        }
+        frameCount++;
+
         m_renderer->BeginFrame();
         
         auto activeScene = m_sceneStack.Active();
@@ -162,20 +172,6 @@ namespace starlight {
         }
 
         m_renderer->EndFrame();
-
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplSDL2_NewFrame();
-        ImGui::NewFrame();
-
-        // Module ImGui rendering (overlays, 2D games, etc.)
-        for (auto& module : m_modules) {
-            module->RenderUI();
-        }
-
-        m_editor->RenderUI();
-
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         m_window->SwapBuffers();
     }

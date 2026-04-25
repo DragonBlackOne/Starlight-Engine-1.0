@@ -33,6 +33,10 @@ namespace starlight {
             float g, f;
             int parentIdx;
         };
+
+        std::vector<int> m_nodeIdxGrid;
+        std::vector<bool> m_closedSet;
+        std::vector<Node> m_allNodes;
     };
 
 }

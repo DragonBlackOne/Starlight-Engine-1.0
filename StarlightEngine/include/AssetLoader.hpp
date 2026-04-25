@@ -13,6 +13,7 @@ namespace starlight {
 
         // Texture Loading
         static uint32_t LoadTexture(const std::string& path);
+        static uint32_t LoadCubemap(const std::vector<std::string>& faces);
         static uint32_t CreateCheckerboardTexture(int width, int height, int cellSize);
 
         // Mesh Optimization (meshoptimizer - MIT)

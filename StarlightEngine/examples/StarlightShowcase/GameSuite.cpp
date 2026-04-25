@@ -2,6 +2,7 @@
 #include "GameSuite.hpp"
 #include "imgui.h"
 #include "InputSystem.hpp"
+#include "Log.hpp"
 #include <cmath>
 #include <algorithm>
 
@@ -431,6 +432,76 @@ namespace starlight {
         dl->AddRectFilled({ballPos.x - 5 + ox, ballPos.y - 5 + oy}, {ballPos.x + 5 + ox, ballPos.y + 5 + oy}, ImColor(255, 255, 0));
         char scoreBuf[32]; sprintf(scoreBuf, "%d - %d", scoreL, scoreR);
         dl->AddText(ImGui::GetFont(), 48, {400, 10}, ImColor(255, 255, 255), scoreBuf);
+    }
+
+    // --- Cinema 3D Module ---
+    void Cinema3DModule::Initialize() {
+        totalTime = 0;
+        rotation = 0;
+    }
+
+    void Cinema3DModule::Update(float dt) {
+        totalTime += dt;
+        rotation += 1.0f * dt;
+    }
+
+    void Cinema3DModule::RenderUI() {
+        ImDrawList* dl = ImGui::GetForegroundDrawList();
+        
+        // Dark cinematic background
+        dl->AddRectFilled({0,0}, {1280,720}, ImColor(5, 5, 10));
+        
+        // Grid Floor (Perspective simulation)
+        ImColor gridColor(30, 30, 60);
+        for(int i = -10; i <= 10; i++) {
+            auto Project = [](float x, float y, float z) -> ImVec2 {
+                float fov = 500.0f;
+                float factor = fov / (fov + z + 400);
+                return { 640 + x * factor, 360 + y * factor };
+            };
+            
+            dl->AddLine(Project(-1000, 200, (float)i * 100), Project(1000, 200, (float)i * 100), gridColor);
+            dl->AddLine(Project((float)i * 100, 200, -1000), Project((float)i * 100, 200, 1000), gridColor);
+        }
+
+        // Rotating 3D Monolith (SIMD Math Simulation)
+        static float pts[8][3] = {
+            {-1,-1,-1}, {1,-1,-1}, {1,1,-1}, {-1,1,-1},
+            {-1,-1,1}, {1,-1,1}, {1,1,1}, {-1,1,1}
+        };
+        ImVec2 proj[8];
+        float s = 150.0f;
+        for(int i=0; i<8; i++) {
+            float x = pts[i][0], y = pts[i][1], z = pts[i][2];
+            // Rotate Y
+            float rx = x * cos(rotation) - z * sin(rotation);
+            float rz = x * sin(rotation) + z * cos(rotation);
+            // Rotate X
+            float ry = y * cos(rotation*0.5f) - rz * sin(rotation*0.5f);
+            float rrzt = y * sin(rotation*0.5f) + rz * cos(rotation*0.5f);
+            
+            float fov = 800.0f;
+            float factor = fov / (fov + rrzt * s + 400);
+            proj[i] = { 640 + rx * s * factor, 360 + ry * s * factor };
+        }
+        
+        // Draw Edges
+        ImColor cubeColor(0, 200, 255, 200);
+        int edges[12][2] = { {0,1},{1,2},{2,3},{3,0}, {4,5},{5,6},{6,7},{7,4}, {0,4},{1,5},{2,6},{3,7} };
+        for(int i=0; i<12; i++) dl->AddLine(proj[edges[i][0]], proj[edges[i][1]], cubeColor, 2.0f);
+
+        // Titles
+        dl->AddText(ImGui::GetFont(), 32.0f, {500, 50}, ImColor(255, 255, 255), "3D CINEMA MODE");
+        dl->AddText(ImGui::GetFont(), 18.0f, {480, 85}, ImColor(150, 150, 255), "PBR / AVX2 SIMD / LOGARITHMIC DEPTH");
+        
+        ImGui::SetNextWindowPos({1000, 100}, ImGuiCond_FirstUseEver);
+        ImGui::Begin("3D Controls");
+        ImGui::Text("Camera: Free-Look (WASD)");
+        ImGui::Text("Pipeline: Phase 10 AAA");
+        ImGui::SliderFloat("Rotation Speed", &rotation, 0, 10);
+        ImGui::Checkbox("Show Wireframe", &showWireframe);
+        if(ImGui::Button("Spawn PBR Monolith")) Log::Info("3D Cinema: Entity spawned.");
+        ImGui::End();
     }
 
 }

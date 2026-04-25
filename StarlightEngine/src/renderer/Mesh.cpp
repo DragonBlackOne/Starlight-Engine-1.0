@@ -1,5 +1,7 @@
 // Este projeto é feito por IA e só o prompt é feito por um humano.
 #include "Mesh.hpp"
+#include <memory>
+#include <vector>
 
 namespace starlight {
     Mesh::Mesh(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices) {

@@ -57,6 +57,7 @@ namespace starlight {
         float ao = 1.0f;
         
         bool isPBR = false;
+        bool isTransparent = false;
 
         void Apply() {
             if (!shader) return;

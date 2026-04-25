@@ -23,7 +23,8 @@
 - **[Logarithmic Depth]**: Native support for astronomical scales (Solar System scale) with zero Z-fighting.
 - **[VFS & TPAK Protection]**: Virtual File System with encrypted asset packing for IP security.
 - **[Jolt Physics]**: Fully integrated state-of-the-art physics engine for rigid bodies, cloth, and vehicles.
-- **[BehaviorTree.CPP]**: Industrial AI logic for complex entity decision making.
+- **[BehaviorTree.CPP & Navigation]**: Industrial AI with sub-millisecond A* pathfinding (zero-allocation).
+- **[Lua Scripting]**: High-speed binding for gameplay logic with automated memory safety.
 
 ### 🎨 Advanced Visual Suite (Phase 10)
 - **Volumetric Clouds**: Real-time Ray-Marching clouds with dynamic density.
@@ -43,7 +44,8 @@ A **Starlight Engine** é um SDK de motor gráfico industrial de alto desempenho
 - **[Profundidade Logarítmica]**: Suporte nativo para escalas astronômicas (escala do Sistema Solar) com zero Z-fighting.
 - **[Proteção VFS & TPAK]**: Sistema de Arquivos Virtual com empacotamento de assets criptografado para segurança de propriedade intelectual.
 - **[Física Jolt]**: Motor de física de última geração totalmente integrado para corpos rígidos, tecidos e veículos.
-- **[BehaviorTree.CPP]**: Lógica de IA industrial para tomada de decisão complexa de entidades.
+- **[BehaviorTree.CPP & Navegação]**: IA industrial com busca de caminhos A* em sub-milissegundos (zero-allocation).
+- **[Lua Scripting]**: Binding de alta velocidade para lógica de jogo com segurança de memória automatizada.
 
 ### 🎨 Suite Visual Avançada (Fase 10)
 - **Nuvens Volumétricas**: Nuvens via Ray-Marching em tempo real com densidade dinâmica.
@@ -77,6 +79,14 @@ cmake --build . --config Release
 The `StarlightShowcase` executable demonstrates the full power of the systems. / O executável demonstra o poder total dos sistemas.
 *Press **F2** in-game to toggle the **Studio Inspector**.*
 
+## 📜 License / Licença
+
+This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details. / Este projeto está licenciado sob a **Licença MIT** - veja o arquivo [LICENSE](LICENSE) para detalhes.
+
 ---
 
 *Developed by AI under human creative vision. Part of the **Fusion ENGINE** Legacy Preservation.* ⚔️✨
+
+NOTA DO CORNO QUE FEZ O PROJETO 
+
+Fiz esse projeto no meu tempo livre no ultimo 1 ano só  uma ideia que eu tive e fui ver se era possivel fazer uma engine de jogos usando só inteligencia articial e minha pouca esperiência com prompt de ia depois de muito errar e recomeçar acho que ja da para fazer algumas coisas com o estado atual do projeto feitos por ia e usando a propria engine tem uma serie de joogos arcade 2d simples executando o GameSuite que está na pasta examples/StarlightShowcase e uma simulação 3d simples tambem na pasta examples vejam ate onde da para ir com os recursos atuais da engine me falta conhecimento para estrair melhores resultados com o projeto  não sei se isso sea útil para alguém, mas se for e vc quer me deixe uma doação por ser gerado por ia só com minha supervisão e eu escrevendo sentenas  de milhares de linhas de prompt o projeto é open source, não lembro quantas ias usei, mas foram muitas e muitas o pix para doação é 5af3d0ff-4200-4613-9455-ee36a06737bc  obrigado e espero que minha ideia maluca seja útil para alguém

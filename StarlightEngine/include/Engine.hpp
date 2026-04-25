@@ -69,7 +69,7 @@ namespace starlight {
         std::unique_ptr<AudioSystem> m_audio;
         std::unique_ptr<NetworkSystem> m_network;
         std::unique_ptr<NavigationSystem> m_nav;
-        std::unique_ptr<EditorSystem> m_editor;
+        EditorSystem* m_editor;
         std::unique_ptr<FileWatcher> m_fileWatcher;
         
         SceneStack m_sceneStack;

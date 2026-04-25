@@ -22,6 +22,10 @@ namespace starlight {
         std::shared_ptr<Mesh> mesh;
         std::shared_ptr<Shader> shader;
         glm::mat4 transform;
+        glm::vec3 albedo = glm::vec3(1.0f);
+        float metallic = 0.0f;
+        float roughness = 0.5f;
+        float ao = 1.0f;
     };
 
     class Renderer {
@@ -32,9 +36,11 @@ namespace starlight {
         void Initialize();
         void UpdateProjection(float fov, float aspect, float nearP, float farP);
         void SetViewMatrix(const glm::mat4& view) { m_view = view; }
+        TransformComponent& GetCameraTransform() { return m_cameraTransform; }
         
         void BeginFrame();
         void Submit(const RenderCommand& command);
+        void SubmitForward(const RenderCommand& command);
         void EndFrame();
 
         void RenderRegistry(entt::registry& registry);
@@ -59,6 +65,7 @@ namespace starlight {
     private:
         glm::mat4 m_view, m_projectionMatrix;
         std::vector<RenderCommand> m_commandBuffer;
+        std::vector<RenderCommand> m_forwardCommandBuffer;
         
         // FBO and Post Processing
         uint32_t m_fbo = 0;
@@ -85,6 +92,22 @@ namespace starlight {
         std::shared_ptr<Mesh> m_quadMesh;
         std::shared_ptr<Mesh> m_cubeMesh;
 
+        // G-Buffer for Deferred Rendering
+        uint32_t m_gBuffer = 0;
+        uint32_t m_gPosition = 0, m_gNormal = 0, m_gAlbedoSpec = 0, m_gRoughnessAO = 0;
+        std::shared_ptr<Shader> m_deferredLightShader;
+        std::shared_ptr<Shader> m_gbufferShader;
+        std::shared_ptr<Shader> m_skyboxShader;
+        uint32_t m_skyboxCubemap = 0;
+
+    public:
+        // Volumetric Clouds
+        float m_cloudCoverage = 0.5f;
+        float m_cloudDensity = 0.05f;
+
+        std::shared_ptr<Shader> m_cloudShader;
+        std::shared_ptr<Shader> m_screenShader;
+        
         // Specialized Systems
         std::unique_ptr<ShadowSystem> m_shadowSystem;
         std::unique_ptr<SSAO_System> m_ssaoSystem;
@@ -100,5 +123,11 @@ namespace starlight {
 
         // Escala 10 TrilhÃµes
         std::unique_ptr<RenderGraph> m_renderGraph;
+
+        // Cached Lights for Deferred Pass
+        std::vector<glm::vec3> m_lastLightPositions;
+        std::vector<glm::vec3> m_lastLightColors;
+
+        TransformComponent m_cameraTransform;
     };
 }
