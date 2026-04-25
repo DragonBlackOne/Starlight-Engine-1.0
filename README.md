@@ -79,6 +79,18 @@ cmake --build . --config Release
 The `StarlightShowcase` executable demonstrates the full power of the systems. / O executável demonstra o poder total dos sistemas.
 *Press **F2** in-game to toggle the **Studio Inspector**.*
 
+---
+
+## 🚀 Developing Your Project / Desenvolvendo seu Projeto
+
+**English:**
+To start your own game, use the `create_project.ps1` script inside the `StarlightEngine` folder. It will generate a clean workspace with a C++ entry point and Lua support. Use **F2** in-game to access the real-time editor.
+
+**Português:**
+Para começar seu próprio jogo, use o script `create_project.ps1` dentro da pasta `StarlightEngine`. Ele criará um espaço de trabalho limpo com um ponto de entrada C++ e suporte a Lua. Use **F2** dentro do jogo para acessar o editor em tempo real.
+
+---
+
 ## 📜 License / Licença
 
 This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details. / Este projeto está licenciado sob a **Licença MIT** - veja o arquivo [LICENSE](LICENSE) para detalhes.
@@ -89,4 +101,4 @@ This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) 
 
 NOTA DO CORNO QUE FEZ O PROJETO 
 
-Fiz esse projeto no meu tempo livre no ultimo 1 ano só  uma ideia que eu tive e fui ver se era possivel fazer uma engine de jogos usando só inteligencia articial e minha pouca esperiência com prompt de ia depois de muito errar e recomeçar acho que ja da para fazer algumas coisas com o estado atual do projeto feitos por ia e usando a propria engine tem uma serie de joogos arcade 2d simples executando o GameSuite que está na pasta examples/StarlightShowcase e uma simulação 3d simples tambem na pasta examples vejam ate onde da para ir com os recursos atuais da engine me falta conhecimento para estrair melhores resultados com o projeto  não sei se isso sea útil para alguém, mas se for e vc quer me deixe uma doação por ser gerado por ia só com minha supervisão e eu escrevendo sentenas  de milhares de linhas de prompt o projeto é open source, não lembro quantas ias usei, mas foram muitas e muitas o pix para doação é 5af3d0ff-4200-4613-9455-ee36a06737bc  obrigado e espero que minha ideia maluca seja útil para alguém
+Fiz esse projeto no meu tempo livre no ultimo 1 ano só  uma ideia que eu tive e fui ver se era possivel fazer uma engine de jogos usando só inteligencia articial e minha pouca esperiência com prompt de ia depois de muito errar e recomeçar acho que ja da para fazer algumas coisas com o estado atual do projeto feitos por ia e usando a propria engine tem uma serie de joogos arcade 2d simples executando o GameSuite que está na pasta examples/StarlightShowcase e uma simulação 3d simples tambem na pasta examples vejam ate onde da para ir com os recursos atuais da engine me falta conhecimento para estrair melhores resultados com o projeto  não sei se isso sea útil para alguém, mas se for e você quizer  me deixe uma doação por ser gerado por ia só com minha supervisão e eu escrevendo sentenas  de milhares de linhas de prompt o projeto é open source, não lembro quantas ias usei, mas foram muitas e muitas o pix para doação é 5af3d0ff-4200-4613-9455-ee36a06737bc  obrigado e espero que minha ideia maluca seja útil para alguém
