@@ -41,6 +41,7 @@ namespace starlight {
 
         // Modularity
         void AddModule(std::shared_ptr<EngineModule> module);
+        std::vector<std::shared_ptr<EngineModule>>& GetModules() { return m_modules; }
         SceneStack& GetSceneStack() { return m_sceneStack; }
 
         Window& GetWindow() { return *m_window; }

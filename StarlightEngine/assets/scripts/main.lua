@@ -1,87 +1,54 @@
--- Celestial Nexus: 3D Showcase Script
--- Starlight Engine Pure Showcase Mode
-
-local Monolith = nil
+-- Celestial Nexus: 3D Showcase Script (Migrated to SBA)
 local Crystals = {}
-local LightEntities = {}
 local Time = 0
 
 function OnStart()
-    print("Celestial Nexus: Awakening Core...")
+    Say("Celestial Nexus: SBA Core Awakening...")
     
-    -- 1. Create the Sovereign Monolith (Center)
-    Monolith = Entity.Create()
-    local mt = Monolith:GetTransform()
-    mt.position = vec3(0, 0, 0)
-    mt.scale = vec3(1.5, 4.0, 1.5)
+    -- 1. Sovereign Monolith
+    Monolith = Object("Monolith", 0, 0, 0)
+    SetScale(Monolith, 1.5, 4.0, 1.5)
+    SetColor(Monolith, 0.1, 0.4, 0.8)
     
-    local mm = Monolith:GetMesh()
-    mm.color = vec3(0.1, 0.4, 0.8) -- Deep Ether Blue
-    mm.metallic = 0.9
-    mm.roughness = 0.1
-    
-    -- 2. Create the 8 Orbital Crystals
+    -- 2. Orbital Crystals
     for i = 1, 8 do
-        local crystal = Entity.Create()
-        local ct = crystal:GetTransform()
         local angle = (i-1) * (math.pi * 2 / 8)
-        ct.position = vec3(math.cos(angle) * 6, math.sin(angle * 0.5) * 2, math.sin(angle) * 6)
-        ct.scale = vec3(0.4, 0.8, 0.4)
+        local x = math.cos(angle) * 6
+        local z = math.sin(angle) * 6
         
-        local cm = crystal:GetMesh()
-        cm.color = vec3(0.0, 1.0, 1.0) -- Cyan Glow
-        cm.metallic = 1.0
-        cm.roughness = 0.05
+        local crystal = Object("Crystal", x, 2, z)
+        SetScale(crystal, 0.4, 0.8, 0.4)
+        SetColor(crystal, 0.0, 1.0, 1.0)
         
-        -- Add a light to each crystal (SUPER INTENSE)
-        local light = Entity.Create()
-        local lt = light:GetTransform()
-        lt.position = ct.position
-        local lc = light:GetLight()
-        lc.color = vec3(0.0, 0.8, 1.0)
-        lc.intensity = 500.0 -- Was 100.0, now much brighter
+        -- Intense SBA Light
+        SetLight(crystal, 0.0, 0.8, 1.0, 500)
         
         Crystals[i] = crystal
-        LightEntities[i] = light
     end
 
-    -- 3. Position the Camera (Move back so we can see everything)
-    local cam = Camera.GetPrimary()
-    if cam then
-        local ct = cam:GetTransform()
-        ct.position = vec3(0, 5, 20) -- Move camera back and up
-    end
+    -- 3. Camera Position
+    local cam = Engine:get_renderer():get_camera_transform()
+    cam.position = vec3(0, 5, 20)
 end
 
 function OnUpdate(dt)
     Time = Time + dt
     
-    -- Rotate Monolith slowly
     if Monolith then
-        local mt = Monolith:GetTransform()
-        mt.rotation = mt.rotation * quat.euler(0, dt * 0.2, 0)
+        Rotate(Monolith, 0, dt * 0.2, 0)
     end
     
-    -- Orbit Crystals
     for i = 1, #Crystals do
-        local crystal = Crystals[i]
-        local light = LightEntities[i]
-        local ct = crystal:GetTransform()
-        local lt = light:GetTransform()
-        
-        local angle = ((i-1) * (math.pi * 2 / 8)) + (Time * 0.5)
-        local radius = 7.0 + math.sin(Time + i) * 1.5
-        
-        local newPos = vec3(
-            math.cos(angle) * radius,
-            math.sin(Time * 0.7 + i) * 3.0,
-            math.sin(angle) * radius
-        )
-        
-        ct.position = newPos
-        lt.position = newPos
-        
-        -- Correct rotation to face center
-        ct.rotation = quat.euler(Time * 2, angle, 0)
+        local crys = Crystals[i]
+        if crys then
+            local angle = ((i-1) * (math.pi * 2 / 8)) + (Time * 0.5)
+            local radius = 7.0 + math.sin(Time + i) * 1.5
+            local x = math.cos(angle) * radius
+            local y = math.sin(Time * 0.7 + i) * 3.0
+            local z = math.sin(angle) * radius
+            
+            SetPos(crys, x, y, z)
+            Rotate(crys, dt * 2, 0, 0)
+        end
     end
 end

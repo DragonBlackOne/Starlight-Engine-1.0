@@ -43,7 +43,24 @@ Pressione **F2** durante a execução para alternar entre o **Edit Mode** e o **
 - **Edit Mode**: Câmera livre (WASD + Botão Direito), inspeção de entidades e console de logs.
 - **Game Mode**: Execução completa de lógica Lua e sistemas dinâmicos.
 
-## 🚀 Desenvolvendo seu Primeiro Jogo
+## 🚀 Desenvolvimento Ultra-Rápido (SBA API)
+
+Para iniciantes, a Starlight Engine oferece a **SBA (Starlight Beginner API)**, permitindo criar jogos em Lua com comandos simples:
+
+```lua
+function OnStart()
+    player = Object("Player", 0, 0, 0)
+    SetColor(player, 0, 1, 1)
+end
+
+function OnUpdate(dt)
+    if IsDown("up") then Move(player, 0, 0, -10 * dt) end
+end
+```
+
+Veja `assets/scripts/beginner_tutorial.lua`.
+
+## 🛠️ Como Desenvolver seu Primeiro Jogo
 
 ### 1. Criar um Novo Projeto
 Use o script de automação para gerar a estrutura base do seu jogo:

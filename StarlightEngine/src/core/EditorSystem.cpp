@@ -11,6 +11,8 @@
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_opengl3.h"
 #include <filesystem>
+#include "GameSuite.hpp"
+#include "Arcade25D.hpp"
 
 namespace starlight {
 
@@ -138,11 +140,67 @@ namespace starlight {
     }
 
     void EditorSystem::RenderUI() {
-        // --- UI COMPLETELY DISABLED FOR PURE SHOWCASE ---
-        /*
         if (!m_active) return;
-        // ... rest of the code ...
-        */
+
+        DrawMenuBar();
+        
+        ImGuiViewport* viewport = ImGui::GetMainViewport();
+        ImGui::SetNextWindowPos(viewport->WorkPos);
+        ImGui::SetNextWindowSize(viewport->WorkSize);
+        ImGui::SetNextWindowViewport(viewport->ID);
+        
+        ImGuiWindowFlags window_flags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+        window_flags |= ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoMove;
+        window_flags |= ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_NoNavFocus;
+
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowRounding, 0.0f);
+        ImGui::PushStyleVar(ImGuiStyleVar_WindowBorderSize, 0.0f);
+        ImGui::Begin("DockSpace", nullptr, window_flags);
+        ImGui::PopStyleVar(2);
+
+        ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
+        ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), ImGuiDockNodeFlags_None);
+
+        DrawToolbar();
+        DrawHierarchy();
+        DrawInspector();
+        DrawAssetBrowser();
+        DrawConsole();
+        DrawViewport();
+        DrawProfiler();
+        DrawPostProcessing();
+        DrawDashboard(); // NEW: For Game Selection
+
+        ImGui::End();
+    }
+
+    void EditorSystem::DrawDashboard() {
+        ImGui::Begin("Starlight Arcade Dashboard");
+        ImGui::Text("Switch between 2D Game Modules:");
+        ImGui::Separator();
+
+        static std::vector<std::shared_ptr<EngineModule>> gameModules;
+        static bool initialized = false;
+        if (!initialized) {
+            gameModules.push_back(std::make_shared<InvadersModule>());
+            gameModules.push_back(std::make_shared<BreakoutModule>());
+            gameModules.push_back(std::make_shared<RunnerModule>());
+            gameModules.push_back(std::make_shared<SnakeModule>());
+            gameModules.push_back(std::make_shared<RicocheteModule>());
+            gameModules.push_back(std::make_shared<Cinema3DModule>());
+            gameModules.push_back(std::make_shared<Arcade25DModule>());
+            initialized = true;
+        }
+
+        for (auto& mod : gameModules) {
+            if (ImGui::Button(mod->GetName().c_str(), ImVec2(-1, 40))) {
+                // Clear existing modules and add new one
+                auto& engine = Engine::Get();
+                engine.GetModules().clear();
+                engine.AddModule(mod);
+            }
+        }
+        ImGui::End();
     }
     
     void EditorSystem::DrawViewport() {

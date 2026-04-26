@@ -81,7 +81,25 @@ The `StarlightShowcase` executable demonstrates the full power of the systems. /
 
 ---
 
-## 🚀 Developing Your Project / Desenvolvendo seu Projeto
+## 🚀 Desenvolvimento Ultra-Rápido (SBA API)
+
+Para iniciantes, a Starlight Engine oferece a **SBA (Starlight Beginner API)**, permitindo criar jogos em Lua com comandos simples:
+
+```lua
+function OnStart()
+    player = Object("Player", 0, 0, 0)
+    SetColor(player, 0, 1, 1)
+end
+
+function OnUpdate(dt)
+    if IsDown("up") then Move(player, 0, 0, -10 * dt) end
+    Sound(440, 0.01) -- Feedback sonoro constante!
+end
+```
+
+Confira o arquivo `assets/scripts/beginner_tutorial.lua` para um exemplo completo.
+
+## 🛠️ Como Desenvolver um Jogo
 
 **English:**
 To start your own game, use the `create_project.ps1` script inside the `StarlightEngine` folder. It will generate a clean workspace with a C++ entry point and Lua support. Use **F2** in-game to access the real-time editor.

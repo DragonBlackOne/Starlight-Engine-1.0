@@ -19,6 +19,19 @@ namespace starlight {
         BindAction("MoveLeft", SDL_SCANCODE_A);
         BindAction("MoveRight", SDL_SCANCODE_D);
         BindAction("EditorToggle", SDL_SCANCODE_F2);
+        
+        // Universal SBA Bindings
+        BindAction("W", SDL_SCANCODE_W); BindAction("A", SDL_SCANCODE_A);
+        BindAction("S", SDL_SCANCODE_S); BindAction("D", SDL_SCANCODE_D);
+        BindAction("Space", SDL_SCANCODE_SPACE);
+        BindAction("Escape", SDL_SCANCODE_ESCAPE);
+        
+        // Numeric Keys for Menus
+        BindAction("1", SDL_SCANCODE_1); BindAction("2", SDL_SCANCODE_2);
+        BindAction("3", SDL_SCANCODE_3); BindAction("4", SDL_SCANCODE_4);
+        BindAction("5", SDL_SCANCODE_5); BindAction("6", SDL_SCANCODE_6);
+        BindAction("7", SDL_SCANCODE_7); BindAction("8", SDL_SCANCODE_8);
+        BindAction("9", SDL_SCANCODE_9); BindAction("0", SDL_SCANCODE_0);
     }
 
     void InputSystem::Update() {

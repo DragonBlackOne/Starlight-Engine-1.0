@@ -6,6 +6,7 @@
 #include "Renderer.hpp"
 #include "NetworkSystem.hpp"
 #include "CameraSystem.hpp"
+#include "GameSuite.hpp"
 
 using namespace starlight;
 
@@ -41,6 +42,9 @@ int main(int argc, char* argv[]) {
 
     auto scene = std::make_shared<ShowcaseScene>();
     engine.GetSceneStack().Push(scene);
+    
+    // Start with a 2D Game Module
+    engine.AddModule(std::make_shared<SnakeModule>());
     
     engine.Run();
     return 0;

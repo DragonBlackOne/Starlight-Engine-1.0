@@ -1,12 +1,22 @@
 // Este projeto é feito por IA e só o prompt é feito por um humano.
 #include "GameSuite.hpp"
+#include "TitanAudio.hpp"
 #include "imgui.h"
 #include "InputSystem.hpp"
 #include "Log.hpp"
+#include "Engine.hpp"
 #include <cmath>
 #include <algorithm>
 
 namespace starlight {
+
+    void ArcadeModule::PlayBeep(float freq, float dur) {
+        Engine::Get().GetAudio().PlayNote(freq, dur, WaveType::Square);
+    }
+
+    void ArcadeModule::PlayExplosion() {
+        Engine::Get().GetAudio().PlayNote(100.0f, 0.2f, WaveType::Noise);
+    }
 
     // --- Invaders Module ---
     void InvadersModule::Initialize() {
@@ -56,6 +66,7 @@ namespace starlight {
                 b.active = true;
                 pBullets.push_back(b);
                 fireTimer = 0.4f;
+                PlayBeep(440, 0.05f);
             }
 
             // Update Bullets
@@ -76,6 +87,7 @@ namespace starlight {
                         score += 100;
                         Emit(e.pos + e.size * 0.5f, glm::vec4(1, 1, 0, 1), 8);
                         shakeTimer = 0.15f;
+                        PlayExplosion();
                         break;
                     }
                 }
@@ -228,6 +240,7 @@ namespace starlight {
                 ballVel.y *= -1.05f;
                 float hit = (ball.pos.x + ball.size.x / 2 - (player.pos.x + player.size.x / 2)) / (player.size.x / 2);
                 ballVel.x = 400 * hit;
+                PlayBeep(523, 0.05f);
             }
 
             // Bricks Collision
@@ -241,6 +254,7 @@ namespace starlight {
                     ballVel.y *= -1;
                     score += 50;
                     Emit(b.pos + b.size * 0.5f, glm::vec4(1, 0.5f, 0, 1), 6);
+                    PlayBeep(880, 0.03f);
                     break;
                 }
             }
@@ -432,6 +446,84 @@ namespace starlight {
         dl->AddRectFilled({ballPos.x - 5 + ox, ballPos.y - 5 + oy}, {ballPos.x + 5 + ox, ballPos.y + 5 + oy}, ImColor(255, 255, 0));
         char scoreBuf[32]; sprintf(scoreBuf, "%d - %d", scoreL, scoreR);
         dl->AddText(ImGui::GetFont(), 48, {400, 10}, ImColor(255, 255, 255), scoreBuf);
+    }
+
+    // --- CyberSnake Implementation ---
+    void SnakeModule::Initialize() {
+        state = 0; score = 0;
+        snake = { {10, 10}, {9, 10}, {8, 10} };
+        dir = {1, 0};
+        SpawnFood();
+    }
+
+    void SnakeModule::SpawnFood() {
+        food = { rand() % 40, rand() % 22 };
+    }
+
+    void SnakeModule::Update(float dt) {
+        if (dt > 0.05f) dt = 0.05f;
+        totalTime += dt;
+
+        if (state == 0) {
+            if (InputSystem::IsKeyPressed(SDL_SCANCODE_RETURN)) state = 1;
+            return;
+        }
+
+        if (state == 1) {
+            if (InputSystem::IsKeyPressed(SDL_SCANCODE_W) && dir.y == 0) dir = {0, -1};
+            if (InputSystem::IsKeyPressed(SDL_SCANCODE_S) && dir.y == 0) dir = {0, 1};
+            if (InputSystem::IsKeyPressed(SDL_SCANCODE_A) && dir.x == 0) dir = {-1, 0};
+            if (InputSystem::IsKeyPressed(SDL_SCANCODE_D) && dir.x == 0) dir = {1, 0};
+
+            moveTimer += dt;
+            if (moveTimer > 0.1f) {
+                moveTimer = 0;
+                Node head = { snake[0].x + (int)dir.x, snake[0].y + (int)dir.y };
+
+                if (head.x < 0 || head.x >= 40 || head.y < 0 || head.y >= 22) { state = 2; PlayExplosion(); return; }
+                for (auto& n : snake) if (n.x == head.x && n.y == head.y) { state = 2; PlayExplosion(); return; }
+
+                snake.insert(snake.begin(), head);
+                if (head.x == food.x && head.y == food.y) {
+                    score += 10;
+                    SpawnFood();
+                    PlayBeep(660, 0.05f);
+                } else {
+                    snake.pop_back();
+                }
+            }
+        }
+    }
+
+    void SnakeModule::RenderUI() {
+        ImDrawList* dl = ImGui::GetForegroundDrawList();
+        dl->AddRectFilled({0,0}, {1280,720}, ImColor(5, 15, 5));
+
+        float size = 30.0f;
+        float ox = 40, oy = 40;
+
+        // Grid
+        for(int i=0; i<41; i++) dl->AddLine({ox + i*size, oy}, {ox + i*size, oy + 22*size}, ImColor(20, 40, 20));
+        for(int i=0; i<23; i++) dl->AddLine({ox, oy + i*size}, {ox + 40*size, oy + i*size}, ImColor(20, 40, 20));
+
+        // Food
+        dl->AddRectFilled({ox + food.x*size + 5, oy + food.y*size + 5}, {ox + (food.x+1)*size - 5, oy + (food.y+1)*size - 5}, ImColor(255, 0, 100));
+
+        // Snake
+        for (size_t i = 0; i < snake.size(); i++) {
+            ImColor col = (i == 0) ? ImColor(0, 255, 0) : ImColor(0, 200, 0);
+            dl->AddRectFilled({ox + snake[i].x*size + 2, oy + snake[i].y*size + 2}, {ox + (snake[i].x+1)*size - 2, oy + (snake[i].y+1)*size - 2}, col);
+        }
+
+        char buf[64]; sprintf(buf, "SCORE: %d", score);
+        dl->AddText({20, 10}, ImColor(255, 255, 255), buf);
+
+        if (state == 0) {
+            dl->AddRectFilled({0, 0}, {1280, 720}, ImColor(0, 0, 0, 180));
+            dl->AddText(ImGui::GetFont(), 64.0f, {450, 300}, ImColor(0, 255, 0), "CYBER SNAKE");
+        } else if (state == 2) {
+            dl->AddText(ImGui::GetFont(), 64.0f, {480, 300}, ImColor(255, 0, 0), "GAME OVER");
+        }
     }
 
     // --- Cinema 3D Module ---

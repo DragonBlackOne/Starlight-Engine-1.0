@@ -95,6 +95,7 @@ if(EXISTS "${STARLIGHT_SDK_ROOT}/examples/StarlightShowcase")
     add_executable(StarlightShowcase 
         ${STARLIGHT_SDK_ROOT}/examples/StarlightShowcase/main.cpp
         ${STARLIGHT_SDK_ROOT}/examples/StarlightShowcase/GameSuite.cpp
+        ${STARLIGHT_SDK_ROOT}/examples/StarlightShowcase/Arcade25D.cpp
     )
     target_link_libraries(StarlightShowcase PRIVATE StarlightCore)
 endif()

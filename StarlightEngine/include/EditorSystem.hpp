@@ -49,6 +49,7 @@ namespace starlight {
         void DrawConsole();
         void DrawPostProcessing();
         void DrawProfiler();
+        void DrawDashboard();
         void SetDarkTheme();
     };
 

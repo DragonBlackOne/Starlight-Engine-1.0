@@ -4,6 +4,7 @@
 #include <vector>
 #include <string>
 #include <glm/glm.hpp>
+#include "TitanAudio.hpp"
 
 namespace starlight {
 
@@ -57,6 +58,9 @@ namespace starlight {
                 shakeX = shakeY = 0;
             }
         }
+
+        void PlayBeep(float freq, float dur);
+        void PlayExplosion();
 
     public:
         virtual ~ArcadeModule() = default;
@@ -119,6 +123,26 @@ namespace starlight {
         float distance = 0;
         int state = 0;
         int score = 0;
+    };
+
+    // --- CyberSnake ---
+    class SnakeModule : public ArcadeModule {
+    public:
+        void Initialize() override;
+        void Update(float dt) override;
+        void RenderUI() override;
+        void Shutdown() override {}
+        std::string GetName() const override { return "CyberSnake"; }
+
+    private:
+        struct Node { int x, y; };
+        std::vector<Node> snake;
+        Node food;
+        glm::vec2 dir = { 1, 0 };
+        float moveTimer = 0;
+        int state = 0;
+        int score = 0;
+        void SpawnFood();
     };
 
     // --- Ricochete ---

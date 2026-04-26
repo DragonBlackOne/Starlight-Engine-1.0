@@ -62,7 +62,7 @@ namespace starlight {
         m_editor->Initialize();
         SSAO_System::Get().Initialize(); // Omega Final Integration
         
-        m_scripting->ExecuteFile("assets/scripts/main.lua");
+        m_scripting->ExecuteFile("assets/scripts/arcade_master.lua");
 
         // Force PlayMode for Pure Showcase
         m_editor->SetPlayMode(true);
@@ -170,6 +170,21 @@ namespace starlight {
         for (auto& module : m_modules) {
             module->Render();
         }
+
+        // --- ImGui Frame ---
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplSDL2_NewFrame();
+        ImGui::NewFrame();
+
+        m_editor->RenderUI();
+        m_scripting->RenderUI();
+
+        for (auto& module : m_modules) {
+            module->RenderUI();
+        }
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 
         m_renderer->EndFrame();
 
