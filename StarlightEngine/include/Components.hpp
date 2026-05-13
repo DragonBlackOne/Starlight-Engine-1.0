@@ -1,12 +1,16 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
 #pragma once
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <string>
 #include <map>
+#pragma warning(push, 0)
+#include <codeanalysis/warnings.h>
+#pragma warning(disable: ALL_CODE_ANALYSIS_WARNINGS)
 #include <Jolt/Jolt.h>
 #include <Jolt/Physics/Body/BodyID.h>
+#pragma warning(pop)
 #include <vector>
 #include <memory>
 #include "Shader.hpp"
@@ -47,7 +51,7 @@ namespace starlight {
         std::shared_ptr<Shader> shader;
         // Basic properties
         glm::vec3 color = {1.0f, 1.0f, 1.0f};
-        uint32_t textureID = 0;
+        uint32_t textureID = 0; // Legacy / Fallback
         bool useTexture = false;
         
         // PBR Properties
@@ -56,6 +60,13 @@ namespace starlight {
         float roughness = 0.5f;
         float ao = 1.0f;
         
+        // PBR Texture Maps (0 = none)
+        uint32_t albedoMap = 0;
+        uint32_t normalMap = 0;
+        uint32_t metallicMap = 0;
+        uint32_t roughnessMap = 0;
+        uint32_t aoMap = 0;
+
         bool isPBR = false;
         bool isTransparent = false;
 
@@ -64,27 +75,72 @@ namespace starlight {
             shader->Use();
             
             if (isPBR) {
-                shader->SetVec3("albedo", albedo);
-                shader->SetFloat("metallic", metallic);
-                shader->SetFloat("roughness", roughness);
-                shader->SetFloat("ao", ao);
+                // Apply PBR uniform values
+                shader->SetVec3U("albedo", albedo);
+                shader->SetFloatU("metallic", metallic);
+                shader->SetFloatU("roughness", roughness);
+                shader->SetFloatU("ao", ao);
+
+                // Bind PBR Maps if they exist
+                int textureUnit = 0;
+
+                shader->SetIntU("hasAlbedoMap", albedoMap ? 1 : 0);
+                if (albedoMap) {
+                    glActiveTexture(GL_TEXTURE0 + textureUnit);
+                    glBindTexture(GL_TEXTURE_2D, albedoMap);
+                    shader->SetIntU("albedoMap", textureUnit);
+                    textureUnit++;
+                }
+
+                shader->SetIntU("hasNormalMap", normalMap ? 1 : 0);
+                if (normalMap) {
+                    glActiveTexture(GL_TEXTURE0 + textureUnit);
+                    glBindTexture(GL_TEXTURE_2D, normalMap);
+                    shader->SetIntU("normalMap", textureUnit);
+                    textureUnit++;
+                }
+
+                shader->SetIntU("hasMetallicMap", metallicMap ? 1 : 0);
+                if (metallicMap) {
+                    glActiveTexture(GL_TEXTURE0 + textureUnit);
+                    glBindTexture(GL_TEXTURE_2D, metallicMap);
+                    shader->SetIntU("metallicMap", textureUnit);
+                    textureUnit++;
+                }
+
+                shader->SetIntU("hasRoughnessMap", roughnessMap ? 1 : 0);
+                if (roughnessMap) {
+                    glActiveTexture(GL_TEXTURE0 + textureUnit);
+                    glBindTexture(GL_TEXTURE_2D, roughnessMap);
+                    shader->SetIntU("roughnessMap", textureUnit);
+                    textureUnit++;
+                }
+
+                shader->SetIntU("hasAOMap", aoMap ? 1 : 0);
+                if (aoMap) {
+                    glActiveTexture(GL_TEXTURE0 + textureUnit);
+                    glBindTexture(GL_TEXTURE_2D, aoMap);
+                    shader->SetIntU("aoMap", textureUnit);
+                    textureUnit++;
+                }
             } else {
-                shader->SetVec3("uColor", color);
-                shader->SetInt("uUseTexture", useTexture ? 1 : 0);
+                // Legacy Rendering
+                shader->SetVec3U("uColor", color);
+                shader->SetIntU("uUseTexture", useTexture ? 1 : 0);
                 if (useTexture) {
                     glActiveTexture(GL_TEXTURE0);
                     glBindTexture(GL_TEXTURE_2D, textureID);
-                    shader->SetInt("uTexture", 0);
+                    shader->SetIntU("uTexture", 0);
                 }
             }
         }
     };
 
     struct MeshComponent {
-        std::shared_ptr<Mesh> mesh;
         Material material;
-        float boundingRadius = 1.0f; // Para Frustum Culling esfÃ©rico rÃ¡pido
-        bool isVisible = true;       // Escrita atÃ´mica ou bool para culling multithread
+        std::shared_ptr<Mesh> mesh;
+        float boundingRadius = 1.0f;
+        bool isVisible = true;
     };
 
     struct PointLightComponent {

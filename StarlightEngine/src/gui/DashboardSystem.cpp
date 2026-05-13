@@ -1,6 +1,7 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "DashboardSystem.hpp"
 #include "Renderer.hpp"
+#include "InputSystem.hpp"
 #include "Engine.hpp"
 #include "Log.hpp"
 #include <glm/gtc/matrix_transform.hpp>
@@ -9,7 +10,13 @@
 #include <stdlib.h>
 
 #define STB_TRUETYPE_IMPLEMENTATION
+#include "imgui_impl_opengl3.h"
+#include <SDL2/SDL.h>
+#pragma warning(push, 0)
+#include <codeanalysis/warnings.h>
+#pragma warning(disable: ALL_CODE_ANALYSIS_WARNINGS)
 #include "stb_truetype.h"
+#pragma warning(pop)
 
 namespace starlight {
 
@@ -21,13 +28,14 @@ namespace starlight {
         if (m_fontVbo) glDeleteBuffers(1, &m_fontVbo);
     }
 
-    void DashboardSystem::Initialize() {
+    bool DashboardSystem::OnInitialize(const EngineContext& context) {
+        (void)context;
         // Load font
         FILE* file;
         fopen_s(&file, "C:/Windows/Fonts/arial.ttf", "rb");
         if (!file) {
             Log::Error("DashboardSystem: Failed to open C:/Windows/Fonts/arial.ttf");
-            return;
+            return false;
         }
 
         fseek(file, 0, SEEK_END);
@@ -61,6 +69,7 @@ namespace starlight {
         glEnableVertexAttribArray(2);
         glVertexAttribPointer(2, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
         glBindVertexArray(0);
+        return true;
     }
 
     void DashboardSystem::Begin(int width, int height) {
@@ -72,10 +81,10 @@ namespace starlight {
     bool DashboardSystem::Button(const std::string& label, float x, float y, float w, float h) {
         if (!m_enabled) return false;
 
-        int mx, my;
-        uint32_t mouseState = SDL_GetMouseState(&mx, &my);
-        bool hover = (mx >= x && mx <= x + w && my >= y && my <= y + h);
-        bool click = hover && (mouseState & SDL_BUTTON(SDL_BUTTON_LEFT));
+        auto& input = Engine::Get().GetInput();
+        glm::vec2 mpos = input.GetMousePosition();
+        bool hover = (mpos.x >= x && mpos.x <= x + w && mpos.y >= y && mpos.y <= y + h);
+        bool click = hover && input.IsActionPressed("MouseLeft"); // Assuming binding
 
         glm::vec4 color = glm::vec4(0.2f, 0.2f, 0.25f, 0.9f);
         if (hover) color = glm::vec4(0.3f, 0.3f, 0.4f, 1.0f);
@@ -94,19 +103,26 @@ namespace starlight {
 
     void DashboardSystem::Panel(float x, float y, float w, float h, const glm::vec4& color) {
         if (!m_enabled) return;
-        m_commands.push_back({ UICommand::PANEL, x, y, w, h, color, "" });
+        
+        // Add a subtle neon border
+        glm::vec4 borderColor = {0.0f, 0.8f, 1.0f, 0.5f}; // Cyan glow
+        m_commands.push_back({UICommand::PANEL, x-2, y-2, w+4, h+4, borderColor, ""});
+        
+        m_commands.push_back({UICommand::PANEL, x, y, w, h, color, ""});
     }
 
     void DashboardSystem::End(Renderer& renderer) {
         if (!m_enabled || m_commands.empty()) return;
 
-        glm::mat4 projection = glm::ortho(0.0f, (float)m_width, (float)m_height, 0.0f, -1.0f, 1.0f);
+        glBindFramebuffer(GL_FRAMEBUFFER, 0);
+        glViewport(0, 0, 1600, 900);
+        glm::mat4 projection = glm::ortho(0.0f, 1600.0f, 900.0f, 0.0f, -1.0f, 1.0f);
         auto shader = renderer.GetUIShader();
         if(!shader) return;
 
         shader->Use();
-        shader->SetMat4("view", glm::mat4(1.0f));
-        shader->SetMat4("projection", projection);
+        shader->SetMat4U("view", glm::mat4(1.0f));
+        shader->SetMat4U("projection", projection);
 
         glDisable(GL_DEPTH_TEST);
         glEnable(GL_BLEND);
@@ -114,23 +130,24 @@ namespace starlight {
 
         for (const auto& cmd : m_commands) {
             if (cmd.type == UICommand::PANEL || cmd.type == UICommand::BUTTON) {
-                shader->SetInt("uUseTexture", 0);
-                glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(cmd.x + cmd.w/2, cmd.y + cmd.h/2, 0.0f));
-                model = glm::scale(model, glm::vec3(cmd.w, cmd.h, 1.0f));
+                shader->SetIntU("uUseTexture", 0);
+                // Quad is -1 to 1 (size 2). Scale by w/2, h/2 to get w, h.
+                glm::mat4 model = glm::translate(glm::mat4(1.0f), glm::vec3(cmd.x + cmd.w/2.0f, cmd.y + cmd.h/2.0f, 0.0f));
+                model = glm::scale(model, glm::vec3(cmd.w / 2.0f, cmd.h / 2.0f, 1.0f));
                 
-                shader->SetMat4("model", model);
-                shader->SetVec4("uColor", cmd.color);
-                renderer.GetCubeMesh()->Draw(); 
+                shader->SetMat4U("model", model);
+                shader->SetVec4U("uColor", cmd.color);
+                renderer.GetQuadMesh()->Draw(); 
             }
             else if (cmd.type == UICommand::LABEL) {
                 if (!m_fontTexture) continue;
-                shader->SetInt("uUseTexture", 1);
-                shader->SetVec4("uColor", cmd.color);
-                shader->SetMat4("model", glm::mat4(1.0f));
+                shader->SetIntU("uUseTexture", 1);
+                shader->SetVec4U("uColor", cmd.color);
+                shader->SetMat4U("model", glm::mat4(1.0f));
                 
                 glActiveTexture(GL_TEXTURE0);
                 glBindTexture(GL_TEXTURE_2D, m_fontTexture);
-                shader->SetInt("uTexture", 0);
+                shader->SetIntU("uTexture", 0);
 
                 glBindVertexArray(m_fontVao);
                 glBindBuffer(GL_ARRAY_BUFFER, m_fontVbo);

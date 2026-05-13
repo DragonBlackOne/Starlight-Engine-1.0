@@ -1,4 +1,4 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "SceneSerializer.hpp"
 #include "CoreMinimal.hpp"
 #include "Components.hpp"
@@ -27,15 +27,16 @@ namespace starlight {
     // =========================================================================
     //  SAVE
     // =========================================================================
-    void SceneSerializer::SaveToFile(Scene& scene, const std::string& filepath) {
-        auto& registry = scene.GetRegistry();
+    void SceneSerializer::SaveToFile(const Scene& scene, const std::string& filepath) {
+        const auto& registry = scene.GetRegistry();
         json root;
         root["titan_version"] = "1.0.0";
         root["scene"] = json::array();
 
-        auto& storage = registry.storage<entt::entity>();
-        for (auto it = storage.begin(); it != storage.end(); ++it) {
-            entt::entity entity = *it;
+        const auto* storage = registry.storage<entt::entity>();
+        if (storage) {
+            for (auto it = storage->begin(); it != storage->end(); ++it) {
+                entt::entity entity = *it;
             json entityObj;
             entityObj["id"] = static_cast<uint32_t>(entity);
 
@@ -97,6 +98,7 @@ namespace starlight {
 
             root["scene"].push_back(entityObj);
         }
+        }
 
         std::ofstream file(filepath);
         if (file.is_open()) {
@@ -154,7 +156,7 @@ namespace starlight {
                 c.primary = cj["primary"].get<bool>();
             }
 
-            // MeshComponent (material only â€” mesh assignment must be done by the module)
+            // MeshComponent (material only ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â mesh assignment must be done by the module)
             if (entityObj.contains("material")) {
                 auto& mj = entityObj["material"];
                 auto& mc = registry.emplace<MeshComponent>(entity);

@@ -1,4 +1,4 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "ShadowSystem.hpp"
 #include "Log.hpp"
 #include <glm/gtc/matrix_transform.hpp>
@@ -40,14 +40,14 @@ namespace starlight {
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
         m_shadowShader = std::make_shared<Shader>(
-            "#version 450 core\n"
+            "#version 410 core\n"
             "layout (location = 0) in vec3 aPos;\n"
             "uniform mat4 lightSpaceMatrix;\n"
             "uniform mat4 model;\n"
             "void main() {\n"
             "    gl_Position = lightSpaceMatrix * model * vec4(aPos, 1.0);\n"
             "}\n",
-            "#version 450 core\n"
+            "#version 410 core\n"
             "void main() {}"
         );
         
@@ -117,7 +117,7 @@ namespace starlight {
         glFramebufferTextureLayer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, m_depthTextureArray, 0, cascadeIndex);
         glClear(GL_DEPTH_BUFFER_BIT);
         m_shadowShader->Use();
-        m_shadowShader->SetMat4("lightSpaceMatrix", m_lightSpaceMatrices[cascadeIndex]);
+        m_shadowShader->SetMat4U("lightSpaceMatrix", m_lightSpaceMatrices[cascadeIndex]);
     }
 
     void ShadowSystem::EndPass(int screenWidth, int screenHeight) {

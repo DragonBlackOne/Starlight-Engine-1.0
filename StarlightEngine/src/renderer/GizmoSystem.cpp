@@ -1,4 +1,4 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "GizmoSystem.hpp"
 #include <glm/gtc/type_ptr.hpp>
 
@@ -32,8 +32,8 @@ namespace starlight {
         glm::mat4 mvp = projection * view;
 
         m_gizmoShader->Use();
-        m_gizmoShader->SetMat4("mvp", mvp);
-        m_gizmoShader->SetVec3("gizmoColor", color);
+        m_gizmoShader->SetMat4U("mvp", mvp);
+        m_gizmoShader->SetVec3U("gizmoColor", color);
 
         glBindVertexArray(m_vao);
         glBindBuffer(GL_ARRAY_BUFFER, m_vbo);

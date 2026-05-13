@@ -1,31 +1,39 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
+#include <vector>
+#include <string>
+#include <map>
+#include <glm/glm.hpp>
 #include <ozz/animation/runtime/skeleton.h>
 #include <ozz/animation/runtime/animation.h>
-#include <ozz/base/containers/vector.h>
-#include <ozz/base/maths/soa_transform.h>
-#include <vector>
-#include <glm/glm.hpp>
+#include <ozz/animation/runtime/sampling_job.h>
+#include <ozz/animation/runtime/local_to_model_job.h>
+#include <ozz/base/memory/unique_ptr.h>
 
 namespace starlight {
 
     struct SkeletalAnimationComponent {
-        ozz::animation::Skeleton skeleton;
-        ozz::animation::Animation animation;
+        ozz::unique_ptr<ozz::animation::Skeleton> skeleton;
+        std::map<std::string, ozz::unique_ptr<ozz::animation::Animation>> animations;
         
+        std::string activeAnimation;
         float currentTime = 0.0f;
         float playbackSpeed = 1.0f;
-        bool loop = true;
         bool playing = true;
+        bool looping = true;
 
-        ozz::vector<ozz::math::SoaTransform> m_ozzLocals;
-        ozz::vector<ozz::math::Float4x4> m_ozzModels;
-        std::vector<glm::mat4> m_boneMatrices; 
-
+        std::vector<glm::mat4> boneMatrices; // Final matrices for shader
+        
+        // ozz runtime objects
+        ozz::animation::SamplingJob::Context samplingContext;
+        
         bool initialized = false;
-
-        void LoadSkeleton(const char* path);
-        void LoadAnimation(const char* path);
+        
+        SkeletalAnimationComponent() : initialized(false) {}
+        SkeletalAnimationComponent(const SkeletalAnimationComponent&) = delete;
+        SkeletalAnimationComponent& operator=(const SkeletalAnimationComponent&) = delete;
+        SkeletalAnimationComponent(SkeletalAnimationComponent&&) = default;
+        SkeletalAnimationComponent& operator=(SkeletalAnimationComponent&&) = default;
     };
 
 }

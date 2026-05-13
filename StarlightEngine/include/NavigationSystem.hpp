@@ -1,7 +1,7 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
 #pragma once
 #include <vector>
 #include <glm/glm.hpp>
+#include "EngineSystem.hpp"
 
 namespace starlight {
 
@@ -10,9 +10,15 @@ namespace starlight {
         bool operator==(const NavPos& other) const { return x == other.x && z == other.z; }
     };
 
-    class NavigationSystem {
+    class NavigationSystem : public ISystem {
     public:
         NavigationSystem(int gridSize = 64, float worldSize = 100.0f);
+        
+        // ISystem
+        bool OnInitialize(const EngineContext& context) override { (void)context; return true; }
+        void OnShutdown() override {}
+        void OnUpdate(float dt) override { (void)dt; }
+        const char* GetName() const override { return "NavigationSystem"; }
         
         void SetObstacle(int x, int z, bool blocked);
         void UpdateRect(int x1, int z1, int x2, int z2, bool blocked);

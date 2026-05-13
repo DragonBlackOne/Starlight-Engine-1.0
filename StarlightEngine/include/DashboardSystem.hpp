@@ -1,20 +1,28 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <vector>
 #include <string>
 #include <glm/glm.hpp>
 #include "stb_truetype.h"
 
+#include "EngineSystem.hpp"
+
 namespace starlight {
 
     class Renderer;
 
-    class DashboardSystem {
+    class DashboardSystem : public ISystem {
     public:
         DashboardSystem();
         ~DashboardSystem();
         
-        void Initialize();
+        bool OnInitialize(const EngineContext& context) override;
+        void OnShutdown() override {}
+        void OnUpdate(float dt) override { (void)dt; }
+        void OnRender() override {}
+        void OnUIRender() override {}
+        const char* GetName() const override { return "DashboardSystem"; }
+
         void Begin(int width, int height);
         bool Button(const std::string& label, float x, float y, float w, float h);
         void Label(const std::string& text, float x, float y, const glm::vec4& color = glm::vec4(1,1,1,1));

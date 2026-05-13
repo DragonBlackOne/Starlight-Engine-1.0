@@ -1,4 +1,4 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "OctreeSystem.hpp"
 #include <algorithm>
 
@@ -31,6 +31,7 @@ namespace starlight {
 
         // Redistribute existing entities
         for (auto e : node->entities) {
+            (void)e;
             // Re-inserting logic would go here, simplified: just insert into fit children
             // For brevity in the showcase, we usually insert into children directly on split
         }

@@ -1,4 +1,4 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "ComputeShader.hpp"
 #include <fstream>
 #include <sstream>
@@ -52,15 +52,15 @@ namespace starlight {
         glMemoryBarrier(GL_ALL_BARRIER_BITS);
     }
 
-    void ComputeShader::SetInt(const std::string& name, int value) {
+    void ComputeShader::SetIntU(const std::string& name, int value) {
         glUniform1i(glGetUniformLocation(m_programID, name.c_str()), value);
     }
 
-    void ComputeShader::SetFloat(const std::string& name, float value) {
+    void ComputeShader::SetFloatU(const std::string& name, float value) {
         glUniform1f(glGetUniformLocation(m_programID, name.c_str()), value);
     }
 
-    void ComputeShader::SetVec3(const std::string& name, const glm::vec3& value) {
+    void ComputeShader::SetVec3U(const std::string& name, const glm::vec3& value) {
         glUniform3f(glGetUniformLocation(m_programID, name.c_str()), value.x, value.y, value.z);
     }
 

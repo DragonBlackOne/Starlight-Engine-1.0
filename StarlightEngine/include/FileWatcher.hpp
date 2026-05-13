@@ -1,15 +1,22 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <string>
 #include <filesystem>
 #include <map>
 #include <functional>
+#include "EngineSystem.hpp"
 
 namespace starlight {
 
-    class FileWatcher {
+    class FileWatcher : public ISystem {
     public:
         using OnChangedCallback = std::function<void(const std::string&)>;
+
+        // ISystem
+        bool OnInitialize(const EngineContext& context) override { (void)context; return true; }
+        void OnShutdown() override {}
+        void OnUpdate(float dt) override { (void)dt; Update(); }
+        const char* GetName() const override { return "FileWatcher"; }
 
         void AddWatch(const std::string& path, OnChangedCallback callback);
         void Update();

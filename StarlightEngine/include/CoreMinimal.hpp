@@ -1,4 +1,4 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <string>
 #include <memory>
@@ -14,24 +14,26 @@ namespace starlight {
         virtual void OnUpdate(float dt) = 0;
         virtual void OnFixedUpdate(float dt) = 0;
         virtual void OnRender() = 0;
+        virtual void OnUIRender() {}
         virtual void OnExit() = 0;
 
         entt::registry& GetRegistry() { return m_registry; }
+        const entt::registry& GetRegistry() const { return m_registry; }
 
     protected:
         entt::registry m_registry;
     };
 
-    class EngineModule {
+    class BaseScene : public Scene {
     public:
-        virtual ~EngineModule() = default;
-        virtual void Initialize() = 0;
-        virtual void Update(float dt) = 0;
-        virtual void Render() {}
-        virtual void RenderUI() {}  // Called inside ImGui frame context
-        virtual void Shutdown() = 0;
-        virtual std::string GetName() const = 0;
+        void OnEnter() override {}
+        void OnUpdate(float dt) override { (void)dt; }
+        void OnFixedUpdate(float dt) override { (void)dt; }
+        void OnRender() override {}
+        void OnExit() override {}
     };
+
+
 
     class SceneStack {
     public:

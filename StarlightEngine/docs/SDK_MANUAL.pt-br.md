@@ -65,9 +65,12 @@ auto texture = AssetLoader::LoadTexture("@assets/player.png");
 ## 🛠️ 5. Compilação e Distribuição
 O SDK suporta builds em **Debug** (com editor e logs) e **Release** (otimizado para o jogador final).
 
+### Nota de Estabilização (Jolt 5.5.0):
+Certifique-se de usar os headers do mesmo diretório utilizado para construir a biblioteca. Uma inconsistência de versão (ex: usar headers 5.5.1 com binário 5.5.0) fará com que o motor aborte durante a inicialização.
+
 1. No terminal: `cmake -B build -D CMAKE_BUILD_TYPE=Release`
 2. Compile: `cmake --build build --config Release`
-3. Distribua o executável junto com o arquivo `.pak` gerado.
+3. Distribua o executável junto com o arquivo `.pak` gerado e quaisquer DLLs necessárias.
 
 ---
 **Suporte**: Consulte o código fonte em `Starlight Engine/src/core` para detalhes profundos da implementação.

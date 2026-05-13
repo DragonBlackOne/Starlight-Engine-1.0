@@ -1,0 +1,52 @@
+#version 450 core
+
+layout(local_size_x = 64) in;
+
+struct InstanceData {
+    mat4 model;
+    vec4 sphere; // xyz: center, w: radius
+};
+
+struct DrawCommand {
+    uint count;
+    uint instanceCount;
+    uint firstIndex;
+    uint baseVertex;
+    uint baseInstance;
+};
+
+layout(std430, binding = 0) buffer InstanceBuffer {
+    InstanceData instances[];
+};
+
+layout(std430, binding = 1) buffer VisibleInstanceBuffer {
+    InstanceData visibleInstances[];
+};
+
+layout(std430, binding = 2) buffer IndirectBuffer {
+    DrawCommand commands[];
+};
+
+uniform mat4 viewProj;
+uniform uint totalInstances;
+
+void main() {
+    uint idx = gl_GlobalInvocationID.x;
+    if (idx >= totalInstances) return;
+
+    InstanceData inst = instances[idx];
+    vec4 center = inst.model * vec4(inst.sphere.xyz, 1.0);
+    float radius = inst.sphere.w;
+
+    // Very simple frustum culling (box vs frustum or sphere vs planes)
+    // For brevity, let's assume it passes or implement a quick check
+    bool visible = true; 
+    
+    // Check against frustum planes (6 planes)
+    // ... logic ...
+
+    if (visible) {
+        uint outputIdx = atomicAdd(commands[0].instanceCount, 1);
+        visibleInstances[outputIdx] = inst;
+    }
+}

@@ -1,4 +1,4 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <cmath>
 #include <functional>
@@ -8,6 +8,8 @@
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
+
+#include "EngineSystem.hpp"
 
 namespace starlight {
 
@@ -74,8 +76,14 @@ namespace starlight {
         }
     };
 
-    class TweenSystem {
+    class TweenSystem : public ISystem {
     public:
+        // ISystem
+        bool OnInitialize(const EngineContext& context) override { (void)context; return true; }
+        void OnShutdown() override {}
+        void OnUpdate(float dt) override { Update(dt); }
+        const char* GetName() const override { return "TweenSystem"; }
+
         void AddTween(const Tween& tween) {
             m_tweens.push_back(tween);
         }

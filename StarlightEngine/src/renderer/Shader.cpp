@@ -1,5 +1,6 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "Shader.hpp"
+#include <glad/glad.h>
 #include "Log.hpp"
 #include <iostream>
 #include <fstream>
@@ -59,24 +60,31 @@ namespace starlight {
         glUseProgram(m_id);
     }
 
-    void Shader::SetInt(const std::string& name, int value) {
-        glUniform1i(glGetUniformLocation(m_id, name.c_str()), value);
+    void Shader::SetIntU(const char* name, int value) {
+        glUniform1i(glGetUniformLocation(m_id, name), value);
     }
 
-    void Shader::SetFloat(const std::string& name, float value) {
-        glUniform1f(glGetUniformLocation(m_id, name.c_str()), value);
+    void Shader::SetFloatU(const char* name, float value) {
+        glUniform1f(glGetUniformLocation(m_id, name), value);
+    }
+    void Shader::SetVec2U(const char* name, const glm::vec2& value) {
+        glUniform2fv(glGetUniformLocation(m_id, name), 1, glm::value_ptr(value));
     }
 
-    void Shader::SetVec3(const std::string& name, const glm::vec3& value) {
-        glUniform3fv(glGetUniformLocation(m_id, name.c_str()), 1, glm::value_ptr(value));
+    void Shader::SetVec3U(const char* name, const glm::vec3& value) {
+        glUniform3fv(glGetUniformLocation(m_id, name), 1, glm::value_ptr(value));
     }
 
-    void Shader::SetVec4(const std::string& name, const glm::vec4& value) {
-        glUniform4fv(glGetUniformLocation(m_id, name.c_str()), 1, glm::value_ptr(value));
+    void Shader::SetVec4U(const char* name, const glm::vec4& value) {
+        glUniform4fv(glGetUniformLocation(m_id, name), 1, glm::value_ptr(value));
     }
 
-    void Shader::SetMat4(const std::string& name, const glm::mat4& value) {
-        glUniformMatrix4fv(glGetUniformLocation(m_id, name.c_str()), 1, GL_FALSE, glm::value_ptr(value));
+    void Shader::SetMat4U(const char* name, const glm::mat4& value) {
+        glUniformMatrix4fv(glGetUniformLocation(m_id, name), 1, GL_FALSE, glm::value_ptr(value));
+    }
+
+    void Shader::SetIntArray(const char* name, int* values, uint32_t count) {
+        glUniform1iv(glGetUniformLocation(m_id, name), count, values);
     }
 
     void Shader::CheckCompileErrors(uint32_t shader, std::string type) {

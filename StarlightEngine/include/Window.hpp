@@ -1,7 +1,10 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <string>
-#include <SDL.h>
+
+// Forward declarations
+struct SDL_Window;
+typedef void* SDL_GLContext;
 
 namespace starlight {
     struct WindowConfig {
@@ -25,14 +28,14 @@ namespace starlight {
         void SwapBuffers();
 
         SDL_Window* GetNativeWindow() const { return m_window; }
-        SDL_GLContext GetGLContext() const { return m_glContext; }
+        void* GetGLContext() const { return m_glContext; }
 
         int GetWidth() const { return m_width; }
         int GetHeight() const { return m_height; }
 
     private:
         SDL_Window* m_window = nullptr;
-        SDL_GLContext m_glContext = nullptr;
+        void* m_glContext = nullptr;
         int m_width, m_height;
         bool m_shouldClose = false;
     };

@@ -1,4 +1,4 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -26,6 +26,7 @@ namespace starlight {
         uint32_t GetDepthTextureArray() const { return m_depthTextureArray; }
         const glm::mat4* GetLightSpaceMatrices() const { return m_lightSpaceMatrices; }
         const float* GetCascadeSplits() const { return m_cascadeSplits; }
+        std::shared_ptr<Shader> GetShadowShader() const { return m_shadowShader; }
 
     private:
         uint32_t m_fbo = 0;

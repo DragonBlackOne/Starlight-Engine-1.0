@@ -14,7 +14,9 @@ Welcome to the **Ultimate Unified Engine**. This manual serves as the definitive
 
 ## 🎨 ADVANCED RENDERING PIPELINE
 The starlight Renderer is a state-of-the-art PBR pipeline with:
-- **PBR (Physically Based Rendering)**: Metallic/Roughness workflow.
+- **PBR (Physically Based Rendering)**: Metallic/Roughness workflow with IBL.
+- **Cascaded Shadow Maps (CSM)**: 4 cascades for high-fidelity outdoor shadows.
+- **SSAO (Ambient Occlusion)**: Temporal Screen-Space Ambient Occlusion.
 - **HDR Bloom**: High-extraction extraction and 10-pass Gaussian blur.
 - **SSR (Screen Space Reflections)**: Raymarched real-time reflections.
 - **ACES Filmic Tone Mapping**: Cinema-quality color grading.
@@ -33,9 +35,9 @@ The starlight Renderer is a state-of-the-art PBR pipeline with:
 
 ## 🤖 SPECIALIZED SYSTEMS
 - **Level of Detail (LOD)**: Automated distance-based mesh optimization.
-- **Hardware Skinning**: Skeletal animation support for up to 64 joints.
+- **Ozz-Animation**: Skeletal animation support with professional blending and skinning.
 - **Global Event Bus**: Decoupled messaging for modular communication.
-- **Physics (Jolt)**: Industrial-grade rigid body dynamics.
+- **Physics (Jolt)**: Industrial-grade rigid body dynamics (v5.5.0 Stable).
 - **Navigation**: Dynamic grid-based pathfinding for AI.
 
 ---
@@ -54,4 +56,4 @@ All engine resources are located in `assets/`:
 > [!IMPORTANT]
 > **PROCEED WITH CAUTION**: The power of the Omega Fusion is vast. Use the Developer Console (`help`) to explore CVars and tweak performance in real-time.
 
-*Starlight Engine v2.0.0 - 2026 Fusion Edition*
+*Starlight Engine v2.1.0 - 2026 Odyssey Edition*

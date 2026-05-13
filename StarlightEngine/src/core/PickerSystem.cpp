@@ -1,4 +1,4 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "PickerSystem.hpp"
 #include "Components.hpp"
 #include <glm/gtc/matrix_transform.hpp>
@@ -41,6 +41,7 @@ namespace starlight {
     }
 
     entt::entity PickerSystem::Pick(const Ray& ray, entt::registry& registry, OctreeSystem& octree) {
+        (void)octree;
         entt::entity closest = entt::null;
         float minDistance = 10000.0f;
 

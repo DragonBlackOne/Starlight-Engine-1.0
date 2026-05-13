@@ -21,11 +21,12 @@ This document consolidates the advanced technical knowledge required to master t
 
 ---
 
-## 🎭 3. HARDWARE SKINNING (ANIMATION)
-**Concept**: Vertices deformed by a joint hierarchy on the GPU.
+## 🎭 3. PROFESSIONAL ANIMATION (OZZ)
+**Concept**: Industrial-grade skeletal animation system.
+- **Ozz-Animation**: Integration with the professional Ozz framework for sampling and blending.
+- **Hardware Skinning**: Vertices deformed by a joint hierarchy on the GPU.
 - **Joints**: Each vertex supports 4 joint indices (`ivec4`).
 - **Weights**: Normalized influence of each joint (`vec4`).
-- **Matrices**: 64-bone capacity per animated entity.
 - **Vertex Buffer**: Upgraded `starlight::Vertex` structure to include animation data by default.
 
 ---
@@ -38,7 +39,15 @@ This document consolidates the advanced technical knowledge required to master t
 
 ---
 
+## 🏗️ 5. RENDERGRAPH & MODULARITY
+**Concept**: Pass-based rendering with automatic resource management.
+- **Decoupling**: Each rendering pass (CSM, SSAO, Bloom) is an independent node.
+- **Efficiency**: Automatic reuse of transient textures and buffers.
+- **Scalability**: Easily add new post-processing or lighting effects.
+
+---
+
 > [!TIP]
 > **BEST PRACTICE**: Use the **Event System** to trigger Achievements or Quest updates, keeping your game logic separate from the Engine's core update loops.
 
-*Starlight Engine v2.0.0 - 2026 Fusion Edition*
+*Starlight Engine v2.1.0 - 2026 Odyssey Edition*

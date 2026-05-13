@@ -1,14 +1,23 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "HierarchySystem.hpp"
 #include "Components.hpp"
+#include "JobSystem.hpp"
+#include "wicked/core/wiJobSystem.h"
 
 namespace starlight {
 
     void HierarchySystem::Update(entt::registry& registry) {
-        // 1. Update all local matrices first
+        // 1. Update all local matrices first in parallel
         auto view = registry.view<TransformComponent>();
-        for (auto entity : view) {
-            view.get<TransformComponent>(entity).UpdateLocalMatrix();
+        std::vector<entt::entity> entities;
+        for (auto entity : view) entities.push_back(entity);
+
+        if (!entities.empty()) {
+            JobContext ctx;
+            JobSystem::Dispatch(ctx, static_cast<uint32_t>(entities.size()), 64, [&registry, &entities](uint32_t i) {
+                registry.get<TransformComponent>(entities[i]).UpdateLocalMatrix();
+            });
+            JobSystem::Wait(ctx);
         }
 
         // 2. Identify and update Root entities (entities with NO parent)

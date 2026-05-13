@@ -1,4 +1,4 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <string>
 #include <entt/entt.hpp>
@@ -9,7 +9,7 @@ namespace starlight {
 
     class SceneSerializer {
     public:
-        static void SaveToFile(Scene& scene, const std::string& filepath);
+        static void SaveToFile(const Scene& scene, const std::string& filepath);
         static void LoadFromFile(Scene& scene, const std::string& filepath);
 
     private:

@@ -1,7 +1,6 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
-#include "CoreMinimal.hpp"
-#include <vector>
+#include "EngineSystem.hpp"
 
 namespace starlight {
 
@@ -10,13 +9,13 @@ namespace starlight {
         uint32_t indexCount = 0;
     };
 
-    class TerrainSystem : public EngineModule {
+    class TerrainSystem : public ISystem {
     public:
-        std::string GetName() const override { return "TerrainSystem"; }
-
-        void Initialize() override {}
-        void Update(float dt) override {}
-        void Shutdown() override {}
+        // ISystem
+        bool OnInitialize(const EngineContext& context) override { (void)context; return true; }
+        void OnShutdown() override {}
+        void OnUpdate(float dt) override { (void)dt; }
+        const char* GetName() const override { return "TerrainSystem"; }
 
         Terrain CreateProcedural(int width, int depth, float scale);
         void Render(const Terrain& terrain, uint32_t shader);

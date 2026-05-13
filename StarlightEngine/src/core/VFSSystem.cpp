@@ -1,4 +1,4 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "VFSSystem.hpp"
 #include "Log.hpp"
 #include <fstream>
@@ -54,7 +54,7 @@ namespace starlight {
     std::string VFSSystem::Resolve(const std::string& path) {
         if (path.empty()) return path;
         
-        // Se estiver no PAK, o Resolve não retorna um caminho físico, o ReadFile cuidará disso
+        // Se estiver no PAK, o Resolve nÃƒÆ’Ã‚Â£o retorna um caminho fÃƒÆ’Ã‚Â­sico, o ReadFile cuidarÃƒÆ’Ã‚Â¡ disso
         if (m_pakEntries.count(path)) return path;
 
         if (path[0] == '@') {
@@ -83,7 +83,7 @@ namespace starlight {
             return buffer;
         }
 
-        // Se for arquivo físico
+        // Se for arquivo fÃƒÆ’Ã‚Â­sico
         std::ifstream file(resolved, std::ios::binary | std::ios::ate);
         if (!file.is_open()) return {};
 

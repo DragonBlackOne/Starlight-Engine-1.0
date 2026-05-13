@@ -1,7 +1,8 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "SSAO_System.hpp"
 #include <random>
 #include <glad/glad.h>
+#include "Mesh.hpp"
 
 namespace starlight {
 
@@ -63,34 +64,48 @@ namespace starlight {
         }
         glGenTextures(1, &m_noiseTexture);
         glBindTexture(GL_TEXTURE_2D, m_noiseTexture);
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, 4, 4, 0, GL_RGB, GL_FLOAT, &ssaoNoise[0]);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB16F, 4, 4, 0, GL_RGB, GL_FLOAT, &ssaoNoise[0]);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     }
 
-    void SSAO_System::Render(unsigned int gPosition, unsigned int gNormal, const glm::mat4& projection) {
-        // Pass 1: AO
+    void SSAO_System::Render(unsigned int gPosition, unsigned int gNormal, const glm::mat4& projection, std::shared_ptr<Mesh> quadMesh) {
+        if (!quadMesh) return;
+
+        // Pass 1: SSAO calculation
         glBindFramebuffer(GL_FRAMEBUFFER, m_ssaoFBO);
         glClear(GL_COLOR_BUFFER_BIT);
         m_ssaoShader->Use();
-        for (unsigned int i = 0; i < 64; ++i)
-            m_ssaoShader->SetVec3("samples[" + std::to_string(i) + "]", m_ssaoKernel[i]);
-        m_ssaoShader->SetMat4("projection", projection);
-        glActiveTexture(GL_TEXTURE0); glBindTexture(GL_TEXTURE_2D, gPosition);
-        glActiveTexture(GL_TEXTURE1); glBindTexture(GL_TEXTURE_2D, gNormal);
-        glActiveTexture(GL_TEXTURE2); glBindTexture(GL_TEXTURE_2D, m_noiseTexture);
-        m_ssaoShader->SetInt("gPosition", 0);
-        m_ssaoShader->SetInt("gNormal", 1);
-        m_ssaoShader->SetInt("texNoise", 2);
+        for (unsigned int i = 0; i < 64; ++i) {
+            std::string name = "samples[" + std::to_string(i) + "]";
+            m_ssaoShader->SetVec3U(name.c_str(), m_ssaoKernel[i]);
+        }
+        m_ssaoShader->SetMat4U("projection", projection);
+        
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, gPosition);
+        m_ssaoShader->SetIntU("gPosition", 0);
+        
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, gNormal);
+        m_ssaoShader->SetIntU("gNormal", 1);
+        
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, m_noiseTexture);
+        m_ssaoShader->SetIntU("texNoise", 2);
+        
+        quadMesh->Draw();
 
-        // Pass 2: Blur
+        // Pass 2: SSAO blur
         glBindFramebuffer(GL_FRAMEBUFFER, m_ssaoBlurFBO);
         glClear(GL_COLOR_BUFFER_BIT);
         m_ssaoBlurShader->Use();
-        glActiveTexture(GL_TEXTURE0); glBindTexture(GL_TEXTURE_2D, m_ssaoColorBuffer);
-        m_ssaoBlurShader->SetInt("ssaoInput", 0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, m_ssaoColorBuffer);
+        m_ssaoBlurShader->SetIntU("ssaoInput", 0);
+        quadMesh->Draw();
         
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
     }

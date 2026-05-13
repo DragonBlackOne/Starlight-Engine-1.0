@@ -1,4 +1,4 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "EventSystem.hpp"
 #include <cstring>
 #include <iostream>
@@ -36,13 +36,17 @@ namespace starlight {
             size_t offset = m_payloadArena.size();
             m_payloadArena.resize(offset + ev.dataSize);
             std::memcpy(&m_payloadArena[offset], ev.data, ev.dataSize);
-            deferredEv.data = &m_payloadArena[offset];
+            deferredEv.data = (void*)offset; // Store offset instead of pointer!
         }
         m_deferredQueue.push_back(deferredEv);
     }
 
     void EventSystem::Flush() {
-        for (const auto& ev : m_deferredQueue) {
+        for (auto& ev : m_deferredQueue) {
+            if (ev.dataSize > 0) {
+                size_t offset = (size_t)ev.data;
+                ev.data = &m_payloadArena[offset];
+            }
             Emit(ev);
         }
         m_deferredQueue.clear();

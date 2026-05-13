@@ -1,27 +1,27 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <memory>
 #include <vector>
 #include "Window.hpp"
-#include "PhysicsSystem.hpp"
-#include "Renderer.hpp"
+
 #include "CoreMinimal.hpp"
-#include "Tween.hpp"
 #include "wiJobSystem.h"
+
+#include "EngineSystem.hpp"
 
 namespace starlight {
     class Window;
+    class SceneStack;
+    class TweenSystem;
+    class FileWatcher;
     class PhysicsSystem;
     class Renderer;
     class ScriptSystem;
     class InputSystem;
     class AudioSystem;
-    class SceneStack;
-    class TweenSystem;
-    class NetworkSystem;
     class NavigationSystem;
-    class EditorSystem;
-    class FileWatcher;
+    class NetworkSystem;
+    class AssetManager;
 
     struct EngineTime {
         float deltaTime = 0.0f;
@@ -40,48 +40,42 @@ namespace starlight {
         void Shutdown();
 
         // Modularity
-        void AddModule(std::shared_ptr<EngineModule> module);
-        std::vector<std::shared_ptr<EngineModule>>& GetModules() { return m_modules; }
+        SystemRegistry& GetRegistry() { return m_systems; }
         SceneStack& GetSceneStack() { return m_sceneStack; }
 
         Window& GetWindow() { return *m_window; }
-        PhysicsSystem& GetPhysics() { return *m_physics; }
-        Renderer& GetRenderer() { return *m_renderer; }
-        ScriptSystem& GetScripting() { return *m_scripting; }
-        InputSystem& GetInput() { return *m_input; }
-        AudioSystem& GetAudio() { return *m_audio; }
-        TweenSystem& GetTweenSystem() { return m_tweenSystem; }
-        NetworkSystem& GetNetwork() { return *m_network; }
-        NavigationSystem& GetNav() { return *m_nav; }
-        EditorSystem& GetEditor() { return *m_editor; }
-        FileWatcher& GetFileWatcher() { return *m_fileWatcher; }
         const EngineTime& GetTime() const { return m_time; }
 
+        // Legacy accessors
+        PhysicsSystem& GetPhysics();
+        Renderer& GetRenderer();
+        ScriptSystem& GetScripting();
+        InputSystem& GetInput();
+        AudioSystem& GetAudio();
+        TweenSystem& GetTweenSystem();
+        NavigationSystem& GetNav();
+        NetworkSystem& GetNetwork();
+        FileWatcher& GetFileWatcher();
+        AssetManager& GetAssetManager();
+
+        // Helper accessors
+        template<typename T> T* GetSystem() { return m_systems.GetSystem<T>(); }
+
         static Engine& Get() { return *s_instance; }
+        bool IsConsoleVisible() const { return m_showConsole; }
 
     private:
         static Engine* s_instance;
 
         std::unique_ptr<Window> m_window;
-        std::unique_ptr<PhysicsSystem> m_physics;
-        std::unique_ptr<Renderer> m_renderer;
-        std::unique_ptr<ScriptSystem> m_scripting;
-        std::unique_ptr<InputSystem> m_input;
-        std::unique_ptr<AudioSystem> m_audio;
-        std::unique_ptr<NetworkSystem> m_network;
-        std::unique_ptr<NavigationSystem> m_nav;
-        EditorSystem* m_editor;
-        std::unique_ptr<FileWatcher> m_fileWatcher;
-        
+        SystemRegistry m_systems;
         SceneStack m_sceneStack;
-        std::vector<std::shared_ptr<EngineModule>> m_modules;
-        TweenSystem m_tweenSystem;
-
+        
         EngineTime m_time;
         bool m_running = false;
+        bool m_showConsole = false;
 
         wi::jobsystem::context m_physicsJobCtx;
-        wi::jobsystem::context m_generalJobCtx;
 
         void Update(float dt);
         void FixedUpdate(float dt);

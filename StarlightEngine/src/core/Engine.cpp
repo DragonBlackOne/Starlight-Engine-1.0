@@ -1,16 +1,17 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "Engine.hpp"
 #include "Log.hpp"
 #include "Renderer.hpp"
 #include "InputSystem.hpp"
 #include "ScriptSystem.hpp"
-#include "TitanAudio.hpp"
+#include "AudioSystem.hpp"
 #include "AISystem.hpp"
 #include "NetworkSystem.hpp"
 #include "NavigationSystem.hpp"
-#include "EditorSystem.hpp"
+#include "Renderer2D.hpp"
 #include "HierarchySystem.hpp"
 #include "EventSystem.hpp"
+#include "DashboardSystem.hpp"
 #include "VehicleSystem.hpp"
 #include "ClothSystem.hpp"
 #include "SSAO_System.hpp"
@@ -18,10 +19,19 @@
 #include "CoreMinimal.hpp"
 #include "CameraSystem.hpp"
 #include "LODSystem.hpp"
+#include "Memory.hpp"
+#include "JobSystem.hpp"
+#include "VFSSystem.hpp"
+#include "AssetManager.hpp"
+#include "GPUCullingSystem.hpp"
+#include "AnimationSystem.hpp"
+#include "Tween.hpp"
+#include "PhysicsSystem.hpp"
 
 #undef APIENTRY
 #include <SDL2/SDL.h>
 #include <thread>
+#include <chrono>
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
 #include "imgui_impl_opengl3.h"
@@ -33,15 +43,26 @@ namespace starlight {
     Engine::Engine() {
         s_instance = this;
         m_window = std::make_unique<Window>();
-        m_physics = std::make_unique<PhysicsSystem>();
-        m_renderer = std::make_unique<Renderer>();
-        m_scripting = std::make_unique<ScriptSystem>();
-        m_input = std::make_unique<InputSystem>();
-        m_audio = std::make_unique<AudioSystem>();
-        m_network = std::make_unique<NetworkSystem>();
-        m_nav = std::make_unique<NavigationSystem>();
-        m_editor = &EditorSystem::Get();
-        m_fileWatcher = std::make_unique<FileWatcher>();
+        
+        // Register Core Systems
+        m_systems.RegisterSystem<InputSystem>();
+        m_systems.RegisterSystem<PhysicsSystem>();
+        m_systems.RegisterSystem<Renderer>();
+        m_systems.RegisterSystem<AudioSystem>();
+        m_systems.RegisterSystem<ScriptSystem>();
+        
+        // Extended Systems
+        m_systems.RegisterSystem<JobSystem>();
+        m_systems.RegisterSystem<VFSSystem>();
+        m_systems.RegisterSystem<AssetManager>();
+        m_systems.RegisterSystem<GPUCullingSystem>();
+        m_systems.RegisterSystem<AnimationSystem>();
+        m_systems.RegisterSystem<EventSystem>();
+        m_systems.RegisterSystem<NetworkSystem>();
+        m_systems.RegisterSystem<NavigationSystem>();
+        m_systems.RegisterSystem<FileWatcher>();
+        m_systems.RegisterSystem<TweenSystem>();
+        m_systems.RegisterSystem<DashboardSystem>();
     }
 
     Engine::~Engine() {
@@ -50,100 +71,126 @@ namespace starlight {
 
     void Engine::Initialize(const WindowConfig& config) {
         Log::Init();
-        wi::jobsystem::Initialize();
+        MemoryManager::Initialize();
 
         m_window->Initialize(config);
-        m_physics->Initialize();
-        m_renderer->Initialize();
-        m_scripting->Initialize();
-        m_input->Initialize();
-        m_audio->Initialize();
-        m_network->Initialize();
-        m_editor->Initialize();
-        SSAO_System::Get().Initialize(); // Omega Final Integration
         
-        m_scripting->ExecuteFile("assets/scripts/arcade_master.lua");
+        EngineContext context;
+        context.window = m_window.get();
+        context.engine = this;
 
-        // Force PlayMode for Pure Showcase
-        m_editor->SetPlayMode(true);
+        // Initialize all registered systems
+        for (auto& system : m_systems.GetSystems()) {
+            if (!system->OnInitialize(context)) {
+                Log::Error("Failed to initialize system: " + std::string(system->GetName()));
+            }
+        }
+
+        // Legacy/Static Initializations
+        Renderer2D::Initialize();
+        SSAO_System::Get().Initialize();
+        
+        m_sceneStack.Push(std::make_shared<BaseScene>());
+        
+        auto scripting = GetSystem<ScriptSystem>();
+        if (scripting) {
+            scripting->ExecuteFile("assets/scripts/starlight_odyssey.lua");
+        }
+
+        auto fileWatcher = GetSystem<FileWatcher>();
+        if (fileWatcher) {
+            fileWatcher->AddWatch("assets/scripts/starlight_odyssey.lua", [this](const std::string& path) {
+                auto s = GetSystem<ScriptSystem>();
+                if (s) s->ExecuteFile(path);
+                Log::Info("Engine: Hot-Reloaded Odyssey script!");
+            });
+        }
         
         // Initialize Default Projection
         float aspect = (float)m_window->GetWidth() / (float)m_window->GetHeight();
-        m_renderer->UpdateProjection(60.0f, aspect, 0.1f, 1000.0f);
+        auto renderer = GetSystem<Renderer>();
+        if (renderer) {
+            renderer->UpdateProjection(60.0f, aspect, 0.1f, 1000.0f);
+        }
 
-        Log::Info("Starlight Engine CORE Initialized (Showcase Mode).");
+        Log::Info("Starlight Engine CORE Reconstruction Complete (Modular Mode).");
     }
+
+    PhysicsSystem& Engine::GetPhysics() { return *GetSystem<PhysicsSystem>(); }
+    Renderer& Engine::GetRenderer() { return *GetSystem<Renderer>(); }
+    ScriptSystem& Engine::GetScripting() { return *GetSystem<ScriptSystem>(); }
+    InputSystem& Engine::GetInput() { return *GetSystem<InputSystem>(); }
+    AudioSystem& Engine::GetAudio() { return *GetSystem<AudioSystem>(); }
+    TweenSystem& Engine::GetTweenSystem() { return *GetSystem<TweenSystem>(); }
+    NavigationSystem& Engine::GetNav() { return *GetSystem<NavigationSystem>(); }
+    NetworkSystem& Engine::GetNetwork() { return *GetSystem<NetworkSystem>(); }
+    FileWatcher& Engine::GetFileWatcher() { return *GetSystem<FileWatcher>(); }
+    AssetManager& Engine::GetAssetManager() { return *GetSystem<AssetManager>(); }
 
     void Engine::Run() {
         m_running = true;
-        Uint64 lastTime = SDL_GetPerformanceCounter();
-        Uint64 frequency = SDL_GetPerformanceFrequency();
-        float accumulator = 0.0f;
+        
+        using clock = std::chrono::high_resolution_clock;
+        auto lastTime = clock::now();
+        double accumulator = 0.0;
 
         while (m_running && !m_window->ShouldClose()) {
-            Uint64 currentTime = SDL_GetPerformanceCounter();
-            float deltaTime = static_cast<float>(currentTime - lastTime) / static_cast<float>(frequency);
+            auto currentTime = clock::now();
+            std::chrono::duration<double> diff = currentTime - lastTime;
+            double deltaTime = diff.count();
             lastTime = currentTime;
 
-            if (deltaTime > 0.25f) deltaTime = 0.25f;
+            if (deltaTime > 0.25) deltaTime = 0.25;
 
-            m_time.deltaTime = deltaTime;
-            m_time.totalTime += deltaTime;
+            m_time.deltaTime = (float)deltaTime;
+            m_time.totalTime += (float)deltaTime;
 
             accumulator += deltaTime;
 
             m_window->PollEvents();
-            m_input->Update();
 
             while (accumulator >= m_time.fixedDeltaTime) {
-                FixedUpdate(m_time.fixedDeltaTime);
+                FixedUpdate((float)m_time.fixedDeltaTime);
                 accumulator -= m_time.fixedDeltaTime;
             }
 
-            Update(deltaTime);
+            Update((float)deltaTime);
             Render();
+            
+            MemoryManager::ClearFrame();
+            
+            if (m_window->ShouldClose()) Log::Info("Engine: Window requested close.");
         }
+        Log::Info("Engine: Main loop terminated.");
     }
 
     void Engine::Update(float dt) {
-        m_audio->UpdateVoices(dt);
-        m_tweenSystem.Update(dt);
-        m_editor->Update(dt);
-        m_fileWatcher->Update();
+        // Update registered systems
+        for (auto& system : m_systems.GetSystems()) {
+            system->OnUpdate(dt);
+        }
 
-        m_scripting->Update(dt);
-        EventSystem::Get().Flush(); 
-        
+        // Tween flush
+        // (Assuming TweenSystem is now a registered system or handled inside one)        
         auto activeScene = m_sceneStack.Active();
         if (activeScene) {
             VehicleSystem::Update(activeScene->GetRegistry(), dt); 
             ClothSystem::Update(activeScene->GetRegistry(), dt);   
             AISystem::Update(activeScene->GetRegistry(), dt);
             activeScene->OnUpdate(dt);
-        }
-        
-        // Hierarchy should always update for UI
-        if (activeScene) {
+            HierarchySystem::Update(activeScene->GetRegistry());
+            
             float aspect = (float)m_window->GetWidth() / (float)m_window->GetHeight();
             CameraSystem::Update(activeScene->GetRegistry(), aspect);
             LODSystem::Update(activeScene->GetRegistry());
-            HierarchySystem::Update(activeScene->GetRegistry()); // Phase 14 Omega
-        }
-
-        for (auto& module : m_modules) {
-            module->Update(dt);
         }
     }
 
     void Engine::FixedUpdate(float dt) {
-        // Run Physics in a Job
-        wi::jobsystem::Execute(m_physicsJobCtx, [this, dt](wi::jobsystem::JobArgs args) {
-            (void)args;
-            m_physics->Update(dt);
-        });
-        
-        // Wait for physics to complete before proceeding
-        wi::jobsystem::Wait(m_physicsJobCtx);
+        // Registered systems fixed update
+        for (auto& system : m_systems.GetSystems()) {
+            system->OnFixedUpdate(dt);
+        }
 
         auto activeScene = m_sceneStack.Active();
         if (activeScene) {
@@ -151,59 +198,33 @@ namespace starlight {
         }
     }
 
-
     void Engine::Render() {
-        static uint64_t frameCount = 0;
-        if (frameCount % 60 == 0) {
-            Log::Info("--- ENGINE_FRAME: " + std::to_string(frameCount) + " ---");
-        }
-        frameCount++;
-
-        m_renderer->BeginFrame();
-        
-        auto activeScene = m_sceneStack.Active();
-        if (activeScene) {
-            activeScene->OnRender();
-            m_renderer->RenderRegistry(activeScene->GetRegistry());
-        }
-        
-        for (auto& module : m_modules) {
-            module->Render();
-        }
-
-        // --- ImGui Frame ---
+        // ImGui Frame Setup
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplSDL2_NewFrame();
         ImGui::NewFrame();
 
-        m_editor->RenderUI();
-        m_scripting->RenderUI();
-
-        for (auto& module : m_modules) {
-            module->RenderUI();
+        // System Rendering
+        for (auto& system : m_systems.GetSystems()) {
+            system->OnRender();
         }
 
+        // Active Scene ImGui Rendering
+        auto activeScene = m_sceneStack.Active();
+        if (activeScene) {
+            // activeScene->OnImGuiRender(); // Now handled by UIPass
+        }
+
+        // Finalize ImGui
         ImGui::Render();
         ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-        m_renderer->EndFrame();
 
         m_window->SwapBuffers();
     }
 
-    void Engine::AddModule(std::shared_ptr<EngineModule> module) {
-        m_modules.push_back(module);
-        module->Initialize();
-    }
-
     void Engine::Shutdown() {
         Log::Info("Starlight Engine Shutting Down...");
-        for (auto& module : m_modules) {
-            module->Shutdown();
-        }
-        m_physics->Shutdown();
-        m_audio->Shutdown();
-        wi::jobsystem::ShutDown();
+        m_systems.Shutdown();
         m_window->Shutdown();
     }
 }

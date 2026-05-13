@@ -1,18 +1,27 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <vector>
 #include <memory>
 #include <entt/entt.hpp>
+#include <glm/glm.hpp>
 
 // Jolt Includes
+#pragma warning(push, 0)
+#include <codeanalysis/warnings.h>
+#pragma warning(disable: ALL_CODE_ANALYSIS_WARNINGS)
 #include <Jolt/Jolt.h>
 #include <Jolt/RegisterTypes.h>
+#include <Jolt/Core/Factory.h>
 #include <Jolt/Core/TempAllocator.h>
 #include <Jolt/Core/JobSystemThreadPool.h>
 #include <Jolt/Physics/PhysicsSettings.h>
 #include <Jolt/Physics/PhysicsSystem.h>
 #include <Jolt/Physics/Collision/Shape/BoxShape.h>
 #include <Jolt/Physics/Body/BodyCreationSettings.h>
+#include <Jolt/Physics/Body/BodyActivationListener.h>
+#pragma warning(pop)
+
+#include "EngineSystem.hpp"
 
 namespace starlight {
     namespace PhysicsLayers {
@@ -21,16 +30,23 @@ namespace starlight {
         static constexpr uint8_t NUM_LAYERS = 2;
     }
 
-    class PhysicsSystem {
+    class PhysicsSystem : public ISystem {
     public:
         PhysicsSystem();
         ~PhysicsSystem();
 
-        void Initialize();
-        void Update(float dt);
-        void Shutdown();
+        // ISystem
+        bool OnInitialize(const EngineContext& context) override;
+        void OnShutdown() override;
+        void OnFixedUpdate(float dt) override;
+        const char* GetName() const override { return "PhysicsSystem"; }
 
         void CreateBody(entt::entity entity, const JPH::Vec3& position, const JPH::Quat& rotation, const JPH::Vec3& halfExtents, JPH::EMotionType motionType, uint8_t layer);
+        
+        // Gameplay Mechanics
+        void ApplyForce(entt::entity entity, const glm::vec3& force);
+        void ApplyImpulse(entt::entity entity, const glm::vec3& impulse);
+        void SetVelocity(entt::entity entity, const glm::vec3& velocity);
         
         JPH::BodyInterface& GetBodyInterface() { return m_physicsSystem->GetBodyInterface(); }
         JPH::PhysicsSystem* GetSystem() { return m_physicsSystem; }

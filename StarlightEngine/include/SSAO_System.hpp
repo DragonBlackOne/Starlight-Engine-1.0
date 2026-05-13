@@ -1,4 +1,4 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <vector>
 #include <memory>
@@ -7,13 +7,15 @@
 
 namespace starlight {
 
+    class Mesh;
+
     class SSAO_System {
     public:
         SSAO_System() = default;
         static SSAO_System& Get();
 
         void Initialize();
-        void Render(unsigned int gPosition, unsigned int gNormal, const glm::mat4& projection);
+        void Render(unsigned int gPosition, unsigned int gNormal, const glm::mat4& projection, std::shared_ptr<Mesh> quadMesh);
         
         unsigned int GetSSAOTexture() const { return m_ssaoColorBuffer; }
 

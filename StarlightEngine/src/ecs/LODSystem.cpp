@@ -1,4 +1,4 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "LODSystem.hpp"
 #include "Components.hpp"
 #include "LODComponent.hpp"
@@ -8,21 +8,17 @@ namespace starlight {
         // Find main camera for distance calculation
         glm::vec3 camPos = glm::vec3(0.0f, 2.0f, 5.0f);
         auto camView = registry.view<TransformComponent, CameraComponent>();
-        for (auto camEntity : camView) {
-            if (camView.get<CameraComponent>(camEntity).primary) {
-                camPos = camView.get<TransformComponent>(camEntity).position;
-                break;
+        camView.each([&camPos](const auto& transform, const auto& camera) {
+            if (camera.primary) {
+                camPos = transform.position;
             }
-        }
+        });
 
         auto lodView = registry.view<TransformComponent, LODComponent>();
-        for (auto entity : lodView) {
-            auto& t = lodView.get<TransformComponent>(entity);
-            auto& lod = lodView.get<LODComponent>(entity);
-            
-            if (lod.levels.empty()) continue;
+        lodView.each([&camPos](const auto& transform, auto& lod) {
+            if (lod.levels.empty()) return;
 
-            float dist = glm::distance(t.position, camPos);
+            float dist = glm::distance(transform.position, camPos);
             
             int selectedLevel = 0;
             for (size_t i = 0; i < lod.levels.size(); i++) {
@@ -30,10 +26,9 @@ namespace starlight {
                     selectedLevel = (int)i;
                     break;
                 }
-                selectedLevel = (int)i; // fallback to lowest detail if beyond all distances
+                selectedLevel = (int)i;
             }
-            
             lod.currentLevel = selectedLevel;
-        }
+        });
     }
 }

@@ -1,9 +1,11 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "Window.hpp"
 #include "Log.hpp"
+#include <SDL2/SDL.h>
 #include <glad/glad.h>
 #include "imgui.h"
 #include "imgui_impl_sdl2.h"
+#include "imgui_impl_opengl3.h"
 
 namespace starlight {
     Window::Window() : m_width(0), m_height(0), m_window(nullptr), m_glContext(nullptr), m_shouldClose(false) {}
@@ -61,11 +63,25 @@ namespace starlight {
         }
 
         SDL_GL_SetSwapInterval(config.vsync ? 1 : 0);
+        
+        // ImGui Initialization
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO();
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+        
+        ImGui_ImplSDL2_InitForOpenGL(m_window, m_glContext);
+        ImGui_ImplOpenGL3_Init("#version 410");
+
         Log::Info("Window initialized: {} ({}x{})", config.title, m_width, m_height);
         Log::Info("OpenGL Renderer: {}", (const char*)glGetString(GL_RENDERER));
     }
 
     void Window::Shutdown() {
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplSDL2_Shutdown();
+        ImGui::DestroyContext();
+
         if (m_glContext) {
             SDL_GL_DeleteContext(m_glContext);
             m_glContext = nullptr;

@@ -1,9 +1,9 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
-#include "CoreMinimal.hpp"
-#include <string>
 #include <map>
+#include <string>
 #include <vector>
+#include "EngineSystem.hpp"
 
 namespace starlight {
 
@@ -15,29 +15,35 @@ namespace starlight {
 
     /**
      * @brief Sistema de Arquivos Virtual (VFS)
-     * Suporta montagem de pastas físicas e carregamento de arquivos .pak compactados.
+     * Suporta montagem de pastas fÃƒÆ’Ã‚Â­sicas e carregamento de arquivos .pak compactados.
      */
-    class VFSSystem {
+    class VFSSystem : public ISystem {
     public:
+        // ISystem
+        bool OnInitialize(const EngineContext& context) override { (void)context; Initialize(); return true; }
+        void OnShutdown() override { Shutdown(); }
+        const char* GetName() const override { return "VFSSystem"; }
+
         static VFSSystem& Get();
 
         void Initialize();
         void Shutdown();
 
-        // Monta um caminho físico em um alias virtual (ex: Mount("@assets", "C:/Games/Titan/Assets"))
+        // Monta um caminho fÃƒÆ’Ã‚Â­sico em um alias virtual (ex: Mount("@assets", "C:/Games/Titan/Assets"))
         void Mount(const std::string& virtualPath, const std::string& physicalPath);
         
         // Carrega um arquivo .pak comercial
         bool LoadPak(const std::string& pakPath);
 
-        // Resolve um caminho virtual para um caminho físico ou identifica se está em um PAK
+        // Resolve um caminho virtual para um caminho fÃƒÆ’Ã‚Â­sico ou identifica se estÃƒÆ’Ã‚Â¡ em um PAK
         std::string Resolve(const std::string& path);
 
-        // Lê os dados de um arquivo (seja físico ou de um PAK)
+        // LÃƒÆ’Ã‚Âª os dados de um arquivo (seja fÃƒÆ’Ã‚Â­sico ou de um PAK)
         std::vector<uint8_t> ReadFile(const std::string& path);
 
-    private:
+    public:
         VFSSystem() = default;
+    private:
         std::map<std::string, std::string> m_mounts;
         std::map<std::string, PakEntry> m_pakEntries;
         std::string m_currentPakPath;

@@ -1,10 +1,10 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <string>
 #include <memory>
 #include "Log.hpp"
 
-// Forward declaration - implementaÃ§Ã£o interna via pl_mpeg
+// Forward declaration - implementaÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â§ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â£o interna via pl_mpeg
 typedef struct plm_t plm_t;
 
 namespace starlight {

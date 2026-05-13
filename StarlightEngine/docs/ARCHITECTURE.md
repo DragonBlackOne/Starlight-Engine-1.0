@@ -19,17 +19,24 @@ graph TD
     SceneStack --> ActiveScene
 ```
 
-## 2. Rendering Pipeline (Hybrid PBR)
-The `Renderer.cpp` implements a hybrid pipeline:
-- **Deferred G-Buffer**: For dynamic lights and AO.
-- **Forward+**: For transparencies and special materials.
+## 2. Rendering Pipeline (Modular RenderGraph)
+The engine utilizes an advanced **RenderGraph** system, which decouples rendering passes and manages resource dependencies automatically.
+- **Deferred G-Buffer**: High-performance base for dynamic lights and SSAO.
+- **Cascaded Shadow Maps (CSM)**: Support for 4 cascades with stable fit and soft filtering.
+- **Forward+**: Optimized for transparencies and complex materials.
 - **Clustered Lighting**: Manages hundreds of point lights with O(log N) cost.
 
-### Post-Processing Features:
+### Post-Processing Suite:
+- **SSAO**: Screen-Space Ambient Occlusion with temporal stability.
 - **SSR**: Screen-Space Reflections.
-- **SSGI**: Simplified Global Illumination.
-- **Bloom**: High-quality Gaussian filter.
+- **Bloom**: Multi-pass physical bloom.
 - **ACES**: Cinema-standard tone mapping.
+
+## 3. Parallel Execution (JobSystem)
+We integrate the **Wicked Engine JobSystem** for high-performance multi-threading.
+- **Fiber-based**: Efficient task switching with minimal overhead.
+- **Worker Threads**: Automatically scaled to the number of CPU cores.
+- **Dependencies**: Support for complex task graphs (e.g., Physics -> Culling -> Render).
 
 ## 3. Accelerated Mathematics (SIMD AVX2)
 We use Intel intrinsic instructions to accelerate CPU bottlenecks.

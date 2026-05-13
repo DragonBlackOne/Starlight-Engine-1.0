@@ -1,18 +1,18 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
-#include "CoreMinimal.hpp"
+#include "EngineSystem.hpp"
 #include "AnimationComponent.hpp"
 #include <entt/entt.hpp>
 
 namespace starlight {
 
-    class AnimationSystem : public EngineModule {
+    class AnimationSystem : public ISystem {
     public:
-        std::string GetName() const override { return "AnimationSystem"; }
-
-        void Initialize() override {}
-        void Update(float dt) override {}
-        void Shutdown() override {}
+        // ISystem
+        bool OnInitialize(const EngineContext& context) override { (void)context; return true; }
+        void OnShutdown() override {}
+        void OnUpdate(float dt) override { Update(dt); }
+        const char* GetName() const override { return "AnimationSystem"; }
 
         static void UpdateEntity(entt::registry& registry, entt::entity entity, float dt);
         void Update(float dt); // Calls UpdateEntity for all relevant entities

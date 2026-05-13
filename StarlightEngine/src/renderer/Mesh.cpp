@@ -1,5 +1,6 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "Mesh.hpp"
+#include "Renderer.hpp"
 #include <memory>
 #include <vector>
 
@@ -9,9 +10,7 @@ namespace starlight {
     }
 
     Mesh::~Mesh() {
-        glDeleteVertexArrays(1, &m_vao);
-        glDeleteBuffers(1, &m_vbo);
-        glDeleteBuffers(1, &m_ebo);
+        Renderer::SubmitDeferredMeshDeletion(m_vao, m_vbo, m_ebo);
     }
 
     void Mesh::Draw() {

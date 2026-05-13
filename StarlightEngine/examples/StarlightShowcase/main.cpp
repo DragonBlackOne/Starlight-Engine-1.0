@@ -1,51 +1,67 @@
-// Starlight Engine: CELESTIAL NEXUS SHOWCASE
+// Starlight Engine: ODYSSEY ENTRY POINT
 #include "Engine.hpp"
 #include "Log.hpp"
-#include "CoreMinimal.hpp"
-#include "Components.hpp"
 #include "Renderer.hpp"
-#include "NetworkSystem.hpp"
-#include "CameraSystem.hpp"
-#include "GameSuite.hpp"
+#include "ScriptSystem.hpp"
+#include "CoreMinimal.hpp"
 
 using namespace starlight;
 
-class ShowcaseScene : public Scene {
+// Odyssey Scene — renders the 3D world created by Lua scripts
+class OdysseyScene : public Scene {
+private:
+    float m_fpsTimer = 0.0f;
+    int m_frameCount = 0;
 public:
     void OnEnter() override {
-        Log::Info("ShowcaseScene: Initializing Celestial Nexus...");
-        
-        // Start non-blocking server
-        Engine::Get().GetNetwork().StartServer(7777);
+        Log::Info("Odyssey: Scene Active — Lua controls gameplay.");
     }
 
     void OnUpdate(float dt) override {
-        // Lua handles the logic, but we can add C++ global logic here
+        m_fpsTimer += dt;
+        m_frameCount++;
+        if (m_fpsTimer >= 1.0f) {
+            m_fpsTimer = 0.0f;
+            m_frameCount = 0;
+        }
     }
 
-    void OnFixedUpdate(float dt) override {}
+    void OnFixedUpdate(float dt) override { (void)dt; }
     void OnExit() override {}
 
     void OnRender() override {
-        // Clear is handled by Renderer::BeginFrame
         Engine::Get().GetRenderer().RenderRegistry(GetRegistry());
     }
 };
 
 int main(int argc, char* argv[]) {
-    WindowConfig config = { "Starlight Engine: Celestial Nexus Showcase", 1280, 720 };
-    Engine engine;
-    engine.Initialize(config);
-    
-    // Disable ImGui rendering for the pure showcase
-    // (Already commented out in Engine::Render)
-
-    auto scene = std::make_shared<ShowcaseScene>();
-    engine.GetSceneStack().Push(scene);
-    
-    // Start with a 2D Game Module
-    engine.AddModule(std::make_shared<SnakeModule>());
-    
-    engine.Run();
+    try {
+        WindowConfig config = { "Starlight Engine: Odyssey Unified Tech Demo", 1280, 720 };
+        Engine engine;
+        engine.Initialize(config);
+        
+        // Replace the default BaseScene with our OdysseyScene
+        // so Lua scripts and rendering share the same registry
+        engine.GetSceneStack().Pop();
+        engine.GetSceneStack().Push(std::make_shared<OdysseyScene>());
+        
+        // Re-execute the Lua script so it creates entities in this scene's registry
+        auto scripting = engine.GetSystem<ScriptSystem>();
+        if (scripting) {
+            Log::Info("Main: Executing Odyssey Lua script...");
+            scripting->ExecuteFile("assets/scripts/starlight_odyssey.lua");
+            Log::Info("Main: Lua script execution finished.");
+        }
+        
+        Log::Info("Main: Starting Engine Run loop...");
+        engine.Run();
+        Log::Info("Main: Engine Run loop terminated naturally.");
+    } catch (const std::exception& e) {
+        Log::Error("Main: FATAL EXCEPTION: " + std::string(e.what()));
+        return 1;
+    } catch (...) {
+        Log::Error("Main: UNKNOWN FATAL EXCEPTION!");
+        return 1;
+    }
     return 0;
 }

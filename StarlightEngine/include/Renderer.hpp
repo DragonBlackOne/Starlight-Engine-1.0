@@ -1,7 +1,8 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÂ© feito por IA e sÃƒÂ³ o prompt ÃƒÂ© feito por um humano.
 #pragma once
 #include <vector>
 #include <memory>
+#include <mutex>
 #include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <entt/entt.hpp>
@@ -14,6 +15,9 @@
 #include "GizmoSystem.hpp"
 #include "OctreeSystem.hpp"
 #include "RenderGraph.hpp"
+#include "IBLSystem.hpp"
+
+#include "EngineSystem.hpp"
 
 namespace starlight {
     class ParticleSystem;
@@ -28,13 +32,32 @@ namespace starlight {
         float ao = 1.0f;
     };
 
-    class Renderer {
+    class Renderer : public ISystem {
+        friend class GBufferPass;
+        friend class ShadowPass;
+        friend class SkyboxPass;
+        friend class GeometryPass;
+        friend class SSAO_Pass;
+        friend class VolumetricPass;
+        friend class BloomPass;
+        friend class CompositionPass;
+        friend class UIPass;
     public:
         Renderer();
         ~Renderer();
 
-        void Initialize();
+        // ISystem
+        bool OnInitialize(const EngineContext& context) override;
+        void OnShutdown() override;
+        void OnRender() override;
+        const char* GetName() const override { return "Renderer"; }
+
         void UpdateProjection(float fov, float aspect, float nearP, float farP);
+
+        // Deferred GL Resource Deletion (Thread-Safe)
+        static void SubmitDeferredTextureDeletion(uint32_t texID);
+        static void SubmitDeferredMeshDeletion(uint32_t vao, uint32_t vbo, uint32_t ebo);
+        void SetCameraLookAt(glm::vec3 target);
         void SetViewMatrix(const glm::mat4& view) { m_view = view; }
         TransformComponent& GetCameraTransform() { return m_cameraTransform; }
         
@@ -44,13 +67,16 @@ namespace starlight {
         void EndFrame();
 
         void RenderRegistry(entt::registry& registry);
+        void RenderSkinnedMeshes(entt::registry& registry);
+        void RenderSkinnedToGBuffer(entt::registry& registry);
         void DrawParticles(ParticleSystem& ps);
 
-        std::shared_ptr<Shader> GetBasicShader() { return m_basicShader; }
-        std::shared_ptr<Shader> GetPBRShader() { return m_pbrShader; }
-        std::shared_ptr<Shader> GetPostComposeShader() { return m_postComposeShader; }
-        std::shared_ptr<Shader> GetUIShader() { return m_uiShader; }
-        std::shared_ptr<Mesh> GetCubeMesh() { return m_cubeMesh; }
+        std::shared_ptr<Shader> GetBasicShader() const { return m_basicShader; }
+        std::shared_ptr<Shader> GetPBRShader() const { return m_pbrShader; }
+        std::shared_ptr<Shader> GetPostComposeShader() const { return m_postComposeShader; }
+        std::shared_ptr<Shader> GetUIShader() const { return m_uiShader; }
+        std::shared_ptr<Mesh> GetCubeMesh() const { return m_cubeMesh; }
+        std::shared_ptr<Mesh> GetQuadMesh() const { return m_quadMesh; }
         DashboardSystem& GetDashboard() { return *m_dashboardSystem; }
         OctreeSystem& GetOctree() { return *m_octreeSystem; }
 
@@ -76,8 +102,20 @@ namespace starlight {
         uint32_t m_fboWidth = 1280;
         uint32_t m_fboHeight = 720;
         
+        // Deferred Deletion System
+        static std::vector<uint32_t> s_textureDeletionQueue;
+        struct MeshDeletion { uint32_t vao, vbo, ebo; };
+        static std::vector<MeshDeletion> s_meshDeletionQueue;
+        static std::mutex s_deletionMutex;
+        
         uint32_t m_finalFBO = 0;
         uint32_t m_finalColorTex = 0;
+        
+        // IBL
+        uint32_t m_skyboxCubemap = 0;
+        uint32_t m_irradianceMap = 0;
+        uint32_t m_prefilterMap = 0;
+        uint32_t m_brdfLUT = 0;
         
         void RecreateFBO(int width, int height);
 
@@ -98,7 +136,7 @@ namespace starlight {
         std::shared_ptr<Shader> m_deferredLightShader;
         std::shared_ptr<Shader> m_gbufferShader;
         std::shared_ptr<Shader> m_skyboxShader;
-        uint32_t m_skyboxCubemap = 0;
+        std::shared_ptr<Shader> m_volumetricShader;
 
     public:
         // Volumetric Clouds
@@ -114,14 +152,14 @@ namespace starlight {
         std::unique_ptr<DashboardSystem> m_dashboardSystem;
         std::unique_ptr<GizmoSystem> m_gizmoSystem;
         std::unique_ptr<OctreeSystem> m_octreeSystem;
+        std::unique_ptr<IBLSystem> m_iblSystem;
 
         // Phase 10 Post-FX
         std::shared_ptr<Shader> m_bloomBrightShader;
         std::shared_ptr<Shader> m_bloomBlurShader;
         std::shared_ptr<Shader> m_postComposeShader;
-        uint32_t m_pingpongFBO[2], m_pingpongColorbuffers[2];
 
-        // Escala 10 TrilhÃµes
+        // Escala 10 TrilhÃƒÆ’Ã‚Âµes
         std::unique_ptr<RenderGraph> m_renderGraph;
 
         // Cached Lights for Deferred Pass

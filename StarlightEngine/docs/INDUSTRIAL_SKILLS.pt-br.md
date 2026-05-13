@@ -21,11 +21,12 @@ Este documento consolida o conhecimento técnico avançado necessário para domi
 
 ---
 
-## 🎭 3. HARDWARE SKINNING (ANIMAÇÃO)
-**Conceito**: Vértices deformados por uma hierarquia de articulações (joints) na GPU.
+## 🎭 3. ANIMAÇÃO PROFISSIONAL (OZZ)
+**Conceito**: Sistema de animação esquelética de nível industrial.
+- **Ozz-Animation**: Integração com o framework profissional Ozz para amostragem e blending de poses.
+- **Hardware Skinning**: Vértices deformados por uma hierarquia de articulações (joints) na GPU.
 - **Joints**: Cada vértice suporta 4 índices de articulação (`ivec4`).
 - **Weights**: Influência normalizada de cada articulação (`vec4`).
-- **Matrizes**: Capacidade de 64 ossos por entidade animada.
 - **Buffer de Vértices**: Estrutura `starlight::Vertex` atualizada para incluir dados de animação por padrão.
 
 ---
@@ -38,7 +39,15 @@ Este documento consolida o conhecimento técnico avançado necessário para domi
 
 ---
 
+## 🏗️ 5. RENDERGRAPH & MODULARIDADE
+**Conceito**: Renderização baseada em passagens com gerenciamento automático de recursos.
+- **Desacoplamento**: Cada passagem (CSM, SSAO, Bloom) é um nó independente.
+- **Eficiência**: Reutilização automática de texturas transientes e buffers.
+- **Escalabilidade**: Facilidade para adicionar novos efeitos de pós-processamento ou iluminação.
+
+---
+
 > [!TIP]
 > **BOA PRÁTICA**: Use o **Sistema de Eventos** para disparar Conquistas ou atualizações de Missão, mantendo sua lógica de jogo separada dos loops de atualização principais do motor.
 
-*Starlight Engine v2.0.0 - 2026 Fusion Edition*
+*Starlight Engine v2.1.0 - 2026 Odyssey Edition*

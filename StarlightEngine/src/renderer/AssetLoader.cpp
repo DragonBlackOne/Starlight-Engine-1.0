@@ -1,6 +1,9 @@
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "AssetLoader.hpp"
 #include "Log.hpp"
+#pragma warning(push, 0)
+#include <codeanalysis/warnings.h>
+#pragma warning(disable: ALL_CODE_ANALYSIS_WARNINGS)
 
 #define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
@@ -13,6 +16,8 @@
 
 #define CGLTF_IMPLEMENTATION
 #include "cgltf.h"
+
+#pragma warning(pop)
 
 #include <vector>
 #include <fstream>
@@ -30,20 +35,15 @@ namespace starlight {
         size_t indexCount = indices.size();
         size_t vertexCount = vertices.size();
 
-        // 1. Vertex Cache Optimization (Forsyth/Tipsify algorithm)
-        // Reorders triangles to maximize post-transform vertex cache hits on the GPU.
+        // 1. Vertex Cache Optimization (Strip optimization for modern GPUs)
         std::vector<uint32_t> optimizedIndices(indexCount);
-        meshopt_optimizeVertexCache(optimizedIndices.data(), indices.data(), indexCount, vertexCount);
+        meshopt_optimizeVertexCacheStrip(optimizedIndices.data(), indices.data(), indexCount, vertexCount);
 
         // 2. Overdraw Optimization
-        // Reorders triangles to reduce pixel overdraw (pixels shaded but later occluded).
-        // Uses the optimized cache order as input, threshold 1.05 = max 5% degradation from cache optimal.
         meshopt_optimizeOverdraw(optimizedIndices.data(), optimizedIndices.data(), indexCount,
             &vertices[0].position.x, vertexCount, sizeof(Vertex), 1.05f);
 
         // 3. Vertex Fetch Optimization
-        // Reorders the vertex buffer to match the access pattern of the optimized index buffer,
-        // improving spatial locality and GPU memory prefetching.
         std::vector<uint32_t> remap(vertexCount);
         meshopt_optimizeVertexFetchRemap(remap.data(), optimizedIndices.data(), indexCount, vertexCount);
         meshopt_remapIndexBuffer(optimizedIndices.data(), optimizedIndices.data(), indexCount, remap.data());
@@ -54,7 +54,37 @@ namespace starlight {
         indices = std::move(optimizedIndices);
         vertices = std::move(optimizedVertices);
 
-        Log::Info("meshoptimizer: Optimized " + std::to_string(vertexCount) + " vertices, " + std::to_string(indexCount / 3) + " triangles.");
+        Log::Info("meshoptimizer (v1.1): Highly optimized " + std::to_string(vertexCount) + " vertices, " + std::to_string(indexCount / 3) + " triangles.");
+    }
+
+    MeshData AssetLoader::SimplifyMesh(const MeshData& input, float targetRatio) {
+        if (input.indices.empty() || input.vertices.empty()) return {};
+
+        size_t indexCount = input.indices.size();
+        size_t targetIndexCount = (size_t)(indexCount * targetRatio);
+        float targetError = 0.01f;
+
+        std::vector<uint32_t> simplifiedIndices(indexCount);
+        size_t newIndexCount = meshopt_simplify(
+            simplifiedIndices.data(), 
+            input.indices.data(), 
+            indexCount, 
+            &input.vertices[0].position.x, 
+            input.vertices.size(), 
+            sizeof(Vertex), 
+            targetIndexCount, 
+            targetError
+        );
+
+        simplifiedIndices.resize(newIndexCount);
+
+        MeshData output;
+        output.vertices = input.vertices; // Reuse original vertices for simplicity in this helper
+        output.indices = std::move(simplifiedIndices);
+        output.valid = true;
+
+        Log::Info("meshoptimizer: Simplified mesh from " + std::to_string(indexCount / 3) + " to " + std::to_string(newIndexCount / 3) + " triangles.");
+        return output;
     }
 
     // =========================================================================
@@ -72,7 +102,8 @@ namespace starlight {
         file.read(*buf, *size);
     }
 
-    std::shared_ptr<Mesh> AssetLoader::LoadOBJ(const std::string& path) {
+    MeshData AssetLoader::LoadOBJ(const std::string& path) {
+        MeshData meshData;
         tinyobj_attrib_t attrib;
         tinyobj_shape_t* shapes = NULL;
         size_t num_shapes;
@@ -83,7 +114,7 @@ namespace starlight {
         
         if (result != TINYOBJ_SUCCESS) {
             Log::Error("Failed to load OBJ: " + path);
-            return nullptr;
+            return meshData;
         }
 
         std::vector<Vertex> vertices;
@@ -127,40 +158,43 @@ namespace starlight {
         // meshoptimizer post-process: cache + overdraw + fetch optimization
         OptimizeMesh(vertices, indices);
 
-        auto mesh = std::make_shared<Mesh>(vertices, indices);
+        meshData.vertices = std::move(vertices);
+        meshData.indices = std::move(indices);
+        meshData.valid = true;
 
         tinyobj_attrib_free(&attrib);
         if (shapes) tinyobj_shapes_free(shapes, num_shapes);
         if (materials) tinyobj_materials_free(materials, num_materials);
 
-        return mesh;
+        return meshData;
     }
 
     // =========================================================================
     //  GLTF/GLB LOADER (cgltf by jkuhlmann - MIT License)
     //  Loads the industry-standard PBR format used by Blender, Godot, Unity, Unreal.
     // =========================================================================
-    std::shared_ptr<Mesh> AssetLoader::LoadGLTF(const std::string& path) {
+    MeshData AssetLoader::LoadGLTF(const std::string& path) {
+        MeshData meshData;
         cgltf_options options = {};
         cgltf_data* data = nullptr;
 
         cgltf_result result = cgltf_parse_file(&options, path.c_str(), &data);
         if (result != cgltf_result_success) {
             Log::Error("cgltf: Failed to parse: " + path);
-            return nullptr;
+            return meshData;
         }
 
         result = cgltf_load_buffers(&options, data, path.c_str());
         if (result != cgltf_result_success) {
             Log::Error("cgltf: Failed to load buffers: " + path);
             cgltf_free(data);
-            return nullptr;
+            return meshData;
         }
 
         if (data->meshes_count == 0) {
             Log::Error("cgltf: No meshes found in: " + path);
             cgltf_free(data);
-            return nullptr;
+            return meshData;
         }
 
         // Load the first mesh, first primitive (standard convention for single-mesh assets)
@@ -168,7 +202,7 @@ namespace starlight {
         if (gltfMesh.primitives_count == 0) {
             Log::Error("cgltf: No primitives in mesh: " + path);
             cgltf_free(data);
-            return nullptr;
+            return meshData;
         }
 
         cgltf_primitive& prim = gltfMesh.primitives[0];
@@ -201,7 +235,7 @@ namespace starlight {
         if (!positionData || vertexCount == 0) {
             Log::Error("cgltf: No position data in: " + path);
             cgltf_free(data);
-            return nullptr;
+            return meshData;
         }
 
         vertices.resize(vertexCount);
@@ -239,41 +273,143 @@ namespace starlight {
         // meshoptimizer post-process
         OptimizeMesh(vertices, indices);
 
-        auto mesh = std::make_shared<Mesh>(vertices, indices);
+        meshData.vertices = std::move(vertices);
+        meshData.indices = std::move(indices);
+        meshData.valid = true;
 
-        Log::Info("cgltf: Loaded '" + path + "' (" + std::to_string(vertexCount) + " verts, " + std::to_string(indices.size() / 3) + " tris)");
+        Log::Info("cgltf: Loaded '" + path + "' (" + std::to_string(vertexCount) + " verts, " + std::to_string(meshData.indices.size() / 3) + " tris)");
 
         cgltf_free(data);
-        return mesh;
+        return meshData;
     }
 
     // =========================================================================
     //  TEXTURE LOADING (stb_image - MIT/Public Domain)
     // =========================================================================
-    uint32_t AssetLoader::LoadTexture(const std::string& path) {
+    uint32_t AssetLoader::LoadTexture(const std::string& path, bool removeCheckered) {
         int width, height, channels;
-        stbi_set_flip_vertically_on_load(true);
-        unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 0);
+        stbi_set_flip_vertically_on_load(false);
+        unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 4); 
 
         if (!data) {
             Log::Error("Failed to load texture: " + path);
             return 0;
         }
 
+        if (removeCheckered) {
+            for (int i = 0; i < width * height * 4; i += 4) {
+                unsigned char r = data[i];
+                unsigned char g = data[i + 1];
+                unsigned char b = data[i + 2];
+                
+                // Discard near-white and near-gray checkerboard patterns
+                bool isGray = (r > 200 && r < 210 && g > 200 && g < 210 && b > 200 && b < 210);
+                bool isWhite = (r > 250 && g > 250 && b > 250);
+                
+                if (isGray || isWhite) {
+                    data[i + 3] = 0; // Alpha = 0
+                }
+            }
+        }
+
         uint32_t texture;
         glGenTextures(1, &texture);
         glBindTexture(GL_TEXTURE_2D, texture);
 
-        GLenum format = (channels == 4) ? GL_RGBA : GL_RGB;
-        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
         glGenerateMipmap(GL_TEXTURE_2D);
 
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         stbi_image_free(data);
+        return texture;
+    }
+
+    uint32_t AssetLoader::CreateProceduralIsometricTile(const glm::vec3& color) {
+        const int size = 256;
+        unsigned char* data = new unsigned char[size * size * 4];
+        
+        for (int y = 0; y < size; y++) {
+            for (int x = 0; x < size; x++) {
+                int idx = (y * size + x) * 4;
+                
+                float uvx = (float)x / (float)size;
+                float uvy = (float)y / (float)size;
+                
+                // Isometric Diamond Mask
+                float dist = abs(uvx - 0.5f) + abs(uvy - 0.5f) * 2.0f;
+                
+                if (dist <= 0.5f) {
+                    float factor = 1.0f - dist; // Lighter at center
+                    data[idx + 0] = (unsigned char)(color.r * factor * 255);
+                    data[idx + 1] = (unsigned char)(color.g * factor * 255);
+                    data[idx + 2] = (unsigned char)(color.b * factor * 255);
+                    data[idx + 3] = 255;
+                    
+                    // Add a small border highlight
+                    if (dist > 0.48f) {
+                        data[idx + 0] = 255; data[idx + 1] = 255; data[idx + 2] = 255;
+                    }
+                } else {
+                    data[idx + 0] = 0; data[idx + 1] = 0; data[idx + 2] = 0; data[idx + 3] = 0;
+                }
+            }
+        }
+
+        uint32_t texture;
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size, size, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        
+        delete[] data;
+        return texture;
+    }
+
+    uint32_t AssetLoader::CreateProceduralBuilding(const glm::vec3& color) {
+        // Mode 0: Corporate (Tall), Mode 1: Residential (Wide), Mode 2: Factory (Low)
+        const int size = 256;
+        unsigned char* data = new unsigned char[size * size * 4];
+        memset(data, 0, size * size * 4);
+
+        int type = (color.r > 0.4f) ? 0 : (color.g > 0.4f ? 1 : 2);
+
+        int bx = 80, by = 40, bw = 96, bh = 180;
+        if (type == 1) { bx = 60; by = 100; bw = 136; bh = 120; }
+        if (type == 2) { bx = 50; by = 140; bw = 156; bh = 80; }
+
+        for (int y = by; y < by + bh; y++) {
+            for (int x = bx; x < bx + bw; x++) {
+                int idx = (y * size + x) * 4;
+                float uvy = (float)y / 256.0f;
+                
+                data[idx + 0] = (unsigned char)(color.r * 0.3f * 255);
+                data[idx + 1] = (unsigned char)(color.g * 0.3f * 255);
+                data[idx + 2] = (unsigned char)(color.b * 0.3f * 255);
+                data[idx + 3] = 255;
+
+                // Windows / Lights
+                if (type == 0 && (y % 10 < 3) && (x % 20 < 10)) { data[idx + 1] = 255; data[idx + 2] = 255; }
+                if (type == 1 && (y % 15 < 5) && (x % 30 < 15)) { data[idx + 0] = 255; data[idx + 1] = 200; }
+                
+                // Outline
+                if (x == bx || x == bx+bw-1 || y == by || y == by+bh-1) {
+                    data[idx + 0] = 100; data[idx + 1] = 100; data[idx + 2] = 100;
+                }
+            }
+        }
+
+        uint32_t texture;
+        glGenTextures(1, &texture);
+        glBindTexture(GL_TEXTURE_2D, texture);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, size, size, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        delete[] data;
         return texture;
     }
 
