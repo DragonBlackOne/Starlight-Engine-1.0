@@ -1,121 +1,49 @@
-# 🌌 STARLIGHT ENGINE - The Sovereign Industrial SDK
+# Fusion ENGINE Ecosystem
+> **Este projeto é feito por IA e só o prompt é feito por um humano.**
 
-![Starlight Engine Banner](file:///d:/Projetos/Fusion%20ENGINE/StarlightEngine/docs/images/banner.png)
+Bem-vindo ao repositório raiz da **Fusion ENGINE** (anteriormente derivada da *Starlight* e *Titan* Engines). Este repositório contém um ecossistema completo de desenvolvimento de jogos focado em performance industrial, arquitetura C++ modular e uma API poderosa de Scripting em Lua.
 
-> "The silence of the multiverse was shattered by the eternal glow of Starlight." ⚔️🏆🌌
-> "O silêncio do multiverso foi quebrado pelo brilho eterno da Starlight."
+## 🌌 Visão Geral
 
----
+A Fusion ENGINE foi reconstruída do zero através de uma série contínua de "Phases" focadas na maturação de ferramentas de nível de produção. 
+O núcleo C++ é 100% agnóstico e independente, lidando primariamente com:
+- Renderização Avançada (OpenGL, RenderGraph, Cascaded Shadows, PBR, Isometric Procedural Masking).
+- Física Profissional via Jolt Physics.
+- Job System Multi-threading para tarefas pesadas (Wicked Engine inspirado).
+- Exposição completa via máquina virtual (Lua / Sol2) para permitir que a Lógica de Gameplay seja independente da compilação em C++.
 
-## 🌐 Language / Idioma
-- [English](#english)
-- [Português (Brasil)](#português-brasil)
+## 📂 Estrutura do Repositório
 
----
+O repositório é separado em módulos principais. A Engine em si serve como um SDK estático (Library) vinculado externamente aos projetos.
 
-<a name="english"></a>
-## 💎 Core Architecture (English)
+| Diretório | Descrição |
+|-----------|-----------|
+| **[`StarlightEngine/`](StarlightEngine/README.md)** | O núcleo C++ da Fusion Engine. Contém todos os sistemas (Core, Renderer, Physics, Network, ECS, Audio). |
+| **[`CapitalOdyssey/`](CapitalOdyssey/README.md)** | Uma simulação cibernética 2.5D focada no mercado financeiro. Nosso projeto "AAA" de Showcase visual. |  esse jogo ainda está extremamente quebrado nestá versão.
+| **[`Tetris_Project/`](Tetris_Project/README.md)** | Implementação Arcade em Lua do Tetris clássico, suportando Ghost Piece, Hold e Super Rotation System (SRS). |
+| **[`Pong_Project/`](Pong_Project/README.md)** | Nosso projeto "Hello World". Demonstra Input e Física 2D simples via Lua Scripting. |
 
-**Starlight Engine** is a high-performance, industrial-grade game engine SDK built for the next generation of commercial projects. Born from the total unification of the *Fusion*, *Titan*, and *Quimera* ecosystems, it provides a self-contained, production-ready framework for AAA visual fidelity and sub-millisecond core logic.
+## 🚀 Compilação e Build
 
-### 🚀 Technical Powerhouse
-- **[AVX2 SIMD Math]**: Custom-built mathematical core utilizing CPU intrinsics for massive vertex and point transformations.
-- **[Logarithmic Depth]**: Native support for astronomical scales (Solar System scale) with zero Z-fighting.
-- **[VFS & TPAK Protection]**: Virtual File System with encrypted asset packing for IP security.
-- **[Jolt Physics]**: Fully integrated state-of-the-art physics engine for rigid bodies, cloth, and vehicles.
-- **[BehaviorTree.CPP & Navigation]**: Industrial AI with sub-millisecond A* pathfinding (zero-allocation).
-- **[Lua Scripting]**: High-speed binding for gameplay logic with automated memory safety.
+A arquitetura de Build é completamente centralizada via **CMake**.
 
-### 🎨 Advanced Visual Suite (Phase 10)
-- **Volumetric Clouds**: Real-time Ray-Marching clouds with dynamic density.
-- **Atmospheric Scattering**: Physical simulation of light scattering for realistic horizons.
-- **PBR Water System**: High-fidelity oceans with SSR (Screen Space Reflections) and refraction.
-- **VFX Studio**: Integrated Effekseer runtime for cinematic particle effects.
+### Pré-requisitos
+- **Sistema Operacional:** Windows
+- **Ferramentas:** CMake (3.20+), MSVC (Visual Studio 2022 / Build Tools)
+- **Bibliotecas Base (Thirdparty):** EnTT, ImGui, Jolt Physics, SDL2, glad, Lua.
 
----
+### Automação de Build
+Para compilar simultaneamente todos os projetos ativos da Engine, utilizamos o script PowerShell incluído na raiz.
 
-<a name="português-brasil"></a>
-## 💎 Arquitetura Central (Português)
-
-A **Starlight Engine** é um SDK de motor gráfico industrial de alto desempenho, construído para a próxima geração de projetos comerciais. Nascida da unificação total dos ecossistemas *Fusion*, *Titan* e *Quimera*, ela fornece uma estrutura autônoma e pronta para produção, com fidelidade visual AAA e lógica de núcleo em sub-milissegundos.
-
-### 🚀 Poder Tecnológico
-- **[Matemática SIMD AVX2]**: Núcleo matemático customizado utilizando intrínsecos de CPU para transformações massivas de vértices e pontos.
-- **[Profundidade Logarítmica]**: Suporte nativo para escalas astronômicas (escala do Sistema Solar) com zero Z-fighting.
-- **[Proteção VFS & TPAK]**: Sistema de Arquivos Virtual com empacotamento de assets criptografado para segurança de propriedade intelectual.
-- **[Física Jolt]**: Motor de física de última geração totalmente integrado para corpos rígidos, tecidos e veículos.
-- **[BehaviorTree.CPP & Navegação]**: IA industrial com busca de caminhos A* em sub-milissegundos (zero-allocation).
-- **[Lua Scripting]**: Binding de alta velocidade para lógica de jogo com segurança de memória automatizada.
-
-### 🎨 Suite Visual Avançada (Fase 10)
-- **Nuvens Volumétricas**: Nuvens via Ray-Marching em tempo real com densidade dinâmica.
-- **Espalhamento Atmosférico**: Simulação física de dispersão de luz para horizontes realistas.
-- **Sistema de Água PBR**: Oceanos de alta fidelidade com SSR (Screen Space Reflections) e refração.
-- **VFX Studio**: Integração total com Effekseer para efeitos de partículas cinematográficos.
-
----
-
-## 📁 Repository Structure / Estrutura do Repositório
-
-| Component | Description / Descrição |
-| :--- | :--- |
-| **[StarlightEngine/](file:///d:/Projetos/Fusion%20ENGINE/StarlightEngine)** | The Sovereign SDK. Source code, headers, and industrial tools. / O SDK Soberano. Código-fonte, headers e ferramentas industriais. |
-| **[Genesis_Project_01/](file:///d:/Projetos/Fusion%20ENGINE/Genesis_Project_01)** | Commercial project template. / Template de projeto comercial AAA. |
-| **[tools/](file:///d:/Projetos/Fusion%20ENGINE/StarlightEngine/tools)** | Industrial asset processors. / Processadores de assets industriais. |
-
----
-
-## 🛠️ Getting Started / Como Iniciar
-
-### 1. Build the Core / Compilar o Núcleo
 ```powershell
-cd StarlightEngine
-mkdir build; cd build
-cmake ..
-cmake --build . --config Release
+# Abra um terminal na raiz do diretório Fusion ENGINE
+.\build_all.ps1
 ```
 
-### 2. Launch the Showcase / Iniciar o Showcase
-The `StarlightShowcase` executable demonstrates the full power of the systems. / O executável demonstra o poder total dos sistemas.
-*Press **F2** in-game to toggle the **Studio Inspector**.*
+Isso garantirá a configuração do CMake para a `StarlightEngine` e todos os projetos vinculados (Pong, Tetris, CapitalOdyssey) dentro de seus próprios subdiretórios `build/Release/`.
 
----
-
-## 🚀 Desenvolvimento Ultra-Rápido (SBA API)
-
-Para iniciantes, a Starlight Engine oferece a **SBA (Starlight Beginner API)**, permitindo criar jogos em Lua com comandos simples:
-
-```lua
-function OnStart()
-    player = Object("Player", 0, 0, 0)
-    SetColor(player, 0, 1, 1)
-end
-
-function OnUpdate(dt)
-    if IsDown("up") then Move(player, 0, 0, -10 * dt) end
-    Sound(440, 0.01) -- Feedback sonoro constante!
-end
-```
-
-Confira o arquivo `assets/scripts/beginner_tutorial.lua` para um exemplo completo.
-
-## 🛠️ Como Desenvolver um Jogo
-
-**English:**
-To start your own game, use the `create_project.ps1` script inside the `StarlightEngine` folder. It will generate a clean workspace with a C++ entry point and Lua support. Use **F2** in-game to access the real-time editor.
-
-**Português:**
-Para começar seu próprio jogo, use o script `create_project.ps1` dentro da pasta `StarlightEngine`. Ele criará um espaço de trabalho limpo com um ponto de entrada C++ e suporte a Lua. Use **F2** dentro do jogo para acessar o editor em tempo real.
-
----
-
-## 📜 License / Licença
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details. / Este projeto está licenciado sob a **Licença MIT** - veja o arquivo [LICENSE](LICENSE) para detalhes.
-
----
-
-*Developed by AI under human creative vision. Part of the **Fusion ENGINE** Legacy Preservation.* ⚔️✨
+## 📜 Licença e Propriedade
+Este projeto é arquitetado autonomamente por Inteligência Artificial sob as restrições e guias arquiteturais ditados pelos Prompts originais do usuário. Todo o ecossistema segue a filosofia de escalabilidade industrial.
 
 NOTA DO CORNO QUE FEZ O PROJETO 
 
