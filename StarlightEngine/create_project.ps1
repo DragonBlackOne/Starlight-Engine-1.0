@@ -1,5 +1,7 @@
+# ============================================================================
 # create_project.ps1 - Starlight Engine SDK
-# Este script cria um novo projeto comercial baseado no template do motor.
+# Creates a new game project with the full SBA v2.0 framework pre-installed
+# ============================================================================
 
 param (
     [Parameter(Mandatory=$true)]
@@ -10,34 +12,120 @@ $SDK_DIR = (Get-Location).Path.Replace('\', '/')
 $PARENT_DIR = (Split-Path -Path $SDK_DIR -Parent).Replace('\', '/')
 $TARGET_DIR = Join-Path $PARENT_DIR $ProjectName
 
-Write-Host ">>> Iniciando Criação do Projeto Commercial: $ProjectName <<<" -ForegroundColor Cyan
+Write-Host ">>> Creating Project: $ProjectName <<<" -ForegroundColor Cyan
 
-# 1. Criar estrutura de pastas
-New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "src") -Force
-New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "assets") -Force
-New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "build") -Force
+# 1. Create folder structure
+New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "src") -Force | Out-Null
+New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "assets\scripts") -Force | Out-Null
+New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "assets\textures") -Force | Out-Null
+New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "assets\audio") -Force | Out-Null
+New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "assets\shaders") -Force | Out-Null
+New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "build") -Force | Out-Null
 
-# 2. Copiar Boilerplate
+# 2. Copy main.cpp boilerplate
 $MainContent = Get-Content (Join-Path $SDK_DIR "src\main.cpp")
 $MainContent = $MainContent -replace "Starlight Engine Commercial Project", "$ProjectName"
 $MainContent | Set-Content (Join-Path $TARGET_DIR "src\main.cpp")
 
-# 3. Gerar CMakeLists.txt do Projeto (Com tratamento de strings do PowerShell)
+# 3. Copy SBA Framework
+Copy-Item (Join-Path $SDK_DIR "assets\scripts\core.lua") -Destination (Join-Path $TARGET_DIR "assets\scripts\core.lua") -Force
+Copy-Item (Join-Path $SDK_DIR "assets\scripts\sba_bridge.lua") -Destination (Join-Path $TARGET_DIR "assets\scripts\sba_bridge.lua") -Force
+
+# 4. Generate starter game script
+$StarterScript = @"
+-- ============================================================================
+-- $ProjectName — Starter Script (SBA v2.0)
+-- ============================================================================
+package.path = package.path .. ";assets/scripts/?.lua"
+require("sba_bridge")
+
+local player = nil
+
+Scene.register("Game", {
+    onEnter = function()
+        Say("$ProjectName: Game Started!")
+        Engine.set_camera_pos(0, 15, 15)
+        Engine.look_at(0, 0, 0)
+
+        player = Entity("Player", 0, 0.5, 0)
+        player:setColor(0, 1, 1)
+        player:setScale(1)
+        player:setMaterial(0.8, 0.2)
+
+        local floor = Entity("Floor", 0, -0.5, 0)
+        floor:setColor(0.1, 0.1, 0.15)
+        floor:setScale(20, 0.1, 20)
+
+        Light(0, 12, 5, 1, 0.9, 0.8, 800)
+    end,
+
+    onUpdate = function(dt)
+        local speed = 8 * dt
+        if input.is_down("W") then player:move(0, 0, -speed) end
+        if input.is_down("S") then player:move(0, 0, speed) end
+        if input.is_down("A") then player:move(-speed, 0, 0) end
+        if input.is_down("D") then player:move(speed, 0, 0) end
+
+        Tween.update(dt)
+        Coroutine.update(dt)
+    end,
+
+    onRenderUI = function()
+        ui.begin(1600, 900)
+        ui.panel(10, 10, 300, 50, 0.02, 0.02, 0.05, 0.85)
+        ui.label("$ProjectName // SBA v2.0", 30, 45, 0, 1, 0.8, 1)
+        ui.finish()
+    end,
+})
+
+function OnStart() Scene.switch("Game") end
+function OnUpdate(dt) Scene.update(dt) end
+function OnRenderUI() Scene.renderUI() end
+"@
+$StarterScript | Set-Content (Join-Path $TARGET_DIR "assets\scripts\${ProjectName}_main.lua")
+
+# 5. Generate CMakeLists.txt
 $CMakeContent = "cmake_minimum_required(VERSION 3.20)`n"
 $CMakeContent += "project($ProjectName)`n`n"
 $CMakeContent += "set(CMAKE_CXX_STANDARD 20)`n`n"
-$CMakeContent += "# Localizar o SDK do Starlight Engine`n"
+$CMakeContent += "# Starlight Engine SDK`n"
 $CMakeContent += "set(STARLIGHT_SDK_DIR ""$SDK_DIR"")`n"
 $CMakeContent += "include(`${STARLIGHT_SDK_DIR}/StarlightEngineConfig.cmake)`n`n"
 $CMakeContent += "add_executable($ProjectName src/main.cpp)`n"
 $CMakeContent += "target_link_libraries($ProjectName PRIVATE StarlightCore)`n`n"
-$CMakeContent += "# Copiar Assets para o build`n"
+$CMakeContent += "# Copy Assets`n"
 $CMakeContent += "add_custom_command(TARGET $ProjectName POST_BUILD`n"
 $CMakeContent += "    COMMAND `${CMAKE_COMMAND} -E copy_directory`n"
 $CMakeContent += "    `${CMAKE_CURRENT_SOURCE_DIR}/assets`n"
-$CMakeContent += "    `\$<TARGET_FILE_DIR:$ProjectName>/assets`n"
+$CMakeContent += "    `$<TARGET_FILE_DIR:$ProjectName>/assets`n"
 $CMakeContent += ")`n"
 
 $CMakeContent | Set-Content (Join-Path $TARGET_DIR "CMakeLists.txt")
 
-Write-Host ">>> Projeto $ProjectName criado com sucesso em: $TARGET_DIR <<<" -ForegroundColor Green
+# 6. Generate README
+$ReadmeContent = @"
+# $ProjectName
+
+Built with **Fusion Engine (Starlight Engine SDK)**
+
+## SBA v2.0 Framework Included
+- Entity OO Wrapper
+- Scene Manager (State Machine)
+- Tween System (8 easing functions)
+- Event Bus (pub/sub)
+- Coroutine Runner
+- Color, MathX, Physics2D, Timer, ScreenShake
+
+## Build
+``````powershell
+cmake -B build -S .
+cmake --build build --config Release
+.\build\Release\$ProjectName.exe
+``````
+"@
+$ReadmeContent | Set-Content (Join-Path $TARGET_DIR "README.md")
+
+Write-Host ">>> Project $ProjectName created at: $TARGET_DIR <<<" -ForegroundColor Green
+Write-Host "   - SBA v2.0 framework pre-installed" -ForegroundColor DarkGray
+Write-Host "   - Starter script with Entity, Scene, Tween" -ForegroundColor DarkGray
+Write-Host "   - Ready to build with cmake" -ForegroundColor DarkGray

@@ -1,23 +1,43 @@
-# Starlight Pong Project
+# Starlight Pong — Neon Edition
+
 > **Este projeto é feito por IA e só o prompt é feito por um humano.**
 
-O **Pong Project** atua como o laboratório de testes fundacional (Hello World) da Fusion Engine. Ele foi o primeiro jogo desenvolvido para comprovar a robustez e eficiência da máquina virtual Lua operando sob o framework em C++.
+O **Pong Project** é nosso showcase de física 2D, AI e sistema de partículas rodando sob estética Neon Synthwave.
 
-## 🏓 O Projeto
+## 🏓 Recursos de Gameplay
 
-A implementação descarta qualquer física exagerada em favor de puro controle algébrico no plano 2D (`MathX.lua` e `Physics2D.lua`). O ambiente adota uma paleta vaporwave/synthwave estrita, renderizando raquetes em glow neon e calculando colisão AABB frame-a-frame contra uma bola em alta aceleração.
+| Feature | Descrição |
+|---------|-----------|
+| **AI Opponent** | CPU com tracking suavizado (85% da velocidade do jogador) |
+| **Particle System** | Explosões de partículas em colisões + trails da bola |
+| **Screen Shake** | Shake escalável: quanto maior o rally, mais intenso |
+| **Energy Bars** | Score visual com barras de energia neon |
+| **Power-Ups** | Cubos pulsantes que spawnam no campo |
+| **Rally Counter** | Contador central com cor HSV rainbow + barra de velocidade |
+| **Serve System** | Auto-serve com delay de 1s após pontuação |
 
-### Destaques Técnicos
-- **State Machine Baseada em Lua:** A lógica do pong altera dinamicamente entre as fases de Main Menu, Playing e Pause, exibindo como o Lua gerencia loops sem interferir na Engine C++.
-- **UI Responsiva via ImGui:** Os placares e botões interativos utilizam wrappers nativos customizados (`gfx.draw_quad`) unificados com o ponteiro do Mouse capturado via Input System.
-- **Audio Hooking:** Sincronia perfeita entre a detecção de colisão AABB da bola e a invocação em C++ (`audio.play_sound`) para emissão sonora fluida.
+### Power-Up System
+| Tipo | Cor | Efeito |
+|------|-----|--------|
+| SlowBall | 🔵 Azul | Reduz velocidade da bola em 40% |
+| SpeedBurst | 🩷 Rosa | Aumenta velocidade da bola em 40% |
+| Visual | 🟢 Verde | Feedback visual com partículas |
 
-## 🚀 Como Executar
+## 🎮 Controles
 
-Se você desejar validar rapidamente a integridade do compilador Starlight e confirmar que o input está respondendo:
-```bash
-# Na raiz da engine:
+| Tecla | Ação |
+|-------|------|
+| W / S | Mover paddle (Player 1) |
+| ESC | Pausar |
+
+## 🚀 Como Jogar
+
+```powershell
 cd Pong_Project
+cmake -B build -S .
 cmake --build build --config Release
 .\build\Release\Pong_Project.exe
 ```
+
+## 🔧 Framework
+Utiliza `core.lua` v2.1 com Class, MathX, Physics2D.CheckAABB, Color.hsv para rally counter.

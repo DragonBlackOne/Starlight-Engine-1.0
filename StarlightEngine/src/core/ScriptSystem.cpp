@@ -131,6 +131,53 @@ namespace starlight {
             t.rotation = glm::quat_cast(invView);
         };
         
+        // --- 3D MOUSE RAYCASTING API ---
+        engine["get_mouse_hit"] = [](float planeY, sol::this_state s) -> sol::variadic_results {
+            sol::variadic_results res;
+            sol::state_view lua(s);
+            
+            auto& window = Engine::Get().GetWindow();
+            int width = window.GetWidth();
+            int height = window.GetHeight();
+            
+            auto mPos = Engine::Get().GetInput().GetMousePosition();
+            float mx = mPos.x;
+            float my = mPos.y;
+            
+            // Normalize device coordinates
+            float x = (2.0f * mx) / width - 1.0f;
+            float y = 1.0f - (2.0f * my) / height;
+            
+            auto& renderer = Engine::Get().GetRenderer();
+            glm::mat4 proj = renderer.GetProjectionMatrix();
+            glm::mat4 view = renderer.GetViewMatrix();
+            glm::mat4 invVP = glm::inverse(proj * view);
+            
+            glm::vec4 rayClipNear(x, y, -1.0f, 1.0f);
+            glm::vec4 rayClipFar(x, y, 1.0f, 1.0f);
+            
+            glm::vec4 rayWorldNear = invVP * rayClipNear;
+            rayWorldNear /= rayWorldNear.w;
+            
+            glm::vec4 rayWorldFar = invVP * rayClipFar;
+            rayWorldFar /= rayWorldFar.w;
+            
+            glm::vec3 rayOrigin = glm::vec3(rayWorldNear);
+            glm::vec3 rayDir = glm::normalize(glm::vec3(rayWorldFar) - rayOrigin);
+            
+            // Intersect with plane Y = planeY
+            if (std::abs(rayDir.y) > 0.0001f) {
+                float t = (planeY - rayOrigin.y) / rayDir.y;
+                if (t >= 0.0f) {
+                    glm::vec3 hit = rayOrigin + rayDir * t;
+                    res.push_back({ lua, sol::in_place, hit.x });
+                    res.push_back({ lua, sol::in_place, hit.z });
+                    return res;
+                }
+            }
+            return res;
+        };
+        
         // Audio
         engine["play_sound"] = [](const std::string& path) {
             Engine::Get().GetAudio().PlayEffect(path);
@@ -173,6 +220,33 @@ namespace starlight {
             res.push_back({ lua, sol::in_place, t.position.x });
             res.push_back({ lua, sol::in_place, t.position.y });
             res.push_back({ lua, sol::in_place, t.position.z });
+            return res;
+        };
+
+        engine["set_light_color"] = [](uint32_t e, float r, float g, float b) {
+            auto scene = Engine::Get().GetSceneStack().Active();
+            if (!scene) return;
+            auto& reg = scene->GetRegistry();
+            if (!reg.valid((entt::entity)e) || !reg.all_of<PointLightComponent>((entt::entity)e)) return;
+            auto& l = reg.get<PointLightComponent>((entt::entity)e);
+            l.color = {r, g, b};
+        };
+        
+        engine["set_light_intensity"] = [](uint32_t e, float intensity) {
+            auto scene = Engine::Get().GetSceneStack().Active();
+            if (!scene) return;
+            auto& reg = scene->GetRegistry();
+            if (!reg.valid((entt::entity)e) || !reg.all_of<PointLightComponent>((entt::entity)e)) return;
+            auto& l = reg.get<PointLightComponent>((entt::entity)e);
+            l.intensity = intensity;
+        };
+        
+        engine["get_window_size"] = [](sol::this_state s) -> sol::variadic_results {
+            sol::variadic_results res;
+            sol::state_view lua(s);
+            auto& window = Engine::Get().GetWindow();
+            res.push_back({ lua, sol::in_place, window.GetWidth() });
+            res.push_back({ lua, sol::in_place, window.GetHeight() });
             return res;
         };
 

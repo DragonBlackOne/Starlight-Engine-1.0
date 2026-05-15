@@ -1,76 +1,86 @@
-# Starlight Engine SDK: Manual de Desenvolvimento Comercial 📑
+# Starlight Engine SDK: Manual de Desenvolvimento 📑
 
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+> Este projeto é feito por IA e só o prompt é feito por um humano.
 
-Bem-vindo ao manual oficial do **Starlight Engine SDK**. Este documento ensina como utilizar o motor para criar, proteger e distribuir jogos profissionais.
+Bem-vindo ao manual do **Starlight Engine SDK**. Este documento ensina como criar jogos usando o framework **SBA v2.0**.
 
 ---
 
-## 🏁 1. Iniciando um Novo Projeto
-O Starlight Engine fornece um script automatizado para criar a estrutura básica de um jogo comercial.
+## 🏁 1. Criando um Novo Projeto
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File ./create_project.ps1 -ProjectName "MeuJogoHeroico"
+cd StarlightEngine
+.\create_project.ps1 -ProjectName "MeuJogo"
 ```
 
-Isso criará uma pasta ao lado do SDK com:
-- `src/main.cpp`: O ponto de entrada do seu jogo.
-- `assets/`: Onde você coloca texturas, modelos e sons.
-- `CMakeLists.txt`: Configuração de build pré-otimizada.
+Isso cria um projeto completo com:
+- `src/main.cpp`: Ponto de entrada com boilerplate BaseScene.
+- `assets/scripts/core.lua`: Biblioteca padrão (MathX, Physics2D, Timer, Color, ScreenShake, ValueTween).
+- `assets/scripts/sba_bridge.lua`: SDK de jogos (Entity, Light, Tween, Scene, Events, Coroutine).
+- `assets/scripts/MeuJogo_main.lua`: Script inicial com Scene+Entity+Tween prontos.
+- `CMakeLists.txt`: Build pré-configurado.
 
 ---
 
-## 🏛️ 2. Arquitetura de Cenas (ECS)
-O motor utiliza um modelo baseado em **Cenas** e **ECS (EnTT)**.
+## 🎮 2. SBA v2.0 — Framework de Desenvolvimento
 
-### Exemplo de Boilerplate:
-```cpp
-class MyGame : public starlight::Scene {
-    void OnEnter() override {
-        // Inicialize entidades aqui
-        auto player = m_registry.create();
-        m_registry.emplace<starlight::Transform>(player);
-    }
-
-    void OnUpdate(float dt) override {
-        // Lógica por frame
-    }
-};
+### Sistema de Entidades (Objetos 3D)
+```lua
+local jogador = Entity("Jogador", 0, 1, 0)
+jogador:setColor(0, 1, 1)        -- Ciano
+jogador:setScale(1, 2, 1)         -- Alto
+jogador:setMaterial(0.8, 0.2)     -- Metálico, liso
+jogador:move(0, 0, -5 * dt)       -- Mover para frente
+jogador:destroy()                  -- Remover do mundo
 ```
 
----
-
-## ⚡ 3. Otimização com SIMD Math
-Para cálculos pesados (ex: transformar 10.000 partículas), utilize o namespace `starlight::simd`.
-
-```cpp
-starlight::simd::TransformPoints(modelMatrix, inData, outData, count);
+### Gerenciador de Cenas
+```lua
+Scene.register("Menu", {
+    onEnter = function() Say("Menu carregado!") end,
+    onUpdate = function(dt) end,
+    onRenderUI = function() end,
+})
+Scene.switch("Menu")
 ```
-*Nota: Requer CPUs compatíveis com AVX2 para performance máxima.*
 
----
+### Sistema de Tween (8 Funções de Easing)
+```lua
+Tween.to(predio, { y = 5.0 }, 1.5, "easeOutElastic")
+```
 
-## 🔐 4. Proteção de Assets (Sistema PAK)
-Para distribuição comercial, você deve converter sua pasta `assets/` em um arquivo `.pak`.
-
-### Como carregar um PAK:
-```cpp
-starlight::VFSSystem::Get().LoadPak("data.pak");
-// Agora todos os assets podem ser acessados via caminhos virtuais
-auto texture = AssetLoader::LoadTexture("@assets/player.png");
+### Bus de Eventos
+```lua
+Events.on("player_hit", function(data) Say("Dano: " .. data.amount) end)
+Events.emit("player_hit", { amount = 25 })
 ```
 
 ---
 
-## 🛠️ 5. Compilação e Distribuição
-O SDK suporta builds em **Debug** (com editor e logs) e **Release** (otimizado para o jogador final).
+## 🛠️ 3. Compilação
 
-### Nota de Estabilização (Jolt 5.5.0):
-Certifique-se de usar os headers do mesmo diretório utilizado para construir a biblioteca. Uma inconsistência de versão (ex: usar headers 5.5.1 com binário 5.5.0) fará com que o motor aborte durante a inicialização.
+```powershell
+cmake -B build -S .
+cmake --build build --config Release
+.\build\Release\MeuJogo.exe
+```
 
-1. No terminal: `cmake -B build -D CMAKE_BUILD_TYPE=Release`
-2. Compile: `cmake --build build --config Release`
-3. Distribua o executável junto com o arquivo `.pak` gerado e quaisquer DLLs necessárias.
+### Compilar Todos os Projetos
+```powershell
+.\build_all.ps1
+# Sincroniza framework SBA + compila Engine + todos os jogos
+```
 
 ---
-**Suporte**: Consulte o código fonte em `Starlight Engine/src/core` para detalhes profundos da implementação.
+
+## 📚 4. Referência da Biblioteca Padrão (core.lua)
+
+| Módulo | Funções |
+|--------|---------|
+| **MathX** | `clamp`, `lerp`, `sign`, `distance`, `distance3D`, `smoothstep`, `remap`, `random_range`, `normalize2D`, `angle`, `wrap` |
+| **Physics2D** | `CheckAABB`, `CheckCircle`, `PointInRect`, `RayCircle` |
+| **Timer** | `Timer.after(seg, fn)`, `Timer.every(seg, fn)`, `Timer.cancel(id)` |
+| **Color** | `Color.hsv(h,s,v)`, `Color.pulse(r,g,b,t,vel,intensidade)`, `Color.lerpRGB(...)` |
+| **ScreenShake** | `trigger(intensidade, duração)`, `update(dt)`, `getOffset()` |
+| **ValueTween** | `ValueTween.to(tabela, chave, valorFinal, duração, easing)` |
+| **Class** | `Class(base)` — Fábrica OO com herança verificável `is_a()` |

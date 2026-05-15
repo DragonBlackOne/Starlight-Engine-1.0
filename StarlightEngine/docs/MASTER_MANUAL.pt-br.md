@@ -1,59 +1,69 @@
-# 🔱 STARLIGHT ENGINE: O COMPÊNDIO ÔMEGA (2026)
+# 🔱 Starlight ENGINE: O COMPÊNDIO OMEGA (2026)
 
-Bem-vindo ao **Motor Unificado Definitivo**. Este manual serve como o guia definitivo para o motor de alto desempenho, nível industrial e elite visual nascido da fusão da *Starlight* e *Quimera*.
-
----
-
-## 🏛️ ARQUITETURA CENTRAL
-- **Engine Core**: Arquitetura modular com suporte a `EngineModule`.
-- **ECS (Entity Component System)**: Integração de alto desempenho com `EnTT`.
-- **Job System**: Execução de tarefas multi-thread via `wiJobSystem`.
-- **Octree**: Particionamento espacial para frustum culling e otimização de física.
+Bem-vindo à **Engine Unificada Ultimate**. Este manual é o guia definitivo para a engine de grau industrial e o framework de desenvolvimento **SBA v2.0**.
 
 ---
 
-## 🎨 PIPELINE DE RENDERIZAÇÃO AVANÇADO
-O renderizador da Starlight é um pipeline PBR de última geração com:
-- **PBR (Physically Based Rendering)**: Fluxo de trabalho Metallic/Roughness com IBL.
-- **Cascaded Shadow Maps (CSM)**: 4 cascatas para sombras de alta fidelidade em ambientes externos.
-- **SSAO (Ambient Occlusion)**: Oclusão ambiental baseada em Screen-Space com estabilidade temporal.
-- **HDR Bloom**: Extração de brilho e blur gaussiano de 10 passagens.
-- **SSR (Screen Space Reflections)**: Reflexos em tempo real via raymarching.
-- **ACES Filmic Tone Mapping**: Graduação de cores com qualidade de cinema.
-- **Névoa Volumétrica**: Névoa baseada em profundidade e distância.
-- **Renderização Instanciada**: Loteamento acelerado por hardware para mais de 100.000 objetos.
+## 🏛️ ARQUITETURA CORE
+- **Engine Core**: Arquitetura modular com `EngineModule`.
+- **ECS**: Integração `EnTT` de alta performance.
+- **Job System**: Execução multi-thread via `wiJobSystem` (fiber-based).
+- **Octree**: Particionamento espacial para culling.
 
 ---
 
-## 🛠️ STUDIO & FLUXO DE TRABALHO
-- **Starlight Studio (F2)**: Editor interativo com Hierarquia, Inspetor e Navegador de Assets.
-- **Picking 3D**: Seleção por ray-cast diretamente na viewport.
-- **Hot Reload**: Atualização automática de recursos via `FileWatcher`.
-- **Console de Desenvolvedor**: Terminal de comando in-game com suporte a `CVar`.
+## 🎨 PIPELINE DE RENDERIZAÇÃO AVANÇADA
+
+| Feature | Detalhes |
+|---------|----------|
+| **PBR** | Workflow Metallic/Roughness com IBL |
+| **CSM** | 4 cascatas de sombras 2048x2048 |
+| **SSAO** | Oclusão ambiental temporal |
+| **HDR Bloom** | Multi-pass com blur Gaussiano |
+| **SSR** | Reflexões em tempo real via raymarching |
+| **ACES** | Tone mapping cinema-quality |
+| **Renderer2D** | Batch rendering para UI e jogos 2D |
+| **GPU Culling** | Culling em compute shaders |
 
 ---
 
-## 🤖 SISTEMAS ESPECIALIZADOS
-- **Level of Detail (LOD)**: Otimização automatizada de malha baseada na distância.
-- **Ozz-Animation**: Suporte a animação esquelética com blending e skinning profissional.
-- **Barramento de Eventos Global**: Mensageria desacoplada para comunicação modular.
-- **Física (Jolt)**: Dinâmica de corpos rígidos de nível industrial (v5.5.0 Estável).
-- **Navegação**: Implementação de A* dinâmico em grade baseada em voxels.
+## 🎮 SBA v2.0 — STARLIGHT BRIDGE API
+
+### SDK de Jogos (`sba_bridge.lua`)
+| Sistema | API |
+|---------|-----|
+| **Entity** | `Entity("Tag", x, y, z)` → `:setColor()`, `:setScale()`, `:move()`, `:destroy()` |
+| **Light** | `Light(x,y,z, r,g,b, intensidade)` → `:setColor()`, `:setIntensity()` |
+| **Tween** | `Tween.to(entidade, {y=5}, 1.5, "easeOutElastic")` — 8 easings |
+| **Scene** | `Scene.register("Jogo", {onEnter, onUpdate, onRenderUI, onExit})` |
+| **Events** | `Events.on("hit", fn)` / `Events.emit("hit", dados)` |
+| **Coroutine** | `Coroutine.start(fn)` / `Coroutine.wait(segundos)` |
+
+### Biblioteca Padrão (`core.lua`)
+| Sistema | API |
+|---------|-----|
+| **MathX** | `clamp`, `lerp`, `sign`, `distance`, `distance3D`, `smoothstep`, `remap`, `random_range`, `normalize2D`, `angle`, `wrap` |
+| **Physics2D** | `CheckAABB`, `CheckCircle`, `PointInRect`, `RayCircle` |
+| **Timer** | `Timer.after()`, `Timer.every()`, `Timer.cancel()` |
+| **Color** | `Color.hsv()`, `Color.pulse()`, `Color.lerpRGB()` |
+| **ScreenShake** | `trigger()`, `update()`, `getOffset()` |
+| **ValueTween** | `ValueTween.to()`, `ValueTween.update()` |
 
 ---
 
 ## 📂 ESTRUTURA DE ASSETS
-Todos os recursos do motor estão localizados em `assets/`:
-- `/audio`: Temas e efeitos.
-- `/fonts`: Ativos tipográficos.
-- `/images`: Texturas e sprites.
-- `/models`: Malhas 3D (OBJ/GLB).
-- `/shaders`: Arquivos fonte OpenGL.
-- `/scripts`: Scripts de lógica/Lua.
+```
+assets/
+├── audio/       # Sons e músicas
+├── textures/    # Imagens e sprites
+├── models/      # Meshes 3D (OBJ/GLB)
+├── shaders/     # Shaders GLSL OpenGL
+└── scripts/     # Scripts Lua
+    ├── core.lua           # Biblioteca Padrão
+    ├── sba_bridge.lua     # SDK de Jogos
+    └── jogo_main.lua      # Lógica do seu jogo
+```
 
 ---
 
-> [!IMPORTANT]
-> **PROCEDA COM CAUTELA**: O poder da Fusão Ômega é vasto. Use o Console de Desenvolvedor (`help`) para explorar CVars e ajustar a performance em tempo real.
-
-*Starlight Engine v2.1.0 - 2026 Odyssey Edition*
+*Starlight Engine v2.1.0 — SBA v2.0 — 2026 Odyssey Edition*

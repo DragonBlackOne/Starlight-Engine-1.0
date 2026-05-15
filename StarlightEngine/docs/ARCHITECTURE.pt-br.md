@@ -1,64 +1,76 @@
-# Starlight Engine: Arquitetura Técnica de Elite 🏗️
+# Starlight Engine: Arquitetura Técnica 🏗️
 
-// Este projeto é feito por IA e só o prompt é feito por um humano.
+> Este projeto é feito por IA e só o prompt é feito por um humano.
 
-Este documento detalha o "esqueleto" do motor e as decisões de engenharia que garantem a performance AAA do **Fusion ENGINE**.
+Este documento detalha a arquitetura de engenharia da **Starlight Engine (Fusion Core)**.
 
 ---
 
-## 1. Núcleo Modular (EngineModule)
-O motor é composto por módulos independentes que herdam de `EngineModule`. Isso permite que sistemas como **Áudio**, **Física** e **Rede** sejam ligados ou desligados conforme a necessidade do projeto.
+## 1. Core Modular (EngineModule)
+
+A engine é composta de módulos independentes que herdam de `EngineModule`. Sistemas como **Audio**, **Physics** e **Network** podem ser ativados/desativados conforme necessário.
 
 ```mermaid
 graph TD
     Engine --> SceneStack
     Engine --> ModuleRegistry
-    ModuleRegistry --> PhysicsSystem
-    ModuleRegistry --> AudioSystem
+    ModuleRegistry --> PhysicsSystem["Jolt Physics 5.5.0"]
+    ModuleRegistry --> AudioSystem["Audio 3D Espacial + YM2612"]
     ModuleRegistry --> NetworkSystem
+    ModuleRegistry --> ScriptSystem["Lua/Sol2 → SBA v2.0"]
+    ModuleRegistry --> GPUCulling["GPU Culling System"]
+    ModuleRegistry --> JobSystem["Wicked JobSystem"]
     SceneStack --> ActiveScene
+    ScriptSystem --> CoreLua["core.lua (Biblioteca Padrão)"]
+    ScriptSystem --> SBABridge["sba_bridge.lua (SDK de Jogos)"]
 ```
 
 ## 2. Pipeline de Renderização (RenderGraph Modular)
-O motor utiliza um sistema avançado de **RenderGraph**, que desacopla as passagens de renderização e gerencia dependências de recursos automaticamente.
-- **Deferred G-Buffer**: Base de alta performance para luzes dinâmicas e SSAO.
-- **Cascaded Shadow Maps (CSM)**: Suporte a 4 cascatas com filtragem suave para sombras de longa distância.
-- **Forward+**: Otimizado para transparências e materiais complexos.
-- **Clustered Lighting**: Gerencia centenas de luzes pontuais com custo O(log N).
 
-### Suíte de Pós-Processamento:
-- **SSAO**: Oclusão ambiental com estabilidade temporal.
-- **SSR**: Reflexos baseados em Screen-Space.
-- **Bloom**: Blur gaussiano multi-passagem de alta qualidade.
-- **ACES**: Tone mapping padrão de cinema.
+| Passo | Descrição |
+|-------|-----------|
+| **G-Buffer** | Base deferred: posição, normal, albedo, PBR |
+| **CSM Shadows** | 4 cascatas em 2048x2048 com PCF |
+| **Iluminação** | PBR com IBL, workflow metallic/roughness |
+| **SSAO** | Oclusão ambiental com estabilidade temporal |
+| **SSR** | Reflexões via raymarching |
+| **Bloom** | Bloom físico multi-pass com extração HDR |
+| **Tone Mapping** | ACES cinema-standard |
+| **Renderer2D** | Renderização em batch para UI e jogos 2D |
+| **GPU Culling** | Frustum + occlusion culling em compute shaders |
 
 ## 3. Execução Paralela (JobSystem)
-Integramos o **Wicked Engine JobSystem** para multi-threading de alta performance.
-- **Fiber-based**: Troca de tarefas eficiente com overhead mínimo.
-- **Worker Threads**: Escalado automaticamente para o número de núcleos da CPU.
-- **Dependências**: Suporte a grafos de tarefas complexos (ex: Física -> Culling -> Render).
 
-## 3. Matemática Acelerada (SIMD AVX2)
-Utilizamos instruções intrínsecas da Intel para acelerar o gargalo da CPU.
-- **Alinhamento de Memória**: Estruturas de dados são alinhadas em 32-bytes para evitar "cache misses" e permitir carregamento vetorial direto.
-- **Transformação Paralela**: Uma única instrução `_mm256_mul_ps` processa múltiplos vértices simultaneamente.
+- **Wicked Engine JobSystem** com fiber-based task switching.
+- Workers auto-escalados para os cores da CPU.
+- Suporte a grafos de dependência (Physics → Culling → Render).
 
-## 4. Virtual File System (VFS)
-O VFS permite abstrair a localização física dos arquivos.
-- **Mount Points**: `@assets` pode apontar para uma pasta local no desenvolvimento e para um arquivo criptografado `.pak` na produção.
-- **Thread Safety**: O carregamento de assets é thread-safe, permitindo streaming de texturas em segundo plano (Background Loading).
+## 4. Sistema de Arquivos Virtual (VFS)
 
-## 5. Scripting & IA (Lua/Sol2)
-A lógica de alto nível é exposta para **Lua 5.4**.
-- **Math Bindings**: Suporte nativo para construtores globais `vec3(...)` e `quat(...)`, permitindo sintaxe premium e intuitiva para desenvolvedores.
-- **ECS Integration**: Acesso direto ao EnTT Registry via Lua, permitindo criação e manipulação dinâmica de entidades.
-- **Behavior Trees**: Sistema de IA que permite comportamentos complexos de NPCs.
-- **Navigation (A*)**: Sistema de navegação de alta performance utilizando buffers persistentes para minimizar alocações de memória (`zero-allocation` durante a busca de caminhos).
+- **Mount Points**: `@assets` aponta para pasta local (dev) ou `.pak` encriptado (produção).
+- **Thread Safety**: Carregamento de assets totalmente thread-safe.
 
-## 6. Ferramental & Estúdio (EditorSystem)
-O **EditorSystem** é integrado ao ciclo de vida da Engine sem comprometer a performance do jogo final.
-- **Singleton Lifecycle**: Gerenciamento seguro de memória para sistemas estáticos, garantindo desligamento limpo.
-- **ImGui Suite**: Interface de estúdio completa (Inspector, Hierarchy, Console) que pode ser alternada em tempo real via **F2**.
+## 5. Arquitetura de Scripting
+
+```mermaid
+graph LR
+    CPP["C++ ScriptSystem"] -->|expõe| LuaAPI["Globais Lua: Engine, gfx, input, window, audio, assets, imgui, time"]
+    LuaAPI -->|carrega| CoreLua["core.lua: Class, MathX, Physics2D, Timer, Color, ScreenShake, ValueTween"]
+    CoreLua -->|carrega| SBA["sba_bridge.lua: Entity, Light, Tween, Scene, Events, Coroutine"]
+    SBA -->|usado por| GameScript["Script do Jogo"]
+```
+
+### Camadas:
+1. **C++**: Bindings crus da engine
+2. **core.lua**: Biblioteca padrão (matemática, física, timers, cores, tweening)
+3. **sba_bridge.lua**: SDK de alto nível (Entity OO, Scene Manager, Event Bus)
+4. **Script do Jogo**: Lógica pura de gameplay
+
+## 6. Sistema de Input
+
+SDL2 com **binding de ações semânticas**:
+- `input.is_down()`, `input.is_just_pressed()`, `input.get_mouse_x/y()`
+- Raycasting 3D do mouse: `Engine.get_mouse_hit()`
 
 ---
-*A arquitetura da Starlight Engine foi desenhada para ser extensível, rápida e, acima de tudo, confiável para aplicações comerciais.*
+*A arquitetura da Starlight Engine foi projetada para ser extensível, rápida e confiável para aplicações comerciais.*

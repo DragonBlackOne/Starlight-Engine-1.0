@@ -93,19 +93,7 @@ namespace starlight {
         m_sceneStack.Push(std::make_shared<BaseScene>());
         
         auto scripting = GetSystem<ScriptSystem>();
-        if (scripting) {
-            scripting->ExecuteFile("assets/scripts/starlight_odyssey.lua");
-        }
-
         auto fileWatcher = GetSystem<FileWatcher>();
-        if (fileWatcher) {
-            fileWatcher->AddWatch("assets/scripts/starlight_odyssey.lua", [this](const std::string& path) {
-                auto s = GetSystem<ScriptSystem>();
-                if (s) s->ExecuteFile(path);
-                Log::Info("Engine: Hot-Reloaded Odyssey script!");
-            });
-        }
-        
         // Initialize Default Projection
         float aspect = (float)m_window->GetWidth() / (float)m_window->GetHeight();
         auto renderer = GetSystem<Renderer>();

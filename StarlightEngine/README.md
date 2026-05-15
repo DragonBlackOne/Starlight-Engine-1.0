@@ -1,31 +1,87 @@
 # Starlight Engine (Fusion Core)
+
 > **Este projeto é feito por IA e só o prompt é feito por um humano.**
 
-A **Starlight Engine** atua como o coração tecnológico do ecossistema Fusion. Trata-se de uma framework de simulação de alto desempenho desenvolvida em C++17 moderno. Seu design é estritamente orientado a **Entity-Component-System (ECS)** e adota o padrão de Sub-sistemas Desacoplados.
+A **Starlight Engine** é o núcleo tecnológico do ecossistema Fusion. Uma framework de simulação de alto desempenho em C++20 moderno com design **Entity-Component-System (ECS)** e Sub-sistemas Desacoplados.
 
-## ⚙️ Arquitetura e Sub-Sistemas
+## ⚙️ Arquitetura C++
 
-A Engine é gerenciada por um objeto central (Singleton) `starlight::Engine` que itera sobre o Ciclo de Vida dos sistemas nativos via `Initialize`, `Update`, `FixedUpdate` e `Render`.
+```mermaid
+graph TD
+    Engine --> SceneStack
+    Engine --> ModuleRegistry
+    ModuleRegistry --> PhysicsSystem["Jolt Physics"]
+    ModuleRegistry --> AudioSystem["Spatial 3D Audio"]
+    ModuleRegistry --> NetworkSystem
+    ModuleRegistry --> ScriptSystem["Lua/Sol2"]
+    SceneStack --> ActiveScene
+    ScriptSystem --> SBA["SBA v2.0 Framework"]
+```
 
 ### 1. ECS (Entity Component System)
-- Potencializado pela biblioteca **EnTT**.
-- Evita a pesada orientação a objetos tradicionais em prol de memória contígua e iterações de cache-friendly para GameObjects.
-- `TransformComponent`, `MeshComponent`, `PointLightComponent`, `AudioComponent`, e `LuaScriptComponent`.
+- **EnTT** para memória contígua e iterações cache-friendly.
+- Componentes: `TransformComponent`, `MeshComponent`, `PointLightComponent`, `AudioComponent`, `LuaScriptComponent`.
 
-### 2. RenderGraph e Renderer (OpenGL)
-- Pipeline focado em **PBR (Physically Based Rendering)** e Deferred/Forward misto.
-- Conta com **Shadow System** (Cascaded Shadow Maps) operando em resoluções industriais (2048x2048 em 4 cascatas).
-- `Renderer2D` otimizado para chamadas em batch, garantindo interfaces neons, sprites clássicos e geração procedural 2.5D isométrica (sem texturas externas caso ocorram falhas).
-- GPU Culling e Frustum Culling em fases nativas.
+### 2. RenderGraph (OpenGL)
+- **PBR** (Physically Based Rendering) com metallic/roughness workflow.
+- **Cascaded Shadow Maps** (4 cascatas, 2048x2048).
+- **Renderer2D** otimizado para batch rendering de UI e sprites.
+- **Post-Processing**: SSAO, SSR, Bloom, ACES Tone Mapping.
+- **GPU Culling** e Frustum Culling em fases nativas.
 
-### 3. Máquina Virtual e Scripting (Lua / Sol2)
-O coração da versatilidade do usuário reside no **ScriptSystem**. Quase todo o escopo matemático, de input, de física e renderização é mapeado em bindings de Sol2.
-- A Engine injeta a classe global `Engine` no estado LUA, e tabelas embutidas como `gfx`, `input`, `window`, e `audio`.
-- Isso garante que a reconstrução de mecânicas de gameplay não exija re-compilação longa do C++.
+### 3. Scripting (Lua / Sol2)
+O **ScriptSystem** expõe toda a engine para Lua, permitindo gameplay sem recompilação C++:
+- Tabelas globais: `Engine`, `gfx`, `input`, `window`, `audio`, `assets`, `imgui`, `time`
+- **3D Mouse Raycasting**: `Engine.get_mouse_hit()`
+- **Light Control**: `Engine.set_light_color()`, `Engine.set_light_intensity()`
+- **Entity Management**: `Engine.spawn()`, `Engine.set_pos()`, `Engine.set_color()`
 
 ### 4. InputSystem
-Lida com eventos via SDL2 integrados a uma arquitetura de "Binding de Ações", garantindo que inputs brutos (`pal::KeyCode::W`) se transformem em abstrações semânticas (`"Up"`, `"Left"`, `"Hold"`).
+- SDL2 com **Binding de Ações** semânticas (`"W"` → `"Up"`, `"MouseLeft"` → ação).
+- Suporte a `is_down()`, `is_just_pressed()`, `get_mouse_x/y()`.
 
-## 🔨 Integração de CMake
-A Starlight é construída primariamente como uma biblioteca estática (`.lib`) que os outros executáveis (como `Tetris_Project.exe`) fazem "link" em tempo de compilação.
-Suas dependências e headers isolados (`/include` e `/src`) garantem um padrão de projeto limpo.
+### 5. JobSystem (Multi-threading)
+- **Wicked Engine JobSystem** com fiber-based task switching.
+- Worker threads auto-escalados para CPU cores disponíveis.
+
+## 🎮 SBA v2.0 — Starlight Bridge API
+
+O SDK Lua de alto nível está em `assets/scripts/`:
+
+| Arquivo | Função |
+|---------|--------|
+| `core.lua` | Standard Library: Class, MathX(11fn), Physics2D(4fn), Timer v2, Color, ScreenShake, ValueTween |
+| `sba_bridge.lua` | Game SDK: Entity OO, Light OO, Tween(8 easings), Scene Manager, Event Bus, Coroutine Runner |
+
+### Exemplo Rápido
+```lua
+require("sba_bridge")
+
+Scene.register("Game", {
+    onEnter = function()
+        local player = Entity("Hero", 0, 1, 0)
+        player:setColor(0, 1, 1):setMaterial(0.8, 0.2)
+        Light(0, 12, 5, 1, 0.9, 0.8, 800)
+    end,
+    onUpdate = function(dt)
+        Tween.update(dt)
+    end,
+})
+
+function OnStart() Scene.switch("Game") end
+function OnUpdate(dt) Scene.update(dt) end
+```
+
+## 🔨 Integração CMake
+
+A Starlight é uma biblioteca estática (`.lib`). Projetos fazem link via:
+```cmake
+add_subdirectory(${STARLIGHT_SDK_DIR} ${CMAKE_BINARY_DIR}/starlight EXCLUDE_FROM_ALL)
+target_link_libraries(MeuJogo PRIVATE StarlightCore)
+```
+
+### Criar Novo Projeto
+```powershell
+.\create_project.ps1 -ProjectName "MeuJogo"
+```
+Gera automaticamente: `main.cpp`, `CMakeLists.txt`, `core.lua`, `sba_bridge.lua`, starter script e `README.md`.

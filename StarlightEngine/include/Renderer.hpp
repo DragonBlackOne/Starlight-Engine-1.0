@@ -59,6 +59,8 @@ namespace starlight {
         static void SubmitDeferredMeshDeletion(uint32_t vao, uint32_t vbo, uint32_t ebo);
         void SetCameraLookAt(glm::vec3 target);
         void SetViewMatrix(const glm::mat4& view) { m_view = view; }
+        const glm::mat4& GetViewMatrix() const { return m_view; }
+        const glm::mat4& GetProjectionMatrix() const { return m_projectionMatrix; }
         TransformComponent& GetCameraTransform() { return m_cameraTransform; }
         
         void BeginFrame();

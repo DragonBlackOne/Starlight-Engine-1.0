@@ -114,6 +114,13 @@ function GameManager:Init()
     self.lockDelay = 0.5
     self.lockTimer = 0
 
+    -- Combo & B2B system
+    self.combo = 0
+    self.backToBack = false
+    self.lineClearFlash = 0
+    self.lastClearMsg = ""
+    self.lastClearTimer = 0
+
     local cx = Constants.ScreenWidth / 2
     local cy = Constants.ScreenHeight / 2
     self.btnStart = Button("START GAME", cx - 100, cy, 200, 50, {0.0, 1.0, 1.0})
@@ -229,16 +236,39 @@ function GameManager:ClearLines()
 
     if linesCleared > 0 then
         self.lines = self.lines + linesCleared
+        self.combo = self.combo + 1
+        self.lineClearFlash = 0.3
+        
+        -- Scoring: NES-style base + combo bonus + B2B bonus
         local points = 0
-        if linesCleared == 1 then points = 100
-        elseif linesCleared == 2 then points = 300
-        elseif linesCleared == 3 then points = 500
-        elseif linesCleared == 4 then points = 800 end
+        local msg = ""
+        if linesCleared == 1 then points = 100; msg = "SINGLE"
+        elseif linesCleared == 2 then points = 300; msg = "DOUBLE"
+        elseif linesCleared == 3 then points = 500; msg = "TRIPLE"
+        elseif linesCleared == 4 then points = 800; msg = "TETRIS!" end
+        
+        -- Back-to-Back bonus (consecutive Tetris/Triple)
+        local isBig = (linesCleared >= 3)
+        if isBig and self.backToBack then
+            points = math.floor(points * 1.5)
+            msg = "B2B " .. msg
+        end
+        self.backToBack = isBig
+        
+        -- Combo bonus
+        if self.combo > 1 then
+            points = points + (50 * self.combo * self.level)
+            msg = msg .. " (" .. self.combo .. "x COMBO)"
+        end
         
         self.score = self.score + (points * self.level)
         self.level = math.floor(self.lines / 10) + 1
         self.tickRate = math.max(0.1, 0.8 - ((self.level - 1) * 0.05))
+        self.lastClearMsg = msg
+        self.lastClearTimer = 2.0
         audio.play_sound("assets/audio/hit.wav")
+    else
+        self.combo = 0
     end
 end
 
@@ -263,6 +293,10 @@ function GameManager:Update(dt)
     end
 
     if input.is_just_pressed("Escape") then self.state = "PAUSED"; return end
+
+    -- Update clear message timer
+    if self.lastClearTimer > 0 then self.lastClearTimer = self.lastClearTimer - dt end
+    if self.lineClearFlash > 0 then self.lineClearFlash = self.lineClearFlash - dt end
 
     local moved = false
     local leftPressed = input.is_just_pressed("Left") or input.is_just_pressed("A")
@@ -412,6 +446,28 @@ function GameManager:Draw()
         -- Draw Hold Piece in its box
         if self.holdPiece then
             self:DrawPieceMat(self.holdPiece, 1, 1, 1, S(630), S(330), self.canHold and 1.0 or 0.3)
+        end
+        
+        -- Line Clear Flash overlay
+        if self.lineClearFlash > 0 then
+            local flashAlpha = self.lineClearFlash * 2
+            gfx.draw_quad(Constants.BoardX, Constants.BoardY, Constants.Cols * Constants.BlockSize, Constants.Rows * Constants.BlockSize, 1, 1, 1, flashAlpha)
+        end
+        
+        -- Combo/B2B Message
+        if self.lastClearTimer > 0 and self.lastClearMsg ~= "" then
+            local msgAlpha = MathX.clamp(self.lastClearTimer, 0, 1)
+            local mr, mg, mb = Color.hsv((time.get_time() * 0.3) % 1.0, 0.7, 1.0)
+            if imgui then
+                imgui.text(Constants.BoardX + 20, Constants.BoardY + Constants.Rows * Constants.BlockSize + 20, mr, mg, mb, self.lastClearMsg)
+            end
+        end
+        
+        -- Combo Counter
+        if self.combo > 1 then
+            if imgui then
+                imgui.text(S(50), S(420), 1, 0.5, 0, "COMBO: " .. self.combo)
+            end
         end
     end
 

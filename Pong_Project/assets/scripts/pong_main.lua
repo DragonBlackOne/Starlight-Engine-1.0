@@ -170,10 +170,41 @@ end
 -- ============================================================================
 -- Ball Class
 -- ============================================================================
+-- ============================================================================
+-- PowerUp Class
+-- ============================================================================
+local PowerUp = Class()
+function PowerUp:Init(x, y)
+    self.x = x
+    self.y = y
+    self.size = 30
+    self.life = 8.0
+    self.type = math.random(1, 3) -- 1=BigPaddle, 2=SlowBall, 3=MultiBall
+    self.pulse = 0
+end
+
+function PowerUp:Update(dt)
+    self.life = self.life - dt
+    self.pulse = self.pulse + dt
+    return self.life > 0
+end
+
+function PowerUp:Draw(ox, oy)
+    local alpha = MathX.clamp(self.life, 0, 1)
+    local s = self.size + math.sin(self.pulse * 6) * 4
+    local r, g, b = 1, 1, 0
+    if self.type == 1 then r, g, b = 0, 1, 0.5 end
+    if self.type == 2 then r, g, b = 0.5, 0.5, 1 end
+    if self.type == 3 then r, g, b = 1, 0.2, 0.6 end
+    gfx.draw_rect(ox + self.x - s/2, oy + self.y - s/2, s, s, r, g, b, alpha * 0.7)
+    gfx.draw_rect(ox + self.x - s/2 - 4, oy + self.y - s/2 - 4, s+8, s+8, r, g, b, alpha * 0.2)
+end
+
 local Ball = Class()
 function Ball:Init(particleSystem)
     self.size = 40
     self.ps = particleSystem
+    self.rally = 0
     self:Reset(1)
 end
 
@@ -183,12 +214,14 @@ function Ball:Reset(direction)
     self.vx = 0
     self.vy = 0
     self.speed = 0
+    self.rally = 0
 end
 
 function Ball:Serve(direction)
     self.speed = 700
     self.vx = direction * 700
     self.vy = (math.random(0, 1) == 0) and 300 or -300
+    self.rally = 0
 end
 
 function Ball:Update(dt, p1, p2, gameManager)
@@ -233,7 +266,8 @@ function Ball:HandlePaddleBounce(paddle, isP1, gameManager)
     local normalizedIntersectY = intersectY / (Constants.PaddleHeight / 2)
     local bounceAngle = normalizedIntersectY * (math.pi / 3) -- Max 60 degrees
 
-    self.speed = math.min(self.speed * 1.1, Constants.MaxBallSpeed)
+    self.speed = math.min(self.speed * 1.08, Constants.MaxBallSpeed)
+    self.rally = self.rally + 1
     
     local dirX = isP1 and math.cos(bounceAngle) or -math.cos(bounceAngle)
     local dirY = -math.sin(bounceAngle)
@@ -242,7 +276,8 @@ function Ball:HandlePaddleBounce(paddle, isP1, gameManager)
     self.vy = self.speed * dirY
     
     paddle:OnHit()
-    gameManager:Shake(10, 0.15)
+    local shakeAmount = math.min(5 + self.rally * 2, 25)
+    gameManager:Shake(shakeAmount, 0.15)
 end
 
 function Ball:Draw(ox, oy)
@@ -267,6 +302,8 @@ function GameManager:Init()
     self.shakeIntensity = 0
     self.bgScroll = 0
     self.winner = 0
+    self.powerups = {}
+    self.powerupTimer = 0
 
     -- UI Buttons
     local cx = Constants.ScreenWidth / 2
@@ -346,6 +383,42 @@ function GameManager:Update(dt)
     self.p1:Update(dt, self.ball)
     self.p2:Update(dt, self.ball)
 
+    -- Power-up spawner
+    if self.state == "PLAYING" then
+        self.powerupTimer = self.powerupTimer + dt
+        if self.powerupTimer > 8.0 and #self.powerups < 2 then
+            self.powerupTimer = 0
+            local px = MathX.random_range(Constants.ScreenWidth * 0.3, Constants.ScreenWidth * 0.7)
+            local py = MathX.random_range(100, Constants.ScreenHeight - 100)
+            table.insert(self.powerups, PowerUp(px, py))
+        end
+    end
+
+    -- Power-up collision
+    for i = #self.powerups, 1, -1 do
+        local pu = self.powerups[i]
+        if not pu:Update(dt) then
+            table.remove(self.powerups, i)
+        elseif Physics2D.CheckAABB(self.ball.x, self.ball.y, self.ball.size, self.ball.size, pu.x - pu.size/2, pu.y - pu.size/2, pu.size, pu.size) then
+            -- Apply power-up to the last paddle that hit the ball
+            local target = (self.ball.vx > 0) and self.p2 or self.p1
+            if pu.type == 1 then -- Big Paddle (opponent shrinks concept: give player advantage)
+                -- Nothing destructive, just visual feedback
+            elseif pu.type == 2 then -- Slow Ball
+                self.ball.speed = math.max(400, self.ball.speed * 0.6)
+                self.ball.vx = self.ball.vx * 0.6
+                self.ball.vy = self.ball.vy * 0.6
+            elseif pu.type == 3 then -- Speed Burst
+                self.ball.speed = math.min(self.ball.speed * 1.4, Constants.MaxBallSpeed)
+                self.ball.vx = self.ball.vx * 1.4
+                self.ball.vy = self.ball.vy * 1.4
+            end
+            self.ps:SpawnHitParticles(pu.x, pu.y, {1, 1, 0})
+            self:Shake(12, 0.2)
+            table.remove(self.powerups, i)
+        end
+    end
+
     if self.state == "SERVE_DELAY" then
         self.serveTimer = self.serveTimer - dt
         if self.serveTimer <= 0 then
@@ -393,14 +466,30 @@ function GameManager:Draw()
 
     -- Game Objects (only draw if not in main menu, or draw dim)
     if self.state ~= "MAIN_MENU" then
+        -- Draw power-ups
+        for _, pu in ipairs(self.powerups) do pu:Draw(ox, oy) end
+
         self.ps:Draw(ox, oy)
         self.p1:Draw(ox, oy)
         self.p2:Draw(ox, oy)
         self.ball:Draw(ox, oy)
 
+        -- Rally Counter (center top)
+        if self.ball.rally > 0 and self.state == "PLAYING" then
+            local rallyAlpha = MathX.clamp(self.ball.rally / 20.0, 0.3, 1.0)
+            local rr, rg, rb = Color.hsv((self.ball.rally * 0.05) % 1.0, 0.8, 1.0)
+            if imgui then
+                imgui.text(Constants.ScreenWidth / 2 - 30, 80, rr, rg, rb, "RALLY: " .. self.ball.rally)
+            end
+            -- Speed indicator bar
+            local speedPct = MathX.clamp(self.ball.speed / Constants.MaxBallSpeed, 0, 1)
+            local barW = 200
+            gfx.draw_rect(ox + Constants.ScreenWidth/2 - barW/2, oy + 100, barW, 6, 0.2, 0.2, 0.2, 0.5)
+            gfx.draw_rect(ox + Constants.ScreenWidth/2 - barW/2, oy + 100, barW * speedPct, 6, rr, rg, rb, 0.8)
+        end
+
         -- UI Scores (Energy Bars)
         self:DrawScoreQuad(self.p1.score, ox + 100, oy + 40, self.p1.color)
-        -- Right align the P2 score bar
         self:DrawScoreQuad(self.p2.score, ox + Constants.ScreenWidth - 100 - 300, oy + 40, self.p2.color)
         
         if imgui then
