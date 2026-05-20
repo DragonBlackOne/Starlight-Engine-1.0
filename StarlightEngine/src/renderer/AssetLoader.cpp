@@ -295,6 +295,7 @@ namespace starlight {
             Log::Error("Failed to load texture: " + path);
             return 0;
         }
+        Log::Info("Texture Loaded: " + path + " (" + std::to_string(width) + "x" + std::to_string(height) + ")");
 
         if (removeCheckered) {
             for (int i = 0; i < width * height * 4; i += 4) {
@@ -385,7 +386,6 @@ namespace starlight {
         for (int y = by; y < by + bh; y++) {
             for (int x = bx; x < bx + bw; x++) {
                 int idx = (y * size + x) * 4;
-                float uvy = (float)y / 256.0f;
                 
                 data[idx + 0] = (unsigned char)(color.r * 0.3f * 255);
                 data[idx + 1] = (unsigned char)(color.g * 0.3f * 255);

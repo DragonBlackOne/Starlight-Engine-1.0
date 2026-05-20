@@ -1,12 +1,12 @@
-#version 410 core
+#version 330 core
 layout (location = 0) out vec4 outColor;
-in vec2 v_uv;
+in vec2 TexCoords;
 
 uniform sampler2D scene;
 uniform float threshold;
 
 void main() {
-    vec3 color = texture(scene, v_uv).rgb;
+    vec3 color = texture(scene, TexCoords).rgb;
     float brightness = dot(color, vec3(0.2126, 0.7152, 0.0722));
     if(brightness > threshold)
         outColor = vec4(color, 1.0);

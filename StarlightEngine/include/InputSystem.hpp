@@ -33,6 +33,11 @@ namespace starlight {
         void BindMouseButton(const std::string& name, pal::MouseButton button);
 
         glm::vec2 GetMousePosition() const { return m_mousePos; }
+        
+        // Gamepad API (Input 2.0)
+        float GetAxis(const std::string& axisName) const;
+        bool IsGamepadButtonPressed(const std::string& buttonName) const;
+        void Vibrate(float leftMotor, float rightMotor, uint32_t durationMS);
 
     private:
         std::unordered_map<std::string, InputAction> m_actions;
@@ -41,5 +46,9 @@ namespace starlight {
         static uint32_t s_currMouse;
         static uint32_t s_prevMouse;
         glm::vec2 m_mousePos;
+
+        void* m_gamepad = nullptr; // SDL_GameController*
+        float m_axes[6] = {0};
+        uint8_t m_buttons[15] = {0};
     };
 }

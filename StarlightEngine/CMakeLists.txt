@@ -3,7 +3,8 @@ project(StarlightEngine VERSION 1.0.0 LANGUAGES C CXX)
 
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
-set(CMAKE_POLICY_DEFAULT_CMP0091 NEW) # Enable CMAKE_MSVC_RUNTIME_LIBRARY
+set(CMAKE_POLICY_DEFAULT_CMP0091 NEW) 
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} /utf-8")
 
 set(STARLIGHT_SDK_ROOT ${CMAKE_CURRENT_LIST_DIR})
 
@@ -107,7 +108,8 @@ target_link_libraries(StarlightCore PUBLIC
     ozz_animation ozz_base ozz_geometry
 )
 target_compile_definitions(StarlightCore PUBLIC SDL_MAIN_HANDLED UNICODE _UNICODE NOMINMAX _CRT_SECURE_NO_WARNINGS GLM_ENABLE_EXPERIMENTAL)
-target_compile_options(StarlightCore PUBLIC /wd6385 /wd6386 /wd6011 /wd6262 /wd26812 /wd28182 /wd28159 /wd6255)
+# Strict Warnings Enabled for Industrial Audit
+target_compile_options(StarlightCore PUBLIC /W4 /bigobj)
 
 # --- SHOWCASE TARGET ---
 add_executable(StarlightShowcase 

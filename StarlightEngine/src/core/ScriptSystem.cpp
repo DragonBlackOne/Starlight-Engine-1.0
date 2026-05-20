@@ -7,6 +7,7 @@
 #include "AudioSystem.hpp"
 #include "Components.hpp"
 #include "PhysicsSystem.hpp"
+#include "VFXSystem.hpp"
 #include "Renderer2D.hpp"
 #include "AssetLoader.hpp"
 #include "DashboardSystem.hpp"
@@ -14,7 +15,19 @@
 #include <fstream>
 #include <sstream>
 #include <random>
+#include <filesystem>
 namespace starlight {
+
+    // Helper: Get active scene's registry safely (reduces boilerplate in all bindings)
+    static inline entt::registry* GetActiveReg() {
+        auto scene = Engine::Get().GetSceneStack().Active();
+        return scene ? &scene->GetRegistry() : nullptr;
+    }
+
+    static inline bool ValidEntity(entt::registry* reg, uint32_t e) {
+        return reg && reg->valid((entt::entity)e);
+    }
+
 
     ScriptSystem::ScriptSystem() {
         m_lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::string, sol::lib::table, sol::lib::package);
@@ -24,6 +37,12 @@ namespace starlight {
 
     bool ScriptSystem::OnInitialize(const EngineContext& context) {
         (void)context;
+        
+        // Set standard error handler
+        m_lua.set_exception_handler([](lua_State* L, sol::optional<const std::exception&> maybe_exception, sol::string_view description) {
+            Log::Error("[Lua Exception] {}", description);
+            return sol::stack::push(L, description);
+        });
         // --- MATH TYPES ---
         m_lua.new_usertype<glm::vec2>("vec2",
             sol::constructors<glm::vec2(float, float)>(),
@@ -119,6 +138,17 @@ namespace starlight {
         // Time
         engine["get_dt"] = []() { return Engine::Get().GetTime().deltaTime; };
         engine["get_time"] = []() { return Engine::Get().GetTime().totalTime; };
+        
+        engine["set_bloom"] = [](float threshold, int steps) {
+            auto& r = Engine::Get().GetRenderer();
+            r.m_bloomThreshold = threshold;
+            r.m_bloomBlurSteps = steps;
+        };
+        engine["set_exposure"] = [](float exposure, float gamma) {
+            auto& r = Engine::Get().GetRenderer();
+            r.m_exposure = exposure;
+            r.m_gamma = gamma;
+        };
         
         // Graphics
         engine["set_camera_pos"] = [](float x, float y, float z) {
@@ -321,6 +351,9 @@ namespace starlight {
         gfx["draw_sprite_clean"] = [](float x, float y, float w, float h, uint32_t texID, float r, float g, float b, float a) {
             Renderer2D::DrawSpriteClean({x, y}, {w, h}, texID, {r, g, b, a});
         };
+        gfx["draw_sprite"] = [](float x, float y, float w, float h, uint32_t texID, float r, float g, float b, float a) {
+            Renderer2D::DrawSpriteClean({x, y}, {w, h}, texID, {r, g, b, a});
+        };
         gfx["get_stats"] = [this]() {
             auto stats = Renderer2D::GetStats();
             sol::table s = m_lua.create_table();
@@ -328,8 +361,93 @@ namespace starlight {
             s["quadCount"] = stats.quadCount;
             return s;
         };
-        gfx["draw_rect"] = [](float x, float y, float w, float h, float r, float g, float b) {
-            Renderer2D::DrawQuad({x, y}, {w, h}, {r, g, b, 1.0f});
+        gfx["draw_rect"] = [](float x, float y, float w, float h, float r, float g, float b, sol::optional<float> a) {
+            Renderer2D::DrawQuad({x, y}, {w, h}, {r, g, b, a.value_or(1.0f)});
+        };
+        gfx["draw_rect_alpha"] = [](float x, float y, float w, float h, float r, float g, float b, float a) {
+            Renderer2D::DrawQuad({x, y}, {w, h}, {r, g, b, a});
+        };
+        gfx["draw_text"] = [](const std::string& text, float x, float y, float scale, float r, float g, float b, float a) {
+            auto dash = Engine::Get().GetSystem<DashboardSystem>();
+            if (dash) dash->Label(text, x, y, {r, g, b, a});
+            else Renderer2D::DrawString(text, {x, y}, scale, {r, g, b, a});
+        };
+        // Line: drawn as a thin quad between two points
+        gfx["draw_line"] = [](float x1, float y1, float x2, float y2, float thickness, float r, float g, float b, sol::optional<float> a) {
+            float dx = x2 - x1, dy = y2 - y1;
+            float len = std::sqrt(dx*dx + dy*dy);
+            if (len < 0.001f) return;
+            float cx = (x1+x2)*0.5f, cy = (y1+y2)*0.5f;
+            Renderer2D::DrawQuad({cx - len*0.5f, cy - thickness*0.5f}, {len, thickness}, {r, g, b, a.value_or(1.0f)});
+        };
+        // Rect outline: 4 thin quads
+        gfx["draw_rect_outline"] = [](float x, float y, float w, float h, float t, float r, float g, float b, sol::optional<float> a) {
+            glm::vec4 c = {r, g, b, a.value_or(1.0f)};
+            Renderer2D::DrawQuad({x, y}, {w, t}, c);          // top
+            Renderer2D::DrawQuad({x, y+h-t}, {w, t}, c);      // bottom
+            Renderer2D::DrawQuad({x, y+t}, {t, h-2*t}, c);    // left
+            Renderer2D::DrawQuad({x+w-t, y+t}, {t, h-2*t}, c);// right
+        };
+        // Circle: approximated with N quads around center
+        gfx["draw_circle"] = [](float cx, float cy, float radius, float r, float g, float b, sol::optional<int> segments, sol::optional<float> a) {
+            int seg = segments.value_or(24);
+            float step = 2.0f * 3.14159265f / (float)seg;
+            float thickness = 2.0f;
+            for (int i = 0; i < seg; i++) {
+                float a1 = step * i, a2 = step * (i+1);
+                float x1 = cx + std::cos(a1)*radius, y1 = cy + std::sin(a1)*radius;
+                float x2 = cx + std::cos(a2)*radius, y2 = cy + std::sin(a2)*radius;
+                float mx = (x1+x2)*0.5f - thickness*0.5f;
+                float my = (y1+y2)*0.5f - thickness*0.5f;
+                float dx = x2-x1, dy = y2-y1;
+                float len = std::sqrt(dx*dx+dy*dy);
+                Renderer2D::DrawQuad({mx, my}, {len, thickness}, {r, g, b, a.value_or(1.0f)});
+            }
+        };
+        // Circle filled: concentric rings of quads
+        gfx["draw_circle_filled"] = [](float cx, float cy, float radius, float r, float g, float b, sol::optional<float> a) {
+            int seg = 24;
+            float step = 2.0f * 3.14159265f / (float)seg;
+            for (int i = 0; i < seg; i++) {
+                float a1 = step * i, a2 = step * (i+1);
+                float x1 = cx + std::cos(a1)*radius;
+                float y1 = cy + std::sin(a1)*radius;
+                float x2 = cx + std::cos(a2)*radius;
+                float y2 = cy + std::sin(a2)*radius;
+                // Triangle fan via thin quad from center to edge
+                float mx = std::min({cx, x1, x2}), my = std::min({cy, y1, y2});
+                float Mx = std::max({cx, x1, x2}), My = std::max({cy, y1, y2});
+                Renderer2D::DrawQuad({mx, my}, {Mx-mx, My-my}, {r, g, b, a.value_or(0.5f)});
+            }
+        };
+        // Screen dimensions shortcut
+        gfx["screen_width"] = []() { return (float)Engine::Get().GetWindow().GetWidth(); };
+        gfx["screen_height"] = []() { return (float)Engine::Get().GetWindow().GetHeight(); };
+        
+        gfx["draw_pbr_cube"] = [](float x, float y, float z, float s, float r, float g, float b, float metal, float rough) {
+            RenderCommand cmd;
+            auto& renderer = Engine::Get().GetRenderer();
+            cmd.mesh = renderer.GetCubeMesh();
+            cmd.shader = renderer.GetPBRShader();
+            cmd.transform = glm::translate(glm::mat4(1.0f), {x, y, z}) * glm::scale(glm::mat4(1.0f), {s, s, s});
+            cmd.albedo = {r, g, b};
+            cmd.metallic = metal;
+            cmd.roughness = rough;
+            cmd.ao = 1.0f;
+            renderer.Submit(cmd);
+        };
+
+        // --- CAMERA API ---
+        auto camera = m_lua.create_table("camera");
+        camera["set_pos"] = [](float x, float y, float z) {
+            Engine::Get().GetRenderer().GetCameraTransform().position = {x, y, z};
+        };
+        camera["look_at"] = [](float x, float y, float z) {
+            Engine::Get().GetRenderer().SetCameraLookAt({x, y, z});
+        };
+        camera["set_fov"] = [](float fov) {
+            auto& renderer = Engine::Get().GetRenderer();
+            renderer.UpdateProjection(fov, (float)Engine::Get().GetWindow().GetWidth()/(float)Engine::Get().GetWindow().GetHeight(), 0.1f, 1000.0f);
         };
 
         // --- ASSET SYSTEM ---
@@ -351,9 +469,51 @@ namespace starlight {
 
         // --- AUDIO API ---
         auto audio = m_lua.create_table("audio");
-        audio["play_sound"] = [](const std::string& path) { Engine::Get().GetAudio().PlayEffect(path); };
-        audio["play_3d"] = [](const std::string& path, float x, float y, float z) { Engine::Get().GetAudio().Play3DEffect(path, x, y, z); };
+        audio["play_sound"] = [](const std::string& path) { 
+            Engine::Get().GetAudio().PlayEffect(path); 
+        };
+        audio["play_music"] = [](const std::string& path, sol::optional<bool> loop, sol::optional<float> vol) { 
+            Engine::Get().GetAudio().PlayMusic(path, loop.value_or(true), vol.value_or(1.0f)); 
+        };
+        audio["stop_music"] = []() { 
+            Engine::Get().GetAudio().StopMusic(); 
+        };
+        
+        // VFX
+        auto vfx = m_lua.create_table("vfx");
+        vfx["emit"] = [](float x, float y, float z, float vx, float vy, float vz, float r, float g, float b, int count, float size) {
+            auto vfxSys = Engine::Get().GetSystem<VFXSystem>();
+            if (vfxSys) {
+                vfxSys->Emit({x, y, z}, {vx, vy, vz}, {r, g, b, 1.0f}, count, size);
+            }
+        };
+        audio["play_3d"] = [](const std::string& path, float x, float y, float z) { 
+            Engine::Get().GetAudio().Play3DEffect(path, x, y, z); 
+        };
         audio["set_volume"] = [](float vol) { Engine::Get().GetAudio().SetMasterVolume(vol); };
+        audio["beep"] = [](float freq, float duration, sol::optional<int> type) {
+            Engine::Get().GetAudio().PlayNote(freq, duration, (WaveType)type.value_or(0));
+        };
+        audio["play_note"] = [](float freq, float duration, sol::optional<int> type) {
+            Engine::Get().GetAudio().PlayNote(freq, duration, (WaveType)type.value_or(0));
+        };
+        audio["beep3d"] = [](float freq, float duration, float x, float y, float z, sol::optional<int> type) {
+            Engine::Get().GetAudio().Play3DNote(freq, duration, x, y, z, (WaveType)type.value_or(0));
+        };
+        audio["play_note_3d"] = [](float freq, float duration, float x, float y, float z, sol::optional<int> type) {
+            Engine::Get().GetAudio().Play3DNote(freq, duration, x, y, z, (WaveType)type.value_or(0));
+        };
+        audio["fm_note"] = [](float freq, float duration, sol::optional<int> algo) {
+            Engine::Get().GetAudio().PlayFMNote(freq, duration, algo.value_or(0));
+        };
+        audio["set_low_pass"] = [](float cutoff) {
+            Engine::Get().GetAudio().m_lowPassCutoff = glm::clamp(cutoff, 0.0f, 1.0f);
+        };
+        audio["set_envelope"] = [](float attack, float decay, float sustain, float release) {
+            for (auto& v : Engine::Get().GetAudio().m_voices) {
+                v.attack = attack; v.decay = decay; v.sustain = sustain; v.release = release;
+            }
+        };
 
         // --- INPUT API ---
         auto input = m_lua.create_table("input");
@@ -362,26 +522,36 @@ namespace starlight {
         input["get_mouse_y"] = []() { return Engine::Get().GetInput().GetMousePosition().y; };
         input["is_down"] = [](const std::string& key) { return Engine::Get().GetInput().IsActionPressed(key); };
         input["is_just_pressed"] = [](const std::string& key) { return Engine::Get().GetInput().IsActionJustPressed(key); };
+        input["get_axis"] = [](const std::string& axis) { return Engine::Get().GetInput().GetAxis(axis); };
+        input["is_gamepad_down"] = [](const std::string& btn) { return Engine::Get().GetInput().IsGamepadButtonPressed(btn); };
+        input["vibrate"] = [](float left, float right, uint32_t ms) { Engine::Get().GetInput().Vibrate(left, right, ms); };
 
-        // --- CAMERA API ---
-        auto camera = m_lua.create_table("camera");
-        camera["set_pos"] = [](float x, float y, float z) { Engine::Get().GetRenderer().GetCameraTransform().position = {x, y, z}; };
-        camera["look_at"] = [](float x, float y, float z) {
-            auto& t = Engine::Get().GetRenderer().GetCameraTransform();
-            glm::mat4 view = glm::lookAt(t.position, glm::vec3(x, y, z), glm::vec3(0, 1, 0));
-            t.rotation = glm::quat_cast(glm::inverse(view));
+        // --- FILE API (Hardened for Industrial Security) ---
+        auto file = m_lua.create_table("file");
+        auto isPathSafe = [](const std::string& path) {
+            // Simple check: don't allow ".." or absolute paths to system dirs
+            if (path.find("..") != std::string::npos) return false;
+            if (path.find(":") != std::string::npos) return false; // No C:\ absolute
+            return true;
         };
 
-        // --- FILE API ---
-        auto file = m_lua.create_table("file");
-        file["read"] = [](const std::string& path) -> std::string {
+        file["read"] = [isPathSafe](const std::string& path) -> std::string {
+            if (!isPathSafe(path)) {
+                Log::Error("Security: Blocked attempt to read unsafe path: {}", path);
+                return "";
+            }
             std::ifstream f(path);
             if (!f.is_open()) return "";
             std::stringstream buffer;
             buffer << f.rdbuf();
             return buffer.str();
         };
-        file["write"] = [](const std::string& path, const std::string& content) {
+
+        file["write"] = [isPathSafe](const std::string& path, const std::string& content) {
+            if (!isPathSafe(path)) {
+                Log::Error("Security: Blocked attempt to write to unsafe path: {}", path);
+                return;
+            }
             std::ofstream f(path);
             if (f.is_open()) {
                 f << content;
@@ -399,12 +569,19 @@ namespace starlight {
     }
 
     void ScriptSystem::ExecuteFile(const std::string& path) {
+        // Always load core.lua first (unless we ARE core.lua)
         if (path != "assets/scripts/core.lua") {
             auto coreResult = m_lua.script_file("assets/scripts/core.lua", sol::script_pass_on_error);
             if (!coreResult.valid()) {
                 sol::error err = coreResult;
                 Log::Error("Core Library Error: " + std::string(err.what()));
             }
+        }
+        
+        // Check if file exists before attempting to load (prevents crash-level errors)
+        if (!std::filesystem::exists(path)) {
+            Log::Error("Lua Error: cannot open {}: No such file or directory", path);
+            return;
         }
         
         auto result = m_lua.script_file(path, sol::script_pass_on_error);
@@ -427,6 +604,17 @@ namespace starlight {
             if (!result.valid()) {
                 sol::error err = result;
                 Log::Error("Lua OnUpdate Error: " + std::string(err.what()));
+            }
+        }
+    }
+
+    void ScriptSystem::OnRender() {
+        sol::protected_function renderFunc = m_lua["OnRender"];
+        if (renderFunc.valid()) {
+            auto result = renderFunc();
+            if (!result.valid()) {
+                sol::error err = result;
+                Log::Error("Lua OnRender Error: " + std::string(err.what()));
             }
         }
     }

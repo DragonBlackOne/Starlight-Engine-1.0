@@ -1,6 +1,6 @@
-#version 410 core
+#version 330 core
 out vec4 outColor;
-in vec2 v_uv;
+in vec2 TexCoords;
 
 uniform sampler2D sceneTexture;
 uniform sampler2D bloomTexture;
@@ -8,7 +8,6 @@ uniform float exposure;
 uniform float gamma;
 
 // ACES Filmic Tone Mapping Curve
-// Source: https://knarkowicz.wordpress.com/2016/01/06/aces-filmic-tone-mapping-curve/
 vec3 ACESFilm(vec3 x) {
     float a = 2.51f;
     float b = 0.03f;
@@ -22,11 +21,11 @@ uniform sampler2D ssaoTexture;
 uniform bool useSSAO;
 
 void main() {
-    vec3 hdrColor = texture(sceneTexture, v_uv).rgb;
-    vec3 bloomColor = texture(bloomTexture, v_uv).rgb;
+    vec3 hdrColor = texture(sceneTexture, TexCoords).rgb;
+    vec3 bloomColor = texture(bloomTexture, TexCoords).rgb;
     
     if (useSSAO) {
-        float ao = texture(ssaoTexture, v_uv).r;
+        float ao = texture(ssaoTexture, TexCoords).r;
         hdrColor *= ao;
     }
     

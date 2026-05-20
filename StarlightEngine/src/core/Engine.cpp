@@ -12,6 +12,7 @@
 #include "HierarchySystem.hpp"
 #include "EventSystem.hpp"
 #include "DashboardSystem.hpp"
+#include "GameplaySystem.hpp"
 #include "VehicleSystem.hpp"
 #include "ClothSystem.hpp"
 #include "SSAO_System.hpp"
@@ -27,6 +28,7 @@
 #include "AnimationSystem.hpp"
 #include "Tween.hpp"
 #include "PhysicsSystem.hpp"
+#include "VFXSystem.hpp"
 
 #undef APIENTRY
 #include <SDL2/SDL.h>
@@ -62,7 +64,9 @@ namespace starlight {
         m_systems.RegisterSystem<NavigationSystem>();
         m_systems.RegisterSystem<FileWatcher>();
         m_systems.RegisterSystem<TweenSystem>();
+        m_systems.RegisterSystem<VFXSystem>();
         m_systems.RegisterSystem<DashboardSystem>();
+        m_systems.RegisterSystem<GameplaySystem>();
     }
 
     Engine::~Engine() {
@@ -92,8 +96,6 @@ namespace starlight {
         
         m_sceneStack.Push(std::make_shared<BaseScene>());
         
-        auto scripting = GetSystem<ScriptSystem>();
-        auto fileWatcher = GetSystem<FileWatcher>();
         // Initialize Default Projection
         float aspect = (float)m_window->GetWidth() / (float)m_window->GetHeight();
         auto renderer = GetSystem<Renderer>();
@@ -128,7 +130,10 @@ namespace starlight {
             double deltaTime = diff.count();
             lastTime = currentTime;
 
-            if (deltaTime > 0.25) deltaTime = 0.25;
+            if (deltaTime > 0.25) {
+                Log::Warn("Engine: DeltaTime clamped from {:.3f}s to 0.25s (frame spike detected).", deltaTime);
+                deltaTime = 0.25;
+            }
 
             m_time.deltaTime = (float)deltaTime;
             m_time.totalTime += (float)deltaTime;
@@ -162,15 +167,7 @@ namespace starlight {
         // (Assuming TweenSystem is now a registered system or handled inside one)        
         auto activeScene = m_sceneStack.Active();
         if (activeScene) {
-            VehicleSystem::Update(activeScene->GetRegistry(), dt); 
-            ClothSystem::Update(activeScene->GetRegistry(), dt);   
-            AISystem::Update(activeScene->GetRegistry(), dt);
-            activeScene->OnUpdate(dt);
-            HierarchySystem::Update(activeScene->GetRegistry());
-            
-            float aspect = (float)m_window->GetWidth() / (float)m_window->GetHeight();
-            CameraSystem::Update(activeScene->GetRegistry(), aspect);
-            LODSystem::Update(activeScene->GetRegistry());
+            // Scene updates handled by GameplaySystem
         }
     }
 
@@ -197,6 +194,14 @@ namespace starlight {
             system->OnRender();
         }
 
+        // System UI Rendering (2D / Overlays)
+        // Handled by RenderGraph UIPass
+        /*
+        for (auto& system : m_systems.GetSystems()) {
+            system->OnUIRender();
+        }
+        */
+
         // Active Scene ImGui Rendering
         auto activeScene = m_sceneStack.Active();
         if (activeScene) {
@@ -212,6 +217,7 @@ namespace starlight {
 
     void Engine::Shutdown() {
         Log::Info("Starlight Engine Shutting Down...");
+        Renderer2D::Shutdown();
         m_systems.Shutdown();
         m_window->Shutdown();
     }

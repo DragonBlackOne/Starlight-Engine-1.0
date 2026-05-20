@@ -7,8 +7,9 @@ This document lists the industrial-grade competencies implemented in the Starlig
 ---
 
 ## Rendering Skills
+
 | Skill | Status | Description |
-|-------|--------|-------------|
+| ----- | ------ | ----------- |
 | PBR (Physically Based Rendering) | ✅ | Metallic/Roughness + IBL |
 | Cascaded Shadow Maps | ✅ | 4 cascades, 2048x2048 |
 | SSAO | ✅ | Screen-Space Ambient Occlusion |
@@ -20,8 +21,9 @@ This document lists the industrial-grade competencies implemented in the Starlig
 | Instanced Rendering | ✅ | 100K+ objects |
 
 ## Systems Skills
+
 | Skill | Status | Description |
-|-------|--------|-------------|
+| ----- | ------ | ----------- |
 | ECS (EnTT) | ✅ | Cache-friendly Entity-Component-System |
 | Jolt Physics | ✅ | Industrial rigid body dynamics (v5.5.0) |
 | JobSystem | ✅ | Fiber-based multi-threading (Wicked Engine) |
@@ -30,22 +32,28 @@ This document lists the industrial-grade competencies implemented in the Starlig
 | Hot Reload | ✅ | FileWatcher auto-refresh |
 | Network | ✅ | Network layer active |
 
-## Scripting Skills (SBA v2.0)
+## Scripting Skills (SBA v3.0)
+
 | Skill | Status | Description |
-|-------|--------|-------------|
+| ----- | ------ | ----------- |
 | Lua/Sol2 Bindings | ✅ | Full C++ → Lua exposure |
 | Entity OO Wrapper | ✅ | Chainable method abstraction |
 | Scene Manager | ✅ | State machine with transitions |
 | Tween System | ✅ | 8 easing functions |
 | Event Bus | ✅ | Decoupled pub/sub messaging |
 | Coroutine Runner | ✅ | Async sequences |
-| Color Utilities | ✅ | HSV, pulse, blend |
+| Color Utilities | ✅ | HSV, pulse, blend, rainbow, hex |
 | 3D Mouse Raycasting | ✅ | World-space object picking |
+| Particle2D | ✅ | Batched particle system |
+| StateMachine | ✅ | Generic FSM for logic |
+| Signal/Events | ✅ | Decoupled observer pattern |
+| ObjectPool | ✅ | Memory recycling system |
 
 ## Showcase Games
+
 | Game | Status | Features |
-|------|--------|----------|
-| Capital Odyssey | ✅ | 3D financial simulation (SBA v2.0) |
+| ---- | ------ | -------- |
+| Capital Odyssey | ✅ | 3D financial simulation (SBA v3.0) |
 | Cyber Snake | ✅ | 2D Snake with combo + ScreenShake + HSV |
 | Starlight Tetris | ✅ | SRS + combo + B2B + line clear flash |
 | Starlight Pong | ✅ | Power-ups + rally counter + AI |

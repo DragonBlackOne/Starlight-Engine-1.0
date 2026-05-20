@@ -10,11 +10,15 @@ uniform sampler2D uTextures[16];
 
 void main()
 {
-    int index = int(TexIndex + 0.5); // Add 0.5 to avoid precision issues
+    int index = int(TexIndex + 0.5);
     vec4 texColor = vec4(1.0);
     
+    // Manual texture array sampling for compatibility
     if (index == 0) texColor = texture(uTextures[0], TexCoords);
-    else if (index == 1) texColor = texture(uTextures[1], TexCoords);
+    else if (index == 1) {
+        float a = texture(uTextures[1], TexCoords).r;
+        texColor = vec4(1.0, 1.0, 1.0, a);
+    }
     else if (index == 2) texColor = texture(uTextures[2], TexCoords);
     else if (index == 3) texColor = texture(uTextures[3], TexCoords);
     else if (index == 4) texColor = texture(uTextures[4], TexCoords);

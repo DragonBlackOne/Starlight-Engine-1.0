@@ -1,8 +1,7 @@
 #include "Engine.hpp"
 #include "Log.hpp"
 #include "ScriptSystem.hpp"
-#include "DashboardSystem.hpp"
-#include <string>
+#include <iostream>
 
 using namespace starlight;
 
@@ -14,26 +13,14 @@ public:
         auto& scripting = Engine::Get().GetScripting();
         scripting.ExecuteFile("assets/scripts/tetris_main.lua");
         
-        sol::function onStart = scripting.GetLua()["OnStart"];
+        sol::protected_function onStart = scripting.GetLua()["OnStart"];
         if (onStart.valid()) {
-            onStart();
+            auto result = onStart();
+            if (!result.valid()) {
+                sol::error err = result;
+                Log::Error("Lua OnStart Error: {}", err.what());
+            }
         }
-    }
-
-    void OnUpdate(float dt) override {
-        auto& scripting = Engine::Get().GetScripting();
-        sol::function onUpdate = scripting.GetLua()["OnUpdate"];
-        if (onUpdate.valid()) {
-            onUpdate(dt);
-        }
-    }
-
-    void OnFixedUpdate(float dt) override { (void)dt; }
-    void OnRender() override {}
-    
-    void OnUIRender() override {
-        // We can call a specific UI render function if needed,
-        // but ScriptSystem::OnUIRender() already calls "OnRenderUI" in lua.
     }
 
     void OnExit() override {
@@ -43,18 +30,25 @@ public:
 
 int main(int argc, char* argv[]) {
     (void)argc; (void)argv;
-    
-    WindowConfig config;
-    config.title = "Starlight Tetris - Neon Edition";
-    config.width = 640;
-    config.height = 800;
-    
-    Engine engine;
-    engine.Initialize(config);
-    
-    engine.GetSceneStack().Push(std::make_shared<TetrisGame>());
-    
-    engine.Run();
-    
+    try {
+        WindowConfig config;
+        config.title = "Fusion Tetris v5.0 (Radical Rebuild)";
+        config.width = 800;
+        config.height = 1000;
+        config.vsync = true;
+
+        Engine engine;
+        engine.Initialize(config);
+
+        engine.GetSceneStack().Push(std::make_shared<TetrisGame>());
+
+        engine.Run();
+        engine.Shutdown();
+
+    } catch (const std::exception& e) {
+        std::cerr << "CRITICAL ERROR: " << e.what() << std::endl;
+        return -1;
+    }
     return 0;
 }
+

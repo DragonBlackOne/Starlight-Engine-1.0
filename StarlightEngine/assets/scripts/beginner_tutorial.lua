@@ -1,86 +1,95 @@
 -- ============================================================================
--- STARLIGHT ENGINE: BEGINNER TUTORIAL (SBA v2.0)
--- Um jogo simples usando o framework completo da Fusion Engine
+-- beginner_tutorial.lua — SBA v3.0 Showcase
+-- A comprehensive demonstration of the new version 3.0 features.
 -- ============================================================================
 package.path = package.path .. ";assets/scripts/?.lua"
 require("sba_bridge")
 
-local player = nil
-local goal = nil
-local score = 0
-local goalPulse = 0
+-- 1. Signals & Events
+local onGameStarted = Signal()
+onGameStarted:connect(function(msg)
+    Say("Signal Received: " .. msg)
+end)
 
-function OnStart()
-    Say("Bem-vindo ao Starlight Engine!")
-    Engine.set_camera_pos(0, 25, 15)
-    Engine.look_at(0, 0, 0)
+-- 2. State Machine for a simple Game Flow
+local GameFlow = StateMachine()
 
-    -- Cria o jogador usando o Entity wrapper OO
-    player = Entity("Player", 0, 0, 0)
-    player:setColor(0, 1, 1)
-    player:setScale(1)
-    player:setMaterial(0.8, 0.2)
-
-    -- Cria um objetivo (uma caixa dourada)
-    goal = Entity("Goal", 10, 0.5, 10)
-    goal:setColor(1, 0.8, 0)
-    goal:setScale(0.8)
-    goal:setMaterial(1.0, 0.0) -- Full metallic
-
-    -- Chão
-    local floor = Entity("Floor", 0, -0.5, 0)
-    floor:setColor(0.08, 0.08, 0.12)
-    floor:setScale(30, 0.1, 30)
-    floor:setMaterial(0.1, 0.9)
-
-    -- Luz
-    Light(0, 15, 0, 1, 1, 1, 800)
-
-    score = 0
-end
-
-function OnUpdate(dt)
-    -- Movimentação com WASD
-    local speed = 10 * dt
-    if input.is_down("W") or input.is_down("Up") then player:move(0, 0, -speed) end
-    if input.is_down("S") or input.is_down("Down") then player:move(0, 0, speed) end
-    if input.is_down("A") or input.is_down("Left") then player:move(-speed, 0, 0) end
-    if input.is_down("D") or input.is_down("Right") then player:move(speed, 0, 0) end
-
-    -- Flutuação do objetivo
-    goalPulse = goalPulse + dt
-    goal:setPos(goal.x, 0.5 + math.sin(goalPulse * 4) * 0.3, goal.z)
-
-    -- Verifica distância (colisão simples)
-    local px, py, pz = player:getPos()
-    local gx, gy, gz = goal:getPos()
-    local dist = MathX.distance3D(px, py, pz, gx, gy, gz)
-
-    if dist < 2.0 then
-        score = score + 1
-        Say("Ponto! Score: " .. score)
-
-        -- Move o objetivo para um lugar aleatório com Tween!
-        local nx = MathX.random_range(-12, 12)
-        local nz = MathX.random_range(-12, 12)
-        goal:setPos(nx, 0.5, nz)
-
-        -- Cor muda a cada ponto (HSV rainbow)
-        local r, g, b = Color.hsv((score * 0.1) % 1.0, 0.8, 1.0)
-        goal:setColor(r, g, b)
-
-        Sound(660, 0.1)
+GameFlow:add("Menu", {
+    enter = function() 
+        Say("Entered Menu State")
+        Events.emit("ui_change", "MAIN_MENU")
+    end,
+    update = function(owner, dt)
+        if Input.isJustPressed("Space") then
+            GameFlow:switch("Play")
+        end
     end
+})
 
-    -- Tweens e Timers
+GameFlow:add("Play", {
+    enter = function()
+        Say("Game Started!")
+        onGameStarted:emit("Let's Go!")
+        ScreenShake.trigger(10, 0.5)
+    end,
+    update = function(owner, dt)
+        -- Gameplay logic here
+    end
+})
+
+-- 3. Particle System
+local fire = Particle2D({
+    x = 0, y = 0,
+    max = 200,
+    rate = 50,
+    lifetime = 1.5,
+    speed = 150,
+    gravity = -50,
+    angle = -math.pi/2,
+    spread = math.pi/4,
+    r = 1, g = 0.5, b = 0.2
+})
+
+-- 4. Entity with Tag & Components
+local player = Entity("Player", 0, 0, 0)
+player:set("health", 100)
+player:set("score", 0)
+player:setColor(Color.hex("#3498db"))
+
+-- 5. Tweens & Sequences
+Tween.sequence(player, {
+    { props = { x = 5 }, duration = 1, easing = "easeOutQuad" },
+    { props = { y = 2 }, duration = 1, easing = "easeInBack", delay = 0.5 },
+    { props = { x = 0, y = 0 }, duration = 1, easing = "easeInOutCubic" }
+})
+
+-- 6. Main Loop Hooks
+function OnUpdate(dt)
+    GameFlow:update(nil, dt)
+    Timer.update(dt)
     Tween.update(dt)
     Coroutine.update(dt)
+    ScreenShake.update(dt)
+    fire:update(dt)
+    
+    -- Update fire position to follow player (2D projected)
+    local px, py, pz = player:getPos()
+    fire.x = px * 100 -- Arbitrary scale for 2D view
+    fire.y = py * 100
 end
 
 function OnRenderUI()
-    ui.begin(1600, 900)
-    ui.panel(10, 10, 300, 50, 0.02, 0.02, 0.05, 0.85)
-    ui.label("TUTORIAL | Score: " .. score, 30, 45, 0, 1, 0.8, 1)
-    ui.label("Move: WASD | Collect the cubes!", 30, 75, 0.5, 0.5, 0.5, 1)
-    ui.finish()
+    -- New GFX Primitives
+    gfx.draw_rect_outline(10, 10, 200, 50, 2, 1, 1, 1)
+    gfx.draw_circle(400, 300, 50, 1, 0, 0)
+    gfx.draw_line(0, 0, gfx.screen_width(), gfx.screen_height(), 2, 0, 1, 0)
+    
+    fire:draw()
+    
+    imgui.text(20, 20, 1, 1, 1, "SBA v3.0 Tutorial")
+    imgui.text(20, 40, 1, 1, 0, "Press SPACE to start")
+    imgui.text(20, 60, 0.5, 1, 0.5, "Health: " .. player:get("health"))
 end
+
+GameFlow:switch("Menu")
+Say("Tutorial v3.0 Initialized.")

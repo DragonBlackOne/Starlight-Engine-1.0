@@ -4,6 +4,7 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <array>
 #include "Engine.hpp"
+#include "Log.hpp"
 
 namespace starlight {
 
@@ -16,6 +17,7 @@ namespace starlight {
         uint32_t quadVBO = 0;
         uint32_t quadIBO = 0;
         uint32_t whiteTexture = 0;
+        uint32_t fontTexture = 0;
 
         uint32_t indexCount = 0;
         Vertex2D* vertexBufferBase = nullptr;
@@ -78,17 +80,59 @@ namespace starlight {
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
+        // Generate slightly better 8x8 font (Procedural Bitmask)
+        glGenTextures(1, &s_Data.fontTexture);
+        glBindTexture(GL_TEXTURE_2D, s_Data.fontTexture);
+        uint8_t fontData[128 * 128]; 
+        memset(fontData, 0, sizeof(fontData));
+        
+        // Simple 5x7 font bitmasks for A-Z, 0-9
+        auto drawChar = [&](char c, uint64_t mask) {
+            int cx = (c % 16) * 8;
+            int cy = (c / 16) * 8;
+            for(int y=0; y<7; y++) {
+                for(int x=0; x<5; x++) {
+                    if((mask >> (y*5 + x)) & 1) fontData[(cy+y)*128 + (cx+x)] = 255;
+                }
+            }
+        };
+
+        // Minimalist Font Data (approximate 5x7)
+        drawChar('A', 0x111F110EULL); drawChar('B', 0x1E111E111EULL); drawChar('C', 0x0E1110110EULL);
+        drawChar('D', 0x1E1111111EULL); drawChar('E', 0x1F101E101FULL); drawChar('F', 0x10101E101FULL);
+        drawChar('G', 0x0F1117100EULL); drawChar('H', 0x11111F1111ULL); drawChar('I', 0x0404040404ULL);
+        drawChar('J', 0x0E11010101ULL); drawChar('K', 0x11121C1211ULL); drawChar('L', 0x1F10101010ULL);
+        drawChar('M', 0x1111151B11ULL); drawChar('N', 0x1113151911ULL); drawChar('O', 0x0E1111110EULL);
+        drawChar('P', 0x10101E111EULL); drawChar('Q', 0x0D1311110EULL); drawChar('R', 0x11121E111EULL);
+        drawChar('S', 0x1E010E100FULL); drawChar('T', 0x040404041FULL); drawChar('U', 0x0E11111111ULL);
+        drawChar('V', 0x040A111111ULL); drawChar('W', 0x111B151111ULL); drawChar('X', 0x110A040A11ULL);
+        drawChar('Y', 0x0404040A11ULL); drawChar('Z', 0x1F0804021FULL);
+        drawChar('0', 0x0E1111110EULL); drawChar('1', 0x040404040EULL); drawChar('2', 0x1F100E011EULL);
+        drawChar('3', 0x1E010E011EULL); drawChar('4', 0x01011F1111ULL); drawChar('5', 0x1E011E101FULL);
+        drawChar('6', 0x1E111E101EULL); drawChar('7', 0x020408101FULL); drawChar('8', 0x0E110E110EULL);
+        drawChar('9', 0x1E011F110EULL);
+        drawChar('!', 0x0400040404ULL); drawChar(':', 0x0400040000ULL); drawChar('-', 0x00001F0000ULL);
+
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, 128, 128, 0, GL_RED, GL_UNSIGNED_BYTE, fontData);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
         s_Data.shader = Shader::LoadFromFile("assets/shaders/batch.vert", "assets/shaders/batch.frag");
 
         s_Data.textureSlots[0] = s_Data.whiteTexture;
-        for (size_t i = 1; i < s_Data.MaxTextureSlots; i++) s_Data.textureSlots[i] = 0;
+        s_Data.textureSlots[1] = s_Data.fontTexture;
+        s_Data.textureSlotIndex = 2;
+        for (size_t i = 2; i < s_Data.MaxTextureSlots; i++) s_Data.textureSlots[i] = 0;
     }
 
     void Renderer2D::Shutdown() {
         delete[] s_Data.vertexBufferBase;
-        glDeleteVertexArrays(1, &s_Data.quadVAO);
-        glDeleteBuffers(1, &s_Data.quadVBO);
-        glDeleteBuffers(1, &s_Data.quadIBO);
+        s_Data.vertexBufferBase = nullptr;
+        s_Data.vertexBufferPtr = nullptr;
+        if (s_Data.quadVAO) { glDeleteVertexArrays(1, &s_Data.quadVAO); s_Data.quadVAO = 0; }
+        if (s_Data.quadVBO) { glDeleteBuffers(1, &s_Data.quadVBO); s_Data.quadVBO = 0; }
+        if (s_Data.quadIBO) { glDeleteBuffers(1, &s_Data.quadIBO); s_Data.quadIBO = 0; }
+        if (s_Data.whiteTexture) { glDeleteTextures(1, &s_Data.whiteTexture); s_Data.whiteTexture = 0; }
     }
 
     void Renderer2D::BeginBatch() {
@@ -102,10 +146,14 @@ namespace starlight {
     void Renderer2D::StartBatch() {
         s_Data.indexCount = 0;
         s_Data.vertexBufferPtr = s_Data.vertexBufferBase;
-        s_Data.textureSlotIndex = 1;
+        s_Data.textureSlotIndex = 2; // Slots 0 and 1 are reserved for White and Font
     }
 
     void Renderer2D::Flush() {
+        static int flushCount = 0;
+        if (flushCount++ < 10) {
+            Log::Info("Renderer2D::Flush: indexCount = {}, quadVAO = {}, shaderValid = {}", s_Data.indexCount, s_Data.quadVAO, s_Data.shader ? 1 : 0);
+        }
         if (s_Data.indexCount == 0) return;
 
         uint32_t dataSize = (uint32_t)((uint8_t*)s_Data.vertexBufferPtr - (uint8_t*)s_Data.vertexBufferBase);
@@ -144,7 +192,7 @@ namespace starlight {
 
         // Restore state
         glEnable(GL_DEPTH_TEST);
-        glEnable(GL_CULL_FACE);
+        // glDisable(GL_CULL_FACE); // Keep disabled for industrial stability
         s_Data.stats.drawCalls++;
     }
 
@@ -179,9 +227,21 @@ namespace starlight {
         }
 
         if (textureIndex == 0.0f && textureID != s_Data.whiteTexture) {
-            textureIndex = (float)s_Data.textureSlotIndex;
-            s_Data.textureSlots[s_Data.textureSlotIndex] = textureID;
-            s_Data.textureSlotIndex++;
+            // Check if it's already in the slots beyond the reserved ones
+            bool found = false;
+            for (uint32_t i = 2; i < s_Data.textureSlotIndex; i++) {
+                if (s_Data.textureSlots[i] == textureID) {
+                    textureIndex = (float)i;
+                    found = true;
+                    break;
+                }
+            }
+            
+            if (!found) {
+                textureIndex = (float)s_Data.textureSlotIndex;
+                s_Data.textureSlots[s_Data.textureSlotIndex] = textureID;
+                s_Data.textureSlotIndex++;
+            }
         }
 
         s_Data.vertexBufferPtr->position = position;
@@ -217,5 +277,67 @@ namespace starlight {
     }
 
     Renderer2D::Statistics Renderer2D::GetStats() { return s_Data.stats; }
+
+    void Renderer2D::DrawString(const std::string& text, const glm::vec2& position, float scale, const glm::vec4& color) {
+        float x = position.x;
+        float y = position.y;
+        float charWidth = 8.0f * scale;
+        float charHeight = 8.0f * scale;
+
+        for (char c : text) {
+            if (c == '\n') {
+                x = position.x;
+                y += charHeight;
+                continue;
+            }
+            if (c < 32 || c > 127) continue;
+
+            float u = (float)(c % 16) / 16.0f;
+            float v = (float)(c / 16) / 16.0f;
+            float uvSize = 1.0f / 16.0f;
+
+            // Manual DrawQuadEx behavior for custom UVs
+            if (s_Data.indexCount >= s_Data.MaxIndices || s_Data.textureSlotIndex >= s_Data.MaxTextureSlots) {
+                EndBatch();
+                StartBatch();
+            }
+
+            float textureIndex = 1.0f; // Font is always slot 1
+            float flags = 0.0f;
+
+            s_Data.vertexBufferPtr->position = {x, y};
+            s_Data.vertexBufferPtr->texCoord = {u, v};
+            s_Data.vertexBufferPtr->color = color;
+            s_Data.vertexBufferPtr->textureIndex = textureIndex;
+            s_Data.vertexBufferPtr->flags = flags;
+            s_Data.vertexBufferPtr++;
+
+            s_Data.vertexBufferPtr->position = {x + charWidth, y};
+            s_Data.vertexBufferPtr->texCoord = {u + uvSize, v};
+            s_Data.vertexBufferPtr->color = color;
+            s_Data.vertexBufferPtr->textureIndex = textureIndex;
+            s_Data.vertexBufferPtr->flags = flags;
+            s_Data.vertexBufferPtr++;
+
+            s_Data.vertexBufferPtr->position = {x + charWidth, y + charHeight};
+            s_Data.vertexBufferPtr->texCoord = {u + uvSize, v + uvSize};
+            s_Data.vertexBufferPtr->color = color;
+            s_Data.vertexBufferPtr->textureIndex = textureIndex;
+            s_Data.vertexBufferPtr->flags = flags;
+            s_Data.vertexBufferPtr++;
+
+            s_Data.vertexBufferPtr->position = {x, y + charHeight};
+            s_Data.vertexBufferPtr->texCoord = {u, v + uvSize};
+            s_Data.vertexBufferPtr->color = color;
+            s_Data.vertexBufferPtr->textureIndex = textureIndex;
+            s_Data.vertexBufferPtr->flags = flags;
+            s_Data.vertexBufferPtr++;
+
+            s_Data.indexCount += 6;
+            s_Data.stats.quadCount++;
+
+            x += charWidth;
+        }
+    }
 
 }

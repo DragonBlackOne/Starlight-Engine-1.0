@@ -1,5 +1,6 @@
 // Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "ComputeShader.hpp"
+#include "Log.hpp"
 #include <fstream>
 #include <sstream>
 #include <iostream>
@@ -9,16 +10,26 @@ namespace starlight {
     ComputeShader::ComputeShader(const std::string& computePath) {
         std::string computeCode;
         std::ifstream cShaderFile;
-        cShaderFile.exceptions(std::ifstream::failbit | std::ifstream::badbit);
         try {
             cShaderFile.open(computePath);
+            if (!cShaderFile.is_open()) {
+                Log::Error("ComputeShader: Failed to open file: " + computePath);
+                return;
+            }
             std::stringstream cShaderStream;
             cShaderStream << cShaderFile.rdbuf();
             cShaderFile.close();
             computeCode = cShaderStream.str();
+            
+            // Strip UTF-8 BOM if present
+            if (computeCode.size() >= 3 && 
+                (unsigned char)computeCode[0] == 0xEF && 
+                (unsigned char)computeCode[1] == 0xBB && 
+                (unsigned char)computeCode[2] == 0xBF) {
+                computeCode = computeCode.substr(3);
+            }
         } catch (std::exception& e) {
-            (void)e;
-            std::cerr << "ERROR::COMPUTE_SHADER::FILE_NOT_SUCCESSFULLY_READ" << std::endl;
+            Log::Error("ComputeShader: Exception reading file " + computePath + ": " + e.what());
         }
         const char* cShaderCode = computeCode.c_str();
 
@@ -37,15 +48,15 @@ namespace starlight {
     }
 
     ComputeShader::~ComputeShader() {
-        glDeleteProgram(m_programID);
+        if (m_programID) glDeleteProgram(m_programID);
     }
 
     void ComputeShader::Use() {
-        glUseProgram(m_programID);
+        if (m_programID) glUseProgram(m_programID);
     }
 
     void ComputeShader::Dispatch(unsigned int x, unsigned int y, unsigned int z) {
-        glDispatchCompute(x, y, z);
+        if (m_programID) glDispatchCompute(x, y, z);
     }
 
     void ComputeShader::Wait() {
@@ -53,14 +64,17 @@ namespace starlight {
     }
 
     void ComputeShader::SetIntU(const std::string& name, int value) {
+        if (!m_programID) return;
         glUniform1i(glGetUniformLocation(m_programID, name.c_str()), value);
     }
 
     void ComputeShader::SetFloatU(const std::string& name, float value) {
+        if (!m_programID) return;
         glUniform1f(glGetUniformLocation(m_programID, name.c_str()), value);
     }
 
     void ComputeShader::SetVec3U(const std::string& name, const glm::vec3& value) {
+        if (!m_programID) return;
         glUniform3f(glGetUniformLocation(m_programID, name.c_str()), value.x, value.y, value.z);
     }
 
@@ -71,13 +85,13 @@ namespace starlight {
             glGetShaderiv(shader, GL_COMPILE_STATUS, &success);
             if (!success) {
                 glGetShaderInfoLog(shader, 1024, NULL, infoLog);
-                std::cerr << "ERROR::SHADER_COMPILATION_ERROR of type: " << type << "\n" << infoLog << std::endl;
+                Log::Error("ComputeShader: Compilation Error (" + type + "):\n" + std::string(infoLog));
             }
         } else {
             glGetProgramiv(shader, GL_LINK_STATUS, &success);
             if (!success) {
                 glGetProgramInfoLog(shader, 1024, NULL, infoLog);
-                std::cerr << "ERROR::PROGRAM_LINKING_ERROR of type: " << type << "\n" << infoLog << std::endl;
+                Log::Error("ComputeShader: Linking Error (" + type + "):\n" + std::string(infoLog));
             }
         }
     }

@@ -32,9 +32,13 @@ namespace starlight {
         (void)context;
         // Load font
         FILE* file;
-        fopen_s(&file, "C:/Windows/Fonts/arial.ttf", "rb");
+        fopen_s(&file, "assets/fonts/Inconsolata-Regular.ttf", "rb");
         if (!file) {
-            Log::Error("DashboardSystem: Failed to open C:/Windows/Fonts/arial.ttf");
+            // Fallback to local
+            fopen_s(&file, "arial.ttf", "rb");
+        }
+        if (!file) {
+            Log::Error("DashboardSystem: Failed to open arial.ttf");
             return false;
         }
 
@@ -115,8 +119,8 @@ namespace starlight {
         if (!m_enabled || m_commands.empty()) return;
 
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
-        glViewport(0, 0, 1600, 900);
-        glm::mat4 projection = glm::ortho(0.0f, 1600.0f, 900.0f, 0.0f, -1.0f, 1.0f);
+        glViewport(0, 0, m_width, m_height);
+        glm::mat4 projection = glm::ortho(0.0f, (float)m_width, (float)m_height, 0.0f, -1.0f, 1.0f);
         auto shader = renderer.GetUIShader();
         if(!shader) return;
 
@@ -125,6 +129,8 @@ namespace starlight {
         shader->SetMat4U("projection", projection);
 
         glDisable(GL_DEPTH_TEST);
+        glDepthMask(GL_FALSE);
+        glDisable(GL_CULL_FACE);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 

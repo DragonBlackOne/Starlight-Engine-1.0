@@ -16,17 +16,25 @@ public:
         auto& scripting = Engine::Get().GetScripting();
         scripting.ExecuteFile("assets/scripts/odyssey_main.lua");
         
-        sol::function onStart = scripting.GetLua()["OnStart"];
+        sol::protected_function onStart = scripting.GetLua()["OnStart"];
         if (onStart.valid()) {
-            onStart();
+            auto res = onStart();
+            if (!res.valid()) {
+                sol::error err = res;
+                Log::Error("Capital Odyssey Lua Start Error: {}", err.what());
+            }
         }
     }
 
     void OnUpdate(float dt) override {
         auto& scripting = Engine::Get().GetScripting();
-        sol::function onUpdate = scripting.GetLua()["OnUpdate"];
+        sol::protected_function onUpdate = scripting.GetLua()["OnUpdate"];
         if (onUpdate.valid()) {
-            onUpdate(dt);
+            auto res = onUpdate(dt);
+            if (!res.valid()) {
+                sol::error err = res;
+                Log::Error("Capital Odyssey Lua Update Error: {}", err.what());
+            }
         }
     }
 

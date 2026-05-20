@@ -7,8 +7,9 @@ Este documento lista as competências industriais implementadas na Starlight Eng
 ---
 
 ## Competências de Renderização
+
 | Skill | Status | Descrição |
-|-------|--------|-----------|
+| ----- | ------ | --------- |
 | PBR (Physically Based Rendering) | ✅ | Metallic/Roughness + IBL |
 | Cascaded Shadow Maps | ✅ | 4 cascatas, 2048x2048 |
 | SSAO | ✅ | Screen-Space Ambient Occlusion |
@@ -20,8 +21,9 @@ Este documento lista as competências industriais implementadas na Starlight Eng
 | Instanced Rendering | ✅ | 100K+ objetos |
 
 ## Competências de Sistemas
+
 | Skill | Status | Descrição |
-|-------|--------|-----------|
+| ----- | ------ | --------- |
 | ECS (EnTT) | ✅ | Entity-Component-System cache-friendly |
 | Jolt Physics | ✅ | Rigid body dynamics industrial (v5.5.0) |
 | JobSystem | ✅ | Multi-thread fiber-based (Wicked Engine) |
@@ -30,22 +32,28 @@ Este documento lista as competências industriais implementadas na Starlight Eng
 | Hot Reload | ✅ | FileWatcher com refresh automático |
 | Network | ✅ | Camada de rede ativa |
 
-## Competências de Scripting (SBA v2.0)
+## Competências de Scripting (SBA v3.0)
+
 | Skill | Status | Descrição |
-|-------|--------|-----------|
+| ----- | ------ | --------- |
 | Lua/Sol2 Bindings | ✅ | C++ → Lua completo |
 | Entity OO Wrapper | ✅ | Abstração com métodos encadeáveis |
 | Scene Manager | ✅ | State machine com transições |
 | Tween System | ✅ | 8 funções de easing |
 | Event Bus | ✅ | Pub/Sub desacoplado |
 | Coroutine Runner | ✅ | Sequências assíncronas |
-| Color Utilities | ✅ | HSV, pulse, blend |
+| Color Utilities | ✅ | HSV, pulse, blend, rainbow, hex |
 | 3D Mouse Raycasting | ✅ | Picking de objetos no mundo |
+| Particle2D | ✅ | Sistema de partículas batched |
+| StateMachine | ✅ | FSM genérica para lógica |
+| Signal/Events | ✅ | Padrão observer desacoplado |
+| ObjectPool | ✅ | Sistema de reciclagem de memória |
 
 ## Jogos Showcase
+
 | Jogo | Status | Features |
-|------|--------|----------|
-| Capital Odyssey | ✅ | Simulação financeira 3D (SBA v2.0) |
+| ---- | ------ | -------- |
+| Capital Odyssey | ✅ | Simulação financeira 3D (SBA v3.0) |
 | Cyber Snake | ✅ | Snake 2D com combo + ScreenShake + HSV |
 | Starlight Tetris | ✅ | SRS + combo + B2B + line clear flash |
 | Starlight Pong | ✅ | Power-ups + rally counter + AI |

@@ -20,6 +20,7 @@ namespace starlight {
         bool OnInitialize(const EngineContext& context) override;
         void OnShutdown() override {}
         void OnUpdate(float dt) override;
+        void OnRender() override;
         void OnUIRender() override;
         const char* GetName() const override { return "ScriptSystem"; }
 

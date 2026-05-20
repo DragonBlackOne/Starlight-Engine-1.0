@@ -20,6 +20,15 @@ namespace starlight {
         std::memset(s_currKeys, 0, 512);
         std::memset(s_prevKeys, 0, 512);
 
+        if (SDL_InitSubSystem(SDL_INIT_GAMECONTROLLER) == 0) {
+            for (int i = 0; i < SDL_NumJoysticks(); ++i) {
+                if (SDL_IsGameController(i)) {
+                    m_gamepad = SDL_GameControllerOpen(i);
+                    if (m_gamepad) break;
+                }
+            }
+        }
+
         // Professional Default Bindings (Using PAL KeyCodes)
         BindAction("Jump", pal::KeyCode::Space);
         BindAction("MoveForward", pal::KeyCode::W);
@@ -66,6 +75,20 @@ namespace starlight {
         int mx, my;
         s_currMouse = SDL_GetMouseState(&mx, &my);
         m_mousePos = glm::vec2(mx, my);
+
+        // Update Gamepad
+        if (m_gamepad) {
+            auto controller = (SDL_GameController*)m_gamepad;
+            for (int i = 0; i < 6; i++) {
+                int16_t val = SDL_GameControllerGetAxis(controller, (SDL_GameControllerAxis)i);
+                m_axes[i] = (float)val / 32767.0f;
+                // Deadzone
+                if (std::abs(m_axes[i]) < 0.15f) m_axes[i] = 0.0f;
+            }
+            for (int i = 0; i < 15; i++) {
+                m_buttons[i] = SDL_GameControllerGetButton(controller, (SDL_GameControllerButton)i);
+            }
+        }
     }
 
     bool InputSystem::IsActionPressed(const std::string& name) const {
@@ -111,6 +134,33 @@ namespace starlight {
     void InputSystem::BindMouseButton(const std::string& name, pal::MouseButton button) {
         m_actions[name].name = name;
         m_actions[name].mouseButtons.push_back(button);
+    }
+
+    float InputSystem::GetAxis(const std::string& axisName) const {
+        if (axisName == "LeftX") return m_axes[SDL_CONTROLLER_AXIS_LEFTX];
+        if (axisName == "LeftY") return m_axes[SDL_CONTROLLER_AXIS_LEFTY];
+        if (axisName == "RightX") return m_axes[SDL_CONTROLLER_AXIS_RIGHTX];
+        if (axisName == "RightY") return m_axes[SDL_CONTROLLER_AXIS_RIGHTY];
+        if (axisName == "TriggerLeft") return m_axes[SDL_CONTROLLER_AXIS_TRIGGERLEFT];
+        if (axisName == "TriggerRight") return m_axes[SDL_CONTROLLER_AXIS_TRIGGERRIGHT];
+        return 0.0f;
+    }
+
+    bool InputSystem::IsGamepadButtonPressed(const std::string& buttonName) const {
+        if (!m_gamepad) return false;
+        if (buttonName == "A") return m_buttons[SDL_CONTROLLER_BUTTON_A];
+        if (buttonName == "B") return m_buttons[SDL_CONTROLLER_BUTTON_B];
+        if (buttonName == "X") return m_buttons[SDL_CONTROLLER_BUTTON_X];
+        if (buttonName == "Y") return m_buttons[SDL_CONTROLLER_BUTTON_Y];
+        if (buttonName == "Start") return m_buttons[SDL_CONTROLLER_BUTTON_START];
+        if (buttonName == "Back") return m_buttons[SDL_CONTROLLER_BUTTON_BACK];
+        return false;
+    }
+
+    void InputSystem::Vibrate(float leftMotor, float rightMotor, uint32_t durationMS) {
+        if (m_gamepad) {
+            SDL_GameControllerRumble((SDL_GameController*)m_gamepad, (uint16_t)(leftMotor * 0xFFFF), (uint16_t)(rightMotor * 0xFFFF), durationMS);
+        }
     }
 
 }

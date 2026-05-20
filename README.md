@@ -19,7 +19,7 @@ O núcleo C++ é 100% agnóstico e independente, lidando primariamente com:
 O framework Lua de alto nível que permite criação rápida de jogos sem tocar em C++:
 
 | Sistema | Descrição |
-|---------|-----------|
+| --------- | ----------- |
 | **Entity** | Wrapper OO para entidades 3D com métodos encadeáveis (`Entity("Tower", 5,0,3):setColor(0,0.6,1)`) |
 | **Light** | Wrapper OO para luzes dinâmicas (`Light(10,20,10, 1,1,1, 1200)`) |
 | **Tween** | Animação com 8 funções de easing (`Tween.to(entity, {y=5}, 1.5, "easeOutElastic")`) |
@@ -36,7 +36,7 @@ O framework Lua de alto nível que permite criação rápida de jogos sem tocar 
 ## 📂 Estrutura do Repositório
 
 | Diretório | Descrição |
-|-----------|-----------|
+| ----------- | ----------- |
 | **[`StarlightEngine/`](StarlightEngine/README.md)** | O núcleo C++ da Fusion Engine. Contém todos os sistemas (Core, Renderer, Physics, Network, ECS, Audio) + framework SBA v2.0. |
 | **[`CapitalOdyssey/`](CapitalOdyssey/)** | Simulação cibernética de mercado financeiro 3D. Showcase principal com Entity, Tween, Scene, Events. |
 | **[`Snake_Project/`](Snake_Project/README.md)** | Cyber Snake 2D com combo system, ScreenShake, rainbow HSV body. |
@@ -59,6 +59,7 @@ O framework Lua de alto nível que permite criação rápida de jogos sem tocar 
 ```
 
 O script automaticamente:
+
 1. Sincroniza `core.lua` e `sba_bridge.lua` para todos os projetos
 2. Compila a StarlightEngine (biblioteca estática)
 3. Compila todos os jogos (CapitalOdyssey, Pong, Tetris, Snake)

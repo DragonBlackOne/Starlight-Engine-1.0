@@ -1,9 +1,9 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <cstdint>
 #include <cstddef>
 #include <vector>
 #include <mutex>
+#include <memory>
 
 namespace starlight {
 
@@ -76,9 +76,17 @@ namespace starlight {
         static MemoryManager& Get() { return *s_instance; }
 
     private:
+        MemoryManager();
+        ~MemoryManager();
+
         static MemoryManager* s_instance;
-        std::unique_ptr<LinearAllocator> m_frameAllocator;
-        std::mutex m_mutex;
+        
+        // Registry for all thread-local allocators to allow global Clear()
+        std::vector<std::unique_ptr<LinearAllocator>> m_threadAllocators;
+        std::mutex m_registryMutex;
+
+        // Fast thread-local access
+        static thread_local LinearAllocator* s_tlsAllocator;
     };
 
 }

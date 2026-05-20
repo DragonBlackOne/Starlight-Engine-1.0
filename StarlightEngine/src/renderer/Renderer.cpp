@@ -50,103 +50,79 @@ namespace starlight {
     }
 
     Renderer::Renderer() {
-        Log::Info("Renderer Initialized.");
+        Log::Info("Renderer v5.0: Object Created.");
     }
 
-    Renderer::~Renderer() {}
+    Renderer::~Renderer() {
+        OnShutdown();
+    }
 
     bool Renderer::OnInitialize(const EngineContext& context) {
+        (void)context;
+        
+        // 1. Core Meshes
+        m_cubeMesh = InternalCreateCube();
+        m_quadMesh = CreateQuad();
+
+        // 2. Load Industrial Shaders (v5.0 Nucleus)
+        m_gbufferShader = Shader::LoadFromFile("assets/shaders/gbuffer.vert", "assets/shaders/gbuffer.frag");
+        m_pbrShader = Shader::LoadFromFile("assets/shaders/pbr.vert", "assets/shaders/pbr.frag");
+        m_uiShader = Shader::LoadFromFile("assets/shaders/ui.vert", "assets/shaders/ui.frag");
+        m_screenShader = Shader::LoadFromFile("assets/shaders/screen.vert", "assets/shaders/composition.frag");
+        m_skyboxShader = Shader::LoadFromFile("assets/shaders/skybox.vert", "assets/shaders/skybox.frag");
+        
+        // Post-FX Shaders
+        m_bloomBrightShader = Shader::LoadFromFile("assets/shaders/screen.vert", "assets/shaders/bloom_bright.frag");
+        m_bloomBlurShader = Shader::LoadFromFile("assets/shaders/screen.vert", "assets/shaders/bloom_blur.frag");
+        m_ssrShader = Shader::LoadFromFile("assets/shaders/screen.vert", "assets/shaders/ssr.frag");
+        m_postComposeShader = Shader::LoadFromFile("assets/shaders/screen.vert", "assets/shaders/post_compose.frag");
+
+        // 3. Systems Initialization
         m_shadowSystem = std::make_unique<ShadowSystem>(2048);
         m_shadowSystem->Initialize();
         
         m_ssaoSystem = std::make_unique<SSAO_System>();
         m_ssaoSystem->Initialize();
-        
-        Log::Info("Renderer: 3D Engine Enhanced with Cascaded Shadows & PBR.");
-        m_fboWidth = context.window->GetWidth();
-        m_fboHeight = context.window->GetHeight();
 
-        m_pbrShader = Shader::LoadFromFile("assets/shaders/pbr.vert", "assets/shaders/pbr.frag");
-        m_screenShader = Shader::LoadFromFile("assets/shaders/fullscreen_quad.vert", "assets/shaders/post_compose.frag");
-        m_bloomBrightShader = Shader::LoadFromFile("assets/shaders/fullscreen_quad.vert", "assets/shaders/bloom_bright.frag");
-        m_bloomBlurShader = Shader::LoadFromFile("assets/shaders/fullscreen_quad.vert", "assets/shaders/bloom_blur.frag");
-        m_skyboxShader = Shader::LoadFromFile("assets/shaders/skybox.vert", "assets/shaders/skybox.frag");
-        m_volumetricShader = Shader::LoadFromFile("assets/shaders/fullscreen_quad.vert", "assets/shaders/volumetric.frag");
-        m_uiShader = Shader::LoadFromFile("assets/shaders/ui.vert", "assets/shaders/ui.frag");
+        PostProcessing::Initialize();
 
-        m_cubeMesh = InternalCreateCube();
-        m_quadMesh = CreateQuad();
-        
-        // Load G-Buffer Shaders
-        m_gbufferShader = Shader::LoadFromFile("assets/shaders/gbuffer.vert", "assets/shaders/gbuffer.frag");
-        
-        RecreateFBO(m_fboWidth, m_fboHeight);
+        m_dashboardSystem = std::make_unique<DashboardSystem>();
 
-        // --- RenderGraph Setup (Phase 13 - G-Buffer & SSAO Foundation) ---
         m_renderGraph = std::make_unique<RenderGraph>();
         m_renderGraph->AddPass<GBufferPass>();
         m_renderGraph->AddPass<ShadowPass>();
         m_renderGraph->AddPass<SkyboxPass>();
-        m_renderGraph->AddPass<GeometryPass>();
         m_renderGraph->AddPass<SSAO_Pass>();
-        m_renderGraph->AddPass<VolumetricPass>();
+        m_renderGraph->AddPass<GeometryPass>();
+        m_renderGraph->AddPass<VFXPass>();
         m_renderGraph->AddPass<BloomPass>();
         m_renderGraph->AddPass<CompositionPass>();
         m_renderGraph->AddPass<UIPass>();
 
-        m_renderGraph->ImportResource("SceneColor", m_fboTexture, m_fbo);
-        m_renderGraph->Compile();
-
-        // --- IBL Setup (Phase 12) ---
-        m_iblSystem = std::make_unique<IBLSystem>();
-        // m_iblData = m_iblSystem->ProcessHDR("assets/textures/environment.hdr");
-        // Future: Setup passes here or dynamically based on settings
-
-        glEnable(GL_DEPTH_TEST);
-        glEnable(GL_CULL_FACE);
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
+        RecreateFBO(1600, 900);
+        
+        Log::Info("Renderer v5.0: Industrial Pipeline Initialized.");
         return true;
     }
 
     void Renderer::OnShutdown() {
         if (m_fbo) { glDeleteFramebuffers(1, &m_fbo); m_fbo = 0; }
         if (m_fboTexture) { glDeleteTextures(1, &m_fboTexture); m_fboTexture = 0; }
+        if (m_fboDepth) { glDeleteTextures(1, &m_fboDepth); m_fboDepth = 0; }
         if (m_rbo) { glDeleteRenderbuffers(1, &m_rbo); m_rbo = 0; }
-        
-        if (m_gBuffer) { glDeleteFramebuffers(1, &m_gBuffer); m_gBuffer = 0; }
-        if (m_gPosition) { glDeleteTextures(1, &m_gPosition); m_gPosition = 0; }
-        if (m_gNormal) { glDeleteTextures(1, &m_gNormal); m_gNormal = 0; }
-        if (m_gAlbedoSpec) { glDeleteTextures(1, &m_gAlbedoSpec); m_gAlbedoSpec = 0; }
-        if (m_gRoughnessAO) { glDeleteTextures(1, &m_gRoughnessAO); m_gRoughnessAO = 0; }
-        if (m_skyboxCubemap) { glDeleteTextures(1, &m_skyboxCubemap); m_skyboxCubemap = 0; }
         
         m_renderGraph.reset();
         m_shadowSystem.reset();
         m_ssaoSystem.reset();
-        m_iblSystem.reset();
-        m_octreeSystem.reset();
-        m_gizmoSystem.reset();
         m_dashboardSystem.reset();
         
-        m_basicShader.reset();
+        m_gbufferShader.reset();
         m_pbrShader.reset();
-        m_skyboxShader.reset();
-        m_volumetricShader.reset();
         m_uiShader.reset();
         m_screenShader.reset();
-        m_bloomBrightShader.reset();
-        m_bloomBlurShader.reset();
-        m_postComposeShader.reset();
-        m_deferredLightShader.reset();
-        m_gbufferShader.reset();
-        m_cloudShader.reset();
-        m_mode7Shader.reset();
-        m_crtShader.reset();
-        
-        m_quadMesh.reset();
-        m_cubeMesh.reset();
+        m_skyboxShader.reset();
+
+        PostProcessing::Shutdown();
     }
 
     void Renderer::OnRender() {
@@ -167,6 +143,9 @@ namespace starlight {
         if (activeScene) {
             bb.Put("ActiveScene", activeScene.get());
         }
+
+        auto script = Engine::Get().GetSystem<ScriptSystem>();
+        if (script) script->OnRender();
         
         m_renderGraph->Execute();
         

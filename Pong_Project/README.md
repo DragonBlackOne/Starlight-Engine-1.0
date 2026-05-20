@@ -7,7 +7,7 @@ O **Pong Project** é nosso showcase de física 2D, AI e sistema de partículas 
 ## 🏓 Recursos de Gameplay
 
 | Feature | Descrição |
-|---------|-----------|
+| --------- | ----------- |
 | **AI Opponent** | CPU com tracking suavizado (85% da velocidade do jogador) |
 | **Particle System** | Explosões de partículas em colisões + trails da bola |
 | **Screen Shake** | Shake escalável: quanto maior o rally, mais intenso |
@@ -16,9 +16,11 @@ O **Pong Project** é nosso showcase de física 2D, AI e sistema de partículas 
 | **Rally Counter** | Contador central com cor HSV rainbow + barra de velocidade |
 | **Serve System** | Auto-serve com delay de 1s após pontuação |
 
+
 ### Power-Up System
+
 | Tipo | Cor | Efeito |
-|------|-----|--------|
+| ---- | --- | ------ |
 | SlowBall | 🔵 Azul | Reduz velocidade da bola em 40% |
 | SpeedBurst | 🩷 Rosa | Aumenta velocidade da bola em 40% |
 | Visual | 🟢 Verde | Feedback visual com partículas |
@@ -28,7 +30,7 @@ O **Pong Project** é nosso showcase de física 2D, AI e sistema de partículas 
 | Tecla | Ação |
 |-------|------|
 | W / S | Mover paddle (Player 1) |
-| ESC | Pausar |
+| ESC   | Pausar                  |
 
 ## 🚀 Como Jogar
 
@@ -40,4 +42,5 @@ cmake --build build --config Release
 ```
 
 ## 🔧 Framework
+
 Utiliza `core.lua` v2.1 com Class, MathX, Physics2D.CheckAABB, Color.hsv para rally counter.

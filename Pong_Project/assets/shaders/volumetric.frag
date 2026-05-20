@@ -1,6 +1,6 @@
 #version 410 core
 out vec4 outColor;
-in vec2 v_uv;
+in vec2 TexCoords;
 
 uniform sampler2D sceneTexture;
 uniform vec2 lightScreenPos;
@@ -12,13 +12,13 @@ uniform float exposure = 0.2;
 const int SAMPLES = 64;
 
 void main() {
-    vec2 deltaTexCoord = (v_uv - lightScreenPos);
+    vec2 deltaTexCoord = (TexCoords - lightScreenPos);
     deltaTexCoord *= 1.0 / float(SAMPLES) * density;
     
-    vec3 color = texture(sceneTexture, v_uv).rgb;
+    vec3 color = texture(sceneTexture, TexCoords).rgb;
     float illuminationDecay = 1.0;
     
-    vec2 texCoord = v_uv;
+    vec2 texCoord = TexCoords;
     for (int i = 0; i < SAMPLES; i++) {
         texCoord -= deltaTexCoord;
         vec3 sampleColor = texture(sceneTexture, texCoord).rgb;

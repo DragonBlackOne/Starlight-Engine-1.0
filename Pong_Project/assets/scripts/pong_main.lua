@@ -37,7 +37,7 @@ function Button:Update()
                   my >= self.y and my <= self.y + self.h)
                   
     if self.hover and input.is_just_pressed("MouseLeft") then
-        audio.play_sound("assets/audio/hit.wav")
+        audio.beep(440, 0.05, 0) -- Square wave click
         return true
     end
     return false
@@ -50,9 +50,7 @@ function Button:Draw()
     -- Glow
     gfx.draw_rect(self.x - 4, self.y - 4, self.w + 8, self.h + 8, c[1], c[2], c[3], 0.2)
     
-    if imgui then
-        imgui.text(self.x + self.w/2 - string.len(self.text)*4.5, self.y + self.h/2 - 8, 1.0, 1.0, 1.0, self.text)
-    end
+    gfx.draw_text(self.text, self.x + self.w/2 - string.len(self.text)*4, self.y + self.h/2 - 4, 1.0, 1.0, 1.0, 1.0, 1.0)
 end
 
 -- ============================================================================
@@ -140,9 +138,9 @@ function Paddle:Update(dt, ball)
             self.y = self.y + MathX.sign(diff) * Constants.PaddleSpeed * 0.85 * dt
         end
     else
-        if input.is_down(self.upKey) then 
+        if input.is_down(self.upKey) or Input.axis("LeftY") < -0.2 then 
             self.y = self.y - Constants.PaddleSpeed * dt
-        elseif input.is_down(self.downKey) then 
+        elseif input.is_down(self.downKey) or Input.axis("LeftY") > 0.2 then 
             self.y = self.y + Constants.PaddleSpeed * dt 
         end
     end
@@ -238,11 +236,13 @@ function Ball:Update(dt, p1, p2, gameManager)
         self.vy = -self.vy
         self.ps:SpawnHitParticles(self.x, self.y, {1, 1, 1})
         gameManager:Shake(4, 0.1)
+        audio.beep(300, 0.05, 3) -- Sine wave bounce
     elseif self.y + self.size >= Constants.ScreenHeight then
         self.y = Constants.ScreenHeight - self.size
         self.vy = -self.vy
         self.ps:SpawnHitParticles(self.x, self.y + self.size, {1, 1, 1})
         gameManager:Shake(4, 0.1)
+        audio.beep(300, 0.05, 3)
     end
 
     -- Paddle Collisions
@@ -250,12 +250,12 @@ function Ball:Update(dt, p1, p2, gameManager)
         self.x = p1.x + Constants.PaddleWidth
         self:HandlePaddleBounce(p1, true, gameManager)
         self.ps:SpawnHitParticles(self.x, self.y + self.size/2, p1.color)
-        audio.play_sound("assets/audio/hit.wav") -- Bonus API usage!
+        audio.beep(400 + self.rally * 50, 0.1, 0) -- Higher pitch on rally
     elseif self.vx > 0 and Physics2D.CheckAABB(self.x, self.y, self.size, self.size, p2.x, p2.y, Constants.PaddleWidth, Constants.PaddleHeight) then
         self.x = p2.x - self.size
         self:HandlePaddleBounce(p2, false, gameManager)
         self.ps:SpawnHitParticles(self.x + self.size, self.y + self.size/2, p2.color)
-        audio.play_sound("assets/audio/hit.wav") -- Bonus API usage!
+        audio.beep(400 + self.rally * 50, 0.1, 0)
     end
 end
 
@@ -278,6 +278,10 @@ function Ball:HandlePaddleBounce(paddle, isP1, gameManager)
     paddle:OnHit()
     local shakeAmount = math.min(5 + self.rally * 2, 25)
     gameManager:Shake(shakeAmount, 0.15)
+    
+    -- v4.0 Effects
+    Input.vibrate(0.5, 0.5, 100)
+    Audio.fm(440 + self.rally * 50, 0.1, 1)
 end
 
 function Ball:Draw(ox, oy)
@@ -304,6 +308,7 @@ function GameManager:Init()
     self.winner = 0
     self.powerups = {}
     self.powerupTimer = 0
+    self.highscore = Save.read("pong_highscore", 0)
 
     -- UI Buttons
     local cx = Constants.ScreenWidth / 2
@@ -322,10 +327,18 @@ end
 function GameManager:ScorePoint(winner)
     if winner == 1 then self.p1.score = self.p1.score + 1
     else self.p2.score = self.p2.score + 1 end
+    
+    audio.beep(150, 0.3, 1) -- Sawtooth score sound
 
     if self.p1.score >= 5 or self.p2.score >= 5 then
         self.state = "GAME_OVER"
         self.winner = winner
+        if self.p1.score > self.highscore then
+            self.highscore = self.p1.score
+            Save.write("pong_highscore", self.highscore)
+            Save.flush()
+        end
+        audio.fm_note(200, 0.5, 7) -- Game over flourish
         return
     end
 
@@ -424,6 +437,7 @@ function GameManager:Update(dt)
         if self.serveTimer <= 0 then
             self.state = "PLAYING"
             self.ball:Serve(self.nextServeDir)
+            audio.beep(880, 0.1, 2) -- Serve beep
         end
     elseif self.state == "PLAYING" then
         self.ball:Update(dt, self.p1, self.p2, self)
@@ -434,6 +448,10 @@ function GameManager:Update(dt)
             self:ScorePoint(1)
         end
     end
+    
+    Debug.watch("Ball Speed", math.floor(self.ball.speed))
+    Debug.watch("Rally", self.ball.rally)
+    Debug.watch("Highscore", self.highscore)
 end
 
 function GameManager:DrawScoreQuad(score, x, y, color)
@@ -478,9 +496,7 @@ function GameManager:Draw()
         if self.ball.rally > 0 and self.state == "PLAYING" then
             local rallyAlpha = MathX.clamp(self.ball.rally / 20.0, 0.3, 1.0)
             local rr, rg, rb = Color.hsv((self.ball.rally * 0.05) % 1.0, 0.8, 1.0)
-            if imgui then
-                imgui.text(Constants.ScreenWidth / 2 - 30, 80, rr, rg, rb, "RALLY: " .. self.ball.rally)
-            end
+            gfx.draw_text("RALLY: " .. self.ball.rally, Constants.ScreenWidth / 2 - 40, 80, 1.5, rr, rg, rb, 1.0)
             -- Speed indicator bar
             local speedPct = MathX.clamp(self.ball.speed / Constants.MaxBallSpeed, 0, 1)
             local barW = 200
@@ -492,10 +508,8 @@ function GameManager:Draw()
         self:DrawScoreQuad(self.p1.score, ox + 100, oy + 40, self.p1.color)
         self:DrawScoreQuad(self.p2.score, ox + Constants.ScreenWidth - 100 - 300, oy + 40, self.p2.color)
         
-        if imgui then
-            imgui.text(100, 20, self.p1.color[1], self.p1.color[2], self.p1.color[3], "PLAYER 1 ENERGY")
-            imgui.text(Constants.ScreenWidth - 100 - 90, 20, self.p2.color[1], self.p2.color[2], self.p2.color[3], "CPU ENERGY")
-        end
+        gfx.draw_text("PLAYER 1 ENERGY", 100, 20, 1.0, self.p1.color[1], self.p1.color[2], self.p1.color[3], 1.0)
+        gfx.draw_text("CPU ENERGY", Constants.ScreenWidth - 100 - 90, 20, 1.0, self.p2.color[1], self.p2.color[2], self.p2.color[3], 1.0)
     end
 
     -- State Overlays
@@ -505,26 +519,21 @@ function GameManager:Draw()
     if self.state == "MAIN_MENU" then
         -- Dim background
         gfx.draw_rect(0, 0, Constants.ScreenWidth, Constants.ScreenHeight, 0, 0, 0, 0.6)
-        if imgui then
-            imgui.text(cx - 140, cy - 100, 1.0, 0.2, 0.6, "STARLIGHT PONG: NEON EDITION")
-        end
+        gfx.draw_text("STARLIGHT PONG: NEON EDITION", cx - 140, cy - 100, 2.0, 1.0, 0.2, 0.6, 1.0)
+        gfx.draw_text("HIGHSCORE: " .. self.highscore, cx - 60, cy - 60, 1.0, 1.0, 1.0, 0.0, 1.0)
         self.btnStart:Draw()
 
     elseif self.state == "PAUSED" then
         gfx.draw_rect(0, 0, Constants.ScreenWidth, Constants.ScreenHeight, 0, 0, 0, 0.7)
-        if imgui then
-            imgui.text(cx - 30, cy - 80, 1.0, 1.0, 1.0, "PAUSED")
-        end
+        gfx.draw_text("PAUSED", cx - 30, cy - 80, 2.0, 1.0, 1.0, 1.0, 1.0)
         self.btnResume:Draw()
         self.btnQuit:Draw()
 
     elseif self.state == "GAME_OVER" then
         gfx.draw_rect(0, 0, Constants.ScreenWidth, Constants.ScreenHeight, 0, 0, 0, 0.8)
-        if imgui then
-            local winMsg = (self.winner == 1) and "PLAYER 1 WINS!" or "CPU WINS!"
-            local c = (self.winner == 1) and self.p1.color or self.p2.color
-            imgui.text(cx - 60, cy - 80, c[1], c[2], c[3], winMsg)
-        end
+        local winMsg = (self.winner == 1) and "PLAYER 1 WINS!" or "CPU WINS!"
+        local c = (self.winner == 1) and self.p1.color or self.p2.color
+        gfx.draw_text(winMsg, cx - 60, cy - 80, 2.0, c[1], c[2], c[3], 1.0)
         self.btnRestart:Draw()
     end
 end
@@ -535,7 +544,10 @@ end
 local Game = nil
 
 function OnStart()
-    Engine.log("Pong Lua Framework (OO Architecture) Initialized!")
+    Engine.log("Pong Industrial v4.0 Initialized!")
+    Engine.set_bloom(1.2, 12)
+    Engine.set_exposure(1.0, 2.2)
+    
     Textures.Bg = assets.load_texture("assets/textures/synthwave_bg.png")
     Textures.Ball = assets.load_texture("assets/textures/energy_ball.png")
     Textures.Paddle = assets.load_texture("assets/textures/neon_paddle.png")

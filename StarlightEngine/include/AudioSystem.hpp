@@ -3,6 +3,8 @@
 #include <string>
 #include <vector>
 #include <memory>
+#include <mutex>
+
 
 #include "EngineSystem.hpp"
 
@@ -25,6 +27,14 @@ namespace starlight {
         float duration = 0.0f;
         bool is3D = false;
         float pos[3] = {0,0,0};
+        
+        // ADSR Envelope
+        float attack = 0.01f;
+        float decay = 0.1f;
+        float sustain = 0.5f;
+        float release = 0.2f;
+        float envLevel = 0.0f;
+        int state = 0; // 0: Idle, 1: Attack, 2: Decay, 3: Sustain, 4: Release
     };
 
     struct FMOperator {
@@ -69,6 +79,11 @@ namespace starlight {
         void Play3DEffect(const std::string& path, float x, float y, float z);
         void SetMasterVolume(float volume);
         void SetListenerPosition(float x, float y, float z, float dx, float dy, float dz);
+        
+        // Music Streaming
+        void PlayMusic(const std::string& path, bool loop = true, float volume = 1.0f);
+        void StopMusic();
+        
         void* GetEngineHandle() { return m_audioEngine; }
 
         // Retro APIs
@@ -80,6 +95,11 @@ namespace starlight {
         std::vector<ChiptuneVoice> m_voices;
         std::vector<FMVoice> m_fmVoices;
 
+        float m_lowPassCutoff = 1.0f; // 0.0 to 1.0
+        float m_lpLastL = 0.0f, m_lpLastR = 0.0f;
+
+        std::mutex m_audioMutex;
+        
     private:
         void* m_audioEngine = nullptr; // Opaque pointer to ma_engine
         bool m_initialized = false;

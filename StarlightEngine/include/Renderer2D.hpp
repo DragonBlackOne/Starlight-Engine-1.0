@@ -28,6 +28,7 @@ namespace starlight {
         static void DrawQuad(const glm::vec2& position, const glm::vec2& size, uint32_t textureID, const glm::vec4& color = glm::vec4(1.0f));
         static void DrawIsometricTile(const glm::vec2& position, const glm::vec2& size, uint32_t textureID, const glm::vec4& color = glm::vec4(1.0f));
         static void DrawSpriteClean(const glm::vec2& position, const glm::vec2& size, uint32_t textureID, const glm::vec4& color = glm::vec4(1.0f));
+        static void DrawString(const std::string& text, const glm::vec2& position, float scale, const glm::vec4& color = glm::vec4(1.0f));
 
         struct Statistics {
             uint32_t drawCalls = 0;

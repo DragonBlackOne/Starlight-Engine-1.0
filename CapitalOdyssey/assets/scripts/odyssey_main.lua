@@ -1,6 +1,5 @@
--- ============================================================================
--- odyssey_main.lua — Capital Odyssey v9.0 (SBA v2.0 Powered)
--- Uses: Entity, Light, Tween, Events, Scene, Coroutine, MathX
+-- odyssey_main.lua — Capital Odyssey v10.0 (SBA v4.0 Industrial)
+-- Uses: Entity, Light, Tween, Events, Scene, Coroutine, MathX, Audio
 -- ============================================================================
 package.path = package.path .. ";assets/scripts/?.lua"
 
@@ -14,26 +13,14 @@ require("NewsGenerator")
 -- ============================================================================
 GameTime = { year = 1990, tick = 0, era = "1990s" }
 Buildings = {}
-Particles = {}
-Sun = nil
-Cursor = nil
+Grid = {} -- Spatial Grid for O(1) lookup: Grid[x][z] = building_entity
 FloorTiles = {}
 
 -- ============================================================================
 -- Particle VFX System (uses Entity wrapper)
 -- ============================================================================
 function SpawnParticles(px, py, pz, r, g, b)
-    for i = 1, 12 do
-        local p = Entity("Spark", px, py, pz)
-        p:setColor(r, g, b)
-        p:setScale(0.15)
-        p:setMaterial(0.9, 0.1)
-        p._vx = MathX.random_range(-6, 6)
-        p._vy = MathX.random_range(4, 8)
-        p._vz = MathX.random_range(-6, 6)
-        p._life = 1.0
-        table.insert(Particles, p)
-    end
+    vfx.emit(px, py, pz, 6, 8, 6, r, g, b, 60, 0.15)
 end
 
 -- ============================================================================
@@ -41,8 +28,11 @@ end
 -- ============================================================================
 Scene.register("Game", {
     onEnter = function()
-        Say("Capital Odyssey v9.0 — SBA v2.0 Powered")
+        Say("Capital Odyssey v11.0 — SBA v4.0 Industrial Powered")
+        Engine.set_bloom(0.9, 10)
+        Engine.set_exposure(1.3, 2.2)
         Market.Init()
+        Player.Cash = Save.read("odyssey_cash", 10000.0)
         Player.Init()
         News.Init()
 
@@ -139,14 +129,9 @@ Scene.register("Game", {
 
         -- 4. Build on Click
         if input.is_down("MouseLeft") and Cursor._cooldown <= 0 then
+            local gx, gz = Cursor._gridX, Cursor._gridZ
             if Player.Cash >= 1500 then
-                local empty = true
-                for _, b in ipairs(Buildings) do
-                    if b._gridX == Cursor._gridX and b._gridZ == Cursor._gridZ then
-                        empty = false; break
-                    end
-                end
-
+                local empty = not (Grid[gx] and Grid[gx][gz])
                 if empty then
                     Player.Cash = Player.Cash - 1500
                     local randType = math.random(1, 3)
@@ -171,12 +156,19 @@ Scene.register("Game", {
 
                     -- Tween it rising!
                     Tween.to(b, { y = height/2 - 0.5, scaleY = height }, 1.0, "easeOutCubic")
-                    SpawnParticles(Cursor._gridX, 0, Cursor._gridZ, cr, cg, cb)
+                    SpawnParticles(gx, 0, gz, cr, cg, cb)
+                    
                     table.insert(Buildings, b)
+                    if not Grid[gx] then Grid[gx] = {} end
+                    Grid[gx][gz] = b
 
                     -- Emit event
                     Events.emit("building_placed", { x=Cursor._gridX, z=Cursor._gridZ, type=t })
+                    audio.beep3d(300 + height * 100, 0.2, Cursor._gridX, 0, Cursor._gridZ, 0) -- 3D Build Sound
                     Cursor._cooldown = 0.3
+                    
+                    Save.write("odyssey_cash", Player.Cash)
+                    Save.flush()
                 end
             end
         end
@@ -184,28 +176,14 @@ Scene.register("Game", {
         -- 5. Tween & Coroutine updates (FRAMEWORK!)
         Tween.update(dt)
         Coroutine.update(dt)
-
-        -- 6. Particle Physics
-        for i = #Particles, 1, -1 do
-            local p = Particles[i]
-            p._vy = p._vy - 9.8 * dt
-            p:move(p._vx * dt, p._vy * dt, p._vz * dt)
-            p._life = p._life - dt * 1.5
-            if p.y < -0.5 then p.y = -0.5; p._vy = -p._vy * 0.4 end
-            p:setScale(p._life * 0.15)
-            if p._life <= 0 then
-                p:destroy()
-                table.remove(Particles, i)
-            end
-        end
     end,
 
     onRenderUI = function()
         ui.begin(1600, 900)
 
-        ui.panel(0, 0, 1600, 60, 0.05, 0.05, 0.08, 0.9)
-        ui.label("CAPITAL ODYSSEY // SBA v2.0 POWERED", 30, 45, 0, 1, 0.8, 1)
-        ui.label("YEAR: " .. GameTime.year .. " | " .. GameTime.era, 1300, 45, 1, 0.8, 0, 1)
+        gfx.draw_rect(0, 0, 1600, 60, 0.05, 0.05, 0.08, 0.9)
+        gfx.draw_text("CAPITAL ODYSSEY // SBA v3.0 POWERED", 30, 20, 1.5, 0, 1, 0.8, 1)
+        gfx.draw_text("YEAR: " .. GameTime.year .. " | " .. GameTime.era, 1300, 20, 1.2, 1, 0.8, 0, 1)
 
         ui.panel(10, 70, 420, 820, 0.02, 0.02, 0.05, 0.85)
         ui.label(">> LIVE EXCHANGE (GBM)", 30, 110, 0.5, 0.5, 0.8, 1)
@@ -216,8 +194,12 @@ Scene.register("Game", {
             local shares = Player.Shares[c.name] or 0
             ui.label(c.name .. " (Own: " .. shares .. ")", 30, y, 1, 1, 1, 1)
             ui.label(string.format("$%.2f", c.price), 30, y+30, col[1], col[2], col[3], 1)
-            if ui.button("BUY", 310, y-10, 80, 30) then Player.Buy(c.name, 10) end
-            if ui.button("SELL", 310, y+25, 80, 30) then Player.Sell(c.name, 10) end
+            if ui.button("BUY", 310, y-10, 80, 30) then 
+                if Player.Buy(c.name, 10) then audio.fm_note(440, 0.1, 0) end
+            end
+            if ui.button("SELL", 310, y+25, 80, 30) then 
+                if Player.Sell(c.name, 10) then audio.fm_note(330, 0.1, 1) end
+            end
             y = y + 115
         end
 
@@ -226,7 +208,8 @@ Scene.register("Game", {
         ui.label("CASH:    $" .. string.format("%.0f", Player.Cash), 1170, 160, 1,1,1,1)
         ui.label("NET:     $" .. string.format("%.0f", Player.GetNetWorth()), 1170, 210, 0,1,0,1)
         ui.label("BUILDINGS: " .. #Buildings, 1170, 260, 0.5, 0.8, 1, 1)
-        ui.label("Hover Mouse | Build: LEFT CLICK ($1500)", 1170, 310, 0, 1, 0.5, 1)
+        
+        gfx.draw_text("Hover Mouse | Build: LEFT CLICK ($1500)", 1170, 310, 0.8, 0, 1, 0.5, 1)
 
         ui.finish()
 

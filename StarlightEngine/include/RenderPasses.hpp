@@ -9,6 +9,8 @@
 #include "Components.hpp"
 #include "Engine.hpp"
 #include "imgui.h"
+#include "PostProcessing.hpp"
+#include "VFXSystem.hpp"
 
 namespace starlight {
 
@@ -197,17 +199,71 @@ namespace starlight {
         const char* GetName() const override { return "SSAO_Pass"; }
     };
 
+    class SSRPass : public RenderGraphPass {
+    public:
+        void Setup(RenderGraphBuilder& builder) override { (void)builder; }
+        void Execute(RenderGraphBlackboard& blackboard, const RenderGraphResources& resources) override {
+            (void)resources;
+            auto rendererPtr = blackboard.Get<Renderer*>("Renderer");
+            if (!rendererPtr) return;
+            Renderer* r = *rendererPtr;
+
+            if (r->m_ssrShader) {
+                // We'll render SSR to a temporary buffer or use additive blending
+                // For now, let's just setup the shader and draw a quad
+                glBindFramebuffer(GL_FRAMEBUFFER, r->m_fbo); // Draw back to scene FBO
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_ONE, GL_ONE);
+
+                r->m_ssrShader->Use();
+                glActiveTexture(GL_TEXTURE0); glBindTexture(GL_TEXTURE_2D, r->m_gPosition); r->m_ssrShader->SetIntU("gPosition", 0);
+                glActiveTexture(GL_TEXTURE1); glBindTexture(GL_TEXTURE_2D, r->m_gNormal); r->m_ssrShader->SetIntU("gNormal", 1);
+                glActiveTexture(GL_TEXTURE2); glBindTexture(GL_TEXTURE_2D, r->m_gAlbedoSpec); r->m_ssrShader->SetIntU("gAlbedoSpec", 2);
+                glActiveTexture(GL_TEXTURE3); glBindTexture(GL_TEXTURE_2D, r->m_fboTexture); r->m_ssrShader->SetIntU("sceneTexture", 3);
+
+                r->m_ssrShader->SetMat4U("projection", r->m_projectionMatrix);
+                r->m_ssrShader->SetMat4U("view", r->m_view);
+                r->m_ssrShader->SetVec3U("camPos", r->m_cameraTransform.position);
+
+                r->m_quadMesh->Draw();
+                glDisable(GL_BLEND);
+            }
+        }
+        const char* GetName() const override { return "SSRPass"; }
+    };
+
     class VolumetricPass : public RenderGraphPass {
     public:
         void Setup(RenderGraphBuilder& builder) override { (void)builder; }
         void Execute(RenderGraphBlackboard& blackboard, const RenderGraphResources& resources) override {
             (void)resources;
-            auto renderer = blackboard.Get<Renderer*>("Renderer");
-            if (!renderer || !*renderer) return;
-            Renderer* r = *renderer;
-
+            auto rendererPtr = blackboard.Get<Renderer*>("Renderer");
+            if (!rendererPtr) return;
+            Renderer* r = *rendererPtr;
+    
             if (r->m_volumetricShader && !r->m_lastLightPositions.empty()) {
-                // Simplified execution
+                r->m_volumetricShader->Use();
+                
+                // For now, take the first light (usually the sun/main directional)
+                glm::vec3 lightPos = r->m_lastLightPositions[0];
+                glm::vec4 clipPos = r->m_projectionMatrix * r->m_view * glm::vec4(lightPos, 1.0f);
+                
+                // Only render if the light is in front of the camera
+                if (clipPos.w > 0.0f) {
+                    glm::vec2 screenPos = glm::vec2(clipPos.x / clipPos.w, clipPos.y / clipPos.w);
+                    screenPos = screenPos * 0.5f + 0.5f;
+    
+                    glEnable(GL_BLEND);
+                    glBlendFunc(GL_ONE, GL_ONE);
+    
+                    glActiveTexture(GL_TEXTURE0);
+                    glBindTexture(GL_TEXTURE_2D, r->m_fboTexture);
+                    r->m_volumetricShader->SetIntU("sceneTexture", 0);
+                    r->m_volumetricShader->SetVec2U("lightScreenPos", screenPos);
+    
+                    r->m_quadMesh->Draw();
+                    glDisable(GL_BLEND);
+                }
             }
         }
         const char* GetName() const override { return "VolumetricPass"; }
@@ -218,6 +274,11 @@ namespace starlight {
         void Setup(RenderGraphBuilder& builder) override { (void)builder; }
         void Execute(RenderGraphBlackboard& blackboard, const RenderGraphResources& resources) override {
             (void)resources;
+            auto rendererPtr = blackboard.Get<Renderer*>("Renderer");
+            if (!rendererPtr) return;
+            Renderer* r = *rendererPtr;
+
+            PostProcessing::RenderBloom(r->m_fboTexture, r->m_fboWidth, r->m_fboHeight);
         }
         const char* GetName() const override { return "BloomPass"; }
     };
@@ -234,19 +295,28 @@ namespace starlight {
             if (!r->m_screenShader) return;
 
             glBindFramebuffer(GL_FRAMEBUFFER, 0);
+            glViewport(0, 0, Engine::Get().GetWindow().GetWidth(), Engine::Get().GetWindow().GetHeight());
             glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             
-            r->m_screenShader->Use();
-            glActiveTexture(GL_TEXTURE0);
-            glBindTexture(GL_TEXTURE_2D, r->m_fboTexture);
-            r->m_screenShader->SetIntU("sceneTexture", 0);
-            
-            r->m_screenShader->SetFloatU("exposure", r->m_exposure);
-            r->m_screenShader->SetFloatU("gamma", r->m_gamma);
-            r->m_quadMesh->Draw();
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_CULL_FACE);
+            PostProcessing::RenderFinalComposition(r->m_fboTexture, PostProcessing::GetBloomTexture(), r->m_exposure, r->m_gamma);
         }
         const char* GetName() const override { return "CompositionPass"; }
+    };
+
+    class VFXPass : public RenderGraphPass {
+    public:
+        void Setup(RenderGraphBuilder& builder) override { (void)builder; }
+        void Execute(RenderGraphBlackboard& blackboard, const RenderGraphResources& resources) override {
+            (void)resources;
+            auto vfx = Engine::Get().GetSystem<VFXSystem>();
+            if (vfx) {
+                vfx->RenderInternal();
+            }
+        }
+        const char* GetName() const override { return "VFXPass"; }
     };
 
     class UIPass : public RenderGraphPass {
@@ -257,6 +327,11 @@ namespace starlight {
             auto rendererPtr = blackboard.Get<Renderer*>("Renderer");
             if (!rendererPtr) return;
             Renderer* r = *rendererPtr;
+
+            glDisable(GL_DEPTH_TEST);
+            glDisable(GL_CULL_FACE);
+            glEnable(GL_BLEND);
+            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
             // 1. Script UI (Lua)
             auto scripting = Engine::Get().GetSystem<ScriptSystem>();

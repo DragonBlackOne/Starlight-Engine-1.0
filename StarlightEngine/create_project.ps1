@@ -19,17 +19,70 @@ New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "src") -Force | Out-Nu
 New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "assets\scripts") -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "assets\textures") -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "assets\audio") -Force | Out-Null
+New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "assets\fonts") -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "assets\shaders") -Force | Out-Null
 New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "build") -Force | Out-Null
 
 # 2. Copy main.cpp boilerplate
-$MainContent = Get-Content (Join-Path $SDK_DIR "src\main.cpp")
-$MainContent = $MainContent -replace "Starlight Engine Commercial Project", "$ProjectName"
+$MainContent = @"
+#include "Engine.hpp"
+#include "Log.hpp"
+#include "ScriptSystem.hpp"
+
+using namespace starlight;
+
+class GameProject : public Scene {
+public:
+    void OnEnter() override {
+        Log::Info("$ProjectName: Initialized.");
+        auto& scripting = Engine::Get().GetScripting();
+        scripting.ExecuteFile("assets/scripts/${ProjectName}_main.lua");
+        
+        sol::function onStart = scripting.GetLua()["OnStart"];
+        if (onStart.valid()) onStart();
+    }
+
+    void OnUpdate(float dt) override {
+        auto& scripting = Engine::Get().GetScripting();
+        sol::function onUpdate = scripting.GetLua()["OnUpdate"];
+        if (onUpdate.valid()) onUpdate(dt);
+    }
+
+    void OnRenderUI() override {
+        // ScriptSystem handles the UI render event automatically
+    }
+
+    void OnExit() override {
+        Log::Info("$ProjectName: Exited.");
+    }
+};
+
+int main(int argc, char* argv[]) {
+    (void)argc; (void)argv;
+    WindowConfig config;
+    config.title = "$ProjectName // SBA v4.0 Industrial";
+    config.width = 1280;
+    config.height = 720;
+    config.vsync = true;
+
+    Engine engine;
+    engine.Initialize(config);
+    engine.GetSceneStack().Push(std::make_shared<GameProject>());
+    engine.Run();
+    engine.Shutdown();
+    return 0;
+}
+"@
 $MainContent | Set-Content (Join-Path $TARGET_DIR "src\main.cpp")
 
 # 3. Copy SBA Framework
 Copy-Item (Join-Path $SDK_DIR "assets\scripts\core.lua") -Destination (Join-Path $TARGET_DIR "assets\scripts\core.lua") -Force
 Copy-Item (Join-Path $SDK_DIR "assets\scripts\sba_bridge.lua") -Destination (Join-Path $TARGET_DIR "assets\scripts\sba_bridge.lua") -Force
+
+# 3b. Copy Shaders (required for rendering)
+if (Test-Path (Join-Path $SDK_DIR "assets\shaders")) {
+    Copy-Item (Join-Path $SDK_DIR "assets\shaders") -Destination (Join-Path $TARGET_DIR "assets\shaders") -Recurse -Force
+}
 
 # 4. Generate starter game script
 $StarterScript = @"

@@ -23,13 +23,18 @@ namespace starlight {
         bool deviceActive = false;
         glm::vec3 listenerPos = {0,0,0};
         glm::vec3 listenerDir = {0,0,1};
+        
+        std::vector<ma_sound*> activeEffects;
+        ma_sound* musicSound = nullptr;
     };
 
-    static float UpdateEnvelope(FMOperator& op, float dt) {
+    template<typename T>
+    static float UpdateEnvelope(T& op, float dt) {
         switch (op.state) {
-        case 1: op.envLevel += dt / (op.attack + 0.001f); if (op.envLevel >= 1.0f) { op.envLevel = 1.0f; op.state = 2; } break;
-        case 2: op.envLevel -= dt / (op.decay + 0.001f); if (op.envLevel <= op.sustain) { op.envLevel = op.sustain; op.state = 3; } break;
-        case 4: op.envLevel -= dt / (op.release + 0.001f); if (op.envLevel <= 0.0f) { op.envLevel = 0.0f; op.state = 0; } break;
+        case 1: op.envLevel += dt / (op.attack + 0.0001f); if (op.envLevel >= 1.0f) { op.envLevel = 1.0f; op.state = 2; } break;
+        case 2: op.envLevel -= dt / (op.decay + 0.0001f); if (op.envLevel <= op.sustain) { op.envLevel = op.sustain; op.state = 3; } break;
+        case 3: break; // Sustain: keep level until duration ends or manual release
+        case 4: op.envLevel -= dt / (op.release + 0.0001f); if (op.envLevel <= 0.0f) { op.envLevel = 0.0f; op.state = 0; } break;
         }
         return op.envLevel;
     }
@@ -61,6 +66,10 @@ namespace starlight {
         float* fOutput = (float*)pOutput;
         float dt = 1.0f / (float)pDevice->sampleRate;
 
+        // Note: Using a mutex in the audio callback is generally discouraged for low-latency,
+        // but here it ensures absolute stability during the v4.0 industrial transition.
+        std::lock_guard<std::mutex> lock(((AudioSystem*)audioSystem)->m_audioMutex);
+
         for (ma_uint32 i = 0; i < frameCount; ++i) {
             float left = 0.0f, right = 0.0f;
             
@@ -71,11 +80,14 @@ namespace starlight {
                     voice.phase += voice.frequency * dt;
                     if (voice.phase > 1.0f) voice.phase -= 1.0f;
                     switch(voice.type) {
-                        case WaveType::Square: vs = (voice.phase < 0.5f) ? 1.0f : -1.0f; break;
-                        case WaveType::Sine: vs = std::sin(voice.phase * 6.28318f); break;
-                        default: vs = (voice.phase * 2.0f) - 1.0f; break;
+                        case WaveType::Square:   vs = (voice.phase < 0.5f) ? 1.0f : -1.0f; break;
+                        case WaveType::Sine:     vs = std::sin(voice.phase * 6.28318f); break;
+                        case WaveType::Triangle: vs = (voice.phase < 0.5f) ? (voice.phase * 4.0f - 1.0f) : (3.0f - voice.phase * 4.0f); break;
+                        case WaveType::Saw:      vs = (voice.phase * 2.0f) - 1.0f; break;
+                        case WaveType::Noise:    vs = ((float)rand() / (float)RAND_MAX) * 2.0f - 1.0f; break;
                     }
-                    vs *= voice.amplitude;
+                    UpdateEnvelope(voice, dt);
+                    vs *= voice.amplitude * voice.envLevel;
                 } else {
                     vs = GetFMSample(voice, dt) * 0.5f;
                 }
@@ -95,6 +107,13 @@ namespace starlight {
 
             for (auto& v : audioSystem->m_voices) processVoice(v);
             for (auto& v : audioSystem->m_fmVoices) processVoice(v);
+
+            // Simple Low-Pass Filter
+            float alpha = audioSystem->m_lowPassCutoff;
+            left = alpha * left + (1.0f - alpha) * audioSystem->m_lpLastL;
+            right = alpha * right + (1.0f - alpha) * audioSystem->m_lpLastR;
+            audioSystem->m_lpLastL = left;
+            audioSystem->m_lpLastR = right;
 
             fOutput[i * 2 + 0] = left;
             fOutput[i * 2 + 1] = right;
@@ -131,6 +150,18 @@ namespace starlight {
     void AudioSystem::OnShutdown() {
         if (m_initialized) {
             auto state = (InternalAudioState*)m_audioEngine;
+            
+            std::lock_guard<std::mutex> lock(m_audioMutex);
+            if (state->musicSound) {
+                ma_sound_uninit(state->musicSound);
+                delete state->musicSound;
+            }
+            for (auto s : state->activeEffects) {
+                ma_sound_uninit(s);
+                delete s;
+            }
+            state->activeEffects.clear();
+
             if (state->deviceActive) ma_device_uninit(&state->device);
             ma_engine_uninit(&state->engine);
             delete state;
@@ -146,11 +177,48 @@ namespace starlight {
     void AudioSystem::Play3DEffect(const std::string& path, float x, float y, float z) {
         if (!m_initialized) return;
         auto state = (InternalAudioState*)m_audioEngine;
-        ma_sound sound;
-        if (ma_sound_init_from_file(&state->engine, path.c_str(), 0, NULL, NULL, &sound) == MA_SUCCESS) {
-            ma_sound_set_position(&sound, x, y, z);
-            ma_sound_start(&sound);
-            // Note: In a real system, we'd need to manage the lifecycle of 'sound'.
+        
+        ma_sound* sound = new ma_sound();
+        if (ma_sound_init_from_file(&state->engine, path.c_str(), 0, NULL, NULL, sound) == MA_SUCCESS) {
+            ma_sound_set_position(sound, x, y, z);
+            ma_sound_start(sound);
+            
+            std::lock_guard<std::mutex> lock(m_audioMutex);
+            state->activeEffects.push_back(sound);
+        } else {
+            delete sound;
+        }
+    }
+
+    void AudioSystem::PlayMusic(const std::string& path, bool loop, float volume) {
+        if (!m_initialized) return;
+        auto state = (InternalAudioState*)m_audioEngine;
+
+        StopMusic();
+
+        std::lock_guard<std::mutex> lock(m_audioMutex);
+        state->musicSound = new ma_sound();
+        // MA_SOUND_FLAG_STREAM enables disk streaming (Essential for music!)
+        if (ma_sound_init_from_file(&state->engine, path.c_str(), MA_SOUND_FLAG_STREAM, NULL, NULL, state->musicSound) == MA_SUCCESS) {
+            ma_sound_set_looping(state->musicSound, loop);
+            ma_sound_set_volume(state->musicSound, volume);
+            ma_sound_start(state->musicSound);
+        } else {
+            delete state->musicSound;
+            state->musicSound = nullptr;
+        }
+    }
+
+    void AudioSystem::StopMusic() {
+        if (!m_initialized) return;
+        auto state = (InternalAudioState*)m_audioEngine;
+        
+        std::lock_guard<std::mutex> lock(m_audioMutex);
+        if (state->musicSound) {
+            ma_sound_stop(state->musicSound);
+            ma_sound_uninit(state->musicSound);
+            delete state->musicSound;
+            state->musicSound = nullptr;
         }
     }
 
@@ -171,6 +239,7 @@ namespace starlight {
 
     void AudioSystem::Play3DNote(float freq, float duration, float x, float y, float z, WaveType type) {
         if (!m_initialized) return;
+        std::lock_guard<std::mutex> lock(m_audioMutex);
         for (auto& v : m_voices) if (!v.active) {
             v.frequency = freq; v.duration = duration; v.timer = 0.0f; v.type = type; v.active = true;
             v.is3D = true; v.pos[0] = x; v.pos[1] = y; v.pos[2] = z;
@@ -180,8 +249,10 @@ namespace starlight {
 
     void AudioSystem::PlayNote(float freq, float duration, WaveType type) {
         if (!m_initialized) return;
+        std::lock_guard<std::mutex> lock(m_audioMutex);
         for (auto& v : m_voices) if (!v.active) {
             v.frequency = freq; v.duration = duration; v.timer = 0.0f; v.type = type; v.active = true;
+            v.state = 1; v.envLevel = 0.0f; // Start Attack
             v.is3D = false;
             return;
         }
@@ -189,6 +260,7 @@ namespace starlight {
 
     void AudioSystem::PlayFMNote(float freq, float duration, int algorithm) {
         if (!m_initialized) return;
+        std::lock_guard<std::mutex> lock(m_audioMutex);
         for (auto& v : m_fmVoices) if (!v.active) {
             v.frequency = freq; v.duration = duration; v.timer = 0.0f; v.algorithm = algorithm; v.active = true;
             v.is3D = false;
@@ -198,7 +270,33 @@ namespace starlight {
     }
 
     void AudioSystem::OnUpdate(float dt) {
-        for (auto& v : m_voices) if (v.active) { v.timer += dt; if (v.timer >= v.duration) v.active = false; }
-        for (auto& v : m_fmVoices) if (v.active) { v.timer += dt; if (v.timer >= v.duration) v.active = false; }
+        if (!m_initialized) return;
+        auto state = (InternalAudioState*)m_audioEngine;
+
+        std::lock_guard<std::mutex> lock(m_audioMutex);
+        
+        // Prune finished effects
+        for (auto it = state->activeEffects.begin(); it != state->activeEffects.end(); ) {
+            if (ma_sound_at_end(*it)) {
+                ma_sound_uninit(*it);
+                delete *it;
+                it = state->activeEffects.erase(it);
+            } else {
+                ++it;
+            }
+        }
+
+        for (auto& v : m_voices) if (v.active) { 
+            v.timer += dt; 
+            if (v.timer >= v.duration && v.state != 4) v.state = 4; // Start Release
+            if (v.state == 0 && v.timer >= v.duration) v.active = false;
+        }
+        for (auto& v : m_fmVoices) if (v.active) { 
+            v.timer += dt; 
+            if (v.timer >= v.duration && v.ops[3].state != 4) {
+                for(int i=0; i<4; i++) v.ops[i].state = 4; // Start Release
+            }
+            if (v.ops[3].state == 0 && v.timer >= v.duration) v.active = false;
+        }
     }
 }

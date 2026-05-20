@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <string>
 #include <iostream>
@@ -6,24 +5,21 @@
 #include <chrono>
 #include <fstream>
 #include <vector>
+#include <string_view>
 
 namespace starlight {
     enum class LogLevel {
         Info,
         Warn,
         Error,
-        Fatal
+        Fatal,
+        Debug
     };
 
     class Log {
     public:
-        static void Init(const std::string& filename = "titan_engine.log") {
-            Get().m_file.open(filename);
-        }
-
-        static const std::vector<std::string>& GetHistory() {
-            return Get().m_logHistory;
-        }
+        static void Init(const std::string& filename = "titan_engine.log");
+        static const std::vector<std::string>& GetHistory();
 
         template<typename... Args>
         static void Info(std::string_view fmt, Args&&... args) {
@@ -40,40 +36,16 @@ namespace starlight {
             LogMessage(LogLevel::Error, std::vformat(fmt, std::make_format_args(args...)));
         }
 
+        template<typename... Args>
+        static void Debug(std::string_view fmt, Args&&... args) {
+#ifdef _DEBUG
+            LogMessage(LogLevel::Debug, std::vformat(fmt, std::make_format_args(args...)));
+#endif
+        }
+
     private:
-        static Log& Get() {
-            static Log instance;
-            return instance;
-        }
-
-        static void LogMessage(LogLevel level, const std::string& message) {
-            auto now = std::chrono::system_clock::now();
-            auto time_t = std::chrono::system_clock::to_time_t(now);
-            auto time_str = std::ctime(&time_t);
-            if (time_str[std::strlen(time_str) - 1] == '\n') time_str[std::strlen(time_str) - 1] = '\0';
-
-            const char* color = "\033[0m";
-            const char* level_str = "INFO";
-
-            switch (level) {
-                case LogLevel::Info:  color = "\033[36m"; level_str = "INFO"; break;
-                case LogLevel::Warn:  color = "\033[33m"; level_str = "WARN"; break;
-                case LogLevel::Error: color = "\033[31m"; level_str = "ERROR"; break;
-                case LogLevel::Fatal: color = "\033[41m"; level_str = "FATAL"; break;
-            }
-
-            std::string output = std::format("{} [{}] {} {}\033[0m", color, level_str, time_str, message);
-            std::cout << output << std::endl;
-
-            if (Get().m_file.is_open()) {
-                Get().m_file << std::format("[{}] {} {}\n", level_str, time_str, message);
-                Get().m_file.flush();
-            }
-            Get().m_logHistory.push_back(std::format("[{}] {} {}", level_str, time_str, message));
-            if (Get().m_logHistory.size() > 1000) {
-                Get().m_logHistory.erase(Get().m_logHistory.begin());
-            }
-        }
+        static Log& Get();
+        static void LogMessage(LogLevel level, const std::string& message);
 
         std::ofstream m_file;
         std::vector<std::string> m_logHistory;
