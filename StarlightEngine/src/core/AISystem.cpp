@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "AISystem.hpp"
 #include "AIComponent.hpp"
 #include "Log.hpp"
@@ -42,6 +41,7 @@ namespace starlight {
         if (dist < 0.2f) {
             path.erase(path.begin());
             if (path.empty()) return BTStatus::SUCCESS;
+            return BTStatus::RUNNING;
         }
 
         transform.position += glm::normalize(dir) * 5.0f * Engine::Get().GetTime().deltaTime;

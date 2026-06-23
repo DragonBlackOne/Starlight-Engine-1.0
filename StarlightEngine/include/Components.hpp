@@ -3,10 +3,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <entt/entt.hpp>
 #include <string>
 #include <map>
 #pragma warning(push, 0)
-#include <codeanalysis/warnings.h>
 #pragma warning(disable: ALL_CODE_ANALYSIS_WARNINGS)
 #include <Jolt/Jolt.h>
 #include <Jolt/Physics/Body/BodyID.h>
@@ -177,4 +177,73 @@ namespace starlight {
         entt::entity parent = entt::null;
         std::vector<entt::entity> children;
     };
+
+    struct SpriteComponent {
+        uint32_t textureID = 0;
+        glm::vec4 color = {1.0f, 1.0f, 1.0f, 1.0f};
+        glm::vec2 pivot = {0.5f, 0.5f};
+        int layer = 0;
+        int orderInLayer = 0;
+        bool flipX = false;
+        bool flipY = false;
+        bool visible = true;
+    };
+
+    struct Camera2DComponent {
+        float zoom = 1.0f;
+        float rotation = 0.0f;
+        bool primary = true;
+    };
+
+    struct TilemapComponent {
+        std::vector<int> tiles;
+        int mapWidth = 0;
+        int mapHeight = 0;
+        int tileSize = 16;
+        uint32_t tilesetTexture = 0;
+        int tilesetColumns = 1;
+        int tilesetRows = 1;
+        glm::vec4 color = {1.0f, 1.0f, 1.0f, 1.0f};
+        int layer = 0;
+    };
+
+    struct ReverbZoneComponent {
+        float minDistance = 2.0f;
+        float maxDistance = 10.0f;
+        float reverbFactor = 0.5f; // 0.0 (no reverb abafamento) to 1.0 (maximum)
+        bool active = true;
+    };
+
+    struct CharacterControllerComponent {
+        float height = 1.8f;
+        float radius = 0.4f;
+        float maxSlopeAngle = 45.0f; // in degrees
+        float jumpStrength = 5.0f;
+        float speed = 5.0f;
+        glm::vec3 velocity = {0.0f, 0.0f, 0.0f};
+        bool isGrounded = false;
+        void* joltCharacter = nullptr; // JPH::CharacterVirtual*
+    };
+
+    struct FootIKComponent {
+        glm::vec3 leftFootOffset = {0.0f, 0.0f, 0.0f};
+        glm::vec3 rightFootOffset = {0.0f, 0.0f, 0.0f};
+        bool enabled = true;
+    };
+
+    struct NavAgentComponent {
+        glm::vec3 target = {0.0f, 0.0f, 0.0f};
+        glm::vec3 velocity = {0.0f, 0.0f, 0.0f};
+        float radius = 0.5f;
+        float maxSpeed = 3.0f;
+        bool active = true;
+    };
+
+    struct SoftBodyComponent {
+        void* joltSoftBody = nullptr; // JPH::BodyID or pointer to Jolt soft body
+        float mass = 1.0f;
+        float pressure = 0.0f;
+        bool enabled = true;
+    };
 }
+

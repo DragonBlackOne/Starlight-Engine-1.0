@@ -3034,7 +3034,11 @@ struct ImGuiListClipper
 IM_MSVC_RUNTIME_CHECKS_OFF
 // ImVec2 operators
 inline ImVec2  operator*(const ImVec2& lhs, const float rhs)    { return ImVec2(lhs.x * rhs, lhs.y * rhs); }
+#ifndef IMGUI_NODE_EDITOR_BUILD
 inline ImVec2  operator*(const float lhs, const ImVec2& rhs)    { return ImVec2(lhs * rhs.x, lhs * rhs.y); }
+#endif
+inline ImVec2  operator*(const ImVec2& lhs, const int rhs)      { return ImVec2(lhs.x * (float)rhs, lhs.y * (float)rhs); }
+inline ImVec2  operator*(const int lhs, const ImVec2& rhs)      { return ImVec2((float)lhs * rhs.x, (float)lhs * rhs.y); }
 inline ImVec2  operator/(const ImVec2& lhs, const float rhs)    { return ImVec2(lhs.x / rhs, lhs.y / rhs); }
 inline ImVec2  operator+(const ImVec2& lhs, const ImVec2& rhs)  { return ImVec2(lhs.x + rhs.x, lhs.y + rhs.y); }
 inline ImVec2  operator-(const ImVec2& lhs, const ImVec2& rhs)  { return ImVec2(lhs.x - rhs.x, lhs.y - rhs.y); }

@@ -1,13 +1,74 @@
-// Este projeto Ã© feito por IA e sÃ³ o prompt Ã© feito por um humano.
 #include "InputSystem.hpp"
+#include "ConfigSystem.hpp"
+#include "Engine.hpp"
 #include <cstring>
 #include <SDL2/SDL.h>
 #include <algorithm>
+#include <unordered_map>
 
 namespace starlight {
 
     static SDL_Scancode ToSDLScancode(pal::KeyCode key) {
         return static_cast<SDL_Scancode>(key);
+    }
+
+    pal::KeyCode InputSystem::KeyCodeFromString(const std::string& name) {
+        static const std::unordered_map<std::string, pal::KeyCode> s_stringToKey = {
+            {"A", pal::KeyCode::A}, {"B", pal::KeyCode::B}, {"C", pal::KeyCode::C}, {"D", pal::KeyCode::D},
+            {"E", pal::KeyCode::E}, {"F", pal::KeyCode::F}, {"G", pal::KeyCode::G}, {"H", pal::KeyCode::H},
+            {"I", pal::KeyCode::I}, {"J", pal::KeyCode::J}, {"K", pal::KeyCode::K}, {"L", pal::KeyCode::L},
+            {"M", pal::KeyCode::M}, {"N", pal::KeyCode::N}, {"O", pal::KeyCode::O}, {"P", pal::KeyCode::P},
+            {"Q", pal::KeyCode::Q}, {"R", pal::KeyCode::R}, {"S", pal::KeyCode::S}, {"T", pal::KeyCode::T},
+            {"U", pal::KeyCode::U}, {"V", pal::KeyCode::V}, {"W", pal::KeyCode::W}, {"X", pal::KeyCode::X},
+            {"Y", pal::KeyCode::Y}, {"Z", pal::KeyCode::Z},
+            {"1", pal::KeyCode::Num1}, {"2", pal::KeyCode::Num2}, {"3", pal::KeyCode::Num3}, {"4", pal::KeyCode::Num4},
+            {"5", pal::KeyCode::Num5}, {"6", pal::KeyCode::Num6}, {"7", pal::KeyCode::Num7}, {"8", pal::KeyCode::Num8},
+            {"9", pal::KeyCode::Num9}, {"0", pal::KeyCode::Num0},
+            {"Return", pal::KeyCode::Return}, {"Enter", pal::KeyCode::Return},
+            {"Escape", pal::KeyCode::Escape}, {"Backspace", pal::KeyCode::Backspace},
+            {"Tab", pal::KeyCode::Tab}, {"Space", pal::KeyCode::Space},
+            {"F1", pal::KeyCode::F1}, {"F2", pal::KeyCode::F2}, {"F3", pal::KeyCode::F3}, {"F4", pal::KeyCode::F4},
+            {"F5", pal::KeyCode::F5}, {"F6", pal::KeyCode::F6}, {"F7", pal::KeyCode::F7}, {"F8", pal::KeyCode::F8},
+            {"F9", pal::KeyCode::F9}, {"F10", pal::KeyCode::F10}, {"F11", pal::KeyCode::F11}, {"F12", pal::KeyCode::F12},
+            {"PrintScreen", pal::KeyCode::PrintScreen}, {"ScrollLock", pal::KeyCode::ScrollLock}, {"Pause", pal::KeyCode::Pause},
+            {"Insert", pal::KeyCode::Insert}, {"Home", pal::KeyCode::Home}, {"PageUp", pal::KeyCode::PageUp},
+            {"Delete", pal::KeyCode::Delete}, {"End", pal::KeyCode::End}, {"PageDown", pal::KeyCode::PageDown},
+            {"Right", pal::KeyCode::Right}, {"Left", pal::KeyCode::Left}, {"Down", pal::KeyCode::Down}, {"Up", pal::KeyCode::Up},
+            {"LShift", pal::KeyCode::LShift}, {"LCtrl", pal::KeyCode::LCtrl}, {"LAlt", pal::KeyCode::LAlt},
+            {"RShift", pal::KeyCode::RShift}, {"RCtrl", pal::KeyCode::RCtrl}, {"RAlt", pal::KeyCode::RAlt}
+        };
+        auto it = s_stringToKey.find(name);
+        if (it != s_stringToKey.end()) return it->second;
+        return pal::KeyCode::Unknown;
+    }
+
+    std::string InputSystem::StringFromKeyCode(pal::KeyCode key) {
+        static const std::unordered_map<pal::KeyCode, std::string> s_keyToString = {
+            {pal::KeyCode::A, "A"}, {pal::KeyCode::B, "B"}, {pal::KeyCode::C, "C"}, {pal::KeyCode::D, "D"},
+            {pal::KeyCode::E, "E"}, {pal::KeyCode::F, "F"}, {pal::KeyCode::G, "G"}, {pal::KeyCode::H, "H"},
+            {pal::KeyCode::I, "I"}, {pal::KeyCode::J, "J"}, {pal::KeyCode::K, "K"}, {pal::KeyCode::L, "L"},
+            {pal::KeyCode::M, "M"}, {pal::KeyCode::N, "N"}, {pal::KeyCode::O, "O"}, {pal::KeyCode::P, "P"},
+            {pal::KeyCode::Q, "Q"}, {pal::KeyCode::R, "R"}, {pal::KeyCode::S, "S"}, {pal::KeyCode::T, "T"},
+            {pal::KeyCode::U, "U"}, {pal::KeyCode::V, "V"}, {pal::KeyCode::W, "W"}, {pal::KeyCode::X, "X"},
+            {pal::KeyCode::Y, "Y"}, {pal::KeyCode::Z, "Z"},
+            {pal::KeyCode::Num1, "1"}, {pal::KeyCode::Num2, "2"}, {pal::KeyCode::Num3, "3"}, {pal::KeyCode::Num4, "4"},
+            {pal::KeyCode::Num5, "5"}, {pal::KeyCode::Num6, "6"}, {pal::KeyCode::Num7, "7"}, {pal::KeyCode::Num8, "8"},
+            {pal::KeyCode::Num9, "9"}, {pal::KeyCode::Num0, "0"},
+            {pal::KeyCode::Return, "Return"}, {pal::KeyCode::Escape, "Escape"}, {pal::KeyCode::Backspace, "Backspace"},
+            {pal::KeyCode::Tab, "Tab"}, {pal::KeyCode::Space, "Space"},
+            {pal::KeyCode::F1, "F1"}, {pal::KeyCode::F2, "F2"}, {pal::KeyCode::F3, "F3"}, {pal::KeyCode::F4, "F4"},
+            {pal::KeyCode::F5, "F5"}, {pal::KeyCode::F6, "F6"}, {pal::KeyCode::F7, "F7"}, {pal::KeyCode::F8, "F8"},
+            {pal::KeyCode::F9, "F9"}, {pal::KeyCode::F10, "F10"}, {pal::KeyCode::F11, "F11"}, {pal::KeyCode::F12, "F12"},
+            {pal::KeyCode::PrintScreen, "PrintScreen"}, {pal::KeyCode::ScrollLock, "ScrollLock"}, {pal::KeyCode::Pause, "Pause"},
+            {pal::KeyCode::Insert, "Insert"}, {pal::KeyCode::Home, "Home"}, {pal::KeyCode::PageUp, "PageUp"},
+            {pal::KeyCode::Delete, "Delete"}, {pal::KeyCode::End, "End"}, {pal::KeyCode::PageDown, "PageDown"},
+            {pal::KeyCode::Right, "Right"}, {pal::KeyCode::Left, "Left"}, {pal::KeyCode::Down, "Down"}, {pal::KeyCode::Up, "Up"},
+            {pal::KeyCode::LShift, "LShift"}, {pal::KeyCode::LCtrl, "LCtrl"}, {pal::KeyCode::LAlt, "LAlt"},
+            {pal::KeyCode::RShift, "RShift"}, {pal::KeyCode::RCtrl, "RCtrl"}, {pal::KeyCode::RAlt, "RAlt"}
+        };
+        auto it = s_keyToString.find(key);
+        if (it != s_keyToString.end()) return it->second;
+        return "Unknown";
     }
 
     uint8_t InputSystem::s_currKeys[512] = {0};
@@ -45,6 +106,8 @@ namespace starlight {
         BindAction("C", pal::KeyCode::C); BindAction("Shift", pal::KeyCode::LShift);
         BindAction("Space", pal::KeyCode::Space);
         BindAction("Escape", pal::KeyCode::Escape);
+        BindAction("Enter", pal::KeyCode::Return);
+        BindAction("Return", pal::KeyCode::Return);
         
         // Arrow Keys
         BindAction("Up", pal::KeyCode::Up);
@@ -62,14 +125,36 @@ namespace starlight {
         
         BindMouseButton("MouseLeft", pal::MouseButton::Left);
 
+        // Load custom bindings from config
+        auto configSys = Engine::Get().GetSystem<ConfigSystem>();
+        if (configSys) {
+            for (auto& [actionName, action] : m_actions) {
+                std::string currentKeyStr = "";
+                if (!action.keys.empty()) {
+                    currentKeyStr = StringFromKeyCode(action.keys[0]);
+                }
+                
+                std::string newKeyStr = configSys->GetString("Input", actionName, currentKeyStr);
+                if (newKeyStr != currentKeyStr && !newKeyStr.empty()) {
+                    pal::KeyCode newKey = KeyCodeFromString(newKeyStr);
+                    if (newKey != pal::KeyCode::Unknown) {
+                        action.keys.clear();
+                        action.keys.push_back(newKey);
+                    }
+                }
+            }
+        }
+
         return true;
     }
 
     void InputSystem::OnUpdate(float dt) {
         (void)dt;
         std::memcpy(s_prevKeys, s_currKeys, 512);
-        const uint8_t* state = SDL_GetKeyboardState(NULL);
-        std::memcpy(s_currKeys, state, std::min((int)SDL_NUM_SCANCODES, 512));
+        int numkeys = 0;
+        const uint8_t* state = SDL_GetKeyboardState(&numkeys);
+        std::memset(s_currKeys, 0, 512);
+        std::memcpy(s_currKeys, state, std::min(numkeys, 512));
 
         s_prevMouse = s_currMouse;
         int mx, my;
@@ -136,6 +221,14 @@ namespace starlight {
         m_actions[name].mouseButtons.push_back(button);
     }
 
+    void InputSystem::SaveBindings(ConfigSystem& config) const {
+        for (const auto& [actionName, action] : m_actions) {
+            if (!action.keys.empty()) {
+                config.SetString("Input", actionName, StringFromKeyCode(action.keys[0]));
+            }
+        }
+    }
+
     float InputSystem::GetAxis(const std::string& axisName) const {
         if (axisName == "LeftX") return m_axes[SDL_CONTROLLER_AXIS_LEFTX];
         if (axisName == "LeftY") return m_axes[SDL_CONTROLLER_AXIS_LEFTY];
@@ -160,6 +253,18 @@ namespace starlight {
     void InputSystem::Vibrate(float leftMotor, float rightMotor, uint32_t durationMS) {
         if (m_gamepad) {
             SDL_GameControllerRumble((SDL_GameController*)m_gamepad, (uint16_t)(leftMotor * 0xFFFF), (uint16_t)(rightMotor * 0xFFFF), durationMS);
+        }
+    }
+
+    void InputSystem::OnShutdown() {
+        auto configSys = Engine::Get().GetSystem<ConfigSystem>();
+        if (configSys) {
+            SaveBindings(*configSys);
+        }
+
+        if (m_gamepad) {
+            SDL_GameControllerClose((SDL_GameController*)m_gamepad);
+            m_gamepad = nullptr;
         }
     }
 

@@ -1,10 +1,9 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <vector>
 #include <string>
 #include <glm/glm.hpp>
 #include "stb_truetype.h"
-
+#include "GLResource.hpp"
 #include "EngineSystem.hpp"
 
 namespace starlight {
@@ -22,6 +21,7 @@ namespace starlight {
         void OnRender() override {}
         void OnUIRender() override {}
         const char* GetName() const override { return "DashboardSystem"; }
+        bool IsMainThreadOnly() const override { return true; }
 
         void Begin(int width, int height);
         bool Button(const std::string& label, float x, float y, float w, float h);
@@ -45,9 +45,11 @@ namespace starlight {
         };
         std::vector<UICommand> m_commands;
 
-        uint32_t m_fontTexture = 0;
+        GLTexture m_fontTexture;
         stbtt_bakedchar m_cdata[96];
-        uint32_t m_fontVao = 0, m_fontVbo = 0;
+        GLVertexArray m_fontVao;
+        GLBuffer m_fontVbo;
     };
 
 }
+

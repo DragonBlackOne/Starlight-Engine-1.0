@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <string>
 #include <memory>
@@ -80,6 +79,7 @@ namespace starlight {
         void OnShutdown() override;
         void OnUpdate(float dt) override;
         const char* GetName() const override { return "AssetManager"; }
+        bool IsMainThreadOnly() const override { return true; }
 
         std::shared_ptr<TextureAsset> LoadTextureAsync(const std::string& path);
         std::shared_ptr<MeshAsset> LoadMeshAsync(const std::string& path);

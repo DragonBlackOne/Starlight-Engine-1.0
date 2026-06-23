@@ -1,4 +1,3 @@
-// Este projeto ÃƒÂ© feito por IA e sÃƒÂ³ o prompt ÃƒÂ© feito por um humano.
 #include "CameraSystem.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 

@@ -18,7 +18,20 @@ struct Light {
     vec3 color;
     float intensity;
 };
-uniform Light lights[4];
+uniform Light lights[8];
+uniform int lightCount;
+
+// CSM Soft Shadows
+uniform sampler2DArray shadowMap;
+uniform mat4 lightSpaceMatrices[4];
+uniform float cascadePlaneDistances[4];
+uniform vec3 lightDir;
+uniform mat4 view;
+
+// IBL Maps
+uniform samplerCube irradianceMap;
+uniform samplerCube prefilterMap;
+uniform sampler2D brdfLUT;
 
 const float PI = 3.14159265359;
 
@@ -53,6 +66,54 @@ vec3 fresnelSchlick(float cosTheta, vec3 F0) {
     return F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
 }
 
+vec3 fresnelSchlickRoughness(float cosTheta, vec3 F0, float roughness) {
+    return F0 + (max(vec3(1.0 - roughness), F0) - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
+}
+
+float CalculateShadow(vec3 fragPosWorld, vec3 normal) {
+    vec4 fragPosView = view * vec4(fragPosWorld, 1.0);
+    float depthValue = abs(fragPosView.z);
+
+    int layer = -1;
+    for (int i = 0; i < 4; ++i) {
+        if (depthValue < cascadePlaneDistances[i]) {
+            layer = i;
+            break;
+        }
+    }
+    if (layer == -1) {
+        layer = 3;
+    }
+
+    vec4 fragPosLightSpace = lightSpaceMatrices[layer] * vec4(fragPosWorld, 1.0);
+    vec3 projCoords = fragPosLightSpace.xyz / fragPosLightSpace.w;
+    projCoords = projCoords * 0.5 + 0.5;
+
+    if (projCoords.z > 1.0) {
+        return 0.0;
+    }
+
+    float shadow = 0.0;
+    vec2 texelSize = 1.0 / vec2(textureSize(shadowMap, 0));
+    
+    // Sloped depth bias based on light direction
+    float bias = max(0.05 * (1.0 - dot(normal, -lightDir)), 0.005);
+    if (layer == 3) {
+        bias *= 0.1;
+    }
+
+    int halfRange = 1;
+    for(int x = -halfRange; x <= halfRange; ++x) {
+        for(int y = -halfRange; y <= halfRange; ++y) {
+            float pcfDepth = texture(shadowMap, vec3(projCoords.xy + vec2(x, y) * texelSize, layer)).r; 
+            shadow += (projCoords.z - bias) > pcfDepth ? 1.0 : 0.0;        
+        }    
+    }
+    shadow /= 9.0;
+
+    return shadow;
+}
+
 void main() {
     vec3 N = normalize(Normal);
     vec3 V = normalize(camPos - WorldPos);
@@ -60,8 +121,10 @@ void main() {
     vec3 F0 = vec3(0.04); 
     F0 = mix(F0, albedo, metallic);
 
+    // 1. Point lights contribution
     vec3 Lo = vec3(0.0);
-    for(int i = 0; i < 4; ++i) {
+    int activeLightCount = min(lightCount, 8);
+    for(int i = 0; i < activeLightCount; ++i) {
         vec3 L = normalize(lights[i].position - WorldPos);
         vec3 H = normalize(V + L);
         float distance = length(lights[i].position - WorldPos);
@@ -84,9 +147,48 @@ void main() {
         Lo += (kD * albedo / PI + specular) * radiance * NdotL;
     }   
     
-    vec3 ambient = vec3(0.03) * albedo * ao;
-    vec3 color = ambient + Lo;
+    // 2. Main Directional Light with CSM soft shadow
+    vec3 LoDir = vec3(0.0);
+    vec3 Ldir = normalize(-lightDir);
+    vec3 Hdir = normalize(V + Ldir);
+    vec3 dirRadiance = vec3(1.5, 1.45, 1.35) * 1.5; // Sunlight intensity
 
-    // HDR and Gamma correction handled by PostProcessing pass
+    float NDFdir = DistributionGGX(N, Hdir, roughness);   
+    float Gdir   = GeometrySmith(N, V, Ldir, roughness);    
+    vec3 Fdir    = fresnelSchlick(max(dot(Hdir, V), 0.0), F0);        
+    
+    vec3 numDir   = NDFdir * Gdir * Fdir;
+    float denomDir = 4.0 * max(dot(N, V), 0.0) * max(dot(N, Ldir), 0.0) + 0.0001;
+    vec3 specDir = numDir / denomDir;
+    
+    vec3 kSdir = Fdir;
+    vec3 kDdir = vec3(1.0) - kSdir;
+    kDdir *= 1.0 - metallic;	  
+
+    float NdotLdir = max(dot(N, Ldir), 0.0);
+    LoDir = (kDdir * albedo / PI + specDir) * dirRadiance * NdotLdir;
+
+    float shadow = CalculateShadow(WorldPos, N);
+
+    // 3. IBL Ambient Lighting
+    vec3 F_IBL = fresnelSchlickRoughness(max(dot(N, V), 0.0), F0, roughness);
+    vec3 kS_IBL = F_IBL;
+    vec3 kD_IBL = vec3(1.0) - kS_IBL;
+    kD_IBL *= 1.0 - metallic;
+
+    vec3 irradiance = texture(irradianceMap, N).rgb;
+    vec3 diffuseIBL = irradiance * albedo;
+
+    vec3 R = reflect(-V, N);
+    const float MAX_REFLECTION_LOD = 4.0;
+    vec3 prefilteredColor = textureLod(prefilterMap, R, roughness * MAX_REFLECTION_LOD).rgb;
+    vec2 envBRDF  = texture(brdfLUT, vec2(max(dot(N, V), 0.0), roughness)).rg;
+    vec3 specularIBL = prefilteredColor * (F_IBL * envBRDF.x + envBRDF.y);
+
+    vec3 ambient = (kD_IBL * diffuseIBL + specularIBL) * ao;
+
+    // Combine all lighting sources
+    vec3 color = ambient + Lo + (1.0 - shadow) * LoDir;
+
     FragColor = vec4(color, 1.0);
 }

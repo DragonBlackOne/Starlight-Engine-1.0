@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <vector>
 #include <memory>
@@ -24,8 +23,10 @@ namespace starlight {
         uint32_t GetVAO() const { return m_vao; }
 
     private:
-        uint32_t m_vao, m_vbo, m_ebo;
-        uint32_t m_indexCount;
+        uint32_t m_vao = 0;
+        uint32_t m_vbo = 0;
+        uint32_t m_ebo = 0;
+        uint32_t m_indexCount = 0;
         void SetupMesh(const std::vector<Vertex>& vertices, const std::vector<uint32_t>& indices);
     };
 }

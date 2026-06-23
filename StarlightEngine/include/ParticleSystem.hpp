@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <vector>
 #include <glm/glm.hpp>
@@ -30,8 +29,8 @@ namespace starlight {
     private:
         std::vector<Particle> m_particles;
         uint32_t m_activeCount = 0;
-        uint32_t m_maxParticles;
-        uint32_t m_vao, m_vbo;
+        uint32_t m_maxParticles = 5000;
+        uint32_t m_vao = 0, m_vbo = 0;
         std::shared_ptr<Shader> m_shader;
 
         void SimulateSPH(float dt);

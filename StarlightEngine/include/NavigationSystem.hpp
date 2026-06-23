@@ -17,7 +17,7 @@ namespace starlight {
         // ISystem
         bool OnInitialize(const EngineContext& context) override { (void)context; return true; }
         void OnShutdown() override {}
-        void OnUpdate(float dt) override { (void)dt; }
+        void OnUpdate(float dt) override;
         const char* GetName() const override { return "NavigationSystem"; }
         
         void SetObstacle(int x, int z, bool blocked);
@@ -30,8 +30,8 @@ namespace starlight {
         glm::vec3 GridToWorld(NavPos gridPos) const;
 
     private:
-        int m_gridSize;
-        float m_worldSize;
+        int m_gridSize = 64;
+        float m_worldSize = 100.0f;
         std::vector<bool> m_grid;
 
         struct Node {
@@ -40,8 +40,14 @@ namespace starlight {
             int parentIdx;
         };
 
-        std::vector<int> m_nodeIdxGrid;
-        std::vector<bool> m_closedSet;
+        struct GridCell {
+            int nodeIdx = -1;
+            uint32_t closedRunID = 0;
+            uint32_t openRunID = 0;
+        };
+
+        std::vector<GridCell> m_gridCells;
+        uint32_t m_currentRunID = 0;
         std::vector<Node> m_allNodes;
     };
 

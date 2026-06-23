@@ -1,4 +1,3 @@
-// Este projeto ÃƒÂ© feito por IA e sÃƒÂ³ o prompt ÃƒÂ© feito por um humano.
 #pragma once
 #include <unordered_map>
 #include <string>
@@ -19,8 +18,12 @@ namespace starlight {
         // ISystem
         bool OnInitialize(const EngineContext& context) override;
         void OnUpdate(float dt) override;
-        void OnShutdown() override {}
+        void OnShutdown() override;
         const char* GetName() const override { return "InputSystem"; }
+        bool IsMainThreadOnly() const override { return true; }
+
+        static pal::KeyCode KeyCodeFromString(const std::string& name);
+        static std::string StringFromKeyCode(pal::KeyCode key);
 
         // Semantic Action Checks
         bool IsActionPressed(const std::string& name) const;
@@ -31,6 +34,7 @@ namespace starlight {
 
         void BindAction(const std::string& name, pal::KeyCode key);
         void BindMouseButton(const std::string& name, pal::MouseButton button);
+        void SaveBindings(class ConfigSystem& config) const;
 
         glm::vec2 GetMousePosition() const { return m_mousePos; }
         

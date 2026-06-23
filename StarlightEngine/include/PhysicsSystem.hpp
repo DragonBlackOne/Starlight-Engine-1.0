@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <vector>
 #include <memory>
@@ -40,8 +39,10 @@ namespace starlight {
         void OnShutdown() override;
         void OnFixedUpdate(float dt) override;
         const char* GetName() const override { return "PhysicsSystem"; }
+        void GetComponentAccess(std::vector<std::type_index>& reads, std::vector<std::type_index>& writes) const override;
 
         void CreateBody(entt::entity entity, const JPH::Vec3& position, const JPH::Quat& rotation, const JPH::Vec3& halfExtents, JPH::EMotionType motionType, uint8_t layer);
+        void DestroyBody(entt::entity entity);
         
         // Gameplay Mechanics
         void ApplyForce(entt::entity entity, const glm::vec3& force);

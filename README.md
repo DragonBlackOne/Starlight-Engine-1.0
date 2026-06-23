@@ -144,6 +144,8 @@ Isso gera um projeto completo com SBA v2.0 pré-instalado, starter script com Sc
 
 ## 📜 Licença e Propriedade
 
+Todo o ecossistema da **Fusion ENGINE** (incluindo o motor StarlightEngine, o framework de scripting SBA e todos os projetos de jogos anexos como Capital Odyssey, Snake, Tetris e Pong) é 100% de código aberto e disponibilizado sob os termos da **Licença MIT**. Veja o arquivo [LICENSE](LICENSE) para obter o texto completo da licença.
+
 Este projeto é arquitetado autonomamente por Inteligência Artificial sob as restrições e guias arquiteturais ditados pelos Prompts originais do usuário. Todo o ecossistema segue a filosofia de escalabilidade industrial.
 
 ### ✉️ Nota do Autor

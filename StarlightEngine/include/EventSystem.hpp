@@ -1,9 +1,9 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <string>
 #include <vector>
 #include <functional>
 #include <map>
+#include <mutex>
 #include "EngineSystem.hpp"
 
 namespace starlight {
@@ -34,6 +34,7 @@ namespace starlight {
         void OnShutdown() override {}
         void OnUpdate(float dt) override { (void)dt; Flush(); }
         const char* GetName() const override { return "EventSystem"; }
+        bool IsMainThreadOnly() const override { return true; }
 
         static EventSystem& Get();
 
@@ -54,6 +55,7 @@ namespace starlight {
         
         std::vector<Event> m_deferredQueue;
         std::vector<unsigned char> m_payloadArena; // Memory arena for deferred payloads
+        std::mutex m_mutex;
     };
 
 }

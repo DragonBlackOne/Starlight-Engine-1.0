@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "ShadowSystem.hpp"
 #include "Log.hpp"
 #include <glm/gtc/matrix_transform.hpp>
@@ -12,6 +11,7 @@ namespace starlight {
     ShadowSystem::~ShadowSystem() {
         if (m_fbo) glDeleteFramebuffers(1, &m_fbo);
         if (m_depthTextureArray) glDeleteTextures(1, &m_depthTextureArray);
+        m_shadowShader.reset();
     }
 
     void ShadowSystem::Initialize() {

@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "PickerSystem.hpp"
 #include "Components.hpp"
 #include <glm/gtc/matrix_transform.hpp>
@@ -24,17 +23,40 @@ namespace starlight {
     }
 
     bool PickerSystem::IntersectsAABB(const Ray& ray, const glm::vec3& min, const glm::vec3& max, float& distance) {
-        float t1 = (min.x - ray.origin.x) / ray.direction.x;
-        float t2 = (max.x - ray.origin.x) / ray.direction.x;
-        float t3 = (min.y - ray.origin.y) / ray.direction.y;
-        float t4 = (max.y - ray.origin.y) / ray.direction.y;
-        float t5 = (min.z - ray.origin.z) / ray.direction.z;
-        float t6 = (max.z - ray.origin.z) / ray.direction.z;
+        float tmin = -INFINITY;
+        float tmax = INFINITY;
 
-        float tmin = std::max(std::max(std::min(t1, t2), std::min(t3, t4)), std::min(t5, t6));
-        float tmax = std::min(std::min(std::max(t1, t2), std::max(t3, t4)), std::max(t5, t6));
+        // X Axis
+        if (std::abs(ray.direction.x) < 1e-6f) {
+            if (ray.origin.x < min.x || ray.origin.x > max.x) return false;
+        } else {
+            float t1 = (min.x - ray.origin.x) / ray.direction.x;
+            float t2 = (max.x - ray.origin.x) / ray.direction.x;
+            tmin = std::max(tmin, std::min(t1, t2));
+            tmax = std::min(tmax, std::max(t1, t2));
+        }
 
-        if (tmax < 0 || tmin > tmax) return false;
+        // Y Axis
+        if (std::abs(ray.direction.y) < 1e-6f) {
+            if (ray.origin.y < min.y || ray.origin.y > max.y) return false;
+        } else {
+            float t1 = (min.y - ray.origin.y) / ray.direction.y;
+            float t2 = (max.y - ray.origin.y) / ray.direction.y;
+            tmin = std::max(tmin, std::min(t1, t2));
+            tmax = std::min(tmax, std::max(t1, t2));
+        }
+
+        // Z Axis
+        if (std::abs(ray.direction.z) < 1e-6f) {
+            if (ray.origin.z < min.z || ray.origin.z > max.z) return false;
+        } else {
+            float t1 = (min.z - ray.origin.z) / ray.direction.z;
+            float t2 = (max.z - ray.origin.z) / ray.direction.z;
+            tmin = std::max(tmin, std::min(t1, t2));
+            tmax = std::min(tmax, std::max(t1, t2));
+        }
+
+        if (tmax < 0.0f || tmin > tmax) return false;
 
         distance = tmin;
         return true;

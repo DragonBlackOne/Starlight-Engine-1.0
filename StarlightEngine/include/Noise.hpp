@@ -1,24 +1,31 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <vector>
 #include <numeric>
 #include <algorithm>
 #include <random>
 #include <cmath>
+#include "FastNoiseLite.h"
 
 namespace starlight {
 
-    // Industrial Grade Perlin Noise Implementation
+    // Industrial Grade Perlin Noise Implementation extended with FastNoiseLite
     class Noise {
     public:
         Noise(unsigned int seed = 1234) {
+            // Original Perlin noise seed initialization for backward compatibility
             p.resize(256);
             std::iota(p.begin(), p.end(), 0);
             std::default_random_engine engine(seed);
             std::shuffle(p.begin(), p.end(), engine);
             p.insert(p.end(), p.begin(), p.end());
+
+            // Initialize FastNoiseLite
+            m_fnl.SetSeed(static_cast<int>(seed));
+            m_fnl.SetFrequency(0.01f);
+            m_fnl.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
         }
 
+        // Classic Perlin (for backward compatibility and tests)
         float Perlin(float x, float y, float z) const {
             int X = (int)std::floor(x) & 255;
             int Y = (int)std::floor(y) & 255;
@@ -59,8 +66,57 @@ namespace starlight {
             return total / maxValue;
         }
 
+        // Modern FastNoiseLite API
+        float Simplex(float x, float y) const {
+            m_fnl.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+            return m_fnl.GetNoise(x, y);
+        }
+
+        float Simplex(float x, float y, float z) const {
+            m_fnl.SetNoiseType(FastNoiseLite::NoiseType_OpenSimplex2);
+            return m_fnl.GetNoise(x, y, z);
+        }
+
+        float Cellular(float x, float y) const {
+            m_fnl.SetNoiseType(FastNoiseLite::NoiseType_Cellular);
+            return m_fnl.GetNoise(x, y);
+        }
+
+        float Cellular(float x, float y, float z) const {
+            m_fnl.SetNoiseType(FastNoiseLite::NoiseType_Cellular);
+            return m_fnl.GetNoise(x, y, z);
+        }
+
+        float Value(float x, float y) const {
+            m_fnl.SetNoiseType(FastNoiseLite::NoiseType_Value);
+            return m_fnl.GetNoise(x, y);
+        }
+
+        float Value(float x, float y, float z) const {
+            m_fnl.SetNoiseType(FastNoiseLite::NoiseType_Value);
+            return m_fnl.GetNoise(x, y, z);
+        }
+
+        float GetNoise(float x, float y) const {
+            return m_fnl.GetNoise(x, y);
+        }
+
+        float GetNoise(float x, float y, float z) const {
+            return m_fnl.GetNoise(x, y, z);
+        }
+
+        void SetSeed(int seed) { m_fnl.SetSeed(seed); }
+        void SetFrequency(float freq) { m_fnl.SetFrequency(freq); }
+        
+        // 0=None, 1=FBm, 2=Ridged, 3=PingPong
+        void SetFractalType(int type) { m_fnl.SetFractalType(static_cast<FastNoiseLite::FractalType>(type)); }
+        void SetFractalOctaves(int octaves) { m_fnl.SetFractalOctaves(octaves); }
+        void SetFractalGain(float gain) { m_fnl.SetFractalGain(gain); }
+        void SetFractalLacunarity(float lacunarity) { m_fnl.SetFractalLacunarity(lacunarity); }
+
     private:
         std::vector<int> p;
+        mutable FastNoiseLite m_fnl;
 
         static float Fade(float t) { return t * t * t * (t * (t * 6 - 15) + 10); }
         static float Lerp(float t, float a, float b) { return a + t * (b - a); }

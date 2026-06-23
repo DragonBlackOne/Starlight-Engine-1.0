@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "SSAO_System.hpp"
 #include <random>
 #include <glad/glad.h>
@@ -9,6 +8,12 @@ namespace starlight {
     SSAO_System& SSAO_System::Get() {
         static SSAO_System instance;
         return instance;
+    }
+
+    SSAO_System::~SSAO_System() {
+        // Resources are freed by explicit Shutdown() call.
+        // Destructor runs at static destruction (after GL context is gone),
+        // so any glDelete calls here would be invalid.
     }
 
     void SSAO_System::Initialize() {
@@ -39,6 +44,18 @@ namespace starlight {
         glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, m_ssaoColorBufferBlur, 0);
         
         glBindFramebuffer(GL_FRAMEBUFFER, 0);
+    }
+
+    void SSAO_System::Shutdown() {
+        if (m_ssaoFBO) glDeleteFramebuffers(1, &m_ssaoFBO);
+        if (m_ssaoBlurFBO) glDeleteFramebuffers(1, &m_ssaoBlurFBO);
+        if (m_ssaoColorBuffer) glDeleteTextures(1, &m_ssaoColorBuffer);
+        if (m_ssaoColorBufferBlur) glDeleteTextures(1, &m_ssaoColorBufferBlur);
+        if (m_noiseTexture) glDeleteTextures(1, &m_noiseTexture);
+        m_ssaoFBO = m_ssaoBlurFBO = 0;
+        m_ssaoColorBuffer = m_ssaoColorBufferBlur = m_noiseTexture = 0;
+        m_ssaoShader.reset();
+        m_ssaoBlurShader.reset();
     }
 
     void SSAO_System::SetupKernel() {

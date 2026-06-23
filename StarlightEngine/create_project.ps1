@@ -5,14 +5,16 @@
 
 param (
     [Parameter(Mandatory=$true)]
-    [string]$ProjectName
+    [string]$ProjectName,
+    [ValidateSet("2d", "3d")]
+    [string]$Template = "3d"
 )
 
 $SDK_DIR = (Get-Location).Path.Replace('\', '/')
 $PARENT_DIR = (Split-Path -Path $SDK_DIR -Parent).Replace('\', '/')
 $TARGET_DIR = Join-Path $PARENT_DIR $ProjectName
 
-Write-Host ">>> Creating Project: $ProjectName <<<" -ForegroundColor Cyan
+Write-Host ">>> Creating Project: $ProjectName (Template: $Template) <<<" -ForegroundColor Cyan
 
 # 1. Create folder structure
 New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "src") -Force | Out-Null
@@ -24,6 +26,9 @@ New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "assets\shaders") -For
 New-Item -ItemType Directory -Path (Join-Path $TARGET_DIR "build") -Force | Out-Null
 
 # 2. Copy main.cpp boilerplate
+$is2D = ($Template -eq "2d")
+$mode2DLine = if ($is2D) { "    config.mode2D = true;" } else { "    // config.mode2D = true; // Uncomment for 2D-only mode" }
+
 $MainContent = @"
 #include "Engine.hpp"
 #include "Log.hpp"
@@ -59,17 +64,23 @@ public:
 
 int main(int argc, char* argv[]) {
     (void)argc; (void)argv;
-    WindowConfig config;
-    config.title = "$ProjectName // SBA v4.0 Industrial";
-    config.width = 1280;
-    config.height = 720;
-    config.vsync = true;
+    try {
+        WindowConfig config;
+        config.title = "$ProjectName // Fusion ENGINE v1.0";
+        config.width = 1280;
+        config.height = 720;
+        config.vsync = true;
+$mode2DLine
 
-    Engine engine;
-    engine.Initialize(config);
-    engine.GetSceneStack().Push(std::make_shared<GameProject>());
-    engine.Run();
-    engine.Shutdown();
+        Engine engine;
+        engine.Initialize(config);
+        engine.GetSceneStack().Push(std::make_shared<GameProject>());
+        engine.Run();
+        engine.Shutdown();
+    } catch (const std::exception& e) {
+        Log::Error("Fatal: {}", e.what());
+        return 1;
+    }
     return 0;
 }
 "@
@@ -85,9 +96,57 @@ if (Test-Path (Join-Path $SDK_DIR "assets\shaders")) {
 }
 
 # 4. Generate starter game script
+if ($is2D) {
 $StarterScript = @"
 -- ============================================================================
--- $ProjectName — Starter Script (SBA v2.0)
+-- $ProjectName — 2D Starter Script (Fusion ENGINE)
+-- ============================================================================
+package.path = package.path .. ";assets/scripts/?.lua"
+require("sba_bridge")
+
+local score = 0
+local playerX, playerY = 640, 360
+local speed = 300
+
+Scene.register("Game", {
+    onEnter = function()
+        Say("$ProjectName: 2D Game Started!")
+    end,
+
+    onUpdate = function(dt)
+        if input.is_down("W") or input.is_down("UP")    then playerY = playerY - speed * dt end
+        if input.is_down("S") or input.is_down("DOWN")  then playerY = playerY + speed * dt end
+        if input.is_down("A") or input.is_down("LEFT")  then playerX = playerX - speed * dt end
+        if input.is_down("D") or input.is_down("RIGHT") then playerX = playerX + speed * dt end
+
+        Tween.update(dt)
+        Coroutine.update(dt)
+    end,
+
+    onRenderUI = function()
+        ui.begin(1280, 720)
+
+        -- Background
+        ui.panel(0, 0, 1280, 720, 0.05, 0.05, 0.1, 1)
+
+        -- Player (rounded rect)
+        gfx.draw_rounded_rect(playerX - 20, playerY - 20, 40, 40, 8, 0, 1, 0.8, 1)
+
+        -- HUD
+        ui.panel(10, 10, 260, 50, 0.02, 0.02, 0.05, 0.85)
+        ui.label("$ProjectName // 2D", 30, 45, 0, 1, 0.8, 1)
+        ui.finish()
+    end,
+})
+
+function OnStart() Scene.switch("Game") end
+function OnUpdate(dt) Scene.update(dt) end
+function OnRenderUI() Scene.renderUI() end
+"@
+} else {
+$StarterScript = @"
+-- ============================================================================
+-- $ProjectName — 3D Starter Script (Fusion ENGINE)
 -- ============================================================================
 package.path = package.path .. ";assets/scripts/?.lua"
 require("sba_bridge")
@@ -126,7 +185,7 @@ Scene.register("Game", {
     onRenderUI = function()
         ui.begin(1600, 900)
         ui.panel(10, 10, 300, 50, 0.02, 0.02, 0.05, 0.85)
-        ui.label("$ProjectName // SBA v2.0", 30, 45, 0, 1, 0.8, 1)
+        ui.label("$ProjectName // Fusion ENGINE", 30, 45, 0, 1, 0.8, 1)
         ui.finish()
     end,
 })
@@ -135,23 +194,18 @@ function OnStart() Scene.switch("Game") end
 function OnUpdate(dt) Scene.update(dt) end
 function OnRenderUI() Scene.renderUI() end
 "@
+}
 $StarterScript | Set-Content (Join-Path $TARGET_DIR "assets\scripts\${ProjectName}_main.lua")
 
 # 5. Generate CMakeLists.txt
+$mode2DFlag = if ($is2D) { "MODE_2D" } else { "" }
 $CMakeContent = "cmake_minimum_required(VERSION 3.20)`n"
-$CMakeContent += "project($ProjectName)`n`n"
-$CMakeContent += "set(CMAKE_CXX_STANDARD 20)`n`n"
-$CMakeContent += "# Starlight Engine SDK`n"
-$CMakeContent += "set(STARLIGHT_SDK_DIR ""$SDK_DIR"")`n"
-$CMakeContent += "include(`${STARLIGHT_SDK_DIR}/StarlightEngineConfig.cmake)`n`n"
-$CMakeContent += "add_executable($ProjectName src/main.cpp)`n"
-$CMakeContent += "target_link_libraries($ProjectName PRIVATE StarlightCore)`n`n"
-$CMakeContent += "# Copy Assets`n"
-$CMakeContent += "add_custom_command(TARGET $ProjectName POST_BUILD`n"
-$CMakeContent += "    COMMAND `${CMAKE_COMMAND} -E copy_directory`n"
-$CMakeContent += "    `${CMAKE_CURRENT_SOURCE_DIR}/assets`n"
-$CMakeContent += "    `$<TARGET_FILE_DIR:$ProjectName>/assets`n"
-$CMakeContent += ")`n"
+$CMakeContent += "project($ProjectName LANGUAGES C CXX)`n`n"
+$CMakeContent += "set(CMAKE_CXX_STANDARD 20)`n"
+$CMakeContent += "set(CMAKE_CXX_STANDARD_REQUIRED ON)`n"
+$CMakeContent += "set(CMAKE_MSVC_RUNTIME_LIBRARY ""MultiThreaded`$<$<CONFIG:Debug>:Debug>DLL"")`n`n"
+$CMakeContent += "include(`"${SDK_DIR}/cmake/StarlightProject.cmake`")`n"
+$CMakeContent += "add_starlight_game($ProjectName $mode2DFlag)`n"
 
 $CMakeContent | Set-Content (Join-Path $TARGET_DIR "CMakeLists.txt")
 
@@ -178,7 +232,24 @@ cmake --build build --config Release
 "@
 $ReadmeContent | Set-Content (Join-Path $TARGET_DIR "README.md")
 
+# 7. Generate .gitignore
+$GitignoreContent = @"
+build/
+*.exe
+*.obj
+*.lib
+*.pdb
+*.ilk
+*.log
+.vs/
+CMakeCache.txt
+CMakeFiles/
+"@
+$GitignoreContent | Set-Content (Join-Path $TARGET_DIR ".gitignore")
+
 Write-Host ">>> Project $ProjectName created at: $TARGET_DIR <<<" -ForegroundColor Green
-Write-Host "   - SBA v2.0 framework pre-installed" -ForegroundColor DarkGray
+Write-Host "   - Template: $Template" -ForegroundColor DarkGray
+Write-Host "   - SBA framework pre-installed" -ForegroundColor DarkGray
 Write-Host "   - Starter script with Entity, Scene, Tween" -ForegroundColor DarkGray
+Write-Host "   - .gitignore included" -ForegroundColor DarkGray
 Write-Host "   - Ready to build with cmake" -ForegroundColor DarkGray

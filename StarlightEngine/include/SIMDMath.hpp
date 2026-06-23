@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <glm/glm.hpp>
 #include <vector>
@@ -18,5 +17,14 @@ namespace starlight {
          * @brief Calcula o produto escalar de 8 pares de vetores simultaneamente.
          */
         void DotProduct8x(const float* a, const float* b, float* results);
+
+        /**
+         * @brief Vectorized frustum culling check for an AABB using AVX2.
+         * @param planes Array of 6 planes (each has 4 floats: normal.x, y, z, distance).
+         * @param minBounds AABB min bounds (3 floats: x, y, z).
+         * @param maxBounds AABB max bounds (3 floats: x, y, z).
+         * @return true if the AABB is inside/intersects the frustum, false if culled.
+         */
+        bool IsAABBInFrustum(const float* planes, const float* minBounds, const float* maxBounds);
     }
 }

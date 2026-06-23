@@ -7,7 +7,8 @@
 
 namespace starlight {
 
-    VFXSystem::VFXSystem() {}
+    VFXSystem::VFXSystem()
+        : m_randomEngine(std::random_device{}()), m_randomDistribution(-1.0f, 1.0f) {}
 
     VFXSystem::~VFXSystem() {
         OnShutdown();
@@ -75,26 +76,24 @@ namespace starlight {
             GPUParticle* particles = (GPUParticle*)glMapBuffer(GL_SHADER_STORAGE_BUFFER, GL_READ_WRITE);
             
             static int lastIdx = 0;
-            std::mt19937 gen(std::random_device{}());
-            std::uniform_real_distribution<float> dis(-1.0f, 1.0f);
 
             for (const auto& e : m_pending) {
                 int emitted = 0;
                 int searchStart = lastIdx;
                 // Find dead slots
-                for (int i = 0; i < MAX_PARTICLES && emitted < e.count; ++i) {
-                    int idx = (searchStart + i) % MAX_PARTICLES;
+                for (int i = 0; i < m_maxParticles && emitted < e.count; ++i) {
+                    int idx = (searchStart + i) % m_maxParticles;
                     if (particles[idx].position.w <= 0.0f) {
                         particles[idx].position = glm::vec4(e.pos, 2.0f); // 2.0s life
                         particles[idx].velocity = glm::vec4(
-                            e.velRange.x * dis(gen),
-                            e.velRange.y * (0.5f + 0.5f * std::abs(dis(gen))),
-                            e.velRange.z * dis(gen),
+                            e.velRange.x * m_randomDistribution(m_randomEngine),
+                            e.velRange.y * (0.5f + 0.5f * std::abs(m_randomDistribution(m_randomEngine))),
+                            e.velRange.z * m_randomDistribution(m_randomEngine),
                             e.size
                         );
                         particles[idx].color = e.color;
                         emitted++;
-                        lastIdx = (idx + 1) % MAX_PARTICLES;
+                        lastIdx = (idx + 1) % m_maxParticles;
                     }
                 }
             }
@@ -111,7 +110,7 @@ namespace starlight {
         // But for now, let's just dispatch.
         
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_ssbo);
-        m_computeShader->Dispatch(MAX_PARTICLES / 256, 1, 1);
+        m_computeShader->Dispatch(m_maxParticles / 256, 1, 1);
         m_computeShader->Wait();
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
     }
@@ -134,7 +133,7 @@ namespace starlight {
         m_renderShader->SetMat4U("m_proj", renderer.GetProjectionMatrix());
 
         glBindVertexArray(m_vao);
-        glDrawArrays(GL_POINTS, 0, MAX_PARTICLES);
+        glDrawArrays(GL_POINTS, 0, m_maxParticles);
         glBindVertexArray(0);
         glBindBuffer(GL_ARRAY_BUFFER, 0);
 

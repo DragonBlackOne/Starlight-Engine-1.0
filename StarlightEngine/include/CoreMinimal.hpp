@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <string>
 #include <memory>
@@ -9,6 +8,7 @@ namespace starlight {
 
     class Scene {
     public:
+        Scene();
         virtual ~Scene() = default;
         virtual void OnEnter() = 0;
         virtual void OnUpdate(float dt) = 0;

@@ -27,5 +27,6 @@ void main() {
         illuminationDecay *= decay;
     }
     
-    outColor = vec4(color * exposure, 1.0);
+    vec3 outrunTint = mix(vec3(1.0, 0.0, 0.6), vec3(1.0, 0.4, 0.0), TexCoords.x);
+    outColor = vec4(color * exposure * outrunTint * 2.0, 1.0);
 }

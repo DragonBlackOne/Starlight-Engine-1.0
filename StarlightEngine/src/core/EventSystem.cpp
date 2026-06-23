@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "EventSystem.hpp"
 #include <cstring>
 #include <iostream>
@@ -31,6 +30,7 @@ namespace starlight {
     }
 
     void EventSystem::EmitDeferred(const Event& ev) {
+        std::lock_guard<std::mutex> lock(m_mutex);
         Event deferredEv = ev;
         if (ev.data && ev.dataSize > 0) {
             size_t offset = m_payloadArena.size();
@@ -42,6 +42,7 @@ namespace starlight {
     }
 
     void EventSystem::Flush() {
+        std::lock_guard<std::mutex> lock(m_mutex);
         for (auto& ev : m_deferredQueue) {
             if (ev.dataSize > 0) {
                 size_t offset = (size_t)ev.data;

@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <vector>
 #include <memory>
@@ -33,6 +32,7 @@ namespace starlight {
         void OnShutdown() override;
         void OnUpdate(float dt) override;
         const char* GetName() const override { return "GPUCullingSystem"; }
+        bool IsMainThreadOnly() const override { return true; }
 
         void Cull(uint32_t instanceCount, const glm::mat4& viewProj);
 

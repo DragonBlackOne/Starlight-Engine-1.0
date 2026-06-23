@@ -1,5 +1,6 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "ComputeShader.hpp"
+#include "PathResolver.hpp"
+#include "VFSSystem.hpp"
 #include "Log.hpp"
 #include <fstream>
 #include <sstream>
@@ -9,17 +10,13 @@ namespace starlight {
 
     ComputeShader::ComputeShader(const std::string& computePath) {
         std::string computeCode;
-        std::ifstream cShaderFile;
         try {
-            cShaderFile.open(computePath);
-            if (!cShaderFile.is_open()) {
+            auto bytes = VFSSystem::Get().ReadFile(computePath);
+            if (bytes.empty()) {
                 Log::Error("ComputeShader: Failed to open file: " + computePath);
                 return;
             }
-            std::stringstream cShaderStream;
-            cShaderStream << cShaderFile.rdbuf();
-            cShaderFile.close();
-            computeCode = cShaderStream.str();
+            computeCode = std::string(bytes.begin(), bytes.end());
             
             // Strip UTF-8 BOM if present
             if (computeCode.size() >= 3 && 

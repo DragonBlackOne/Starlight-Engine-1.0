@@ -16,8 +16,14 @@ void main()
     // Manual texture array sampling for compatibility
     if (index == 0) texColor = texture(uTextures[0], TexCoords);
     else if (index == 1) {
-        float a = texture(uTextures[1], TexCoords).r;
-        texColor = vec4(1.0, 1.0, 1.0, a);
+        float distance = texture(uTextures[1], TexCoords).r;
+        float alpha = distance;
+        if (Flags == 1.0) {
+            float width = 0.5;
+            float edge = 0.05;
+            alpha = smoothstep(width - edge, width + edge, distance);
+        }
+        texColor = vec4(1.0, 1.0, 1.0, alpha);
     }
     else if (index == 2) texColor = texture(uTextures[2], TexCoords);
     else if (index == 3) texColor = texture(uTextures[3], TexCoords);

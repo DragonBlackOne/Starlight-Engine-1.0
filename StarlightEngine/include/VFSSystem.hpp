@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <map>
 #include <string>
@@ -23,6 +22,7 @@ namespace starlight {
         bool OnInitialize(const EngineContext& context) override { (void)context; Initialize(); return true; }
         void OnShutdown() override { Shutdown(); }
         const char* GetName() const override { return "VFSSystem"; }
+        bool IsMainThreadOnly() const override { return true; }
 
         static VFSSystem& Get();
 
@@ -47,6 +47,7 @@ namespace starlight {
         std::map<std::string, std::string> m_mounts;
         std::map<std::string, PakEntry> m_pakEntries;
         std::string m_currentPakPath;
+        bool m_isZipPak = false;
     };
 
 }

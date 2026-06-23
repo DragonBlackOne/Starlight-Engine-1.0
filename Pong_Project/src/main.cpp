@@ -1,8 +1,8 @@
+#include <string>
+#include "DashboardSystem.hpp"
 #include "Engine.hpp"
 #include "Log.hpp"
 #include "ScriptSystem.hpp"
-#include "DashboardSystem.hpp"
-#include <string>
 
 using namespace starlight;
 
@@ -10,30 +10,14 @@ class PongGame : public BaseScene {
 public:
     void OnEnter() override {
         Log::Info("Pong Project: Initialized.");
-        
+
         auto& scripting = Engine::Get().GetScripting();
         scripting.ExecuteFile("assets/scripts/pong_main.lua");
-        
+
         sol::function onStart = scripting.GetLua()["OnStart"];
         if (onStart.valid()) {
             onStart();
         }
-    }
-
-    void OnUpdate(float dt) override {
-        auto& scripting = Engine::Get().GetScripting();
-        sol::function onUpdate = scripting.GetLua()["OnUpdate"];
-        if (onUpdate.valid()) {
-            onUpdate(dt);
-        }
-    }
-
-    void OnFixedUpdate(float dt) override { (void)dt; }
-    void OnRender() override {}
-    
-    void OnUIRender() override {
-        // We can call a specific UI render function if needed,
-        // but ScriptSystem::OnUIRender() already calls "OnRenderUI" in lua.
     }
 
     void OnExit() override {
@@ -41,20 +25,25 @@ public:
     }
 };
 
-int main(int argc, char* argv[]) {
-    (void)argc; (void)argv;
-    
-    WindowConfig config;
-    config.title = "Starlight Pong - Retro Edition";
-    config.width = 1280;
-    config.height = 720;
-    
-    Engine engine;
-    engine.Initialize(config);
-    
-    engine.GetSceneStack().Push(std::make_shared<PongGame>());
-    
-    engine.Run();
-    
+int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
+    try {
+        WindowConfig config;
+        config.title = "Pong // Fusion ENGINE";
+        config.width = 1280;
+        config.height = 720;
+        config.mode2D = true;
+
+        Engine engine;
+        if (!engine.Initialize(config)) {
+            return 1;
+        }
+
+        engine.GetSceneStack().Push(std::make_shared<PongGame>());
+
+        engine.Run();
+    } catch (const std::exception& e) {
+        Log::Error("CRITICAL ERROR: {}", e.what());
+        return 1;
+    }
     return 0;
 }

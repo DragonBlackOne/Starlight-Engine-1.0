@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <memory>
 #include <vector>
@@ -10,75 +9,145 @@
 #include "EngineSystem.hpp"
 
 namespace starlight {
-    class Window;
-    class SceneStack;
-    class TweenSystem;
-    class FileWatcher;
-    class PhysicsSystem;
-    class Renderer;
-    class ScriptSystem;
-    class InputSystem;
-    class AudioSystem;
-    class NavigationSystem;
-    class NetworkSystem;
-    class AssetManager;
+class Window;
+class SceneStack;
+class TweenSystem;
+class FileWatcher;
+class PhysicsSystem;
+class Renderer;
+class ScriptSystem;
+class InputSystem;
+class AudioSystem;
+class NavigationSystem;
+class NetworkSystem;
+class AssetManager;
+class ConfigSystem;
+class SystemScheduler;
 
-    struct EngineTime {
-        float deltaTime = 0.0f;
-        float totalTime = 0.0f;
-        float timeScale = 1.0f;
-        const float fixedDeltaTime = 1.0f / 60.0f;
-    };
+struct EngineTime {
+    float deltaTime = 0.0f;
+    float totalTime = 0.0f;
+    float timeScale = 1.0f;
+    const float fixedDeltaTime = 1.0f / 60.0f;
+    float fps = 0.0f;
+    float avgFrameTime = 0.0f;
+};
 
-    class Engine {
-    public:
-        Engine();
-        ~Engine();
+struct ProfilerStats {
+    float physicsTime = 0.0f; // ms
+    float scriptTime = 0.0f;  // ms
+    float audioTime = 0.0f;   // ms
+    float renderTime = 0.0f;  // ms
+    float updateTime = 0.0f;  // ms (total de updates excluindo render e fisica)
+};
 
-        void Initialize(const WindowConfig& config);
-        void Run();
-        void Shutdown();
+class Engine {
+public:
+    Engine();
+    ~Engine();
 
-        // Modularity
-        SystemRegistry& GetRegistry() { return m_systems; }
-        SceneStack& GetSceneStack() { return m_sceneStack; }
+    bool Initialize(const WindowConfig& config);
+    void Run();
+    void Shutdown();
 
-        Window& GetWindow() { return *m_window; }
-        const EngineTime& GetTime() const { return m_time; }
+    // Modularity
+    SystemRegistry& GetRegistry() {
+        return m_systems;
+    }
+    SceneStack& GetSceneStack() {
+        return m_sceneStack;
+    }
 
-        // Legacy accessors
-        PhysicsSystem& GetPhysics();
-        Renderer& GetRenderer();
-        ScriptSystem& GetScripting();
-        InputSystem& GetInput();
-        AudioSystem& GetAudio();
-        TweenSystem& GetTweenSystem();
-        NavigationSystem& GetNav();
-        NetworkSystem& GetNetwork();
-        FileWatcher& GetFileWatcher();
-        AssetManager& GetAssetManager();
+    Window& GetWindow() {
+        return *m_window;
+    }
+    const EngineTime& GetTime() const {
+        return m_time;
+    }
 
-        // Helper accessors
-        template<typename T> T* GetSystem() { return m_systems.GetSystem<T>(); }
+    // Profiler API
+    const ProfilerStats& GetProfilerStats() const {
+        return m_profilerStats;
+    }
+    void AccumulateScriptTime(float ms) {
+        m_frameScriptTime += ms;
+    }
+    void AccumulateAudioTime(float ms) {
+        m_frameAudioTime += ms;
+    }
 
-        static Engine& Get() { return *s_instance; }
-        bool IsConsoleVisible() const { return m_showConsole; }
+    // Legacy accessors
+    PhysicsSystem& GetPhysics();
+    Renderer& GetRenderer();
+    ScriptSystem& GetScripting();
+    InputSystem& GetInput();
+    AudioSystem& GetAudio();
+    TweenSystem& GetTweenSystem();
+    NavigationSystem& GetNav();
+    NetworkSystem& GetNetwork();
+    FileWatcher& GetFileWatcher();
+    AssetManager& GetAssetManager();
+    ConfigSystem& GetConfig();
 
-    private:
-        static Engine* s_instance;
+    void SetTimeScale(float scale) {
+        m_time.timeScale = scale;
+    }
 
-        std::unique_ptr<Window> m_window;
-        SystemRegistry m_systems;
-        SceneStack m_sceneStack;
-        
-        EngineTime m_time;
-        bool m_running = false;
-        bool m_showConsole = false;
+    void RequestQuit() {
+        m_running = false;
+    }
+    bool IsPaused() const {
+        return m_paused;
+    }
+    void SetPaused(bool paused) {
+        m_paused = paused;
+    }
+    void SetMaxFPS(int maxFPS) {
+        m_maxFPS = maxFPS;
+    }
+    int GetMaxFPS() const {
+        return m_maxFPS;
+    }
 
-        wi::jobsystem::context m_physicsJobCtx;
+    // Helper accessors
+    template<typename T>
+    T* GetSystem() {
+        return m_systems.GetSystem<T>();
+    }
 
-        void Update(float dt);
-        void FixedUpdate(float dt);
-        void Render();
-    };
-}
+    static Engine& Get() {
+        return *s_instance;
+    }
+    static bool IsInitialized() {
+        return s_instance != nullptr;
+    }
+private:
+    static Engine* s_instance;
+
+    std::unique_ptr<Window> m_window;
+    SystemRegistry m_systems;
+    std::unique_ptr<SystemScheduler> m_scheduler;
+    SceneStack m_sceneStack;
+
+    EngineTime m_time;
+    ProfilerStats m_profilerStats;
+
+    // CPU frame profiler variables
+    float m_framePhysicsTime = 0.0f;
+    float m_frameScriptTime = 0.0f;
+    float m_frameAudioTime = 0.0f;
+    float m_frameRenderTime = 0.0f;
+    float m_frameUpdateTime = 0.0f;
+
+    bool m_running = false;
+    bool m_shutdown = false;
+    bool m_paused = false;
+    int m_maxFPS = 0;
+
+    wi::jobsystem::context m_physicsJobCtx;
+
+    void Update(float dt);
+    void FixedUpdate(float dt);
+    void Render();
+};
+}  // namespace starlight

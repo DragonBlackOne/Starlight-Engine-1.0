@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "GPUCullingSystem.hpp"
 #include "Log.hpp"
 
@@ -13,7 +12,7 @@ namespace starlight {
         glGenBuffers(1, &m_indirectBuffer);
         glGenBuffers(1, &m_visibleInstancesSSBO);
 
-        Log::Info("GPUCullingSystem: GPU-Driven Pipeline Initialized (Phase 13).");
+        Log::Info("GPUCullingSystem: GPU-Driven Pipeline Initialized (Phase 16).");
         return true;
     }
 

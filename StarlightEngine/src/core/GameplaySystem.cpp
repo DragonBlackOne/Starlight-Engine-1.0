@@ -31,7 +31,12 @@ namespace starlight {
         JobSystem::Execute(ctx, [&reg, dt](uint32_t) { AISystem::Update(reg, dt); });
         
         // While systems are running, we can do some main-thread work
+        using scene_clock = std::chrono::high_resolution_clock;
+        auto sStart = scene_clock::now();
         activeScene->OnUpdate(dt); // Lua updates stay on main thread for safety
+        auto sEnd = scene_clock::now();
+        float elapsed = std::chrono::duration<float, std::milli>(sEnd - sStart).count();
+        Engine::Get().AccumulateScriptTime(elapsed);
 
         // Wait for parallel jobs to finish
         JobSystem::Wait(ctx);

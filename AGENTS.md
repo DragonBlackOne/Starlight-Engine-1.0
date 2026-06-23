@@ -56,6 +56,12 @@ Fusion ENGINE/
 - **ECS:** EnTT registry with `TransformComponent` on every entity
 - **Errors:** Log via `Log::Info/Warn/Error`, return `bool` for initialization
 
+## Visual & Aesthetic Standards
+
+- **Theme:** Outrun / Retro Synthwave Cyberpunk style (Hot Magenta, Cyber Cyan, Neon Violet, Sunset Orange, Gold, Obsidian).
+- **Guidelines:** Refer to the comprehensive [AESTHETICS.md](file:///d:/Projetos/Fusion%20ENGINE/AESTHETICS.md) guide before writing or editing any rendering logic, stage assets, UI layouts, or particle effects.
+- **Slicing & Aspect Ratio:** Spritesheets must use a 4x2 grid of 256x512 pixels with a 1:2 aspect ratio (`drawW = h * 0.5`) to prevent waist cutoff and stretching.
+
 ## When Modifying Code
 
 1. Understand the full file's context and conventions before editing

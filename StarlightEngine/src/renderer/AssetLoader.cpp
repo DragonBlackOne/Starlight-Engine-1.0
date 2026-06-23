@@ -1,5 +1,6 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "AssetLoader.hpp"
+#include "PathResolver.hpp"
+#include "VFSSystem.hpp"
 #include "Log.hpp"
 #pragma warning(push, 0)
 #include <codeanalysis/warnings.h>
@@ -94,12 +95,11 @@ namespace starlight {
         (void)ctx;
         (void)is_mtl;
         (void)obj_path;
-        std::ifstream file(path, std::ios::binary | std::ios::ate);
-        if (!file.is_open()) return;
-        *size = file.tellg();
+        auto bytes = VFSSystem::Get().ReadFile(path);
+        if (bytes.empty()) return;
+        *size = bytes.size();
         *buf = (char*)malloc(*size);
-        file.seekg(0);
-        file.read(*buf, *size);
+        memcpy(*buf, bytes.data(), *size);
     }
 
     MeshData AssetLoader::LoadOBJ(const std::string& path) {
@@ -110,7 +110,8 @@ namespace starlight {
         tinyobj_material_t* materials = NULL;
         size_t num_materials;
 
-        int result = tinyobj_parse_obj(&attrib, &shapes, &num_shapes, &materials, &num_materials, path.c_str(), file_reader, NULL, TINYOBJ_FLAG_TRIANGULATE);
+        std::string resolved = PathResolver::Resolve(path);
+        int result = tinyobj_parse_obj(&attrib, &shapes, &num_shapes, &materials, &num_materials, resolved.c_str(), file_reader, NULL, TINYOBJ_FLAG_TRIANGULATE);
         
         if (result != TINYOBJ_SUCCESS) {
             Log::Error("Failed to load OBJ: " + path);
@@ -173,18 +174,40 @@ namespace starlight {
     //  GLTF/GLB LOADER (cgltf by jkuhlmann - MIT License)
     //  Loads the industry-standard PBR format used by Blender, Godot, Unity, Unreal.
     // =========================================================================
+    static cgltf_result cgltf_read_vfs(const struct cgltf_memory_options* memory_options, const struct cgltf_file_options* file_options, const char* path, cgltf_size* size, void** data) {
+        (void)memory_options;
+        (void)file_options;
+        auto bytes = VFSSystem::Get().ReadFile(path);
+        if (bytes.empty()) {
+            return cgltf_result_file_not_found;
+        }
+        *size = bytes.size();
+        *data = malloc(*size);
+        memcpy(*data, bytes.data(), *size);
+        return cgltf_result_success;
+    }
+
+    static void cgltf_release_vfs(const struct cgltf_memory_options* memory_options, const struct cgltf_file_options* file_options, void* data) {
+        (void)memory_options;
+        (void)file_options;
+        free(data);
+    }
+
     MeshData AssetLoader::LoadGLTF(const std::string& path) {
         MeshData meshData;
         cgltf_options options = {};
+        options.file.read = cgltf_read_vfs;
+        options.file.release = cgltf_release_vfs;
         cgltf_data* data = nullptr;
 
-        cgltf_result result = cgltf_parse_file(&options, path.c_str(), &data);
+        std::string resolved = PathResolver::Resolve(path);
+        cgltf_result result = cgltf_parse_file(&options, resolved.c_str(), &data);
         if (result != cgltf_result_success) {
-            Log::Error("cgltf: Failed to parse: " + path);
+            Log::Error("cgltf: Failed to parse: " + resolved);
             return meshData;
         }
 
-        result = cgltf_load_buffers(&options, data, path.c_str());
+        result = cgltf_load_buffers(&options, data, resolved.c_str());
         if (result != cgltf_result_success) {
             Log::Error("cgltf: Failed to load buffers: " + path);
             cgltf_free(data);
@@ -197,77 +220,89 @@ namespace starlight {
             return meshData;
         }
 
-        // Load the first mesh, first primitive (standard convention for single-mesh assets)
-        cgltf_mesh& gltfMesh = data->meshes[0];
-        if (gltfMesh.primitives_count == 0) {
-            Log::Error("cgltf: No primitives in mesh: " + path);
-            cgltf_free(data);
-            return meshData;
-        }
-
-        cgltf_primitive& prim = gltfMesh.primitives[0];
-
         std::vector<Vertex> vertices;
         std::vector<uint32_t> indices;
 
-        // --- Extract vertex attributes ---
-        const float* positionData = nullptr;
-        const float* normalData = nullptr;
-        const float* texcoordData = nullptr;
-        size_t vertexCount = 0;
+        // Traverse all meshes and all primitives to concatenate submeshes
+        for (cgltf_size m = 0; m < data->meshes_count; ++m) {
+            cgltf_mesh& gltfMesh = data->meshes[m];
+            for (cgltf_size p = 0; p < gltfMesh.primitives_count; ++p) {
+                cgltf_primitive& prim = gltfMesh.primitives[p];
 
-        for (cgltf_size a = 0; a < prim.attributes_count; a++) {
-            cgltf_attribute& attr = prim.attributes[a];
-            cgltf_accessor* accessor = attr.data;
+                // --- Extract vertex attributes ---
+                const float* positionData = nullptr;
+                const float* normalData = nullptr;
+                const float* texcoordData = nullptr;
+                size_t vertexCount = 0;
 
-            if (attr.type == cgltf_attribute_type_position) {
-                vertexCount = accessor->count;
-                positionData = (const float*)((const char*)accessor->buffer_view->buffer->data + accessor->buffer_view->offset + accessor->offset);
-            }
-            else if (attr.type == cgltf_attribute_type_normal) {
-                normalData = (const float*)((const char*)accessor->buffer_view->buffer->data + accessor->buffer_view->offset + accessor->offset);
-            }
-            else if (attr.type == cgltf_attribute_type_texcoord) {
-                texcoordData = (const float*)((const char*)accessor->buffer_view->buffer->data + accessor->buffer_view->offset + accessor->offset);
+                for (cgltf_size a = 0; a < prim.attributes_count; a++) {
+                    cgltf_attribute& attr = prim.attributes[a];
+                    cgltf_accessor* accessor = attr.data;
+
+                    if (!accessor->buffer_view) continue;
+
+                    const char* bufData = (const char*)accessor->buffer_view->buffer->data;
+                    size_t offset = accessor->buffer_view->offset + accessor->offset;
+
+                    if (attr.type == cgltf_attribute_type_position) {
+                        vertexCount = accessor->count;
+                        positionData = (const float*)(bufData + offset);
+                    }
+                    else if (attr.type == cgltf_attribute_type_normal) {
+                        normalData = (const float*)(bufData + offset);
+                    }
+                    else if (attr.type == cgltf_attribute_type_texcoord) {
+                        texcoordData = (const float*)(bufData + offset);
+                    }
+                }
+
+                if (!positionData || vertexCount == 0) {
+                    continue;
+                }
+
+                size_t baseVertexIdx = vertices.size();
+                size_t oldVertCount = vertices.size();
+                vertices.resize(oldVertCount + vertexCount);
+
+                for (size_t i = 0; i < vertexCount; i++) {
+                    Vertex& v = vertices[oldVertCount + i];
+                    v.position = { positionData[i * 3], positionData[i * 3 + 1], positionData[i * 3 + 2] };
+                    if (normalData) {
+                        v.normal = { normalData[i * 3], normalData[i * 3 + 1], normalData[i * 3 + 2] };
+                    } else {
+                        v.normal = { 0.0f, 1.0f, 0.0f };
+                    }
+                    if (texcoordData) {
+                        v.texCoords = { texcoordData[i * 2], texcoordData[i * 2 + 1] };
+                    } else {
+                        v.texCoords = { 0.0f, 0.0f };
+                    }
+                    v.jointIndices = glm::ivec4(0);
+                    v.weights = glm::vec4(0.0f);
+                }
+
+                // --- Extract indices ---
+                if (prim.indices) {
+                    cgltf_accessor* idxAccessor = prim.indices;
+                    size_t oldIndexCount = indices.size();
+                    indices.resize(oldIndexCount + idxAccessor->count);
+                    for (cgltf_size i = 0; i < idxAccessor->count; i++) {
+                        indices[oldIndexCount + i] = (uint32_t)(baseVertexIdx + cgltf_accessor_read_index(idxAccessor, i));
+                    }
+                } else {
+                    size_t oldIndexCount = indices.size();
+                    indices.resize(oldIndexCount + vertexCount);
+                    for (size_t i = 0; i < vertexCount; i++) {
+                        indices[oldIndexCount + i] = (uint32_t)(baseVertexIdx + i);
+                    }
+                }
             }
         }
 
-        if (!positionData || vertexCount == 0) {
-            Log::Error("cgltf: No position data in: " + path);
+        if (vertices.empty()) {
+            Log::Error("cgltf: Loaded empty geometry from: " + path);
             cgltf_free(data);
             return meshData;
-        }
-
-        vertices.resize(vertexCount);
-        for (size_t i = 0; i < vertexCount; i++) {
-            vertices[i].position = { positionData[i * 3], positionData[i * 3 + 1], positionData[i * 3 + 2] };
-            if (normalData) {
-                vertices[i].normal = { normalData[i * 3], normalData[i * 3 + 1], normalData[i * 3 + 2] };
-            } else {
-                vertices[i].normal = { 0, 1, 0 };
-            }
-            if (texcoordData) {
-                vertices[i].texCoords = { texcoordData[i * 2], texcoordData[i * 2 + 1] };
-            } else {
-                vertices[i].texCoords = { 0, 0 };
-            }
-            vertices[i].jointIndices = glm::ivec4(0);
-            vertices[i].weights = glm::vec4(0.0f);
-        }
-
-        // --- Extract indices ---
-        if (prim.indices) {
-            cgltf_accessor* idxAccessor = prim.indices;
-            indices.resize(idxAccessor->count);
-            for (cgltf_size i = 0; i < idxAccessor->count; i++) {
-                indices[i] = (uint32_t)cgltf_accessor_read_index(idxAccessor, i);
-            }
-        } else {
-            // No index buffer: generate sequential indices
-            indices.resize(vertexCount);
-            for (size_t i = 0; i < vertexCount; i++) {
-                indices[i] = (uint32_t)i;
-            }
         }
 
         // meshoptimizer post-process
@@ -277,7 +312,7 @@ namespace starlight {
         meshData.indices = std::move(indices);
         meshData.valid = true;
 
-        Log::Info("cgltf: Loaded '" + path + "' (" + std::to_string(vertexCount) + " verts, " + std::to_string(meshData.indices.size() / 3) + " tris)");
+        Log::Info("cgltf: Loaded '" + path + "' (" + std::to_string(meshData.vertices.size()) + " verts, " + std::to_string(meshData.indices.size() / 3) + " tris)");
 
         cgltf_free(data);
         return meshData;
@@ -289,10 +324,11 @@ namespace starlight {
     uint32_t AssetLoader::LoadTexture(const std::string& path, bool removeCheckered) {
         int width, height, channels;
         stbi_set_flip_vertically_on_load(false);
-        unsigned char* data = stbi_load(path.c_str(), &width, &height, &channels, 4); 
+        std::string resolved = PathResolver::Resolve(path);
+        unsigned char* data = stbi_load(resolved.c_str(), &width, &height, &channels, 4); 
 
         if (!data) {
-            Log::Error("Failed to load texture: " + path);
+            Log::Error("Failed to load texture: " + resolved);
             return 0;
         }
         Log::Info("Texture Loaded: " + path + " (" + std::to_string(width) + "x" + std::to_string(height) + ")");
@@ -420,12 +456,13 @@ namespace starlight {
 
         int width, height, nrChannels;
         for (unsigned int i = 0; i < faces.size(); i++) {
-            unsigned char* data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
+            std::string resolved = PathResolver::Resolve(faces[i]);
+            unsigned char* data = stbi_load(resolved.c_str(), &width, &height, &nrChannels, 0);
             if (data) {
                 glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
                 stbi_image_free(data);
             } else {
-                Log::Error("Cubemap texture failed to load at path: " + faces[i]);
+                Log::Error("Cubemap texture failed to load at path: " + resolved);
                 stbi_image_free(data);
             }
         }
@@ -439,6 +476,7 @@ namespace starlight {
     }
 
     uint32_t AssetLoader::CreateCheckerboardTexture(int width, int height, int cellSize) {
+        if (cellSize <= 0) cellSize = 1;
         std::vector<unsigned char> data(width * height * 3);
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {

@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "ClothSystem.hpp"
 
 namespace starlight {
@@ -28,6 +27,7 @@ namespace starlight {
 
                     glm::vec3 delta = p2.position - p1.position;
                     float dist = glm::length(delta);
+                    if (dist < 0.00001f) continue; // Avoid division by zero
                     float diff = (dist - c.restLength) / dist;
 
                     glm::vec3 correction = delta * 0.5f * diff;

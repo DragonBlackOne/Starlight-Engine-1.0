@@ -34,7 +34,7 @@ namespace starlight {
     }
 
     RenderGraph::RenderGraph() {
-        Log::Info("RenderGraph: Advanced Pipeline Initialized (Phase 11 - Refactored).");
+        Log::Info("RenderGraph: Advanced Pipeline Initialized (Phase 12 - Ultra Edition).");
     }
 
     RenderGraph::~RenderGraph() {
@@ -54,7 +54,9 @@ namespace starlight {
     }
 
     void RenderGraph::Reset() {
-        m_passes.clear();
+        // CORREÇÃO: Não limpar m_passes porque as passes são registradas estaticamente no OnInitialize.
+        // Se limparmos aqui, ao chamar RecreateFBO na inicialização perderemos todas as passes de renderização.
+        // m_passes.clear();
         for (auto it = m_physicalResources.begin(); it != m_physicalResources.end();) {
             if (!it->second.isImported) {
                 if (it->second.glTexture) glDeleteTextures(1, &it->second.glTexture);

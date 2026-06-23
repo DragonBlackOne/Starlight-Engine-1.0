@@ -1,8 +1,9 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "HierarchySystem.hpp"
 #include "Components.hpp"
 #include "JobSystem.hpp"
 #include "wicked/core/wiJobSystem.h"
+#include "SIMD_Math.hpp"
+#include <glm/gtc/type_ptr.hpp>
 
 namespace starlight {
 
@@ -47,7 +48,7 @@ namespace starlight {
         for (auto child : rel.children) {
             if (registry.all_of<TransformComponent>(child)) {
                 auto& ct = registry.get<TransformComponent>(child);
-                ct.worldMatrix = parentMatrix * ct.localMatrix;
+                simd::Mat4Mul(glm::value_ptr(ct.worldMatrix), glm::value_ptr(parentMatrix), glm::value_ptr(ct.localMatrix));
                 
                 // Tail call for the next level
                 UpdateRecursive(registry, child, ct.worldMatrix);

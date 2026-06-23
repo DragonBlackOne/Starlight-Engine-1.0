@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -33,9 +32,9 @@ namespace starlight {
         uint32_t m_depthTextureArray = 0;
         std::shared_ptr<Shader> m_shadowShader;
         
-        int m_resolution;
-        float m_cascadeSplits[MAX_CASCADES];
-        glm::mat4 m_lightSpaceMatrices[MAX_CASCADES];
+        int m_resolution = 2048;
+        float m_cascadeSplits[MAX_CASCADES] = { 0.0f };
+        glm::mat4 m_lightSpaceMatrices[MAX_CASCADES] = { glm::mat4(1.0f) };
     };
 
 }

@@ -15,9 +15,14 @@ namespace starlight {
         static void RenderBloom(uint32_t inputTexture, uint32_t width, uint32_t height);
         
         // Tonemapping & Color Grading
-        static void RenderFinalComposition(uint32_t sceneTex, uint32_t bloomTex, float exposure, float gamma);
+        static void RenderFinalComposition(uint32_t sceneTex, uint32_t bloomTex, float exposure, float gamma, uint32_t targetFBO, int vpW, int vpH);
 
         static uint32_t GetBloomTexture();
+
+        static void SetChromaticStrength(float strength) { s_chromaticStrength = strength; }
+        static float GetChromaticStrength() { return s_chromaticStrength; }
+        static void SetVignetteStrength(float strength) { s_vignetteStrength = strength; }
+        static float GetVignetteStrength() { return s_vignetteStrength; }
 
     private:
         struct BloomMip {
@@ -31,6 +36,9 @@ namespace starlight {
         static std::shared_ptr<Shader> s_upsampleShader;
         static std::shared_ptr<Shader> s_compositionShader;
         static std::shared_ptr<Mesh> s_quadMesh;
+
+        static float s_chromaticStrength;
+        static float s_vignetteStrength;
     };
 
 }

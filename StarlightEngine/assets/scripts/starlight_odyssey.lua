@@ -66,6 +66,11 @@ function PlaceFood()
 end
 
 function UpdateSnake2D(dt)
+    if Engine and Engine.report_active_bt_node then
+        Engine.report_active_bt_node("SnakeRoot (Selector)")
+        Engine.report_active_bt_node("GameLoop (Sequence)")
+    end
+
     if not Snake.alive then return end
     
     -- Combo decay
@@ -77,24 +82,49 @@ function UpdateSnake2D(dt)
     InputCooldown = InputCooldown - dt
     
     if InputCooldown <= 0 then
+        if Engine and Engine.report_active_bt_node then
+            Engine.report_active_bt_node("CheckInput (Sequence)")
+        end
+        
+        local moved = false
         if input.is_down("W") or input.is_down("Up") then
-            if Snake.dir.y ~= 1 then Snake.nextDir = {x=0, y=-1}; InputCooldown = 0.03; Snake.started = true end
+            if Snake.dir.y ~= 1 then 
+                Snake.nextDir = {x=0, y=-1}; InputCooldown = 0.03; Snake.started = true; moved = true
+            end
+        elseif input.is_down("S") or input.is_down("Down") then
+            if Snake.dir.y ~= -1 then 
+                Snake.nextDir = {x=0, y=1}; InputCooldown = 0.03; Snake.started = true; moved = true
+            end
+        elseif input.is_down("A") or input.is_down("Left") then
+            if Snake.dir.x ~= 1 then 
+                Snake.nextDir = {x=-1, y=0}; InputCooldown = 0.03; Snake.started = true; moved = true
+            end
+        elseif input.is_down("D") or input.is_down("Right") then
+            if Snake.dir.x ~= -1 then 
+                Snake.nextDir = {x=1, y=0}; InputCooldown = 0.03; Snake.started = true; moved = true
+            end
         end
-        if input.is_down("S") or input.is_down("Down") then
-            if Snake.dir.y ~= -1 then Snake.nextDir = {x=0, y=1}; InputCooldown = 0.03; Snake.started = true end
-        end
-        if input.is_down("A") or input.is_down("Left") then
-            if Snake.dir.x ~= 1 then Snake.nextDir = {x=-1, y=0}; InputCooldown = 0.03; Snake.started = true end
-        end
-        if input.is_down("D") or input.is_down("Right") then
-            if Snake.dir.x ~= -1 then Snake.nextDir = {x=1, y=0}; InputCooldown = 0.03; Snake.started = true end
+        
+        if moved and Engine and Engine.report_active_bt_node then
+            Engine.report_active_bt_node("AnyKeyPressed?")
+            Engine.report_active_bt_node("UpdateNextDir")
         end
     end
     
     if not Snake.started then return end
     
+    if Engine and Engine.report_active_bt_node then
+        Engine.report_active_bt_node("CheckTimer (Sequence)")
+    end
+    
     Snake.timer = Snake.timer + dt
     if Snake.timer < Snake.speed then return end
+    
+    if Engine and Engine.report_active_bt_node then
+        Engine.report_active_bt_node("IsTimeStepElapsed?")
+        Engine.report_active_bt_node("MoveSnakeHead")
+    end
+    
     Snake.timer = 0
     Snake.dir = Snake.nextDir
     
@@ -102,9 +132,17 @@ function UpdateSnake2D(dt)
     local newX = head.x + Snake.dir.x
     local newY = head.y + Snake.dir.y
     
+    if Engine and Engine.report_active_bt_node then
+        Engine.report_active_bt_node("CheckCollision (Sequence)")
+        Engine.report_active_bt_node("HitWallOrSelf?")
+    end
+    
     -- Wall collision
     if newX < 0 or newX >= COLS or newY < 0 or newY >= ROWS then
         Snake.alive = false
+        if Engine and Engine.report_active_bt_node then
+            Engine.report_active_bt_node("TriggerGameOver")
+        end
         if Snake.score > Snake.highScore then Snake.highScore = Snake.score end
         ScreenShake.trigger(15, 0.5)
         return
@@ -114,16 +152,27 @@ function UpdateSnake2D(dt)
     for i = 1, #Snake.body do
         if Snake.body[i].x == newX and Snake.body[i].y == newY then
             Snake.alive = false
+            if Engine and Engine.report_active_bt_node then
+                Engine.report_active_bt_node("TriggerGameOver")
+            end
             if Snake.score > Snake.highScore then Snake.highScore = Snake.score end
             ScreenShake.trigger(15, 0.5)
             return
         end
     end
     
+    if Engine and Engine.report_active_bt_node then
+        Engine.report_active_bt_node("CheckFood (Sequence)")
+        Engine.report_active_bt_node("IsHeadOnFood?")
+    end
+    
     local ate = (newX == Snake.food.x and newY == Snake.food.y)
     table.insert(Snake.body, 1, {x = newX, y = newY})
     
     if ate then
+        if Engine and Engine.report_active_bt_node then
+            Engine.report_active_bt_node("EatAndGrow")
+        end
         Snake.foodEaten = Snake.foodEaten + 1
         Snake.combo = Snake.combo + 1
         Snake.comboTimer = 3.0 -- 3 second combo window
@@ -192,10 +241,156 @@ function DrawFood(ox, oy_off)
     gfx.draw_rect(px + pad + 4, py + pad + 4, CELL - pad*2 - 8, CELL - pad*2 - 8, 1.0, 1.0, 1.0)
 end
 
+-- ============================================================================
+-- VISUAL CODING INTEGRATION (BT & SHADER DEMO)
+-- ============================================================================
+local BT_State = {
+    npcX = 500,
+    npcY = 360,
+    patrolDir = 1,
+    patrolTimer = 0,
+    statusText = "IDLE",
+    lastChangeTime = 0
+}
+
+function ResetVisualCodingDemo()
+    BT_State.npcX = 500
+    BT_State.npcY = 360
+    BT_State.patrolDir = 1
+    BT_State.patrolTimer = 0
+    BT_State.statusText = "IDLE"
+end
+
+-- Dicionario de Acoes
+local BTActions = {}
+
+function BTActions.Patrol(dt)
+    BT_State.statusText = "Patrolling (BT: Patrol)"
+    BT_State.patrolTimer = BT_State.patrolTimer + dt
+    if BT_State.patrolTimer > 2.0 then
+        BT_State.patrolTimer = 0
+        BT_State.patrolDir = -BT_State.patrolDir
+    end
+    BT_State.npcX = BT_State.npcX + BT_State.patrolDir * 120 * dt
+    -- Limites de movimento
+    if BT_State.npcX < 250 then BT_State.npcX = 250; BT_State.patrolDir = 1 end
+    if BT_State.npcX > 850 then BT_State.npcX = 850; BT_State.patrolDir = -1 end
+    return "SUCCESS"
+end
+
+function BTActions.MoveToTarget(dt)
+    BT_State.statusText = "Chasing Target (BT: MoveToTarget)"
+    local mx = input.get_mouse_x()
+    local my = input.get_mouse_y()
+    local dx = mx - BT_State.npcX
+    local dy = my - BT_State.npcY
+    local len = math.sqrt(dx*dx + dy*dy)
+    if len > 8 then
+        BT_State.npcX = BT_State.npcX + (dx / len) * 220 * dt
+        BT_State.npcY = BT_State.npcY + (dy / len) * 220 * dt
+        return "RUNNING"
+    end
+    return "SUCCESS"
+end
+
+-- Dicionario de Condicoes
+local BTConditions = {}
+
+function BTConditions.IsEnemyNear()
+    local mx = input.get_mouse_x()
+    local my = input.get_mouse_y()
+    local dx = mx - BT_State.npcX
+    local dy = my - BT_State.npcY
+    local len = math.sqrt(dx*dx + dy*dy)
+    return len < 220.0
+end
+
+-- Carregamento dinamico da BT
+local cachedBT = nil
+local lastFileCheck = 0
+
+function GetActiveBehaviorTree()
+    local curTime = time.get_time()
+    if not cachedBT or (curTime - lastFileCheck > 0.5) then
+        lastFileCheck = curTime
+        local fileExists = false
+        local f = io.open("assets/scripts/custom_behavior.lua", "r")
+        if f then
+            fileExists = true
+            f:close()
+        end
+        if fileExists then
+            local ok, tree = pcall(dofile, "assets/scripts/custom_behavior.lua")
+            if ok and tree then
+                cachedBT = tree
+            end
+        end
+    end
+    if not cachedBT then
+        cachedBT = {
+            type = "Selector",
+            name = "Root",
+            children = {
+                { type = "Action", name = "Patrol" }
+            }
+        }
+    end
+    return cachedBT
+end
+
+-- Execucao recursiva
+function RunBehaviorTree(node, dt)
+    if not node then return "FAILURE" end
+    
+    if Engine and Engine.report_active_bt_node then
+        Engine.report_active_bt_node(node.name)
+    end
+    
+    if node.type == "Action" then
+        local act = BTActions[node.name]
+        if act then
+            return act(dt)
+        end
+        return "FAILURE"
+        
+    elseif node.type == "Condition" then
+        local cond = BTConditions[node.name]
+        if cond and cond() then
+            return "SUCCESS"
+        end
+        return "FAILURE"
+        
+    elseif node.type == "Selector" then
+        for _, child in ipairs(node.children or {}) do
+            local status = RunBehaviorTree(child, dt)
+            if status == "SUCCESS" or status == "RUNNING" then
+                return status
+            end
+        end
+        return "FAILURE"
+        
+    elseif node.type == "Sequence" then
+        for _, child in ipairs(node.children or {}) do
+            local status = RunBehaviorTree(child, dt)
+            if status == "FAILURE" or status == "RUNNING" then
+                return status
+            end
+        end
+        return "SUCCESS"
+    end
+    
+    return "FAILURE"
+end
+
+function UpdateVisualCodingDemo(dt)
+    local tree = GetActiveBehaviorTree()
+    RunBehaviorTree(tree, dt)
+end
+
 -- ==========================================
 -- INIT
 -- ==========================================
-local Mode = "HUB"
+local Mode = "SNAKE"
 
 function OnUpdate(dt)
     State.Time = State.Time + dt
@@ -205,12 +400,20 @@ function OnUpdate(dt)
         if input.is_just_pressed("1") then
             Mode = "SNAKE"
             ResetSnake()
+        elseif input.is_just_pressed("2") then
+            Mode = "VISUAL_CODING"
+            ResetVisualCodingDemo()
         end
     elseif Mode == "SNAKE" then
         UpdateSnake2D(dt)
         if not Snake.alive and input.is_just_pressed("R") then
             ResetSnake()
         end
+        if input.is_just_pressed("Escape") then
+            Mode = "HUB"
+        end
+    elseif Mode == "VISUAL_CODING" then
+        UpdateVisualCodingDemo(dt)
         if input.is_just_pressed("Escape") then
             Mode = "HUB"
         end
@@ -234,18 +437,24 @@ function OnRenderUI()
         gfx.draw_rect(420, 295, 440, 45, 0.05, 0.1, 0.05)
         gfx.draw_rect(422, 297, 436, 41, 0.03, 0.06, 0.03)
         
+        gfx.draw_rect(420, 360, 440, 45, 0.05, 0.05, 0.1)
+        gfx.draw_rect(422, 362, 436, 41, 0.03, 0.03, 0.06)
+        
         gfx.draw_rect(420, 440, 440, 2, 0.06, 0.1, 0.06)
         
         imgui.text(440, 180, tr, tg, tb, "STARLIGHT ENGINE")
         imgui.text(460, 215, 0.4, 0.5, 0.6, "Odyssey Tech Demo v12 (SBA v2.0)")
         imgui.text(460, 305, 0.2, 1.0, 0.4, "[1]  CYBER SNAKE 2D")
-        imgui.text(460, 360, 0.2, 0.2, 0.3, "More games coming soon...")
+        imgui.text(460, 372, 0.0, 1.0, 0.9, "[2]  VISUAL CODING DEMO")
         
         imgui.text(440, 460, 0.12, 0.18, 0.22, "SBA v2.0: Entity, Scene, Tween, Events")
         imgui.text(440, 480, 0.12, 0.18, 0.22, "PBR + CSM Shadows + Color HSV")
         imgui.text(440, 500, 0.12, 0.18, 0.22, "Jolt Physics + Hot-Reload + ECS")
         
     elseif Mode == "SNAKE" then
+        if Engine and Engine.report_active_bt_node then
+            Engine.report_active_bt_node("RenderGameFrame")
+        end
         gfx.draw_rect(0, 0, 1280, 720, 0.01, 0.02, 0.01)
         
         DrawGrid(ox, oy)
@@ -290,7 +499,76 @@ function OnRenderUI()
             end
             imgui.text(OFFSET_X + 250, OFFSET_Y + 295, 0.4, 1, 0.5, "Press [R] to play again")
         end
+        
+    elseif Mode == "VISUAL_CODING" then
+        -- 1. Desenhar o shader customizado pulsando no fundo da tela
+        gfx.draw_custom_shader_quad(0, 0, 1280, 720, State.Time)
+        
+        -- Camada semi-transparente sobre o shader
+        gfx.draw_rect_alpha(0, 0, 1280, 720, 0.05, 0.03, 0.10, 0.45)
+        
+        -- Grid neon discreto
+        local grid_color = {0.0, 1.0, 0.9, 0.15}
+        for i = 0, 1280, 60 do
+            gfx.draw_line(i, 0, i, 720, 1.0, grid_color[1], grid_color[2], grid_color[3], grid_color[4])
+        end
+        for j = 0, 720, 60 do
+            gfx.draw_line(0, j, 1280, j, 1.0, grid_color[1], grid_color[2], grid_color[3], grid_color[4])
+        end
+        
+        -- Anel sensor de proximidade (raio de 220 pixels) ao redor do NPC
+        local cr, cg, cb = 1.0, 0.0, 0.6
+        local mouseNear = BTConditions.IsEnemyNear()
+        if mouseNear then
+            cr, cg, cb = 0.0, 1.0, 0.9
+        end
+        gfx.draw_circle(BT_State.npcX, BT_State.npcY, 220.0, cr, cg, cb, 32, 0.25)
+        
+        -- Linha conectando o NPC ao cursor do mouse
+        local mx = input.get_mouse_x()
+        local my = input.get_mouse_y()
+        gfx.draw_line(BT_State.npcX, BT_State.npcY, mx, my, 1.5, cr, cg, cb, 0.4)
+        
+        -- Target cursor
+        local targetPulse = math.sin(State.Time * 8) * 4 + 8
+        gfx.draw_circle(mx, my, targetPulse, 1.0, 0.85, 0.1, 16, 0.8)
+        
+        -- Desenhar o NPC (agente IA) rotacionado em direcao ao cursor
+        local dx = mx - BT_State.npcX
+        local dy = my - BT_State.npcY
+        local angle = math.atan(dy, dx)
+        
+        local size = 22.0
+        local x1 = BT_State.npcX + math.cos(angle) * size
+        local y1 = BT_State.npcY + math.sin(angle) * size
+        local x2 = BT_State.npcX + math.cos(angle + 2.5) * (size * 0.7)
+        local y2 = BT_State.npcY + math.sin(angle + 2.5) * (size * 0.7)
+        local x3 = BT_State.npcX + math.cos(angle - 2.5) * (size * 0.7)
+        local y3 = BT_State.npcY + math.sin(angle - 2.5) * (size * 0.7)
+        
+        gfx.draw_triangle(x1, y1, x2, y2, x3, y3, cr, cg, cb, 0.9)
+        gfx.draw_circle(BT_State.npcX, BT_State.npcY, 4.0, 1.0, 1.0, 1.0, 8, 1.0)
+        
+        -- Painel de informacoes
+        gfx.draw_rect_alpha(20, 20, 480, 140, 0.04, 0.02, 0.08, 0.85)
+        gfx.draw_rect_outline(20, 20, 480, 140, 2.0, 1.0, 0.0, 0.6, 0.65)
+        
+        imgui.text(35, 30, 0.0, 1.0, 0.9, "VISUAL CODING PLAYBACK INTERFACE")
+        imgui.text(35, 60, 0.9, 0.9, 0.9, "Active State: " .. BT_State.statusText)
+        imgui.text(35, 85, 0.7, 0.7, 0.7, "Radar Status: " .. (mouseNear and "TARGET IN RANGE!" or "Searching target..."))
+        imgui.text(35, 110, 0.4, 0.4, 0.5, "BT File: assets/scripts/custom_behavior.lua")
+        
+        -- Painel de instrucoes
+        gfx.draw_rect_alpha(900, 20, 360, 110, 0.04, 0.02, 0.08, 0.85)
+        gfx.draw_rect_outline(900, 20, 360, 110, 2.0, 0.0, 1.0, 0.9, 0.65)
+        
+        imgui.text(915, 30, 1.0, 0.85, 0.1, "Instructions:")
+        imgui.text(915, 55, 0.9, 0.9, 0.9, "Modify Visual Graph in Editor")
+        imgui.text(915, 75, 0.9, 0.9, 0.9, "Click 'Export' or 'Compile'")
+        imgui.text(915, 95, 0.4, 0.4, 0.5, "Press ESC to return to HUB")
     end
     
     imgui.text(1180, 8, 0.4, 0.4, 0.4, "FPS: " .. fps)
 end
+
+ResetSnake()

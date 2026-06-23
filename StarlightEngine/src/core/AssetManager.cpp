@@ -1,11 +1,14 @@
 #include "AssetManager.hpp"
+#include "PathResolver.hpp"
 #include "Log.hpp"
+#include "VFSSystem.hpp"
 #include "AssetLoader.hpp"
 #include "stb_image.h"
 #include "glad/glad.h"
 #include <filesystem>
 #include <fstream>
 #include "json.hpp"
+#include <cstring>
 
 using json = nlohmann::json;
 
@@ -13,7 +16,7 @@ namespace starlight {
 
     bool AssetManager::OnInitialize(const EngineContext& context) {
         (void)context;
-        Log::Info("AssetManager: Background Pipeline Initialized (Phase 8).");
+        Log::Info("AssetManager: Background Pipeline Initialized (Phase 12).");
         return true;
     }
 
@@ -51,11 +54,21 @@ namespace starlight {
             (void)id;
             int w, h, c;
             
-            // Apply flip settings from metadata
-            stbi_set_flip_vertically_on_load(asset->m_metadata.flipY);
-            unsigned char* data = stbi_load(path.c_str(), &w, &h, &c, 0);
+            std::string resolved = PathResolver::Resolve(path);
+            unsigned char* data = stbi_load(resolved.c_str(), &w, &h, &c, 0);
             
             if (data) {
+                if (asset->m_metadata.flipY) {
+                    int rowBytes = w * c;
+                    std::vector<unsigned char> tempRow(rowBytes);
+                    for (int y = 0; y < h / 2; ++y) {
+                        unsigned char* row1 = data + y * rowBytes;
+                        unsigned char* row2 = data + (h - 1 - y) * rowBytes;
+                        std::memcpy(tempRow.data(), row1, rowBytes);
+                        std::memcpy(row1, row2, rowBytes);
+                        std::memcpy(row2, tempRow.data(), rowBytes);
+                    }
+                }
                 asset->m_rawData = data;
                 asset->m_width = w;
                 asset->m_height = h;
@@ -164,11 +177,10 @@ namespace starlight {
         AssetMetadata meta;
         meta.path = assetPath;
 
-        if (std::filesystem::exists(metaPath)) {
+        auto bytes = VFSSystem::Get().ReadFile(metaPath);
+        if (!bytes.empty()) {
             try {
-                std::ifstream f(metaPath);
-                json j;
-                f >> j;
+                json j = json::parse(bytes.begin(), bytes.end());
 
                 if (j.contains("flipY")) meta.flipY = j["flipY"];
                 if (j.contains("generateMipmaps")) meta.generateMipmaps = j["generateMipmaps"];

@@ -52,4 +52,10 @@ namespace starlight {
         }
     }
 
+    void Camera2DSystem::GetComponentAccess(std::vector<std::type_index>& reads, std::vector<std::type_index>& writes) const {
+        (void)writes;
+        reads.push_back(typeid(TransformComponent));
+        reads.push_back(typeid(Camera2DComponent));
+    }
+
 }

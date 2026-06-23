@@ -1,0 +1,88 @@
+name: Build Fusion ENGINE
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    env:
+      STARLIGHT_DEPS_DIR: D:/deps
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+
+    - name: Setup MSVC Developer Command Prompt
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: x64
+
+    - name: Cache Dependencies
+      id: cache-deps
+      uses: actions/cache@v4
+      with:
+        path: D:/deps
+        key: deps-${{ hashFiles('StarlightEngine/CMakeLists.txt') }}
+
+    - name: Download Dependencies
+      if: steps.cache-deps.outputs.cache-hit != 'true'
+      shell: pwsh
+      run: |
+        $deps = @(
+          @{ url = "https://github.com/g-truc/glm/releases/download/1.0.3/glm-1.0.3-light.zip"; dir = "glm-1.0.3" },
+          @{ url = "https://github.com/nicebyte/entt/releases/download/v3.16.0/entt-3.16.0.zip"; dir = "entt-3.16.0" },
+          @{ url = "https://github.com/ThePhD/sol2/releases/download/v3.5.0/sol2-3.5.0.zip"; dir = "sol2-3.5.0" },
+          @{ url = "https://www.lua.org/ftp/lua-5.4.7.tar.gz"; dir = "lua-5.4.7" },
+          @{ url = "https://github.com/libsdl-org/SDL/releases/download/release-2.30.11/SDL2-2.30.11.zip"; dir = "SDL-release-2.30.11" },
+          @{ url = "https://github.com/jrouwe/JoltPhysics/releases/download/v5.5.0/JoltPhysics-5.5.0.zip"; dir = "JoltPhysics-5.5.0" }
+        )
+        foreach ($dep in $deps) {
+          $zip = "$env:TEMP\$($dep.dir).zip"
+          Write-Host "Downloading $($dep.dir)..."
+          Invoke-WebRequest -Uri $dep.url -OutFile $zip
+          Expand-Archive -Path $zip -DestinationPath "D:\deps\$($dep.dir)" -Force
+        }
+
+    - name: Configure Engine (Release)
+      shell: pwsh
+      run: cmake -B build -S StarlightEngine
+
+    - name: Build Engine (Release)
+      shell: pwsh
+      run: cmake --build build --config Release --parallel
+
+    - name: Configure Engine (Debug)
+      shell: pwsh
+      run: cmake -B build-debug -S StarlightEngine -DCMAKE_BUILD_TYPE=Debug
+
+    - name: Build Engine (Debug)
+      shell: pwsh
+      run: cmake --build build-debug --config Debug --parallel
+
+    - name: Configure & Build Pong (sample game)
+      shell: pwsh
+      run: |
+        cmake -B Pong_Project/build -S Pong_Project
+        cmake --build Pong_Project/build --config Release --parallel
+
+    - name: Configure & Build Tests
+      shell: pwsh
+      run: |
+        cmake -B build-tests -S StarlightEngine -DSTARLIGHT_BUILD_TESTS=ON
+        cmake --build build-tests --config Release --parallel --target StarlightTests
+
+    - name: Run Tests
+      shell: pwsh
+      run: |
+        if (Test-Path "build-tests\Release\StarlightTests.exe") {
+          cd build-tests
+          .\Release\StarlightTests.exe --gtest_color=yes
+        } else {
+          Write-Host "StarlightTests.exe not found - skipping test run"
+          exit 1
+        }

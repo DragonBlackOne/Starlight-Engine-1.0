@@ -5,11 +5,15 @@ Player = {}
 Player.Cash = 10000.0
 Player.Shares = {}
 Player.TradeHistory = {}
+Player.AutoInvestEnabled = false
+Player.SelectedCompany = "Starlight Tech"
 
 function Player.Init()
     Player.Cash = 10000.0
     Player.Shares = {}
     Player.TradeHistory = {}
+    Player.AutoInvestEnabled = (Save.read("odyssey_autoinvest", 0) == 1)
+    Player.SelectedCompany = "Starlight Tech"
     Engine.log("Portfolio: Initialized with $" .. Player.Cash)
 end
 
@@ -84,4 +88,32 @@ function Player.GetPortfolioValue()
         if comp then value = value + (comp.price * qty) end
     end
     return value
+end
+
+function Player.UpdateAutoInvest()
+    if not Player.AutoInvestEnabled then return end
+    if Player.Cash < 3500 then return end -- Keep buffer
+    
+    local bestComp = nil
+    local bestRatio = 1.0
+    
+    for _, c in ipairs(Market.Companies) do
+        if c.history and #c.history >= 10 then
+            local sum = 0
+            local count = 10
+            for i = #c.history, #c.history - 9, -1 do
+                sum = sum + c.history[i]
+            end
+            local ma = sum / count
+            local ratio = c.price / ma
+            if ratio < 0.95 and ratio < bestRatio then -- at least 5% dip below MA
+                bestRatio = ratio
+                bestComp = c
+            end
+        end
+    end
+    
+    if bestComp then
+        Player.Buy(bestComp.name, 10)
+    end
 end

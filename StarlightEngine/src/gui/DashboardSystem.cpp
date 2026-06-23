@@ -1,9 +1,9 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "DashboardSystem.hpp"
 #include "Renderer.hpp"
 #include "InputSystem.hpp"
 #include "Engine.hpp"
 #include "Log.hpp"
+#include "PathResolver.hpp"
 #include <glm/gtc/matrix_transform.hpp>
 #include <glad/glad.h>
 #include <stdio.h>
@@ -23,22 +23,15 @@ namespace starlight {
     DashboardSystem::DashboardSystem() {}
 
     DashboardSystem::~DashboardSystem() {
-        if (m_fontTexture) glDeleteTextures(1, &m_fontTexture);
-        if (m_fontVao) glDeleteVertexArrays(1, &m_fontVao);
-        if (m_fontVbo) glDeleteBuffers(1, &m_fontVbo);
     }
 
     bool DashboardSystem::OnInitialize(const EngineContext& context) {
         (void)context;
-        // Load font
-        FILE* file;
-        fopen_s(&file, "assets/fonts/Inconsolata-Regular.ttf", "rb");
+        std::string resolved = PathResolver::Resolve("assets/fonts/Inconsolata-Regular.ttf");
+        FILE* file = nullptr;
+        fopen_s(&file, resolved.c_str(), "rb");
         if (!file) {
-            // Fallback to local
-            fopen_s(&file, "arial.ttf", "rb");
-        }
-        if (!file) {
-            Log::Error("DashboardSystem: Failed to open arial.ttf");
+            Log::Error("DashboardSystem: Failed to open Inconsolata-Regular.ttf at resolved path '{}'", resolved);
             return false;
         }
 
@@ -55,18 +48,18 @@ namespace starlight {
 
         delete[] ttf_buffer;
 
-        glGenTextures(1, &m_fontTexture);
-        glBindTexture(GL_TEXTURE_2D, m_fontTexture);
+        glGenTextures(1, m_fontTexture.Ptr());
+        m_fontTexture.Bind();
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RED, 512, 512, 0, GL_RED, GL_UNSIGNED_BYTE, temp_bitmap);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         delete[] temp_bitmap;
 
-        glGenVertexArrays(1, &m_fontVao);
-        glGenBuffers(1, &m_fontVbo);
-        glBindVertexArray(m_fontVao);
-        glBindBuffer(GL_ARRAY_BUFFER, m_fontVbo);
+        glGenVertexArrays(1, m_fontVao.Ptr());
+        glGenBuffers(1, m_fontVbo.Ptr());
+        m_fontVao.Bind();
+        m_fontVbo.Bind(GL_ARRAY_BUFFER);
         glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 6 * 5, NULL, GL_DYNAMIC_DRAW);
         glEnableVertexAttribArray(0);
         glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
@@ -152,11 +145,11 @@ namespace starlight {
                 shader->SetMat4U("model", glm::mat4(1.0f));
                 
                 glActiveTexture(GL_TEXTURE0);
-                glBindTexture(GL_TEXTURE_2D, m_fontTexture);
+                glBindTexture(GL_TEXTURE_2D, m_fontTexture.Get());
                 shader->SetIntU("uTexture", 0);
 
-                glBindVertexArray(m_fontVao);
-                glBindBuffer(GL_ARRAY_BUFFER, m_fontVbo);
+                m_fontVao.Bind();
+                m_fontVbo.Bind(GL_ARRAY_BUFFER);
 
                 float cx = cmd.x;
                 float cy = cmd.y;

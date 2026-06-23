@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <vector>
 #include <glm/glm.hpp>
@@ -7,9 +6,9 @@
 namespace starlight {
 
     struct ClothParticle {
-        glm::vec3 position;
-        glm::vec3 oldPosition;
-        glm::vec3 acceleration;
+        glm::vec3 position{0.0f};
+        glm::vec3 oldPosition{0.0f};
+        glm::vec3 acceleration{0.0f};
         bool pinned = false;
     };
 

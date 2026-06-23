@@ -1,7 +1,8 @@
--- core.lua — Starlight Engine Standard Library v4.0
+-- core.lua — Starlight Engine Standard Library v7.0
 -- Automatically loaded by the engine before any game script.
 -- ============================================================================
-Engine.log("Loading Starlight Standard Library v4.0 (Industrial)...")
+math.randomseed(os and os.time and os.time() or time and time.get_time() or 0)
+Engine.log("Loading Starlight Standard Library v7.0 (Premium Outrun)...")
 
 -- ============================================================================
 -- Class Factory with Inheritance
@@ -31,7 +32,7 @@ function Class(base)
 end
 
 -- ============================================================================
--- MathX v3 — 15 utilities
+-- MathX v3 — 17 utilities (including fractal noise)
 -- ============================================================================
 MathX = {}
 function MathX.clamp(v, lo, hi) return math.max(lo, math.min(v, hi)) end
@@ -56,8 +57,19 @@ function MathX.raycastRect(ox,oy,dx,dy,rx,ry,rw,rh)
     if tmax<0 or tmin>tmax then return false,nil end; return true,tmin
 end
 
+-- 1D and 2D Fractal Wave Noise
+function MathX.noise1D(x)
+    return math.sin(x) * 0.5 + math.sin(x * 2.3) * 0.25 + math.sin(x * 5.7) * 0.15 + math.sin(x * 11.2) * 0.1
+end
+function MathX.noise2D(x, y)
+    return (math.sin(x) * math.cos(y)) * 0.5 + 
+           (math.sin(x * 2.1) * math.cos(y * 1.9)) * 0.25 + 
+           (math.sin(x * 5.3) * math.cos(y * 5.1)) * 0.15 + 
+           (math.sin(x * 10.7) * math.cos(y * 11.3)) * 0.1
+end
+
 -- ============================================================================
--- Physics2D v3 — 6 collision functions
+-- Physics2D v3 — Collision functions & MTV (Minimum Translation Vector)
 -- ============================================================================
 Physics2D = {}
 function Physics2D.CheckAABB(x1,y1,w1,h1,x2,y2,w2,h2) return x1<x2+w2 and x1+w1>x2 and y1<y2+h2 and y1+h1>y2 end
@@ -86,8 +98,54 @@ function Physics2D.Overlaps(e1,e2)
     return false
 end
 
+-- Minimum Translation Vector solvers for pushing bodies apart
+function Physics2D.CircleVsAABB_MTV(cx, cy, cr, rx, ry, rw, rh)
+    local nx = MathX.clamp(cx, rx, rx+rw)
+    local ny = MathX.clamp(cy, ry, ry+rh)
+    local dist = MathX.distance(cx, cy, nx, ny)
+    if dist < cr then
+        local dx, dy = cx - nx, cy - ny
+        local len = math.sqrt(dx*dx + dy*dy)
+        if len == 0 then
+            local dl = cx - rx
+            local dr = rx + rw - cx
+            local dt = cy - ry
+            local db = ry + rh - cy
+            local min = math.min(dl, dr, dt, db)
+            if min == dl then return true, -(cr + dl), 0 end
+            if min == dr then return true, (cr + dr), 0 end
+            if min == dt then return true, 0, -(cr + dt) end
+            return true, 0, (cr + db)
+        end
+        local pushDist = cr - len
+        return true, (dx / len) * pushDist, (dy / len) * pushDist
+    end
+    return false, 0, 0
+end
+
+function Physics2D.AABBs_MTV(x1, y1, w1, h1, x2, y2, w2, h2)
+    if not Physics2D.CheckAABB(x1, y1, w1, h1, x2, y2, w2, h2) then
+        return false, 0, 0
+    end
+    local dx = (x1 + w1/2) - (x2 + w2/2)
+    local totalW = (w1 + w2) / 2
+    local overlapX = totalW - math.abs(dx)
+    
+    local dy = (y1 + h1/2) - (y2 + h2/2)
+    local totalH = (h1 + h2) / 2
+    local overlapY = totalH - math.abs(dy)
+    
+    if overlapX < overlapY then
+        local sign = dx > 0 and 1 or -1
+        return true, overlapX * sign, 0
+    else
+        local sign = dy > 0 and 1 or -1
+        return true, 0, overlapY * sign
+    end
+end
+
 -- ============================================================================
--- Timer v3 — swap-and-pop, pause/resume
+-- Timer v3 — swap-and-pop, pause/resume, pcall protected callbacks
 -- ============================================================================
 Timer = { _timers = {}, _nextId = 1 }
 function Timer.after(s, cb) local id=Timer._nextId; Timer._nextId=id+1; Timer._timers[#Timer._timers+1]={id=id,time=s,callback=cb,repeating=false,paused=false}; return id end
@@ -96,10 +154,19 @@ function Timer.cancel(id) local ts=Timer._timers; for i=1,#ts do if ts[i].id==id
 function Timer.pause(id) for _,t in ipairs(Timer._timers) do if t.id==id then t.paused=true; return end end end
 function Timer.resume(id) for _,t in ipairs(Timer._timers) do if t.id==id then t.paused=false; return end end end
 function Timer.update(dt)
-    local ts=Timer._timers; local i=1
+    Engine.log("DEBUG: Timer.update called with dt = " .. tostring(dt) .. " (type: " .. type(dt) .. ")")
+    local ts=Timer._timers
+    Engine.log("DEBUG: Timer._timers size = " .. tostring(#ts))
+    for idx, t in ipairs(ts) do
+        Engine.log("  Timer[" .. idx .. "]: id=" .. tostring(t.id) .. ", time=" .. tostring(t.time) .. ", callback=" .. tostring(t.callback) .. ", repeating=" .. tostring(t.repeating) .. ", paused=" .. tostring(t.paused))
+    end
+    local i=1
     while i<=#ts do local t=ts[i]
         if not t.paused then t.time=t.time-dt
-            if t.time<=0 then t.callback()
+            if t.time<=0 then
+                Engine.log("DEBUG: Triggering Timer callback for id=" .. tostring(t.id))
+                local ok, err = pcall(t.callback)
+                if not ok then Engine.log_error("Timer error: "..tostring(err)) end
                 if t.repeating then t.time=t.time+t.interval; i=i+1
                 else ts[i]=ts[#ts]; ts[#ts]=nil end
             else i=i+1 end
@@ -121,21 +188,65 @@ function Color.lighten(r,g,b,amount) local a=amount or 0.3; return r+(1-r)*a,g+(
 function Color.withAlpha(r,g,b,a) return r,g,b,a end
 
 -- ============================================================================
--- ScreenShake v3
+-- ScreenShake v3 — Presets, Directional Kicks and Zoom pulses
 -- ============================================================================
-ScreenShake = { _time=0, _intensity=0, _decay=true }
-function ScreenShake.trigger(intensity,duration) ScreenShake._intensity=intensity; ScreenShake._time=duration; ScreenShake._maxTime=duration end
-function ScreenShake.update(dt) if ScreenShake._time>0 then ScreenShake._time=ScreenShake._time-dt else ScreenShake._intensity=0 end end
+ScreenShake = { _time=0, _intensity=0, _maxTime=0, _mode="RUMBLE", _kickX=0, _kickY=0, _zoomTime=0, _zoomIntensity=0, _zoomMaxTime=0 }
+function ScreenShake.trigger(intensity,duration)
+    ScreenShake._intensity=intensity
+    ScreenShake._time=duration
+    ScreenShake._maxTime=duration
+    ScreenShake._mode="RUMBLE"
+end
+function ScreenShake.triggerRumble(intensity,duration)
+    ScreenShake.trigger(intensity, duration)
+end
+function ScreenShake.triggerEarthquake(intensity,duration)
+    ScreenShake.trigger(intensity, duration)
+    ScreenShake._mode="EARTHQUAKE"
+end
+function ScreenShake.triggerKick(dx, dy, duration)
+    ScreenShake._kickX = dx
+    ScreenShake._kickY = dy
+    ScreenShake._time = duration
+    ScreenShake._maxTime = duration
+    ScreenShake._mode = "KICK"
+end
+function ScreenShake.triggerZoom(intensity, duration)
+    ScreenShake._zoomIntensity = intensity
+    ScreenShake._zoomTime = duration
+    ScreenShake._zoomMaxTime = duration
+end
+function ScreenShake.update(dt)
+    if ScreenShake._time>0 then ScreenShake._time=ScreenShake._time-dt else ScreenShake._intensity=0; ScreenShake._kickX=0; ScreenShake._kickY=0 end
+    if ScreenShake._zoomTime>0 then ScreenShake._zoomTime=ScreenShake._zoomTime-dt else ScreenShake._zoomIntensity=0 end
+end
 function ScreenShake.getOffset()
-    if ScreenShake._intensity>0 then
+    local ox, oy = 0, 0
+    if ScreenShake._intensity>0 or ScreenShake._mode == "KICK" then
         local factor=ScreenShake._time/(ScreenShake._maxTime or 1)
         local i=ScreenShake._intensity*factor
-        return (math.random()*2-1)*i,(math.random()*2-1)*i
-    end; return 0,0
+        if ScreenShake._mode == "EARTHQUAKE" then
+            ox = (math.random()*0.2-0.1)*i
+            oy = (math.random()*2-1)*i
+        elseif ScreenShake._mode == "KICK" then
+            ox = (ScreenShake._kickX or 0) * factor
+            oy = (ScreenShake._kickY or 0) * factor
+        else
+            ox = (math.random()*2-1)*i
+            oy = (math.random()*2-1)*i
+        end
+    end; return ox, oy
+end
+function ScreenShake.getZoomOffset()
+    if ScreenShake._zoomIntensity>0 then
+        local factor = ScreenShake._zoomTime / (ScreenShake._zoomMaxTime or 1)
+        return 1.0 + math.sin(ScreenShake._zoomTime * 25.0) * ScreenShake._zoomIntensity * factor
+    end
+    return 1.0
 end
 
 -- ============================================================================
--- ValueTween v3 — swap-and-pop + onComplete
+-- ValueTween v3 — pcall protected callbacks
 -- ============================================================================
 ValueTween = { _tweens = {} }
 function ValueTween.to(target,key,endVal,duration,easingName,onComplete)
@@ -146,7 +257,13 @@ function ValueTween.update(dt)
     local tw=ValueTween._tweens; local i=1
     while i<=#tw do local v=tw[i]; v.elapsed=v.elapsed+dt
         local t=MathX.clamp(v.elapsed/v.duration,0,1); v.target[v.key]=MathX.lerp(v.startVal,v.endVal,v.easeFn(t))
-        if t>=1 then if v.onComplete then v.onComplete() end; tw[i]=tw[#tw]; tw[#tw]=nil else i=i+1 end
+        if t>=1 then
+            if v.onComplete then
+                local ok, err = pcall(v.onComplete)
+                if not ok then Engine.log_error("ValueTween callback error: "..tostring(err)) end
+            end
+            tw[i]=tw[#tw]; tw[#tw]=nil
+        else i=i+1 end
     end
 end
 
@@ -257,19 +374,107 @@ function StateMachine:update(dt) if self.current and self.current.update then se
 function StateMachine:draw() if self.current and self.current.draw then self.current.draw(self.owner) end end
 
 -- ============================================================================
--- Save v3 — key-value persistence
+-- Save v3 — key-value persistence with recursive table serialization
 -- ============================================================================
+local function serializeValue(val)
+    local t = type(val)
+    if t == "number" or t == "boolean" then
+        return tostring(val)
+    elseif t == "string" then
+        return string.format("%q", val)
+    elseif t == "table" then
+        local parts = {}
+        local isArray = true
+        local maxIdx = 0
+        local count = 0
+        for k, v in pairs(val) do
+            count = count + 1
+            if type(k) ~= "number" or k <= 0 or math.floor(k) ~= k then
+                isArray = false
+            else
+                if k > maxIdx then maxIdx = k end
+            end
+        end
+        if isArray and maxIdx == count then
+            for i = 1, maxIdx do
+                table.insert(parts, serializeValue(val[i]))
+            end
+            return "{" .. table.concat(parts, ",") .. "}"
+        else
+            for k, v in pairs(val) do
+                local kStr
+                if type(k) == "string" and k:match("^[a-zA-Z_][a-zA-Z0-9_]*$") then
+                    kStr = k
+                else
+                    kStr = "[" .. serializeValue(k) .. "]"
+                end
+                table.insert(parts, kStr .. "=" .. serializeValue(v))
+            end
+            return "{" .. table.concat(parts, ",") .. "}"
+        end
+    else
+        return "nil"
+    end
+end
+
+local function encrypt(str, key)
+    key = key or "StarlightCorePremiumV7"
+    local res = {}
+    local keyLen = #key
+    for i = 1, #str do
+        local charVal = string.byte(str, i)
+        local keyVal = string.byte(key, (i - 1) % keyLen + 1)
+        local encVal = (charVal + keyVal) % 256
+        table.insert(res, string.format("%02x", encVal))
+    end
+    return table.concat(res)
+end
+
+local function decrypt(hexStr, key)
+    if not hexStr or #hexStr % 2 ~= 0 or not hexStr:match("^[0-9a-fA-F]+$") then
+        return hexStr
+    end
+    key = key or "StarlightCorePremiumV7"
+    local res = {}
+    local keyLen = #key
+    local byteIdx = 1
+    for i = 1, #hexStr, 2 do
+        local hexPair = hexStr:sub(i, i + 1)
+        local encVal = tonumber(hexPair, 16)
+        if not encVal then return nil end
+        local keyVal = string.byte(key, (byteIdx - 1) % keyLen + 1)
+        local charVal = (encVal - keyVal) % 256
+        table.insert(res, string.char(charVal))
+        byteIdx = byteIdx + 1
+    end
+    return table.concat(res)
+end
+
 Save = { _data = {}, _path = "assets/save.dat" }
 function Save.read(key, default) if Save._data[key]~=nil then return Save._data[key] end; return default end
 function Save.write(key, value) Save._data[key]=value end
 function Save.flush()
-    local lines={}; for k,v in pairs(Save._data) do lines[#lines+1]=tostring(k).."="..tostring(v) end
-    file.write(Save._path, table.concat(lines,"\n"))
+    local serialized = serializeValue(Save._data)
+    local encrypted = encrypt(serialized)
+    file.write(Save._path, encrypted)
 end
 function Save.load()
-    local content=file.read(Save._path); if content=="" then return end
-    for line in content:gmatch("[^\n]+") do local k,v=line:match("^(.-)=(.+)$")
-        if k then Save._data[k]=tonumber(v) or v end
+    local content = file.read(Save._path)
+    if content == "" then return end
+    if content:sub(1, 1) ~= "{" then
+        local decrypted = decrypt(content)
+        if decrypted and decrypted:sub(1, 1) == "{" then
+            content = decrypted
+        else
+            Engine.log_warn("Save file format unrecognized or decryption failed.")
+        end
+    end
+    local chunk, err = (loadstring or load)("return " .. content)
+    if chunk then
+        local loaded = chunk()
+        if type(loaded) == "table" then Save._data = loaded end
+    else
+        Engine.log_error("Save load error: " .. tostring(err))
     end
 end
 pcall(Save.load)
@@ -291,4 +496,187 @@ function Debug.draw()
     end
 end
 
-Engine.log("Starlight Standard Library v4.0 Loaded Successfully.")
+-- ============================================================================
+-- Button v1 — Reusable Neon UI Button class
+-- ============================================================================
+Button = Class()
+function Button:Init(text, x, y, w, h, color, opts)
+    self.text = text
+    self.x = x
+    self.y = y
+    self.w = w
+    self.h = h
+    self.color = color or {1, 1, 1}
+    self.hover = false
+    self.opts = opts or {}
+    self.enabled = true
+    self.pulse = 0
+end
+
+function Button:Update()
+    if not self.enabled then return false end
+    local mx = input.get_mouse_x()
+    local my = input.get_mouse_y()
+    self.hover = (mx >= self.x and mx <= self.x + self.w and
+                  my >= self.y and my <= self.y + self.h)
+    if self.hover and input.is_just_pressed("MouseLeft") then
+        audio.beep(440, 0.05, 0)
+        return true
+    end
+    return false
+end
+
+function Button:Draw()
+    if not self.enabled then return end
+    local pulse = math.sin(time.get_time() * 3) * 0.1
+    local c = self.hover and {self.color[1]*1.5, self.color[2]*1.5, self.color[3]*1.5} or self.color
+    local glow = self.hover and 0.3 or 0.15
+    gfx.draw_rect(self.x - 4, self.y - 4, self.w + 8, self.h + 8, c[1], c[2], c[3], glow + (self.opts.glowPulse and pulse or 0))
+    gfx.draw_rect(self.x, self.y, self.w, self.h, c[1], c[2], c[3], self.hover and 0.8 or 0.4)
+    local label = self.opts.label or self.text
+    gfx.draw_text(label, self.x + self.w/2 - string.len(label)*4, self.y + self.h/2 - 4, 1.0, 1.0, 1.0, 1.0, 1.0)
+end
+
+-- ============================================================================
+-- Table Utilities
+-- ============================================================================
+function table.shallow_clone(t)
+    local c = {}
+    for k, v in pairs(t) do c[k] = v end
+    return c
+end
+
+function table.deep_clone(t)
+    if type(t) ~= "table" then return t end
+    local c = {}
+    for k, v in pairs(t) do
+        c[table.deep_clone(k)] = table.deep_clone(v)
+    end
+    return c
+end
+
+function table.keys(t)
+    local ks = {}
+    for k, _ in pairs(t) do ks[#ks+1] = k end
+    return ks
+end
+
+function table.values(t)
+    local vs = {}
+    for _, v in pairs(t) do vs[#vs+1] = v end
+    return vs
+end
+
+-- ============================================================================
+-- String Utilities
+-- ============================================================================
+function string.split(s, sep)
+    if not sep then sep = " " end
+    local parts, start = {}, 1
+    while true do
+        local pos = string.find(s, sep, start, true)
+        if not pos then
+            parts[#parts+1] = string.sub(s, start)
+            break
+        end
+        parts[#parts+1] = string.sub(s, start, pos - 1)
+        start = pos + #sep
+    end
+    return parts
+end
+
+function string.starts(s, prefix) return string.sub(s, 1, #prefix) == prefix end
+function string.ends(s, suffix) return suffix == "" or string.sub(s, -#suffix) == suffix end
+function string.trim(s) return s:match("^%s*(.-)%s*$") or s end
+
+-- ============================================================================
+-- Legacy Compatibility Support
+-- ============================================================================
+imgui = {}
+function imgui.text(x, y, r, g, b, text)
+    if type(r) == "string" then
+        gfx.draw_text(r, x, y, 1.0, 1.0, 1.0, 1.0, 1.0)
+    else
+        gfx.draw_text(text or "", x, y, 1.0, r or 1.0, g or 1.0, b or 1.0, 1.0)
+    end
+end
+
+-- ============================================================================
+-- AssetCache — Reference-counted asset caching system
+-- ============================================================================
+AssetCache = {
+    _textures = {}, -- path -> { id = texID, refCount = number }
+    _sounds = {}    -- path -> { refCount = number }
+}
+
+function AssetCache.load_texture(path, filter)
+    filter = (filter == nil) and true or filter
+    local cached = AssetCache._textures[path]
+    if cached then
+        cached.refCount = cached.refCount + 1
+        return cached.id
+    end
+
+    if not assets or not assets.load_texture then
+        Engine.log_error("AssetCache: assets.load_texture is unavailable in this context.")
+        return nil
+    end
+
+    local texID = assets.load_texture(path, filter)
+    if texID and texID ~= 0 then
+        AssetCache._textures[path] = { id = texID, refCount = 1 }
+        Engine.log("[AssetCache] Loaded new texture: " .. path .. " (ID: " .. tostring(texID) .. ")")
+        return texID
+    end
+    return nil
+end
+
+function AssetCache.release_texture(path)
+    local cached = AssetCache._textures[path]
+    if cached then
+        cached.refCount = cached.refCount - 1
+        if cached.refCount <= 0 then
+            -- Note: If C++ exposed assets.unload_texture(texID), we'd call it here.
+            -- Since it does not, we clear the cache reference so GC or systems can free resources.
+            AssetCache._textures[path] = nil
+            Engine.log("[AssetCache] Texture reference hit 0 and removed from cache: " .. path)
+        end
+    end
+end
+
+function AssetCache.load_sound(path)
+    local cached = AssetCache._sounds[path]
+    if cached then
+        cached.refCount = cached.refCount + 1
+        return path
+    end
+    AssetCache._sounds[path] = { refCount = 1 }
+    Engine.log("[AssetCache] Cached reference for sound: " .. path)
+    return path
+end
+
+function AssetCache.release_sound(path)
+    local cached = AssetCache._sounds[path]
+    if cached then
+        cached.refCount = cached.refCount - 1
+        if cached.refCount <= 0 then
+            AssetCache._sounds[path] = nil
+            Engine.log("[AssetCache] Sound reference hit 0 and removed from cache: " .. path)
+        end
+    end
+end
+
+function AssetCache.clear()
+    AssetCache._textures = {}
+    AssetCache._sounds = {}
+    Engine.log("[AssetCache] Cache flushed completely.")
+end
+
+-- Sync game settings with CVars on startup
+if cvar then
+    -- If there are save settings loaded, set them in the CVars
+    local dbgBoxes = Save.read("debugBoxes", false)
+    cvar.set("g_debugBoxes", dbgBoxes)
+end
+
+Engine.log("Starlight Standard Library v7.0 Loaded Successfully.")

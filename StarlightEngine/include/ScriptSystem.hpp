@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #pragma warning(push, 0)
 #include <codeanalysis/warnings.h>
@@ -23,6 +22,7 @@ namespace starlight {
         void OnRender() override;
         void OnUIRender() override;
         const char* GetName() const override { return "ScriptSystem"; }
+        bool IsMainThreadOnly() const override { return true; }
 
         void ExecuteFile(const std::string& path);
         
@@ -30,5 +30,7 @@ namespace starlight {
 
     private:
         sol::state m_lua;
+        bool m_coreLoaded = false;
+        bool m_bridgeLoaded = false;
     };
 }

@@ -24,7 +24,7 @@ namespace starlight {
             auto& anim = view.get<SpriteAnimationComponent>(entity);
             auto& sprite = view.get<SpriteComponent>(entity);
 
-            if (!anim.playing || anim.frames.empty()) continue;
+            if (!anim.playing || anim.frames.empty() || anim.fps <= 0.0f) continue;
 
             anim.timer += dt;
             float frameDuration = 1.0f / anim.fps;
@@ -46,5 +46,11 @@ namespace starlight {
 
             sprite.textureID = anim.frames[anim.currentFrame];
         }
+    }
+
+    void SpriteAnimationSystem::GetComponentAccess(std::vector<std::type_index>& reads, std::vector<std::type_index>& writes) const {
+        (void)reads;
+        writes.push_back(typeid(SpriteAnimationComponent));
+        writes.push_back(typeid(SpriteComponent));
     }
 }

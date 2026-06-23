@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <glad/glad.h>
 #include <glm/glm.hpp>
@@ -18,8 +17,8 @@ namespace starlight {
     private:
         GLuint m_vao = 0, m_vbo = 0, m_ebo = 0;
         int m_indexCount = 0;
-        int m_width, m_depth;
-        float m_scale;
+        int m_width = 0, m_depth = 0;
+        float m_scale = 1.0f;
         
         Noise m_noise;
 

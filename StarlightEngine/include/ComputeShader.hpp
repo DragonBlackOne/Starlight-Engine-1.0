@@ -1,4 +1,3 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #pragma once
 #include <string>
 #include <glad/glad.h>
@@ -20,7 +19,7 @@ namespace starlight {
         void SetVec3U(const std::string& name, const glm::vec3& value);
 
     private:
-        unsigned int m_programID;
+        unsigned int m_programID = 0;
         void CheckCompileErrors(unsigned int shader, std::string type);
     };
 

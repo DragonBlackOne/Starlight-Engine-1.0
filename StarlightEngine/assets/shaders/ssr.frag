@@ -70,6 +70,7 @@ void main() {
     vec3 normal = normalize(texture(gNormal, TexCoords).rgb);
     vec3 worldPos = texture(gPosition, TexCoords).rgb;
     float metallic = texture(gAlbedoSpec, TexCoords).a;
+    vec3 albedo = texture(gAlbedoSpec, TexCoords).rgb;
     
     if (metallic < 0.01) {
         FragColor = vec4(0.0);
@@ -77,7 +78,7 @@ void main() {
     }
 
     vec3 viewPos = (view * vec4(worldPos, 1.0)).xyz;
-    vec3 viewNormal = (view * vec4(normal, 0.0)).xyz;
+    vec3 viewNormal = normalize((view * vec4(normal, 0.0)).xyz);
     vec3 viewDir = normalize(viewPos);
     vec3 reflectDir = normalize(reflect(viewDir, viewNormal));
 
@@ -87,7 +88,14 @@ void main() {
 
     if (coords != vec2(-1.0)) {
         vec3 reflectedColor = texture(sceneTexture, coords).rgb;
-        FragColor = vec4(reflectedColor * metallic, 1.0);
+
+        // Cook-Torrance Fresnel Schlick approximation
+        vec3 F0 = vec3(0.04);
+        F0 = mix(F0, albedo, metallic);
+        float cosTheta = max(dot(viewNormal, -viewDir), 0.0);
+        vec3 F = F0 + (1.0 - F0) * pow(clamp(1.0 - cosTheta, 0.0, 1.0), 5.0);
+
+        FragColor = vec4(reflectedColor * F, 1.0);
     } else {
         FragColor = vec4(0.0);
     }

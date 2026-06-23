@@ -1,10 +1,10 @@
-// Este projeto ÃƒÆ’Ã‚Â© feito por IA e sÃƒÆ’Ã‚Â³ o prompt ÃƒÆ’Ã‚Â© feito por um humano.
 #include "ParticleSystem.hpp"
 #include "wicked/core/wiJobSystem.h"
 #include <wiJobSystem.h> // Alternate for common setups
 #include "Log.hpp"
 #include <glad/glad.h>
 #include <algorithm>
+#include <immintrin.h>
 
 namespace starlight {
     struct ParticleJob {
@@ -90,13 +90,74 @@ namespace starlight {
             
             wi::jobsystem::Execute(ctx, [this, start, end, dt](wi::jobsystem::JobArgs args) {
                 (void)args;
-                for (int j = start; j < end; ++j) {
-                    auto& p = m_particles[j];
-                    p.life -= dt;
-                    p.velocity += glm::vec3(0, -9.81f, 0) * dt; // Gravity
-                    p.position += p.velocity * dt;
+                int j = start;
+                for (; j < end - 1; j += 2) {
+                    auto& p1 = m_particles[j];
+                    auto& p2 = m_particles[j + 1];
+                    p1.life -= dt;
+                    p2.life -= dt;
+
+                    // AVX2-FMA Vectorized position & velocity update for 2 particles at once
+                    __m256 pos = _mm256_setr_ps(
+                        p1.position.x, p1.position.y, p1.position.z, 0.0f,
+                        p2.position.x, p2.position.y, p2.position.z, 0.0f
+                    );
+                    __m256 vel = _mm256_setr_ps(
+                        p1.velocity.x, p1.velocity.y, p1.velocity.z, 0.0f,
+                        p2.velocity.x, p2.velocity.y, p2.velocity.z, 0.0f
+                    );
+                    __m256 grav = _mm256_setr_ps(
+                        0.0f, -9.81f, 0.0f, 0.0f,
+                        0.0f, -9.81f, 0.0f, 0.0f
+                    );
+                    __m256 dt_vec = _mm256_set1_ps(dt);
+
+                    // vel = vel + grav * dt
+                    vel = _mm256_fmadd_ps(grav, dt_vec, vel);
+                    // pos = pos + vel * dt
+                    pos = _mm256_fmadd_ps(vel, dt_vec, pos);
+
+                    alignas(32) float temp_pos[8];
+                    alignas(32) float temp_vel[8];
+                    _mm256_store_ps(temp_pos, pos);
+                    _mm256_store_ps(temp_vel, vel);
+
+                    p1.position.x = temp_pos[0];
+                    p1.position.y = temp_pos[1];
+                    p1.position.z = temp_pos[2];
+
+                    p1.velocity.x = temp_vel[0];
+                    p1.velocity.y = temp_vel[1];
+                    p1.velocity.z = temp_vel[2];
+
+                    p2.position.x = temp_pos[4];
+                    p2.position.y = temp_pos[5];
+                    p2.position.z = temp_pos[6];
+
+                    p2.velocity.x = temp_vel[4];
+                    p2.velocity.y = temp_vel[5];
+                    p2.velocity.z = temp_vel[6];
 
                     // Simple wall bounce
+                    if (p1.position.y < 0.0f) {
+                        p1.position.y = 0.01f;
+                        p1.velocity.y *= -0.4f;
+                    }
+                    p1.color.a = p1.life / p1.maxLife;
+
+                    if (p2.position.y < 0.0f) {
+                        p2.position.y = 0.01f;
+                        p2.velocity.y *= -0.4f;
+                    }
+                    p2.color.a = p2.life / p2.maxLife;
+                }
+
+                // Remainder particle if odd count
+                for (; j < end; ++j) {
+                    auto& p = m_particles[j];
+                    p.life -= dt;
+                    p.velocity.y += -9.81f * dt;
+                    p.position += p.velocity * dt;
                     if (p.position.y < 0.0f) {
                         p.position.y = 0.01f;
                         p.velocity.y *= -0.4f;

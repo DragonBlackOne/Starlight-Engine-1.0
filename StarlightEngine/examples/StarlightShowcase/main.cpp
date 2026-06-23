@@ -34,11 +34,14 @@ public:
     }
 };
 
-int main(int argc, char* argv[]) {
+int main([[maybe_unused]] int argc, [[maybe_unused]] char* argv[]) {
     try {
         WindowConfig config = { "Starlight Engine: Odyssey Unified Tech Demo", 1280, 720 };
         Engine engine;
-        engine.Initialize(config);
+        if (!engine.Initialize(config)) {
+            Log::Error("Engine initialization failed, exiting.");
+            return 1;
+        }
         
         // Replace the default BaseScene with our OdysseyScene
         // so Lua scripts and rendering share the same registry
