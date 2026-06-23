@@ -1,8 +1,63 @@
 # Fusion ENGINE Ecosystem
 
-> **Este projeto é feito por IA e só o prompt é feito por um humano.**
+![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg)
+![C++ Standard](https://img.shields.io/badge/C%2B%2B-20-blue.svg)
+![Lua Support](https://img.shields.io/badge/Lua-5.4-orange.svg)
+![Platform](https://img.shields.io/badge/Platform-Windows-lightgrey.svg)
+![Graphics API](https://img.shields.io/badge/Graphics-OpenGL%204.5-red.svg)
+![Physics Engine](https://img.shields.io/badge/Physics-Jolt%20Physics-blueviolet.svg)
+
+> **Este projeto é feito por IA e o direcionamento e prompts foram feitos por um humano.**
 
 Bem-vindo ao repositório raiz da **Fusion ENGINE** (anteriormente derivada da *Starlight* e *Titan* Engines). Este repositório contém um ecossistema completo de desenvolvimento de jogos focado em performance industrial, arquitetura C++ modular e uma API poderosa de Scripting em Lua.
+
+---
+
+## 🏗️ Arquitetura do Sistema
+
+O ecossistema é dividido entre o núcleo C++ de alta performance e a ponte de scripting em Lua (SBA):
+
+```mermaid
+graph TD
+    subgraph StarlightEngine Core (C++20)
+        Engine[Engine Loop]
+        Window[Window & Input]
+        Renderer[OpenGL Renderer / RenderGraph]
+        Audio[AudioSystem]
+        Physics[Jolt Physics Wrapper]
+        ECS[EnTT ECS Registry]
+        Scripting[ScriptSystem / Sol2]
+    end
+
+    subgraph SBA v2.0 Framework (Lua)
+        Bridge[sba_bridge.lua]
+        Core[core.lua]
+    end
+
+    subgraph Game Projects (Lua + C++ Bootstrap)
+        Pong[Pong Project]
+        Snake[Snake Project]
+        Tetris[Tetris Project]
+        Odyssey[Capital Odyssey]
+    end
+
+    Engine --> Window
+    Engine --> Renderer
+    Engine --> ECS
+    Engine --> Physics
+    Engine --> Audio
+    Engine --> Scripting
+    
+    Scripting <--> Bridge
+    Bridge --> Core
+    
+    Core --> Pong
+    Core --> Snake
+    Core --> Tetris
+    Core --> Odyssey
+```
+
+---
 
 ## 🌌 Visão Geral
 
@@ -13,6 +68,8 @@ O núcleo C++ é 100% agnóstico e independente, lidando primariamente com:
 - Física Profissional via Jolt Physics.
 - Job System Multi-threading para tarefas pesadas (Wicked Engine inspirado).
 - Exposição completa via máquina virtual (Lua / Sol2) para permitir que a Lógica de Gameplay seja independente da compilação em C++.
+
+---
 
 ## 🎮 SBA v2.0 — Starlight Bridge API
 
@@ -33,15 +90,25 @@ O framework Lua de alto nível que permite criação rápida de jogos sem tocar 
 | **Physics2D** | Detecção de colisão 2D (AABB, Circle, PointInRect, RayCircle) |
 | **Timer** | Temporizadores com repetição e cancelamento |
 
+---
+
 ## 📂 Estrutura do Repositório
 
 | Diretório | Descrição |
 | ----------- | ----------- |
 | **[`StarlightEngine/`](StarlightEngine/README.md)** | O núcleo C++ da Fusion Engine. Contém todos os sistemas (Core, Renderer, Physics, Network, ECS, Audio) + framework SBA v2.0. |
-| **[`CapitalOdyssey/`](CapitalOdyssey/)** | Simulação cibernética de mercado financeiro 3D. Showcase principal com Entity, Tween, Scene, Events. |
-| **[`Snake_Project/`](Snake_Project/README.md)** | Cyber Snake 2D com combo system, ScreenShake, rainbow HSV body. |
-| **[`Tetris_Project/`](Tetris_Project/README.md)** | Tetris Arcade com SRS, Ghost Piece, DAS, combo system e Back-to-Back bonus. |
-| **[`Pong_Project/`](Pong_Project/README.md)** | Pong Neon com power-ups, rally counter, AI opponent e speed indicator. |
+| **[`CapitalOdyssey/`](CapitalOdyssey/README.md)** | Simulação cibernética de mercado financeiro 3D com análise gráfica em tempo real e auto-investimento. |
+| **[`Snake_Project/`](Snake_Project/README.md)** | Cyber Snake 2D com combo system, múltiplos tipos de comida e placares locais. |
+| **[`Tetris_Project/`](Tetris_Project/README.md)** | Tetris Arcade com SRS completo, T-Spin detection, lock delay e efeitos visuais neon. |
+| **[`Pong_Project/`](Pong_Project/README.md)** | Pong Neon com rastro dinâmico de partículas, IA com 3 dificuldades (Easy/Medium/Hard) e limite de 11 pontos. |
+
+Documentos úteis na raiz:
+
+- [`CONTRIBUTING.md`](CONTRIBUTING.md) — fluxo de contribuição e convenções.
+- [`CHANGELOG.md`](CHANGELOG.md) — registro de mudanças.
+- [`AGENTS.md`](AGENTS.md) — convenções de código para IAs e contribuidores.
+
+---
 
 ## 🚀 Compilação e Build
 
@@ -55,28 +122,30 @@ O framework Lua de alto nível que permite criação rápida de jogos sem tocar 
 
 ```powershell
 # Compila TODOS os projetos + sincroniza o framework SBA
-.\build_all.ps1
+powershell -File build_all.ps1
 ```
 
 O script automaticamente:
 
-1. Sincroniza `core.lua` e `sba_bridge.lua` para todos os projetos
-2. Compila a StarlightEngine (biblioteca estática)
-3. Compila todos os jogos (CapitalOdyssey, Pong, Tetris, Snake)
+1. Sincroniza `core.lua` e `sba_bridge.lua` para todos os projetos.
+2. Compila a StarlightEngine (biblioteca estática).
+3. Compila todos os jogos (CapitalOdyssey, Pong, Tetris, Snake).
 
 ### Criar Novo Projeto
 
 ```powershell
 cd StarlightEngine
-.\create_project.ps1 -ProjectName "MeuJogo"
+powershell -File create_project.ps1 -ProjectName "MeuJogo"
 ```
 
 Isso gera um projeto completo com SBA v2.0 pré-instalado, starter script com Scene+Entity+Tween, e CMakeLists.txt configurado.
+
+---
 
 ## 📜 Licença e Propriedade
 
 Este projeto é arquitetado autonomamente por Inteligência Artificial sob as restrições e guias arquiteturais ditados pelos Prompts originais do usuário. Todo o ecossistema segue a filosofia de escalabilidade industrial.
 
-NOTA DO CORNO QUE FEZ O PROJETO
+### ✉️ Nota do Autor
 
-Fiz esse projeto no meu tempo livre no ultimo 1 ano só  uma ideia que eu tive e fui ver se era possivel fazer uma engine de jogos usando só inteligencia articial e minha pouca esperiência com prompt de ia depois de muito errar e recomeçar acho que ja da para fazer algumas coisas com o estado atual do projeto feitos por ia e usando a propria engine tem uma serie de joogos arcade 2d simples executando o GameSuite que está na pasta examples/StarlightShowcase e uma simulação 3d simples tambem na pasta examples vejam ate onde da para ir com os recursos atuais da engine me falta conhecimento para estrair melhores resultados com o projeto  não sei se isso sea útil para alguém, mas se for e você quizer  me deixe uma doação por ser gerado por ia só com minha supervisão e eu escrevendo sentenas  de milhares de linhas de prompt o projeto é open source, não lembro quantas ias usei, mas foram muitas e muitas o pix para doação é 5af3d0ff-4200-4613-9455-ee36a06737bc  obrigado e espero que minha ideia maluca seja útil para alguém
+Desenvolvi este projeto no meu tempo livre durante o último ano como um experimento pessoal para testar os limites do desenvolvimento de jogos utilizando inteligência artificial sob a minha supervisão direta. Após muitas iterações, erros e recomeços, o ecossistema atingiu um estado bastante funcional. O projeto contém jogos clássicos adaptados em 2D e simulações em 3D demonstrando o poder da integração Lua/C++. O projeto é 100% de código aberto. Se este trabalho for útil ou inspirador para você, sinta-se à vontade para apoiar o desenvolvimento contínuo através de uma doação PIX para a chave: **5af3d0ff-4200-4613-9455-ee36a06737bc**. Muito obrigado!

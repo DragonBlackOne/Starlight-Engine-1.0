@@ -1,0 +1,36 @@
+# Force consistent line endings for source files
+* text=auto eol=crlf
+
+# Explicit binary file types
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.hdr binary
+*.wav binary
+*.mp3 binary
+*.ttf binary
+*.otf binary
+*.obj binary
+*.mtl binary
+*.ico binary
+*.pdb binary
+
+# CMake sources should always be LF (cross-platform)
+CMakeLists.txt text eol=lf
+*.cmake text eol=lf
+
+# Lua scripts
+*.lua text eol=lf
+
+# Shell scripts
+*.sh text eol=lf
+*.ps1 text eol=crlf
+*.bat text eol=crlf
+
+# Markdown can use either
+*.md text eol=lf
+
+# Archive formats
+*.zip binary
+*.tar.gz binary
+*.7z binary

@@ -1,0 +1,28 @@
+BasedOnStyle: Google
+IndentWidth: 4
+UseTab: Never
+ColumnLimit: 120
+AccessModifierOffset: -4
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: false
+AllowShortLoopsOnASingleLine: false
+BreakConstructorInitializers: BeforeComma
+ConstructorInitializerAllOnOneLineOrOnePerLine: true
+IncludeBlocks: Preserve
+IndentCaseLabels: true
+DerivePointerAlignment: false
+PointerAlignment: Left
+SpaceAfterTemplateKeyword: false
+AlignAfterOpenBracket: DontAlign
+BinPackArguments: false
+BinPackParameters: false
+
+Language: Cpp
+Standard: c++20
+
+SortIncludes: true
+IncludeCategories:
+  - Regex: '^<.*>'
+    Priority: 1
+  - Regex: '^".*"'
+    Priority: 2

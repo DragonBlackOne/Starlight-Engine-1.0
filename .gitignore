@@ -8,33 +8,46 @@ Release/
 Debug/
 x64/
 ARM64/
+*/build/
+*/_deps/
 
-# TitanEngine specific builds
-TitanEngine/build*/
-TitanEngine/sdk/
-TitanEngine/bin/
-TitanEngine/lib/
+# Build artifacts
+*.exe.recipe
+*.pdb
+*.ilk
+*.exp
+*.lib
+*.obj
+*.tlog
+*.lastbuildstate
+*.vcxproj
+*.vcxproj.filters
+*.sln
+*.slnx
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+CMakeUserPresets.json
+InstallScripts.json
 
 # IDE files
 .vs/
-*.sln
-*.vcxproj
-*.filters
-*.user
 .vscode/
 .idea/
+*.user
+*.user.*
 
 # Dependencies
 # thirdparty/ (we keep this as we ported things there, but maybe ignore sub-builds)
-*/build/
-*/_deps/
 
 # Logs and temp
 *.log
 *.tmp
 *.bak
 imgui.ini
+starlight_engine.log
 titan_engine.log
+test_engine.log
 build_errors.txt
 build_log*.txt
 directory_audit.csv
@@ -43,9 +56,20 @@ total_audit.csv
 total_source_audit.csv
 void_search.csv
 
+# Runtime artifacts
+Pong_Project/assets/save.dat
+
+# Tool configs
+opencode.json
+.cache/
+tools/audit-reports/
+
 # Python temp
 __pycache__/
 *.pyc
+
+# Unity-style .meta files (asset metadata from editor imports)
+*.meta
 
 # OS files
 .DS_Store

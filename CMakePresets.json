@@ -1,0 +1,56 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+            "name": "default",
+            "displayName": "Default (Release)",
+            "description": "Build StarlightEngine in Release mode",
+            "binaryDir": "${sourceDir}/build",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release",
+                "CMAKE_CXX_STANDARD": "20"
+            }
+        },
+        {
+            "name": "release",
+            "displayName": "Release",
+            "description": "Optimized release build with /WX",
+            "inherits": "default",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        },
+        {
+            "name": "debug",
+            "displayName": "Debug",
+            "description": "Debug build with full symbols",
+            "binaryDir": "${sourceDir}/build/debug",
+            "cacheVariables": {
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "release-2d",
+            "displayName": "Release (2D mode)",
+            "description": "Release build optimized for 2D-only projects",
+            "inherits": "release",
+            "cacheVariables": {
+                "STARLIGHT_2D_ONLY": "ON"
+            }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "release",
+            "configurePreset": "release"
+        },
+        {
+            "name": "debug",
+            "configurePreset": "debug"
+        },
+        {
+            "name": "release-2d",
+            "configurePreset": "release-2d"
+        }
+    ]
+}
