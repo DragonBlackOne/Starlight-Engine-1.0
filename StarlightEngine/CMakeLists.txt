@@ -140,7 +140,7 @@ add_subdirectory(${DEPS_DIR}/JoltPhysics-5.5.0/Build ${CMAKE_BINARY_DIR}/jolt EX
 set(STARLIGHT_INCLUDE_DIR ${STARLIGHT_SDK_ROOT}/include)
 set(STARLIGHT_SRC_DIR ${STARLIGHT_SDK_ROOT}/src)
 
-add_library(glad STATIC ${STARLIGHT_INCLUDE_DIR}/glad/src/glad.c)
+add_library(glad STATIC ${STARLIGHT_INCLUDE_DIR}/glad/src/glad.cpp)
 target_include_directories(glad PUBLIC ${STARLIGHT_INCLUDE_DIR}/glad/include)
 
 file(GLOB_RECURSE CORE_SOURCES 
@@ -156,7 +156,7 @@ file(GLOB_RECURSE CORE_SOURCES
 )
 
 file(GLOB IMGUI_SOURCES "${STARLIGHT_SDK_ROOT}/thirdparty/imgui/*.cpp")
-set(MINIZ_SOURCES "${STARLIGHT_SDK_ROOT}/thirdparty/miniz.c")
+set(MINIZ_SOURCES "${STARLIGHT_SDK_ROOT}/thirdparty/miniz.cpp")
 set(IMGUI_NODE_EDITOR_SOURCES
     "${imgui_node_editor_SOURCE_DIR}/imgui_node_editor.cpp"
     "${imgui_node_editor_SOURCE_DIR}/imgui_node_editor_api.cpp"
