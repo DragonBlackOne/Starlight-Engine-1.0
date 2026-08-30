@@ -67,8 +67,8 @@ jobs:
     - name: Configure & Build Pong (sample game)
       shell: pwsh
       run: |
-        cmake -B Pong_Project/build -S Pong_Project
-        cmake --build Pong_Project/build --config Release --parallel
+        cmake -B build-workspace -S . -DSTARLIGHT_DEPS_DIR=D:/deps
+        cmake --build build-workspace --config Release --parallel --target Pong_Project
 
     - name: Configure & Build Tests
       shell: pwsh

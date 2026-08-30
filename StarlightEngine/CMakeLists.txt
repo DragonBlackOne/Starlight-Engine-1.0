@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
-project(StarlightEngine VERSION 1.0.0 LANGUAGES C CXX)
+project(StarlightEngine VERSION 15.0.0 LANGUAGES C CXX)
 
 set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
 # Semantic Versioning
@@ -127,6 +127,9 @@ list(REMOVE_ITEM LUA_SOURCES
     "${DEPS_DIR}/lua-5.4.7/onelua.c" "${DEPS_DIR}/lua-5.4.7/ltests.c"
 )
 add_library(lua STATIC ${LUA_SOURCES})
+set_target_properties(lua PROPERTIES LINKER_LANGUAGE CXX)
+set_source_files_properties(${LUA_SOURCES} PROPERTIES LANGUAGE CXX)
+target_compile_definitions(lua PUBLIC SOL_USING_CXX_LUA)
 target_include_directories(lua PUBLIC ${DEPS_DIR}/lua-5.4.7)
 
 # SDL2 & Jolt
@@ -147,6 +150,7 @@ file(GLOB_RECURSE CORE_SOURCES
     "${STARLIGHT_SRC_DIR}/ai/*.cpp"
     "${STARLIGHT_SRC_DIR}/audio/*.cpp"
     "${STARLIGHT_SRC_DIR}/core/*.cpp"
+    "${STARLIGHT_SRC_DIR}/core/Memory/*.cpp"
     "${STARLIGHT_SRC_DIR}/ecs/*.cpp"
     "${STARLIGHT_SRC_DIR}/gui/*.cpp"
     "${STARLIGHT_SRC_DIR}/network/*.cpp"
@@ -181,6 +185,12 @@ target_include_directories(StarlightCore PUBLIC
     ${STARLIGHT_SDK_ROOT}/thirdparty/wicked/core
     ${imgui_node_editor_SOURCE_DIR}
 )
+# Inclusões de terceiros tratadas como SYSTEM (ignora warnings nessas pastas)
+target_include_directories(StarlightCore SYSTEM PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/imgui
+    ${CMAKE_CURRENT_SOURCE_DIR}/thirdparty/nlohmann
+    ${STARLIGHT_DEPS_DIR}/include
+)
 target_link_libraries(StarlightCore PUBLIC 
     SDL2::SDL2main SDL2::SDL2-static
     glad Jolt glm entt sol2 lua meshoptimizer cgltf 
@@ -191,12 +201,11 @@ target_compile_definitions(StarlightCore PUBLIC SDL_MAIN_HANDLED UNICODE _UNICOD
 # Strict Warnings Enabled for Industrial Audit
 target_compile_options(StarlightCore PUBLIC /W4 /bigobj)
 
+# Avisos rígidos aplicados estritamente ao código da engine
 if(MSVC)
-    # /wd4005: imgui_impl_opengl3_loader.h macro redefinitions (conflict with glad)
-    # /wd5321: sol2/inheritance.hpp UTF-8 multibyte encoding extension
-    target_compile_options(StarlightCore PRIVATE /MP /EHsc /FS /utf-8 /wd4005 /wd5321)
-    # Treat warnings as errors in Release (quality gate)
-    target_compile_options(StarlightCore PRIVATE $<$<CONFIG:Release>:/WX>)
+    target_compile_options(StarlightCore PRIVATE /W4 /WX /permissive- /MP /EHsc /FS /utf-8 /wd4005 /wd5321)
+else()
+    target_compile_options(StarlightCore PRIVATE -Wall -Wextra -Werror -Wpedantic)
 endif()
 
 # Precompiled Headers (accelerates rebuilds ~2x)
@@ -216,12 +225,70 @@ target_link_libraries(StarlightShowcase PRIVATE StarlightCore)
 if(MSVC)
     # /wd4100: [[maybe_unused]] params (argc/argv)
     # /wd5321: sol2/inheritance.hpp UTF-8 multibyte encoding extension
-    target_compile_options(StarlightShowcase PRIVATE /wd4100 /wd5321)
+    target_compile_options(StarlightShowcase PRIVATE /W4 /WX /wd4100 /wd5321)
 endif()
 add_custom_command(TARGET StarlightShowcase POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory
     "${STARLIGHT_SDK_ROOT}/assets"
     "$<TARGET_FILE_DIR:StarlightShowcase>/assets"
+
+    # Copy Pong assets
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${STARLIGHT_SDK_ROOT}/../Pong_Project/assets/scripts/pong_main.lua"
+    "$<TARGET_FILE_DIR:StarlightShowcase>/assets/scripts/pong_main.lua"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${STARLIGHT_SDK_ROOT}/../Pong_Project/assets/textures"
+    "$<TARGET_FILE_DIR:StarlightShowcase>/assets/textures"
+    
+    # Copy Snake assets
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${STARLIGHT_SDK_ROOT}/../Snake_Project/assets/scripts/snake_main.lua"
+    "$<TARGET_FILE_DIR:StarlightShowcase>/assets/scripts/snake_main.lua"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${STARLIGHT_SDK_ROOT}/../Snake_Project/assets/textures"
+    "$<TARGET_FILE_DIR:StarlightShowcase>/assets/textures"
+
+    # Copy Tetris assets
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${STARLIGHT_SDK_ROOT}/../Tetris_Project/assets/scripts/tetris_main.lua"
+    "$<TARGET_FILE_DIR:StarlightShowcase>/assets/scripts/tetris_main.lua"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${STARLIGHT_SDK_ROOT}/../Tetris_Project/assets/textures"
+    "$<TARGET_FILE_DIR:StarlightShowcase>/assets/textures"
+
+    # Copy CapitalOdyssey assets
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${STARLIGHT_SDK_ROOT}/../CapitalOdyssey/assets/scripts/odyssey_main.lua"
+    "$<TARGET_FILE_DIR:StarlightShowcase>/assets/scripts/odyssey_main.lua"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${STARLIGHT_SDK_ROOT}/../CapitalOdyssey/assets/scripts/MarketSystem.lua"
+    "$<TARGET_FILE_DIR:StarlightShowcase>/assets/scripts/MarketSystem.lua"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${STARLIGHT_SDK_ROOT}/../CapitalOdyssey/assets/scripts/NewsGenerator.lua"
+    "$<TARGET_FILE_DIR:StarlightShowcase>/assets/scripts/NewsGenerator.lua"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${STARLIGHT_SDK_ROOT}/../CapitalOdyssey/assets/scripts/Portfolio.lua"
+    "$<TARGET_FILE_DIR:StarlightShowcase>/assets/scripts/Portfolio.lua"
+
+    # Copy FusionFight assets
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${STARLIGHT_SDK_ROOT}/../FusionFight/assets/scripts/main.lua"
+    "$<TARGET_FILE_DIR:StarlightShowcase>/assets/scripts/fusion_fight_main.lua"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${STARLIGHT_SDK_ROOT}/../FusionFight/assets/scripts/fighter_renderer.lua"
+    "$<TARGET_FILE_DIR:StarlightShowcase>/assets/scripts/fighter_renderer.lua"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${STARLIGHT_SDK_ROOT}/../FusionFight/assets/scripts/hud.lua"
+    "$<TARGET_FILE_DIR:StarlightShowcase>/assets/scripts/hud.lua"
+    COMMAND ${CMAKE_COMMAND} -E copy_if_different
+    "${STARLIGHT_SDK_ROOT}/../FusionFight/assets/scripts/stages.lua"
+    "$<TARGET_FILE_DIR:StarlightShowcase>/assets/scripts/stages.lua"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${STARLIGHT_SDK_ROOT}/../FusionFight/assets/scripts/screens"
+    "$<TARGET_FILE_DIR:StarlightShowcase>/assets/scripts/screens"
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    "${STARLIGHT_SDK_ROOT}/../FusionFight/assets/textures"
+    "$<TARGET_FILE_DIR:StarlightShowcase>/assets/textures"
 )
 
 # --- TESTS (optional) ---

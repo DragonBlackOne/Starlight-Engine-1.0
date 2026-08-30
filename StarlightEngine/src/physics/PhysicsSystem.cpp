@@ -73,6 +73,24 @@ namespace starlight {
         std::vector<CollisionEvent>& m_events;
     };
 
+    PhysicsComponent::~PhysicsComponent() {
+        if (!bodyID.IsInvalid() && Engine::IsInitialized()) {
+            auto physics = Engine::Get().GetSystem<PhysicsSystem>();
+            if (physics && physics->GetSystem()) {
+                auto& bodyInterface = physics->GetBodyInterface();
+                bodyInterface.RemoveBody(bodyID);
+                bodyInterface.DestroyBody(bodyID);
+            }
+        }
+    }
+
+    CharacterControllerComponent::~CharacterControllerComponent() {
+        if (joltCharacter) {
+            delete static_cast<JPH::CharacterVirtual*>(joltCharacter);
+            joltCharacter = nullptr;
+        }
+    }
+
     PhysicsSystem::PhysicsSystem() {}
     PhysicsSystem::~PhysicsSystem() { OnShutdown(); }
 

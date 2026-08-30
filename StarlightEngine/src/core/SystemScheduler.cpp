@@ -11,11 +11,13 @@ namespace starlight {
 
         // 1. Cria nos do grafo na ordem atual (ja ordenada por prioridade)
         for (size_t i = 0; i < systems.size(); ++i) {
-            SystemNode node;
-            node.system = systems[i];
-            node.inDegree = 0;
-            node.originalIndex = i;
-            m_nodes.push_back(node);
+            if (systems[i]->IsEnabled()) {
+                SystemNode node;
+                node.system = systems[i];
+                node.inDegree = 0;
+                node.originalIndex = m_nodes.size();
+                m_nodes.push_back(node);
+            }
         }
 
         // 2. Cria as arestas direcionadas com base em conflitos de componentes
@@ -128,40 +130,10 @@ namespace starlight {
     }
 
     void SystemScheduler::ExecuteLayer(const std::vector<size_t>& layerNodes, float dt, float scaledDt, bool isFixedUpdate) {
-        JobContext ctx;
-        std::vector<size_t> mainThreadNodes;
-
         for (size_t idx : layerNodes) {
             auto& node = m_nodes[idx];
             if (!node.system->IsEnabled()) continue;
 
-            if (node.system->IsMainThreadOnly()) {
-                mainThreadNodes.push_back(idx);
-            } else {
-                JobSystem::Execute(ctx, [this, idx, dt, scaledDt, isFixedUpdate](uint32_t) {
-                    auto& node = m_nodes[idx];
-                    std::string name = node.system->GetName();
-                    float dtParam = isFixedUpdate ? dt : ((name == "InputSystem" || name == "EditorSystem" || name == "FileWatcher") ? dt : scaledDt);
-
-                    auto start = std::chrono::high_resolution_clock::now();
-                    if (isFixedUpdate) {
-                        node.system->OnFixedUpdate(dtParam);
-                    } else {
-                        node.system->OnUpdate(dtParam);
-                    }
-                    auto end = std::chrono::high_resolution_clock::now();
-                    float elapsed = std::chrono::duration<float, std::milli>(end - start).count();
-
-                    if (name == "AudioSystem") {
-                        Engine::Get().AccumulateAudioTime(elapsed);
-                    }
-                });
-            }
-        }
-
-        // Executa sistemas da thread principal sequencialmente concorrendo com os background jobs
-        for (size_t idx : mainThreadNodes) {
-            auto& node = m_nodes[idx];
             std::string name = node.system->GetName();
             float dtParam = isFixedUpdate ? dt : ((name == "InputSystem" || name == "EditorSystem" || name == "FileWatcher") ? dt : scaledDt);
 
@@ -180,9 +152,6 @@ namespace starlight {
                 Engine::Get().AccumulateAudioTime(elapsed);
             }
         }
-
-        // Aguarda os background jobs da camada atual
-        JobSystem::Wait(ctx);
     }
 
 }

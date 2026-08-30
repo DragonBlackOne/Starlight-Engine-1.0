@@ -535,52 +535,42 @@ function Audio.kick() audio.beep(60, 0.1, 3); audio.set_envelope(0.001, 0.1, 0, 
 function Audio.snare() audio.beep(120, 0.1, 4); audio.set_envelope(0.001, 0.05, 0, 0.05) end
 
 -- Presets de Áudio Procedural
-function Audio.playCoin()
-    audio.set_envelope(0.005, 0.06, 0.4, 0.08)
-    audio.play_note(975, 0.08, 0)
-    Timer.after(0.08, function()
-        audio.set_envelope(0.005, 0.1, 0.4, 0.1)
-        audio.play_note(1300, 0.25, 0)
-    end)
+function Audio.playCoin(pitchMod)
+    local f = 975 * (pitchMod or 1.0)
+    if audio and audio.play_synth then
+        audio.play_synth(f, 0.08, "square")
+    elseif audio and audio.play_note then
+        audio.play_note(f, 0.08, 1)
+    end
 end
 
 function Audio.playLaser()
-    local steps = 8
-    audio.set_envelope(0.001, 0.015, 0.0, 0.01)
-    for i = 0, steps - 1 do
-        local freq = 1600 - (i * 150)
-        Timer.after(i * 0.015, function()
-            audio.play_note(freq, 0.02, 0)
-        end)
+    if audio and audio.play_synth then
+        audio.play_synth(1200, 0.1, "saw")
     end
 end
 
 function Audio.playExplosion()
-    audio.set_envelope(0.01, 0.4, 0.1, 0.2)
-    audio.play_note(100, 0.5, 4)
-    Timer.after(0.02, function()
-        audio.set_envelope(0.05, 0.3, 0.0, 0.1)
-        audio.play_note(60, 0.4, 3)
-    end)
+    if audio and audio.play_synth then
+        audio.play_synth(75, 0.35, "noise")
+        audio.play_synth(110, 0.25, "saw")
+    end
 end
 
 function Audio.playPowerup()
-    local freqs = {330, 440, 660, 880, 1320}
-    for i, f in ipairs(freqs) do
-        Timer.after((i - 1) * 0.07, function()
-            audio.set_envelope(0.005, 0.05, 0.5, 0.05)
-            audio.play_note(f, 0.08, 2)
-        end)
+    if audio and audio.fm_note then
+        audio.fm_note(587.33, 0.15, 0)
+        audio.fm_note(880.0, 0.22, 1)
+    elseif audio and audio.play_synth then
+        audio.play_synth(660, 0.12, "triangle")
+        audio.play_synth(880, 0.18, "square")
     end
 end
 
 function Audio.playHurt()
-    audio.set_envelope(0.002, 0.08, 0.1, 0.05)
-    audio.play_note(120, 0.15, 1)
-    Timer.after(0.05, function()
-        audio.set_envelope(0.002, 0.1, 0.0, 0.05)
-        audio.play_note(80, 0.12, 4)
-    end)
+    if audio and audio.play_synth then
+        audio.play_synth(130, 0.18, "saw")
+    end
 end
 
 function Audio.sequence(notes)
@@ -588,11 +578,11 @@ function Audio.sequence(notes)
     for _, note in ipairs(notes) do
         local freq = note.freq or 440
         local duration = note.duration or 0.1
-        local type = note.type or 0
+        local noteType = note.type or 0
         local delay = note.delay or 0
         accumulatedDelay = accumulatedDelay + delay
         Timer.after(accumulatedDelay, function()
-            audio.play_note(freq, duration, type)
+            -- audio.play_note(freq, duration, noteType)
         end)
     end
 end
@@ -649,15 +639,20 @@ function VFX.burst(x, y, z, count, speed, colors)
     count = count or 20
     speed = speed or 2.0
     colors = colors or {{1, 0, 0.6}, {0, 1, 0.9}, {1, 0.7, 0}}
-    for i = 1, count do
-        local angle = math.random() * 2 * math.pi
-        local pitch = (math.random() - 0.5) * math.pi
-        local vx = math.cos(angle) * math.cos(pitch) * speed * (0.5 + math.random()*0.5)
-        local vy = math.sin(angle) * math.cos(pitch) * speed * (0.5 + math.random()*0.5)
-        local vz = math.sin(pitch) * speed * (0.5 + math.random()*0.5)
-        local col = colors[math.random(1, #colors)]
-        vfx.emit(x, y, z, vx, vy, vz, col[1], col[2], col[3], 1, 0.15)
-    end
+    local col = colors[math.random(1, #colors)]
+    vfx.burst(x, y, z, col[1], col[2], col[3], count, speed, 0.15)
+end
+
+function VFX.burst_2d(x, y, count, speed, colors)
+    count = count or 20
+    speed = speed or 2.0
+    colors = colors or {{1, 0, 0.6}, {0, 1, 0.9}, {1, 0.7, 0}}
+    local col = colors[math.random(1, #colors)]
+    vfx.burst_2d(x, y, col[1], col[2], col[3], count, speed, 0.15)
+end
+
+function VFX.trail(x, y, z, r, g, b, size, lifetime)
+    vfx.emit_trail(x, y, z, r, g, b, size or 0.15, lifetime or 0.5)
 end
 
 function DrawLine(x1, y1, x2, y2, thickness, r, g, b, a)

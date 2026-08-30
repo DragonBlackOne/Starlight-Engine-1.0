@@ -1,0 +1,3 @@
+# Stub
+class FaunaBehaviors:
+    pass

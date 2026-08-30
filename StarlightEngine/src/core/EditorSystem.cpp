@@ -536,8 +536,6 @@ std::string ResolveShaderExpression(int nodeId, const std::vector<ModernNode>& n
         return "vec4(1.0, 1.0, 1.0, 1.0)";
     }
     return "vec4(0.0)";
-
-    return "vec4(1.0)";
 }
 
 } // anonymous namespace
@@ -576,7 +574,7 @@ bool EditorSystem::OnInitialize(const EngineContext& context) {
     if (Rml::Initialise()) {
         s_rmlContext = Rml::CreateContext("main", Rml::Vector2i(w, h));
         if (s_rmlContext) {
-            Rml::LoadFontFace("assets/fonts/Inconsolata-Regular.ttf", true);
+            Rml::LoadFontFace(PathResolver::Resolve("assets/fonts/Inconsolata-Regular.ttf"), true);
             Log::Info("EditorSystem: RmlUi initialized successfully.");
         }
     } else {

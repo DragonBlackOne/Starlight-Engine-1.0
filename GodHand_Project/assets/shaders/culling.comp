@@ -1,0 +1,52 @@
+// Este projeto é feito por IA e só o prompt é feito por um humano.
+#version 430 core
+
+layout(local_size_x = 256) in;
+
+struct DrawCommand {
+    uint count;
+    uint instanceCount;
+    uint firstIndex;
+    uint baseVertex;
+    uint baseInstance;
+};
+
+struct InstanceData {
+    vec4 boundingSphere; // xyz = center, w = radius
+};
+
+layout(std430, binding = 0) buffer IndirectDrawBuffer {
+    DrawCommand commands[];
+};
+
+layout(std430, binding = 1) buffer InstanceDataBuffer {
+    InstanceData instances[];
+};
+
+uniform vec4 uFrustumPlanes[6];
+uniform uint uTotalInstances;
+
+void main() {
+    uint id = gl_GlobalInvocationID.x;
+    if (id >= uTotalInstances) return;
+
+    vec4 sphere = instances[id].boundingSphere;
+    bool isVisible = true;
+
+    for (int i = 0; i < 6; i++) {
+        float dist = dot(uFrustumPlanes[i].xyz, sphere.xyz) + uFrustumPlanes[i].w;
+        if (dist < -sphere.w) {
+            isVisible = false;
+            break;
+        }
+    }
+
+    if (isVisible) {
+        // Atomic increment of instanceCount for this draw call
+        // Assumes that each instance corresponds to a draw command index (or they are batched)
+        // For standard MultiDrawIndirect, we just set instanceCount to 1 if visible, 0 if not
+        commands[id].instanceCount = 1;
+    } else {
+        commands[id].instanceCount = 0;
+    }
+}

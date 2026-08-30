@@ -55,6 +55,7 @@ public:
     bool IsFullscreen() const;
     void SetTitle(const std::string& title);
     void SetIcon(const std::string& path);
+    bool CaptureScreenshot(const std::string& filepath);
     bool IsInitialized() const {
         return m_initialized;
     }

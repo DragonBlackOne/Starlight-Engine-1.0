@@ -131,7 +131,13 @@ namespace starlight {
         s_downsampleShader->Use();
         uint32_t currentSrc = inputTexture;
         glm::vec2 currentSize((float)width, (float)height);
+        auto cvarSys = Engine::Get().GetSystem<CVarSystem>();
+        float threshold = cvarSys ? cvarSys->GetFloat("r_bloom_threshold") : 1.0f;
+        if (threshold <= 0.0f) threshold = 1.0f;
 
+        s_downsampleShader->SetFloatU("threshold", threshold);
+
+        int mipIndex = 0;
         for (auto& mip : s_bloomMips) {
             glViewport(0, 0, mip.size.x, mip.size.y);
             glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, mip.texture, 0);
@@ -139,11 +145,13 @@ namespace starlight {
             glActiveTexture(GL_TEXTURE0);
             glBindTexture(GL_TEXTURE_2D, currentSrc);
             s_downsampleShader->SetVec2U("srcResolution", currentSize);
+            s_downsampleShader->SetIntU("isFirstMip", mipIndex == 0 ? 1 : 0);
             
             s_quadMesh->Draw();
 
             currentSrc = mip.texture;
             currentSize = glm::vec2((float)mip.size.x, (float)mip.size.y);
+            mipIndex++;
         }
 
         // 2. Upsample (additive blending)
@@ -170,7 +178,14 @@ namespace starlight {
     }
 
     void PostProcessing::RenderFinalComposition(uint32_t sceneTex, uint32_t bloomTex, float exposure, float gamma, uint32_t targetFBO, int vpW, int vpH) {
-        if (!s_compositionShader || !s_quadMesh) return;
+        if (!s_compositionShader || !s_quadMesh) {
+            auto& renderer = Engine::Get().GetRenderer();
+            glBindFramebuffer(GL_READ_FRAMEBUFFER, renderer.GetFBO());
+            glBindFramebuffer(GL_DRAW_FRAMEBUFFER, targetFBO);
+            glBlitFramebuffer(0, 0, renderer.GetFBOWidth(), renderer.GetFBOHeight(), 0, 0, vpW, vpH, GL_COLOR_BUFFER_BIT, GL_NEAREST);
+            glBindFramebuffer(GL_FRAMEBUFFER, targetFBO);
+            return;
+        }
 
         auto cvarSys = Engine::Get().GetSystem<CVarSystem>();
         bool useFSR = cvarSys ? cvarSys->GetBool("r_fsr") : false;

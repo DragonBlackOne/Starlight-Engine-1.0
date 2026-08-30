@@ -30,6 +30,10 @@ struct RenderCommand {
     float metallic = 0.0f;
     float roughness = 0.5f;
     float ao = 1.0f;
+    bool isSkin = false;
+    glm::vec3 skinSubsurfaceColor = glm::vec3(0.92f, 0.38f, 0.25f);
+    uint32_t albedoMap = 0;
+    uint32_t normalMap = 0;
 };
 
 class Renderer : public ISystem {
@@ -95,6 +99,9 @@ public:
     /// Render forward/transparent commands (call after deferred pass)
     void RenderForwardCommands();
 
+    uint32_t GetFBO() const {
+        return m_fbo.Get();
+    }
     int GetFBOWidth() const {
         return m_fboWidth;
     }
@@ -182,6 +189,29 @@ public:
         m_gamma = g;
     }
 
+    float GetContrast() const { return m_contrast; }
+    void SetContrast(float c) { m_contrast = c; }
+    float GetSaturation() const { return m_saturation; }
+    void SetSaturation(float s) { m_saturation = s; }
+    float GetVignetteStrength() const { return m_vignetteStrength; }
+    void SetVignetteStrength(float v) { m_vignetteStrength = v; }
+
+    void SetColorGrading(float exposure, float contrast, float saturation, float gamma, float vignetteStrength = 0.0f) {
+        m_exposure = exposure;
+        m_contrast = contrast;
+        m_saturation = saturation;
+        m_gamma = gamma;
+        m_vignetteStrength = vignetteStrength;
+    }
+
+    void AddCameraTrauma(float amount) {
+        m_cameraTrauma = std::clamp(m_cameraTrauma + amount, 0.0f, 1.0f);
+    }
+    float GetCameraTrauma() const { return m_cameraTrauma; }
+    void SetCameraTrauma(float trauma) { m_cameraTrauma = std::clamp(trauma, 0.0f, 1.0f); }
+    glm::vec3 GetCameraShakeOffset() const { return m_cameraShakeOffset; }
+    glm::vec3 GetCameraShakeRotation() const { return m_cameraShakeRotation; }
+
     void SetClearColor(const glm::vec3& color) {
         m_clearColor = color;
     }
@@ -196,11 +226,45 @@ public:
     bool IsSSAOEnabled() const { return m_useSSAO; }
     void SetSSAOEnabled(bool enabled) { m_useSSAO = enabled; }
 
+    // Advanced Post-FX & Camera Controls (v12.0.0 Updates 26-40)
+    void SetChromaticAberration(float intensity) { m_chromaticAberration = std::clamp(intensity, 0.0f, 1.0f); }
+    float GetChromaticAberration() const { return m_chromaticAberration; }
+    void SetVignetteColor(const glm::vec3& color) { m_vignetteColor = color; }
+    glm::vec3 GetVignetteColor() const { return m_vignetteColor; }
+    void SetRadialBlur(float intensity) { m_radialBlur = std::clamp(intensity, 0.0f, 1.0f); }
+    float GetRadialBlur() const { return m_radialBlur; }
+    void SetFXAAEnabled(bool enabled) { m_fxaaEnabled = enabled; }
+    bool IsFXAAEnabled() const { return m_fxaaEnabled; }
+    void SetPixelSnap(bool enabled) { m_pixelSnap = enabled; }
+    bool IsPixelSnap() const { return m_pixelSnap; }
+    void SetAmbientColor(const glm::vec3& color) { m_ambientColor = color; }
+    glm::vec3 GetAmbientColor() const { return m_ambientColor; }
+    void SetCameraZoom(float zoom) { m_cameraZoom = std::clamp(zoom, 0.1f, 10.0f); }
+    float GetCameraZoom() const { return m_cameraZoom; }
+
 private:
     float m_bloomThreshold = 1.0f;
     int m_bloomBlurSteps = 10;
     float m_exposure = 1.0f;
     float m_gamma = 2.2f;
+    float m_contrast = 1.0f;
+    float m_saturation = 1.0f;
+    float m_vignetteStrength = 0.0f;
+    float m_chromaticAberration = 0.0f;
+    glm::vec3 m_vignetteColor = glm::vec3(0.0f);
+    float m_radialBlur = 0.0f;
+    bool m_fxaaEnabled = true;
+    bool m_pixelSnap = false;
+    glm::vec3 m_ambientColor = glm::vec3(0.1f);
+    float m_cameraZoom = 1.0f;
+
+    float m_cameraTrauma = 0.0f;
+    float m_maxShakeOffset = 0.8f;
+    float m_maxShakeAngle = 0.08f;
+    float m_traumaDecayRate = 1.4f;
+    glm::vec3 m_cameraShakeOffset = glm::vec3(0.0f);
+    glm::vec3 m_cameraShakeRotation = glm::vec3(0.0f);
+
     glm::vec3 m_clearColor = {0.02f, 0.02f, 0.04f};
     glm::mat4 m_view, m_projectionMatrix;
     std::vector<RenderCommand> m_commandBuffer;

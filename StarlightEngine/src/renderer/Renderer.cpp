@@ -5,6 +5,7 @@
 #include <glad/glad.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <glm/gtx/quaternion.hpp>
 #include "AnimationComponent.hpp"
 #include "Engine.hpp"
 #include "Log.hpp"
@@ -143,8 +144,16 @@ bool Renderer::OnInitialize(const EngineContext& context) {
     m_ssaoSystem->Initialize();
 
     m_iblSystem = std::make_unique<IBLSystem>();
-    if (std::filesystem::exists("assets/textures/default_env.hdr")) {
-        m_iblData = m_iblSystem->ProcessHDR("assets/textures/default_env.hdr");
+    const char* envCandidate1 = "assets/textures/default_env.hdr";
+    const char* envCandidate2 = "assets/textures/environment.hdr";
+    if (std::filesystem::exists(envCandidate1)) {
+        m_iblData = m_iblSystem->ProcessHDR(envCandidate1);
+    } else if (std::filesystem::exists(envCandidate2)) {
+        m_iblData = m_iblSystem->ProcessHDR(envCandidate2);
+    }
+    if (m_iblData.envCubemap) {
+        // Reuse the IBL environment cubemap as the visual skybox background.
+        m_skyboxCubemap = GLTexture(m_iblData.envCubemap);
     }
 
     PostProcessing::Initialize();
@@ -154,10 +163,12 @@ bool Renderer::OnInitialize(const EngineContext& context) {
     m_renderGraph = std::make_unique<RenderGraph>();
     m_renderGraph->AddPass<GBufferPass>();
     m_renderGraph->AddPass<ShadowPass>();
-    m_renderGraph->AddPass<SkyboxPass>();
     m_renderGraph->AddPass<SSAO_Pass>();
     m_renderGraph->AddPass<GeometryPass>();
     m_renderGraph->AddPass<DeferredLightingPass>();
+    // Skybox after lighting so deferred mode does not erase it with glClear.
+    m_renderGraph->AddPass<SkyboxPass>();
+    m_renderGraph->AddPass<SSRPass>();
     m_renderGraph->AddPass<VFXPass>();
     m_taaPass = &m_renderGraph->AddPass<TAAPass>();
     m_renderGraph->AddPass<BloomPass>();
@@ -179,11 +190,8 @@ void Renderer::OnShutdown() {
     m_iblSystem.reset();
     m_dashboardSystem.reset();
 
-    // Clean up IBL texture resources
-    if (m_iblData.envCubemap) {
-        glDeleteTextures(1, &m_iblData.envCubemap);
-        m_iblData.envCubemap = 0;
-    }
+    // Clean up IBL texture resources.
+    // Note: m_iblData.envCubemap is owned by m_skyboxCubemap (GLTexture RAII).
     if (m_iblData.irradianceMap) {
         glDeleteTextures(1, &m_iblData.irradianceMap);
         m_iblData.irradianceMap = 0;
@@ -342,9 +350,29 @@ void Renderer::BeginFrame() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     m_commandBuffer.clear();
-    m_cameraTransform.UpdateLocalMatrix();
-    m_cameraTransform.worldMatrix = m_cameraTransform.localMatrix;
-    m_view = glm::inverse(m_cameraTransform.GetMatrix());
+
+    if (m_cameraTrauma > 0.0f) {
+        float shake = m_cameraTrauma * m_cameraTrauma;
+        float t = static_cast<float>(SDL_GetTicks()) * 0.035f;
+        float nx = std::sin(t * 1.7f) * std::cos(t * 0.8f);
+        float ny = std::cos(t * 1.3f) * std::sin(t * 1.1f);
+        float nz = std::sin(t * 2.1f);
+
+        m_cameraShakeOffset = glm::vec3(nx, ny, nz * 0.5f) * (shake * m_maxShakeOffset);
+        m_cameraShakeRotation = glm::vec3(ny * 0.05f, nx * 0.05f, nz * 0.08f) * (shake * m_maxShakeAngle);
+
+        m_cameraTrauma = std::max(0.0f, m_cameraTrauma - m_traumaDecayRate * 0.01666f);
+    } else {
+        m_cameraShakeOffset = glm::vec3(0.0f);
+        m_cameraShakeRotation = glm::vec3(0.0f);
+    }
+
+    TransformComponent shakenTransform = m_cameraTransform;
+    shakenTransform.position += m_cameraShakeOffset;
+    shakenTransform.rotation = glm::normalize(shakenTransform.rotation * glm::quat(m_cameraShakeRotation));
+    shakenTransform.UpdateLocalMatrix();
+    shakenTransform.worldMatrix = shakenTransform.localMatrix;
+    m_view = glm::inverse(shakenTransform.GetMatrix());
 }
 
 void Renderer::RenderRegistry(entt::registry& registry) {
@@ -363,18 +391,24 @@ void Renderer::RenderRegistry(entt::registry& registry) {
         UpdateFrustumPlanes();
     }
 
-    // 1. Submit Meshes using cache-friendly group
-    auto group = registry.group<MeshComponent>(entt::get<TransformComponent>);
-    group.each([this, enableCulling](const auto& mc, const auto& t) {
+    // 1. Submit Meshes using cache-friendly view
+    auto view = registry.view<MeshComponent, TransformComponent>();
+    for (auto entity : view) {
+        auto& mc = view.get<MeshComponent>(entity);
+        auto& t = view.get<TransformComponent>(entity);
         if (!mc.mesh || !mc.isVisible)
-            return;
+            continue;
+
+        t.UpdateLocalMatrix();
+        t.worldMatrix = t.localMatrix;
 
         m_stats.totalMeshes++;
 
         if (enableCulling) {
             glm::vec3 worldPos = glm::vec3(t.worldMatrix[3]);
-            if (!IsSphereInFrustum(worldPos, mc.boundingRadius)) {
-                return; // Descarta objeto invisível (Culled!)
+            float radius = std::max(mc.boundingRadius, 30.0f);
+            if (!IsSphereInFrustum(worldPos, radius)) {
+                continue; // Descarta objeto invisível (Culled!)
             }
         }
 
@@ -389,9 +423,13 @@ void Renderer::RenderRegistry(entt::registry& registry) {
         cmd.metallic = mc.material.metallic;
         cmd.roughness = mc.material.roughness;
         cmd.ao = mc.material.ao;
+        cmd.isSkin = mc.material.isSkin;
+        cmd.skinSubsurfaceColor = mc.material.subsurfaceColor;
+        cmd.albedoMap = mc.material.albedoMap;
+        cmd.normalMap = mc.material.normalMap;
 
         m_commandBuffer.push_back(cmd);
-    });
+    }
 
     // 2. Track light positions AND colors for Volumetric effects
     auto lights = registry.view<TransformComponent, PointLightComponent>();
@@ -426,7 +464,11 @@ void Renderer::RenderForwardCommands() {
             return distA > distB;  // far to near
         });
 
-    // Render with alpha blending
+    // Render transparents into the HDR scene FBO (BEFORE tonemapping).
+    glBindFramebuffer(GL_FRAMEBUFFER, m_fbo.Get());
+    glViewport(0, 0, m_fboWidth, m_fboHeight);
+    glEnable(GL_DEPTH_TEST);
+    glDepthFunc(GL_LESS);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
     glDepthMask(GL_FALSE);  // Don't write depth for transparent objects
@@ -434,7 +476,48 @@ void Renderer::RenderForwardCommands() {
     m_pbrShader->Use();
     m_pbrShader->SetMat4U("view", m_view);
     m_pbrShader->SetMat4U("projection", m_projectionMatrix);
-    m_pbrShader->SetVec3U("viewPos", m_cameraTransform.position);
+    m_pbrShader->SetVec3U("camPos", m_cameraTransform.position);
+
+    // Point lights (same convention as GeometryPass)
+    auto activeScene = Engine::Get().GetSceneStack().Active();
+    int lightCount = 0;
+    if (activeScene) {
+        auto lights = activeScene->GetRegistry().view<TransformComponent, PointLightComponent>();
+        for (auto entity : lights) {
+            if (lightCount >= 8) break;
+            auto& t = lights.get<TransformComponent>(entity);
+            auto& l = lights.get<PointLightComponent>(entity);
+            std::string base = "lights[" + std::to_string(lightCount) + "].";
+            m_pbrShader->SetVec3U(base + "position", t.position);
+            m_pbrShader->SetVec3U(base + "color", l.color);
+            m_pbrShader->SetFloatU(base + "intensity", l.intensity);
+            lightCount++;
+        }
+    }
+    m_pbrShader->SetIntU("lightCount", lightCount);
+
+    // Directional shadow cascades + IBL maps
+    if (m_shadowSystem) {
+        m_shadowSystem->BindTextures(5);
+        m_pbrShader->SetIntU("shadowMap", 5);
+        m_pbrShader->SetVec3U("lightDir", glm::normalize(glm::vec3(1.0f, -1.0f, 1.0f)));
+        auto matrices = m_shadowSystem->GetLightSpaceMatrices();
+        auto splits = m_shadowSystem->GetCascadeSplits();
+        for (int i = 0; i < MAX_CASCADES; i++) {
+            m_pbrShader->SetMat4U("lightSpaceMatrices[" + std::to_string(i) + "]", matrices[i]);
+            m_pbrShader->SetFloatU("cascadePlaneDistances[" + std::to_string(i) + "]", splits[i]);
+        }
+    }
+    glActiveTexture(GL_TEXTURE6);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, m_iblData.irradianceMap);
+    m_pbrShader->SetIntU("irradianceMap", 6);
+    glActiveTexture(GL_TEXTURE7);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, m_iblData.prefilterMap);
+    m_pbrShader->SetIntU("prefilterMap", 7);
+    glActiveTexture(GL_TEXTURE8);
+    glBindTexture(GL_TEXTURE_2D, m_iblData.brdfLUT);
+    m_pbrShader->SetIntU("brdfLUT", 8);
+    m_pbrShader->SetIntU("useIBL", (m_iblData.irradianceMap != 0) ? 1 : 0);
 
     for (const auto& cmd : m_forwardCommandBuffer) {
         if (!cmd.mesh)
@@ -451,6 +534,18 @@ void Renderer::RenderForwardCommands() {
     glDisable(GL_BLEND);
 
     m_forwardCommandBuffer.clear();
+
+    // Re-run final composition into the default framebuffer so the transparents
+    // are tonemapped together with the opaque scene.
+    GLuint targetFBO = m_viewportFBO ? m_viewportFBO : 0;
+    int vpW = m_viewportFBO ? m_viewportWidth : Engine::Get().GetWindow().GetWidth();
+    int vpH = m_viewportFBO ? m_viewportHeight : Engine::Get().GetWindow().GetHeight();
+    glBindFramebuffer(GL_FRAMEBUFFER, targetFBO);
+    glViewport(0, 0, vpW, vpH);
+    glDisable(GL_DEPTH_TEST);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    PostProcessing::RenderFinalComposition(m_fboTexture.Get(), PostProcessing::GetBloomTexture(), m_exposure, m_gamma, targetFBO, vpW, vpH);
 }
 
 void Renderer::ReloadAllShaders() {
@@ -493,9 +588,13 @@ void Renderer::SetOrthoProjection(float width, float height) {
 
 void Renderer::SetCameraLookAt(glm::vec3 target) {
     m_view = glm::lookAt(m_cameraTransform.position, target, glm::vec3(0, 1, 0));
-    // Also update camera rotation to match (optional but good for consistency)
-    // m_cameraTransform.rotation = glm::quatLookAt(glm::normalize(target - m_cameraTransform.position), glm::vec3(0, 1,
-    // 0));
+    glm::vec3 forward = target - m_cameraTransform.position;
+    if (glm::length(forward) > 0.001f) {
+        glm::vec3 dir = glm::normalize(forward);
+        m_cameraTransform.rotation = glm::quatLookAt(dir, glm::vec3(0, 1, 0));
+        m_cameraTransform.UpdateLocalMatrix();
+        m_cameraTransform.worldMatrix = m_cameraTransform.localMatrix;
+    }
 }
 
 void Renderer::RenderSkinnedMeshes(entt::registry& registry) {

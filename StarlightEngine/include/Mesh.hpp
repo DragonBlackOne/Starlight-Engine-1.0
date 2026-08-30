@@ -21,6 +21,7 @@ namespace starlight {
         void Draw();
         void DrawInstanced(uint32_t instanceCount);
         uint32_t GetVAO() const { return m_vao; }
+        uint32_t GetIndexCount() const { return m_indexCount; }
 
     private:
         uint32_t m_vao = 0;

@@ -50,66 +50,26 @@ function(add_starlight_game target_name)
     cmake_parse_arguments(_sg "${_options}" "${_onevalue}" "${_multi}" ${ARGN})
 
     starlight_resolve_sdk_dir(_sdk)
-    set(_inc "${_sdk}/include")
-    set(_lib "${_sdk}/build/$<CONFIG>")
-    set(_deps "${_starlight_deps_dir}")
 
     add_executable(${target_name} src/main.cpp)
 
     target_include_directories(${target_name} PRIVATE
         src
-        "${_inc}"
-        "${_inc}/glad/include"
-        "${_sdk}/src"
-        "${_sdk}/thirdparty"
-        "${_sdk}/thirdparty/imgui"
-        "${_sdk}/thirdparty/wicked/core"
-        "${_sdk}/thirdparty/pl_mpeg"
-        "${_sdk}/thirdparty/nlohmann"
-        "${_deps}/glm-1.0.3"
-        "${_deps}/entt-3.16.0/src"
-        "${_deps}/sol2-3.5.0/include"
-        "${_deps}/lua-5.4.7"
-        "${_deps}/SDL-release-2.30.11/include"
-        "${_deps}/JoltPhysics-5.5.0"
-    )
-
-    target_link_directories(${target_name} PRIVATE
-        "${_lib}"
-        "${_sdk}/build/sdl2/$<CONFIG>"
-        "${_sdk}/build/jolt/$<CONFIG>"
-        "${_sdk}/build/_deps/meshoptimizer-build/$<CONFIG>"
-        "${_sdk}/build/_deps/ozz_animation-build/src/animation/runtime/$<CONFIG>"
-        "${_sdk}/build/_deps/ozz_animation-build/src/base/$<CONFIG>"
-        "${_sdk}/build/_deps/ozz_animation-build/src/geometry/runtime/$<CONFIG>"
-        "${_sdk}/build/_deps/rmlui-build/$<CONFIG>"
-        "${_sdk}/build/_deps/freetype-build/$<CONFIG>"
+        "${_sdk}/include"
     )
 
     target_link_libraries(${target_name} PRIVATE
         StarlightCore
-        RmlCore
-        $<$<CONFIG:Debug>:freetyped>$<$<NOT:$<CONFIG:Debug>>:freetype>
-        glad
-        lua
-        meshoptimizer
-        Jolt
-        $<$<CONFIG:Debug>:ozz_animation_d>$<$<NOT:$<CONFIG:Debug>>:ozz_animation_r>
-        $<$<CONFIG:Debug>:ozz_base_d>$<$<NOT:$<CONFIG:Debug>>:ozz_base_r>
-        $<$<CONFIG:Debug>:ozz_geometry_d>$<$<NOT:$<CONFIG:Debug>>:ozz_geometry_r>
-        $<$<CONFIG:Debug>:SDL2-staticd>$<$<NOT:$<CONFIG:Debug>>:SDL2-static>
-        $<$<CONFIG:Debug>:SDL2maind>$<$<NOT:$<CONFIG:Debug>>:SDL2main>
-        kernel32 user32 gdi32 winmm imm32 ole32 oleaut32 version uuid advapi32 setupapi shell32 dinput8
     )
 
     if(MSVC)
         target_compile_options(${target_name} PRIVATE
             /W4 /WX /MP /EHsc /FS /utf-8 /Zi /bigobj /wd4005 /wd5321
-            $<$<CONFIG:Release>:/WX>
         )
         target_compile_definitions(${target_name} PRIVATE
             _CRT_SECURE_NO_WARNINGS
             GLM_ENABLE_EXPERIMENTAL
+            SOL_USING_CXX_LUA
         )
     endif()
 

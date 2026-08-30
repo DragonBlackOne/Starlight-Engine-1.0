@@ -10,6 +10,9 @@ namespace wi::jobsystem {
         JobArgs args;
     };
 
+    static std::condition_variable s_waitCond;
+    static std::mutex s_waitMutex;
+
     static struct InternalState {
         std::vector<std::thread> workers;
         std::deque<Job> jobQueue;
@@ -47,7 +50,10 @@ namespace wi::jobsystem {
                     job.task(job.args);
                     
                     if (job.ctx) {
-                        job.ctx->counter.fetch_sub(1);
+                        if (job.ctx->counter.fetch_sub(1) == 1) {
+                            std::lock_guard<std::mutex> lock(s_waitMutex);
+                            s_waitCond.notify_all();
+                        }
                     }
                 }
             });
@@ -96,8 +102,10 @@ namespace wi::jobsystem {
     }
 
     void Wait(const context& ctx) {
-        while (ctx.counter.load() > 0) {
-            std::this_thread::yield();
-        }
+        if (ctx.counter.load() == 0) return;
+        std::unique_lock<std::mutex> lock(s_waitMutex);
+        s_waitCond.wait(lock, [&ctx] {
+            return ctx.counter.load() == 0;
+        });
     }
 }

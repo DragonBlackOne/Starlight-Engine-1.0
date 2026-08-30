@@ -9,10 +9,103 @@
 namespace starlight {
 
     static SDL_Scancode ToSDLScancode(pal::KeyCode key) {
-        return static_cast<SDL_Scancode>(key);
+        switch (key) {
+            case pal::KeyCode::Unknown: return SDL_SCANCODE_UNKNOWN;
+            
+            // Letters (A-Z)
+            case pal::KeyCode::A: return SDL_SCANCODE_A;
+            case pal::KeyCode::B: return SDL_SCANCODE_B;
+            case pal::KeyCode::C: return SDL_SCANCODE_C;
+            case pal::KeyCode::D: return SDL_SCANCODE_D;
+            case pal::KeyCode::E: return SDL_SCANCODE_E;
+            case pal::KeyCode::F: return SDL_SCANCODE_F;
+            case pal::KeyCode::G: return SDL_SCANCODE_G;
+            case pal::KeyCode::H: return SDL_SCANCODE_H;
+            case pal::KeyCode::I: return SDL_SCANCODE_I;
+            case pal::KeyCode::J: return SDL_SCANCODE_J;
+            case pal::KeyCode::K: return SDL_SCANCODE_K;
+            case pal::KeyCode::L: return SDL_SCANCODE_L;
+            case pal::KeyCode::M: return SDL_SCANCODE_M;
+            case pal::KeyCode::N: return SDL_SCANCODE_N;
+            case pal::KeyCode::O: return SDL_SCANCODE_O;
+            case pal::KeyCode::P: return SDL_SCANCODE_P;
+            case pal::KeyCode::Q: return SDL_SCANCODE_Q;
+            case pal::KeyCode::R: return SDL_SCANCODE_R;
+            case pal::KeyCode::S: return SDL_SCANCODE_S;
+            case pal::KeyCode::T: return SDL_SCANCODE_T;
+            case pal::KeyCode::U: return SDL_SCANCODE_U;
+            case pal::KeyCode::V: return SDL_SCANCODE_V;
+            case pal::KeyCode::W: return SDL_SCANCODE_W;
+            case pal::KeyCode::X: return SDL_SCANCODE_X;
+            case pal::KeyCode::Y: return SDL_SCANCODE_Y;
+            case pal::KeyCode::Z: return SDL_SCANCODE_Z;
+
+            // Numbers (1-0)
+            case pal::KeyCode::Num1: return SDL_SCANCODE_1;
+            case pal::KeyCode::Num2: return SDL_SCANCODE_2;
+            case pal::KeyCode::Num3: return SDL_SCANCODE_3;
+            case pal::KeyCode::Num4: return SDL_SCANCODE_4;
+            case pal::KeyCode::Num5: return SDL_SCANCODE_5;
+            case pal::KeyCode::Num6: return SDL_SCANCODE_6;
+            case pal::KeyCode::Num7: return SDL_SCANCODE_7;
+            case pal::KeyCode::Num8: return SDL_SCANCODE_8;
+            case pal::KeyCode::Num9: return SDL_SCANCODE_9;
+            case pal::KeyCode::Num0: return SDL_SCANCODE_0;
+
+            // Basic control keys
+            case pal::KeyCode::Return: return SDL_SCANCODE_RETURN;
+            case pal::KeyCode::Escape: return SDL_SCANCODE_ESCAPE;
+            case pal::KeyCode::Backspace: return SDL_SCANCODE_BACKSPACE;
+            case pal::KeyCode::Tab: return SDL_SCANCODE_TAB;
+            case pal::KeyCode::Space: return SDL_SCANCODE_SPACE;
+
+            // Function keys (F1-F12)
+            case pal::KeyCode::F1: return SDL_SCANCODE_F1;
+            case pal::KeyCode::F2: return SDL_SCANCODE_F2;
+            case pal::KeyCode::F3: return SDL_SCANCODE_F3;
+            case pal::KeyCode::F4: return SDL_SCANCODE_F4;
+            case pal::KeyCode::F5: return SDL_SCANCODE_F5;
+            case pal::KeyCode::F6: return SDL_SCANCODE_F6;
+            case pal::KeyCode::F7: return SDL_SCANCODE_F7;
+            case pal::KeyCode::F8: return SDL_SCANCODE_F8;
+            case pal::KeyCode::F9: return SDL_SCANCODE_F9;
+            case pal::KeyCode::F10: return SDL_SCANCODE_F10;
+            case pal::KeyCode::F11: return SDL_SCANCODE_F11;
+            case pal::KeyCode::F12: return SDL_SCANCODE_F12;
+
+            // Command / Navigation keys
+            case pal::KeyCode::PrintScreen: return SDL_SCANCODE_PRINTSCREEN;
+            case pal::KeyCode::ScrollLock: return SDL_SCANCODE_SCROLLLOCK;
+            case pal::KeyCode::Pause: return SDL_SCANCODE_PAUSE;
+            case pal::KeyCode::Insert: return SDL_SCANCODE_INSERT;
+            case pal::KeyCode::Home: return SDL_SCANCODE_HOME;
+            case pal::KeyCode::PageUp: return SDL_SCANCODE_PAGEUP;
+            case pal::KeyCode::Delete: return SDL_SCANCODE_DELETE;
+            case pal::KeyCode::End: return SDL_SCANCODE_END;
+            case pal::KeyCode::PageDown: return SDL_SCANCODE_PAGEDOWN;
+
+            // Arrows
+            case pal::KeyCode::Right: return SDL_SCANCODE_RIGHT;
+            case pal::KeyCode::Left: return SDL_SCANCODE_LEFT;
+            case pal::KeyCode::Down: return SDL_SCANCODE_DOWN;
+            case pal::KeyCode::Up: return SDL_SCANCODE_UP;
+
+            // Modifiers
+            case pal::KeyCode::LShift: return SDL_SCANCODE_LSHIFT;
+            case pal::KeyCode::LCtrl: return SDL_SCANCODE_LCTRL;
+            case pal::KeyCode::LAlt: return SDL_SCANCODE_LALT;
+            case pal::KeyCode::RShift: return SDL_SCANCODE_RSHIFT;
+            case pal::KeyCode::RCtrl: return SDL_SCANCODE_RCTRL;
+            case pal::KeyCode::RAlt: return SDL_SCANCODE_RALT;
+
+            default: return SDL_SCANCODE_UNKNOWN;
+        }
     }
 
     pal::KeyCode InputSystem::KeyCodeFromString(const std::string& name) {
+        std::string upperName = name;
+        std::transform(upperName.begin(), upperName.end(), upperName.begin(), ::toupper);
+
         static const std::unordered_map<std::string, pal::KeyCode> s_stringToKey = {
             {"A", pal::KeyCode::A}, {"B", pal::KeyCode::B}, {"C", pal::KeyCode::C}, {"D", pal::KeyCode::D},
             {"E", pal::KeyCode::E}, {"F", pal::KeyCode::F}, {"G", pal::KeyCode::G}, {"H", pal::KeyCode::H},
@@ -24,20 +117,21 @@ namespace starlight {
             {"1", pal::KeyCode::Num1}, {"2", pal::KeyCode::Num2}, {"3", pal::KeyCode::Num3}, {"4", pal::KeyCode::Num4},
             {"5", pal::KeyCode::Num5}, {"6", pal::KeyCode::Num6}, {"7", pal::KeyCode::Num7}, {"8", pal::KeyCode::Num8},
             {"9", pal::KeyCode::Num9}, {"0", pal::KeyCode::Num0},
-            {"Return", pal::KeyCode::Return}, {"Enter", pal::KeyCode::Return},
-            {"Escape", pal::KeyCode::Escape}, {"Backspace", pal::KeyCode::Backspace},
-            {"Tab", pal::KeyCode::Tab}, {"Space", pal::KeyCode::Space},
+            {"RETURN", pal::KeyCode::Return}, {"ENTER", pal::KeyCode::Return},
+            {"ESCAPE", pal::KeyCode::Escape}, {"ESC", pal::KeyCode::Escape}, {"BACKSPACE", pal::KeyCode::Backspace},
+            {"TAB", pal::KeyCode::Tab}, {"SPACE", pal::KeyCode::Space},
             {"F1", pal::KeyCode::F1}, {"F2", pal::KeyCode::F2}, {"F3", pal::KeyCode::F3}, {"F4", pal::KeyCode::F4},
             {"F5", pal::KeyCode::F5}, {"F6", pal::KeyCode::F6}, {"F7", pal::KeyCode::F7}, {"F8", pal::KeyCode::F8},
             {"F9", pal::KeyCode::F9}, {"F10", pal::KeyCode::F10}, {"F11", pal::KeyCode::F11}, {"F12", pal::KeyCode::F12},
-            {"PrintScreen", pal::KeyCode::PrintScreen}, {"ScrollLock", pal::KeyCode::ScrollLock}, {"Pause", pal::KeyCode::Pause},
-            {"Insert", pal::KeyCode::Insert}, {"Home", pal::KeyCode::Home}, {"PageUp", pal::KeyCode::PageUp},
-            {"Delete", pal::KeyCode::Delete}, {"End", pal::KeyCode::End}, {"PageDown", pal::KeyCode::PageDown},
-            {"Right", pal::KeyCode::Right}, {"Left", pal::KeyCode::Left}, {"Down", pal::KeyCode::Down}, {"Up", pal::KeyCode::Up},
-            {"LShift", pal::KeyCode::LShift}, {"LCtrl", pal::KeyCode::LCtrl}, {"LAlt", pal::KeyCode::LAlt},
-            {"RShift", pal::KeyCode::RShift}, {"RCtrl", pal::KeyCode::RCtrl}, {"RAlt", pal::KeyCode::RAlt}
+            {"PRINTSCREEN", pal::KeyCode::PrintScreen}, {"SCROLLLOCK", pal::KeyCode::ScrollLock}, {"PAUSE", pal::KeyCode::Pause},
+            {"INSERT", pal::KeyCode::Insert}, {"HOME", pal::KeyCode::Home}, {"PAGEUP", pal::KeyCode::PageUp},
+            {"DELETE", pal::KeyCode::Delete}, {"END", pal::KeyCode::End}, {"PAGEDOWN", pal::KeyCode::PageDown},
+            {"RIGHT", pal::KeyCode::Right}, {"LEFT", pal::KeyCode::Left}, {"DOWN", pal::KeyCode::Down}, {"UP", pal::KeyCode::Up},
+            {"LSHIFT", pal::KeyCode::LShift}, {"SHIFT", pal::KeyCode::LShift}, {"RSHIFT", pal::KeyCode::RShift},
+            {"LCTRL", pal::KeyCode::LCtrl}, {"CTRL", pal::KeyCode::LCtrl}, {"RCTRL", pal::KeyCode::RCtrl},
+            {"LALT", pal::KeyCode::LAlt}, {"ALT", pal::KeyCode::LAlt}, {"RALT", pal::KeyCode::RAlt}
         };
-        auto it = s_stringToKey.find(name);
+        auto it = s_stringToKey.find(upperName);
         if (it != s_stringToKey.end()) return it->second;
         return pal::KeyCode::Unknown;
     }
@@ -69,6 +163,17 @@ namespace starlight {
         auto it = s_keyToString.find(key);
         if (it != s_keyToString.end()) return it->second;
         return "Unknown";
+    }
+
+    int InputSystem::KeyCodeToScancodeValue(pal::KeyCode key) {
+        return static_cast<int>(ToSDLScancode(key));
+    }
+
+    void InputSystem::InjectKeyStateForTesting(pal::KeyCode key, bool pressed) {
+        int scancode = KeyCodeToScancodeValue(key);
+        if (scancode >= 0 && scancode < 512) {
+            s_currKeys[scancode] = pressed ? 1 : 0;
+        }
     }
 
     uint8_t InputSystem::s_currKeys[512] = {0};
@@ -185,6 +290,11 @@ namespace starlight {
             for (auto button : it->second.mouseButtons) {
                 if (s_currMouse & SDL_BUTTON(static_cast<uint8_t>(button))) return true;
             }
+            return false;
+        }
+        pal::KeyCode k = KeyCodeFromString(name);
+        if (k != pal::KeyCode::Unknown) {
+            return IsKeyPressed(k);
         }
         return false;
     }
@@ -199,8 +309,39 @@ namespace starlight {
                 uint32_t mask = SDL_BUTTON(static_cast<uint8_t>(button));
                 if ((s_currMouse & mask) && !(s_prevMouse & mask)) return true;
             }
+            return false;
+        }
+        pal::KeyCode k = KeyCodeFromString(name);
+        if (k != pal::KeyCode::Unknown) {
+            return IsKeyJustPressed(k);
         }
         return false;
+    }
+
+    bool InputSystem::IsActionJustReleased(const std::string& name) const {
+        auto it = m_actions.find(name);
+        if (it != m_actions.end()) {
+            for (auto key : it->second.keys) {
+                if (IsKeyJustReleased(key)) return true;
+            }
+            for (auto button : it->second.mouseButtons) {
+                uint32_t mask = SDL_BUTTON(static_cast<uint8_t>(button));
+                if (!(s_currMouse & mask) && (s_prevMouse & mask)) return true;
+            }
+            return false;
+        }
+        pal::KeyCode k = KeyCodeFromString(name);
+        if (k != pal::KeyCode::Unknown) {
+            return IsKeyJustReleased(k);
+        }
+        return false;
+    }
+
+    float InputSystem::GetActionAxis(const std::string& negativeAction, const std::string& positiveAction) const {
+        float value = 0.0f;
+        if (IsActionPressed(negativeAction)) value -= 1.0f;
+        if (IsActionPressed(positiveAction)) value += 1.0f;
+        return value;
     }
 
     bool InputSystem::IsKeyPressed(pal::KeyCode key) {
@@ -211,14 +352,36 @@ namespace starlight {
         return (s_currKeys[ToSDLScancode(key)] != 0) && (s_prevKeys[ToSDLScancode(key)] == 0);
     }
 
+    bool InputSystem::IsKeyJustReleased(pal::KeyCode key) {
+        return (s_currKeys[ToSDLScancode(key)] == 0) && (s_prevKeys[ToSDLScancode(key)] != 0);
+    }
+
     void InputSystem::BindAction(const std::string& name, pal::KeyCode key) {
         m_actions[name].name = name;
-        m_actions[name].keys.push_back(key);
+        auto& keys = m_actions[name].keys;
+        if (std::find(keys.begin(), keys.end(), key) == keys.end()) {
+            keys.push_back(key);
+        }
     }
 
     void InputSystem::BindMouseButton(const std::string& name, pal::MouseButton button) {
         m_actions[name].name = name;
-        m_actions[name].mouseButtons.push_back(button);
+        auto& btns = m_actions[name].mouseButtons;
+        if (std::find(btns.begin(), btns.end(), button) == btns.end()) {
+            btns.push_back(button);
+        }
+    }
+
+    void InputSystem::ClearActionBindings(const std::string& name) {
+        m_actions.erase(name);
+    }
+
+    std::vector<pal::KeyCode> InputSystem::GetActionKeys(const std::string& name) const {
+        auto it = m_actions.find(name);
+        if (it != m_actions.end()) {
+            return it->second.keys;
+        }
+        return {};
     }
 
     void InputSystem::SaveBindings(ConfigSystem& config) const {
@@ -254,6 +417,11 @@ namespace starlight {
         if (m_gamepad) {
             SDL_GameControllerRumble((SDL_GameController*)m_gamepad, (uint16_t)(leftMotor * 0xFFFF), (uint16_t)(rightMotor * 0xFFFF), durationMS);
         }
+    }
+
+    void InputSystem::VibratePulse(float strength, uint32_t durationMS, uint32_t pulses) {
+        (void)pulses;
+        Vibrate(strength, strength, durationMS);
     }
 
     void InputSystem::OnShutdown() {

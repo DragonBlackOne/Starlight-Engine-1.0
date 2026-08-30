@@ -28,6 +28,13 @@
 #include "PluginSystem.hpp"
 #include "EditorSystem.hpp"
 #include "Noise.hpp"
+#include "AssetManager.hpp"
+#include "AutomationSystem.hpp"
+#include "JobSystem.hpp"
+#include "DecalSystem.hpp"
+#include "Profiler.hpp"
+#include "MathUtils.hpp"
+#include "core/Memory/MemoryManager.hpp"
 namespace starlight {
 
 // Helper: Get active scene's registry safely (reduces boilerplate in all bindings)
@@ -36,8 +43,66 @@ static inline entt::registry* GetActiveReg() {
     return scene ? &scene->GetRegistry() : nullptr;
 }
 
-static inline bool ValidEntity(entt::registry* reg, uint32_t e) {
-    return reg && reg->valid((entt::entity)e);
+namespace {
+    class DynamicGameScene : public starlight::BaseScene {
+    private:
+        std::string m_scriptPath;
+    public:
+        DynamicGameScene(const std::string& scriptPath) : m_scriptPath(scriptPath) {}
+        
+        void OnEnter() override {
+            starlight::Log::Info("DynamicGameScene: Entering scene, executing script '" + m_scriptPath + "'");
+            auto& scripting = starlight::Engine::Get().GetScripting();
+            
+            // Auto configure 2D/3D projection based on the script path
+            auto renderer = starlight::Engine::Get().GetSystem<starlight::Renderer>();
+            if (renderer) {
+                if (m_scriptPath.find("starlight_odyssey") != std::string::npos) {
+                    float aspect = (float)starlight::Engine::Get().GetWindow().GetWidth() / (float)starlight::Engine::Get().GetWindow().GetHeight();
+                    renderer->UpdateProjection(60.0f, aspect, 0.1f, 1000.0f);
+                } else {
+                    renderer->SetOrthoProjection((float)starlight::Engine::Get().GetWindow().GetWidth(), (float)starlight::Engine::Get().GetWindow().GetHeight());
+                }
+            }
+            
+            scripting.ExecuteFile(m_scriptPath);
+            
+            sol::protected_function onStart = scripting.GetLua()["OnStart"];
+            if (onStart.valid()) {
+                auto result = onStart();
+                if (!result.valid()) {
+                    sol::error err = result;
+                    starlight::Log::Error("DynamicGameScene OnStart Error: " + std::string(err.what()));
+                }
+            }
+        }
+
+        void OnUpdate(float dt) override {
+            (void)dt;
+            if (starlight::InputSystem::IsKeyJustPressed(starlight::pal::KeyCode::F5)) {
+                starlight::Log::Info("DynamicGameScene: F5 detected. Hot-reloading script '" + m_scriptPath + "'...");
+                
+                GetRegistry().clear();
+                
+                auto& scripting = starlight::Engine::Get().GetScripting();
+                scripting.ResetState();
+                
+                scripting.ExecuteFile(m_scriptPath);
+                sol::protected_function onStart = scripting.GetLua()["OnStart"];
+                if (onStart.valid()) {
+                    auto result = onStart();
+                    if (!result.valid()) {
+                        sol::error err = result;
+                        starlight::Log::Error("DynamicGameScene Hot-Reload OnStart Error: " + std::string(err.what()));
+                    }
+                }
+            }
+        }
+
+        void OnRender() override {
+            starlight::Engine::Get().GetRenderer().RenderRegistry(GetRegistry());
+        }
+    };
 }
 
 ScriptSystem::ScriptSystem() {
@@ -49,6 +114,31 @@ ScriptSystem::~ScriptSystem() {}
 
 bool ScriptSystem::OnInitialize(const EngineContext& context) {
     (void)context;
+
+    // Register a custom panic handler to print Lua traceback on fatal type mismatches or panics
+    lua_atpanic(m_lua.lua_state(), [](lua_State* L) -> int {
+        const char* msg = lua_tostring(L, -1);
+        Log::Error("[Lua Panic] {}", msg ? msg : "unknown error");
+        
+        // Retrieve and run debug.traceback safely
+        sol::state_view lua(L);
+        sol::object dbgObj = lua["debug"];
+        if (dbgObj.valid() && dbgObj.is<sol::table>()) {
+            sol::table dbg = dbgObj;
+            sol::object tbObj = dbg["traceback"];
+            if (tbObj.valid() && tbObj.is<sol::function>()) {
+                sol::protected_function tb = tbObj;
+                auto res = tb();
+                if (res.valid()) {
+                    std::string trace = res;
+                    Log::Error("[Lua Panic Trace]\n{}", trace);
+                }
+            }
+        }
+        
+        std::abort();
+        return 0;
+    });
 
     // Set standard error handler
     m_lua.set_exception_handler(
@@ -78,6 +168,15 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
         &glm::quat::z,
         "w",
         &glm::quat::w);
+
+    // --- OFFICIAL NEON PALETTE COLORS ---
+    auto colors = m_lua.create_table("Colors");
+    colors["HotMagenta"] = glm::vec3(1.0f, 0.2f, 0.95f);
+    colors["CyberCyan"] = glm::vec3(0.0f, 0.9f, 0.9f);
+    colors["NeonViolet"] = glm::vec3(0.55f, 0.12f, 0.75f);
+    colors["SunsetOrange"] = glm::vec3(1.0f, 0.45f, 0.05f);
+    colors["GlowGold"] = glm::vec3(1.0f, 0.85f, 0.1f);
+    colors["DarkObsidian"] = glm::vec3(0.04f, 0.02f, 0.08f);
 
     // --- NOISE GENERATION ---
     m_lua.new_usertype<Noise>("Noise",
@@ -112,12 +211,167 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
     // Instead of usertypes for Core, we use a direct function table for 100% stability.
     auto engine = m_lua.create_table("Engine");
 
+    engine["version"] = STARLIGHT_VERSION_STRING;
+    engine["version_major"] = STARLIGHT_VERSION_MAJOR;
+    engine["version_minor"] = STARLIGHT_VERSION_MINOR;
+    engine["version_patch"] = STARLIGHT_VERSION_PATCH;
+    engine["codename"] = STARLIGHT_VERSION_CODENAME;
+    engine["name"] = STARLIGHT_ENGINE_NAME;
+
+    engine["get_version_info"] = [this]() {
+        sol::table t = m_lua.create_table();
+        t["major"] = STARLIGHT_VERSION_MAJOR;
+        t["minor"] = STARLIGHT_VERSION_MINOR;
+        t["patch"] = STARLIGHT_VERSION_PATCH;
+        t["string"] = STARLIGHT_VERSION_STRING;
+        t["codename"] = STARLIGHT_VERSION_CODENAME;
+        t["name"] = STARLIGHT_ENGINE_NAME;
+        return t;
+    };
+
+    engine["get_telemetry"] = [this]() {
+        sol::table t = m_lua.create_table();
+        if (Engine::IsInitialized()) {
+            auto& eng = Engine::Get();
+            const auto& timeState = eng.GetTime();
+            t["fps"] = timeState.fps;
+            t["avg_frame_time"] = timeState.avgFrameTime;
+            t["total_time"] = timeState.totalTime;
+            auto activeScene = eng.GetSceneStack().Active();
+            if (activeScene) {
+                t["entities_count"] = (int)activeScene->GetRegistry().storage<entt::entity>().size();
+            } else {
+                t["entities_count"] = 0;
+            }
+            auto audioSys = eng.GetSystem<AudioSystem>();
+            if (audioSys) {
+                t["active_audio_voices"] = (int)audioSys->GetActiveVoiceCount();
+            } else {
+                t["active_audio_voices"] = 0;
+            }
+            auto r2dStats = Renderer2D::GetStats();
+            t["draw_calls"] = (int)r2dStats.drawCalls;
+            t["quad_count"] = (int)r2dStats.quadCount;
+            t["memory_used_kb"] = (double)MemoryManager::Get().GetTotalUsedMemory() / 1024.0;
+            t["memory_capacity_kb"] = (double)MemoryManager::Get().GetTotalCapacity() / 1024.0;
+            t["target_fps"] = eng.GetMaxFPS();
+        }
+        return t;
+    };
+
+    engine["set_target_fps"] = [](int fps) {
+        if (Engine::IsInitialized()) {
+            Engine::Get().SetMaxFPS(fps);
+        }
+    };
+
+    engine["get_target_fps"] = []() {
+        return Engine::IsInitialized() ? Engine::Get().GetMaxFPS() : 60;
+    };
+
+    engine["capture_screenshot"] = [](const std::string& path) -> bool {
+        if (!Engine::IsInitialized()) return false;
+        return Engine::Get().GetWindow().CaptureScreenshot(path);
+    };
+
+    engine["get_systems"] = [this]() {
+        sol::table t = m_lua.create_table();
+        if (Engine::IsInitialized()) {
+            const auto& systems = Engine::Get().GetRegistry().GetSystems();
+            int idx = 1;
+            for (const auto& sys : systems) {
+                if (sys) {
+                    sol::table sysTable = m_lua.create_table();
+                    sysTable["name"] = sys->GetName();
+                    sysTable["enabled"] = sys->IsEnabled();
+                    sysTable["priority"] = sys->GetPriority();
+                    t[idx++] = sysTable;
+                }
+            }
+        }
+        return t;
+    };
+
+    engine["is_system_active"] = [](const std::string& name) {
+        if (!Engine::IsInitialized()) return false;
+        const auto& systems = Engine::Get().GetRegistry().GetSystems();
+        for (const auto& sys : systems) {
+            if (sys && sys->GetName() == name) {
+                return sys->IsEnabled();
+            }
+        }
+        return false;
+    };
+
+    engine["add_camera_trauma"] = [](float amount) {
+        if (Engine::IsInitialized()) {
+            Engine::Get().GetRenderer().AddCameraTrauma(amount);
+        }
+    };
+
+    engine["get_camera_trauma"] = []() {
+        return Engine::IsInitialized() ? Engine::Get().GetRenderer().GetCameraTrauma() : 0.0f;
+    };
+
+    engine["set_color_grading"] = [](float exposure, float contrast, float saturation, float gamma, sol::optional<float> vignette) {
+        if (Engine::IsInitialized()) {
+            Engine::Get().GetRenderer().SetColorGrading(exposure, contrast, saturation, gamma, vignette.value_or(0.0f));
+        }
+    };
+
+    engine["set_bloom_threshold"] = [](float threshold) {
+        if (Engine::IsInitialized()) {
+            Engine::Get().GetRenderer().SetBloomThreshold(threshold);
+        }
+    };
+
     engine["report_active_bt_node"] = [](const std::string& name) {
         if (!Engine::IsInitialized()) return;
         auto editor = Engine::Get().GetSystem<EditorSystem>();
         if (editor) {
             editor->ReportActiveBtNode(name);
         }
+    };
+
+    engine["load_game"] = [](const std::string& gameName) {
+        if (!Engine::IsInitialized()) return;
+        auto& engine = Engine::Get();
+        Log::Info("Launcher: Dynamic loading game '{}' request", gameName);
+
+        auto& sceneStack = engine.GetSceneStack();
+        if (sceneStack.Active()) {
+            sceneStack.Pop();
+        }
+
+        auto assetMgr = engine.GetSystem<AssetManager>();
+        if (assetMgr) {
+            assetMgr->FlushCache();
+        }
+
+        auto scripting = engine.GetSystem<ScriptSystem>();
+        if (scripting) {
+            scripting->ResetState();
+        }
+
+        std::string scriptPath = "";
+        if (gameName == "pong") {
+            scriptPath = "assets/scripts/pong_main.lua";
+        } else if (gameName == "snake") {
+            scriptPath = "assets/scripts/snake_main.lua";
+        } else if (gameName == "tetris") {
+            scriptPath = "assets/scripts/tetris_main.lua";
+        } else if (gameName == "capital") {
+            scriptPath = "assets/scripts/odyssey_main.lua";
+        } else if (gameName == "fight") {
+            scriptPath = "assets/scripts/fusion_fight_main.lua";
+        } else if (gameName == "odyssey") {
+            scriptPath = "assets/scripts/starlight_odyssey.lua";
+        } else {
+            Log::Error("Launcher: Unknown game name '{}'", gameName);
+            return;
+        }
+
+        sceneStack.Push(std::make_shared<DynamicGameScene>(scriptPath));
     };
 
     // Registry
@@ -183,6 +437,8 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
             return;
         auto& t = reg.get<TransformComponent>((entt::entity)e);
         t.position = {x, y, z};
+        t.UpdateLocalMatrix();
+        t.worldMatrix = t.localMatrix;
     };
     engine["spawn_light"] = [](float x, float y, float z, float r, float g, float b, float intensity) {
         auto scene = Engine::Get().GetSceneStack().Active();
@@ -192,6 +448,8 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
         auto e = reg.create();
         auto& t = reg.emplace<TransformComponent>(e);
         t.position = {x, y, z};
+        t.UpdateLocalMatrix();
+        t.worldMatrix = t.localMatrix;
         auto& l = reg.emplace<PointLightComponent>(e);
         l.color = {r, g, b};
         l.intensity = intensity;
@@ -206,6 +464,20 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
             return;
         auto& t = reg.get<TransformComponent>((entt::entity)e);
         t.rotation = t.rotation * glm::quat(glm::vec3(x, y, z));
+        t.UpdateLocalMatrix();
+        t.worldMatrix = t.localMatrix;
+    };
+    engine["set_rotation"] = [](uint32_t e, float x, float y, float z) {
+        auto scene = Engine::Get().GetSceneStack().Active();
+        if (!scene)
+            return;
+        auto& reg = scene->GetRegistry();
+        if (!reg.valid((entt::entity)e) || !reg.all_of<TransformComponent>((entt::entity)e))
+            return;
+        auto& t = reg.get<TransformComponent>((entt::entity)e);
+        t.rotation = glm::quat(glm::vec3(x, y, z));
+        t.UpdateLocalMatrix();
+        t.worldMatrix = t.localMatrix;
     };
     engine["set_scale"] = [](uint32_t e, float x, float y, float z) {
         auto scene = Engine::Get().GetSceneStack().Active();
@@ -216,6 +488,8 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
             return;
         auto& t = reg.get<TransformComponent>((entt::entity)e);
         t.scale = {x, y, z};
+        t.UpdateLocalMatrix();
+        t.worldMatrix = t.localMatrix;
     };
     engine["set_color"] = [](uint32_t e, float r, float g, float b) {
         auto scene = Engine::Get().GetSceneStack().Active();
@@ -226,6 +500,7 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
             return;
         auto& m = reg.get<MeshComponent>((entt::entity)e);
         m.material.color = {r, g, b};
+        m.material.albedo = {r, g, b};
     };
     engine["set_material"] = [](uint32_t e, float m, float r) {
         auto scene = Engine::Get().GetSceneStack().Active();
@@ -238,6 +513,412 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
         mesh.material.metallic = m;
         mesh.material.roughness = r;
     };
+    engine["set_pbr"] = [](uint32_t e, float r, float g, float b, sol::optional<float> metallic, sol::optional<float> roughness) {
+        auto scene = Engine::Get().GetSceneStack().Active();
+        if (!scene)
+            return;
+        auto& reg = scene->GetRegistry();
+        if (!reg.valid((entt::entity)e) || !reg.all_of<MeshComponent>((entt::entity)e))
+            return;
+        auto& mesh = reg.get<MeshComponent>((entt::entity)e);
+        mesh.material.isPBR = true;
+        mesh.material.color = {r, g, b};
+        mesh.material.albedo = {r, g, b};
+        if (metallic.has_value()) mesh.material.metallic = *metallic;
+        if (roughness.has_value()) mesh.material.roughness = *roughness;
+    };
+    engine["set_skin"] = [](uint32_t e, bool isSkin, sol::optional<float> r, sol::optional<float> g, sol::optional<float> b) {
+        auto scene = Engine::Get().GetSceneStack().Active();
+        if (!scene)
+            return;
+        auto& reg = scene->GetRegistry();
+        if (!reg.valid((entt::entity)e) || !reg.all_of<MeshComponent>((entt::entity)e))
+            return;
+        auto& mesh = reg.get<MeshComponent>((entt::entity)e);
+        mesh.material.isSkin = isSkin;
+        if (r.has_value() && g.has_value() && b.has_value()) {
+            mesh.material.subsurfaceColor = {*r, *g, *b};
+        }
+    };
+    static std::unordered_map<std::string, uint32_t> s_scriptTextureCache;
+
+    engine["set_texture"] = [](uint32_t e, const std::string& path) {
+        auto scene = Engine::Get().GetSceneStack().Active();
+        if (!scene)
+            return;
+        auto& reg = scene->GetRegistry();
+        if (!reg.valid((entt::entity)e) || !reg.all_of<MeshComponent>((entt::entity)e))
+            return;
+        auto& mesh = reg.get<MeshComponent>((entt::entity)e);
+        
+        uint32_t texID = 0;
+        auto it = s_scriptTextureCache.find(path);
+        if (it != s_scriptTextureCache.end()) {
+            texID = it->second;
+        } else {
+            texID = AssetLoader::LoadTexture(path);
+            if (texID != 0) {
+                s_scriptTextureCache[path] = texID;
+            }
+        }
+
+        if (texID != 0) {
+            mesh.material.albedoMap = texID;
+            mesh.material.useTexture = true;
+        }
+    };
+    engine["set_normal_map"] = [](uint32_t e, const std::string& path) {
+        auto scene = Engine::Get().GetSceneStack().Active();
+        if (!scene)
+            return;
+        auto& reg = scene->GetRegistry();
+        if (!reg.valid((entt::entity)e) || !reg.all_of<MeshComponent>((entt::entity)e))
+            return;
+        auto& mesh = reg.get<MeshComponent>((entt::entity)e);
+        
+        uint32_t texID = 0;
+        auto it = s_scriptTextureCache.find(path);
+        if (it != s_scriptTextureCache.end()) {
+            texID = it->second;
+        } else {
+            texID = AssetLoader::LoadTexture(path);
+            if (texID != 0) {
+                s_scriptTextureCache[path] = texID;
+            }
+        }
+
+        if (texID != 0) {
+            mesh.material.normalMap = texID;
+        }
+    };
+    engine["destroy"] = [](uint32_t e) {
+        auto scene = Engine::Get().GetSceneStack().Active();
+        if (!scene)
+            return;
+        auto& reg = scene->GetRegistry();
+        if (reg.valid((entt::entity)e)) {
+            reg.destroy((entt::entity)e);
+        }
+    };
+
+    engine["spawn_primitive"] = [](const std::string& tag, const std::string& type, sol::variadic_args args) -> uint32_t {
+        auto scene = Engine::Get().GetSceneStack().Active();
+        if (!scene) {
+            Log::Error("Script Error: Attempted to spawn_primitive '{}' but no active scene exists!", tag);
+            return 0;
+        }
+        auto& reg = scene->GetRegistry();
+        auto e = reg.create();
+        reg.emplace<TagComponent>(e, tag);
+        auto& t = reg.emplace<TransformComponent>(e);
+        t.UpdateLocalMatrix();
+        t.worldMatrix = t.localMatrix;
+        auto& m = reg.emplace<MeshComponent>(e);
+        m.material.isPBR = true;
+        m.material.albedo = {1.0f, 1.0f, 1.0f};
+        m.boundingRadius = 100.0f;
+
+        std::vector<float> fargs;
+        for (auto arg : args) {
+            if (arg.is<float>()) fargs.push_back(arg.as<float>());
+            else if (arg.is<int>()) fargs.push_back((float)arg.as<int>());
+        }
+
+        if (type == "plane") {
+            float w = fargs.size() > 0 ? fargs[0] : 10.0f;
+            float d = fargs.size() > 1 ? fargs[1] : 10.0f;
+            float tu = fargs.size() > 2 ? fargs[2] : 1.0f;
+            float tv = fargs.size() > 3 ? fargs[3] : 1.0f;
+            m.mesh = AssetLoader::CreatePlaneMesh(w, d, tu, tv);
+        } else if (type == "box") {
+            float w = fargs.size() > 0 ? fargs[0] : 1.0f;
+            float h = fargs.size() > 1 ? fargs[1] : 1.0f;
+            float d = fargs.size() > 2 ? fargs[2] : 1.0f;
+            m.mesh = AssetLoader::CreateBoxMesh(w, h, d);
+        } else if (type == "cylinder") {
+            float r = fargs.size() > 0 ? fargs[0] : 0.5f;
+            float h = fargs.size() > 1 ? fargs[1] : 2.0f;
+            int segs = fargs.size() > 2 ? (int)fargs[2] : 16;
+            m.mesh = AssetLoader::CreateCylinderMesh(r, h, segs);
+        } else if (type == "sphere") {
+            float r = fargs.size() > 0 ? fargs[0] : 0.5f;
+            int rings = fargs.size() > 1 ? (int)fargs[1] : 12;
+            int segs = fargs.size() > 2 ? (int)fargs[2] : 16;
+            m.mesh = AssetLoader::CreateSphereMesh(r, rings, segs);
+        } else if (type == "capsule") {
+            float r = fargs.size() > 0 ? fargs[0] : 0.4f;
+            float h = fargs.size() > 1 ? fargs[1] : 1.8f;
+            int rings = fargs.size() > 2 ? (int)fargs[2] : 8;
+            int segs = fargs.size() > 3 ? (int)fargs[3] : 16;
+            m.mesh = AssetLoader::CreateCapsuleMesh(r, h, rings, segs);
+        } else if (type == "wedge") {
+            float w = fargs.size() > 0 ? fargs[0] : 1.0f;
+            float h = fargs.size() > 1 ? fargs[1] : 1.0f;
+            float d = fargs.size() > 2 ? fargs[2] : 1.0f;
+            m.mesh = AssetLoader::CreateWedgeMesh(w, h, d);
+        } else if (type == "humanoid") {
+            float s = fargs.size() > 0 ? fargs[0] : 1.0f;
+            m.mesh = AssetLoader::CreateHumanoidMesh(s);
+        } else if (type == "torus") {
+            float majorR = fargs.size() > 0 ? fargs[0] : 1.0f;
+            float minorR = fargs.size() > 1 ? fargs[1] : 0.3f;
+            int rSegs = fargs.size() > 2 ? (int)fargs[2] : 24;
+            int tSegs = fargs.size() > 3 ? (int)fargs[3] : 16;
+            m.mesh = AssetLoader::CreateTorusMesh(majorR, minorR, rSegs, tSegs);
+        } else if (type == "icosphere") {
+            float r = fargs.size() > 0 ? fargs[0] : 1.0f;
+            int sub = fargs.size() > 1 ? (int)fargs[1] : 2;
+            m.mesh = AssetLoader::CreateIcosphereMesh(r, sub);
+        } else if (type == "terrain") {
+            float w = fargs.size() > 0 ? fargs[0] : 40.0f;
+            float d = fargs.size() > 1 ? fargs[1] : 40.0f;
+            int res = fargs.size() > 2 ? (int)fargs[2] : 32;
+            float hs = fargs.size() > 3 ? fargs[3] : 1.5f;
+            m.mesh = AssetLoader::CreateTerrainMesh(w, d, res, hs);
+        } else {
+            m.mesh = Engine::Get().GetRenderer().GetCubeMesh();
+        }
+        return (uint32_t)e;
+    };
+
+    engine["spawn_model"] = [](const std::string& tag, const std::string& modelPath, sol::optional<float> scale) -> uint32_t {
+        auto scene = Engine::Get().GetSceneStack().Active();
+        if (!scene) {
+            Log::Error("Script Error: Attempted to spawn_model '{}' but no active scene exists!", tag);
+            return 0;
+        }
+        auto& reg = scene->GetRegistry();
+        auto e = reg.create();
+        reg.emplace<TagComponent>(e, tag);
+        auto& t = reg.emplace<TransformComponent>(e);
+        float s = scale.value_or(1.0f);
+        t.scale = {s, s, s};
+        t.UpdateLocalMatrix();
+        t.worldMatrix = t.localMatrix;
+
+        auto& m = reg.emplace<MeshComponent>(e);
+        m.material.isPBR = true;
+        m.material.albedo = {1.0f, 1.0f, 1.0f};
+        m.boundingRadius = 100.0f;
+
+        auto meshData = AssetLoader::LoadOBJ(modelPath);
+        if (!meshData.vertices.empty()) {
+            m.mesh = std::make_shared<Mesh>(meshData.vertices, meshData.indices);
+        } else {
+            m.mesh = AssetLoader::CreateHumanoidMesh(s);
+        }
+        return (uint32_t)e;
+    };
+
+    engine["set_texture"] = [](uint32_t e, const std::string& path) {
+        auto scene = Engine::Get().GetSceneStack().Active();
+        if (!scene) return;
+        auto& reg = scene->GetRegistry();
+        if (!reg.valid((entt::entity)e) || !reg.all_of<MeshComponent>((entt::entity)e)) return;
+        auto& m = reg.get<MeshComponent>((entt::entity)e);
+        uint32_t texID = AssetLoader::LoadTexture(path);
+        if (texID != 0) {
+            m.material.textureID = texID;
+            m.material.albedoMap = texID;
+            m.material.useTexture = true;
+        }
+    };
+
+    engine["set_normal_map"] = [](uint32_t e, const std::string& path) {
+        auto scene = Engine::Get().GetSceneStack().Active();
+        if (!scene) return;
+        auto& reg = scene->GetRegistry();
+        if (!reg.valid((entt::entity)e) || !reg.all_of<MeshComponent>((entt::entity)e)) return;
+        auto& m = reg.get<MeshComponent>((entt::entity)e);
+        uint32_t texID = AssetLoader::LoadTexture(path);
+        if (texID != 0) {
+            m.material.normalMap = texID;
+        }
+    };
+
+    engine["set_primitive_mesh"] = [](uint32_t e, const std::string& type, sol::variadic_args args) {
+        auto scene = Engine::Get().GetSceneStack().Active();
+        if (!scene) return;
+        auto& reg = scene->GetRegistry();
+        if (!reg.valid((entt::entity)e) || !reg.all_of<MeshComponent>((entt::entity)e)) return;
+        auto& m = reg.get<MeshComponent>((entt::entity)e);
+
+        std::vector<float> fargs;
+        for (auto arg : args) {
+            if (arg.is<float>()) fargs.push_back(arg.as<float>());
+            else if (arg.is<int>()) fargs.push_back((float)arg.as<int>());
+        }
+
+        if (type == "plane") {
+            float w = fargs.size() > 0 ? fargs[0] : 10.0f;
+            float d = fargs.size() > 1 ? fargs[1] : 10.0f;
+            float tu = fargs.size() > 2 ? fargs[2] : 1.0f;
+            float tv = fargs.size() > 3 ? fargs[3] : 1.0f;
+            m.mesh = AssetLoader::CreatePlaneMesh(w, d, tu, tv);
+        } else if (type == "box") {
+            float w = fargs.size() > 0 ? fargs[0] : 1.0f;
+            float h = fargs.size() > 1 ? fargs[1] : 1.0f;
+            float d = fargs.size() > 2 ? fargs[2] : 1.0f;
+            m.mesh = AssetLoader::CreateBoxMesh(w, h, d);
+        } else if (type == "cylinder") {
+            float r = fargs.size() > 0 ? fargs[0] : 0.5f;
+            float h = fargs.size() > 1 ? fargs[1] : 2.0f;
+            int segs = fargs.size() > 2 ? (int)fargs[2] : 16;
+            m.mesh = AssetLoader::CreateCylinderMesh(r, h, segs);
+        } else if (type == "sphere") {
+            float r = fargs.size() > 0 ? fargs[0] : 0.5f;
+            int rings = fargs.size() > 1 ? (int)fargs[1] : 12;
+            int segs = fargs.size() > 2 ? (int)fargs[2] : 16;
+            m.mesh = AssetLoader::CreateSphereMesh(r, rings, segs);
+        } else if (type == "capsule") {
+            float r = fargs.size() > 0 ? fargs[0] : 0.4f;
+            float h = fargs.size() > 1 ? fargs[1] : 1.8f;
+            int rings = fargs.size() > 2 ? (int)fargs[2] : 8;
+            int segs = fargs.size() > 3 ? (int)fargs[3] : 16;
+            m.mesh = AssetLoader::CreateCapsuleMesh(r, h, rings, segs);
+        } else if (type == "wedge") {
+            float w = fargs.size() > 0 ? fargs[0] : 1.0f;
+            float h = fargs.size() > 1 ? fargs[1] : 1.0f;
+            float d = fargs.size() > 2 ? fargs[2] : 1.0f;
+            m.mesh = AssetLoader::CreateWedgeMesh(w, h, d);
+        } else if (type == "humanoid") {
+            float s = fargs.size() > 0 ? fargs[0] : 1.0f;
+            m.mesh = AssetLoader::CreateHumanoidMesh(s);
+        } else if (type == "torus") {
+            float majorR = fargs.size() > 0 ? fargs[0] : 1.0f;
+            float minorR = fargs.size() > 1 ? fargs[1] : 0.3f;
+            int rSegs = fargs.size() > 2 ? (int)fargs[2] : 24;
+            int tSegs = fargs.size() > 3 ? (int)fargs[3] : 16;
+            m.mesh = AssetLoader::CreateTorusMesh(majorR, minorR, rSegs, tSegs);
+        } else if (type == "icosphere") {
+            float r = fargs.size() > 0 ? fargs[0] : 1.0f;
+            int sub = fargs.size() > 1 ? (int)fargs[1] : 2;
+            m.mesh = AssetLoader::CreateIcosphereMesh(r, sub);
+        } else if (type == "terrain") {
+            float w = fargs.size() > 0 ? fargs[0] : 40.0f;
+            float d = fargs.size() > 1 ? fargs[1] : 40.0f;
+            int res = fargs.size() > 2 ? (int)fargs[2] : 32;
+            float hs = fargs.size() > 3 ? fargs[3] : 1.5f;
+            m.mesh = AssetLoader::CreateTerrainMesh(w, d, res, hs);
+        }
+    };
+
+    engine["solve_two_bone_ik"] = [](float rx, float ry, float rz, float tx, float ty, float tz, float l1, float l2, float poleX, float poleY, float poleZ, sol::this_state s) -> sol::variadic_results {
+        sol::variadic_results res;
+        sol::state_view lua(s);
+
+        glm::vec3 root(rx, ry, rz);
+        glm::vec3 target(tx, ty, tz);
+        glm::vec3 pole(poleX, poleY, poleZ);
+
+        glm::vec3 dVec = target - root;
+        float d = glm::length(dVec);
+        d = glm::clamp(d, 0.001f, (l1 + l2) * 0.9999f);
+
+        // Law of Cosines
+        float cosAlpha = (l1 * l1 + d * d - l2 * l2) / (2.0f * l1 * d);
+        cosAlpha = glm::clamp(cosAlpha, -1.0f, 1.0f);
+        float sinAlpha = std::sqrt(1.0f - cosAlpha * cosAlpha);
+
+        glm::vec3 dir = glm::normalize(dVec);
+        glm::vec3 side = glm::normalize(pole - dir * glm::dot(pole, dir));
+        if (glm::length(side) < 0.001f) side = glm::vec3(0, 0, 1);
+
+        glm::vec3 mid = root + dir * (l1 * cosAlpha) + side * (l1 * sinAlpha);
+
+        res.push_back({lua, sol::in_place, mid.x});
+        res.push_back({lua, sol::in_place, mid.y});
+        res.push_back({lua, sol::in_place, mid.z});
+        return res;
+    };
+
+    engine["set_pbr"] = sol::overload(
+        [](uint32_t e, float r, float g, float b, float metallic, float roughness, sol::optional<float> ao) {
+            auto scene = Engine::Get().GetSceneStack().Active();
+            if (!scene) return;
+            auto& reg = scene->GetRegistry();
+            if (!reg.valid((entt::entity)e) || !reg.all_of<MeshComponent>((entt::entity)e)) return;
+            auto& m = reg.get<MeshComponent>((entt::entity)e);
+            m.material.isPBR = true;
+            m.material.albedo = {r, g, b};
+            m.material.color = {r, g, b};
+            m.material.metallic = metallic;
+            m.material.roughness = roughness;
+            m.material.ao = ao.value_or(1.0f);
+        },
+        [](uint32_t e, float met, float rough, float ambientOcc) {
+            auto scene = Engine::Get().GetSceneStack().Active();
+            if (!scene) return;
+            auto& reg = scene->GetRegistry();
+            if (!reg.valid((entt::entity)e) || !reg.all_of<MeshComponent>((entt::entity)e)) return;
+            auto& m = reg.get<MeshComponent>((entt::entity)e);
+            m.material.isPBR = true;
+            m.material.metallic = met;
+            m.material.roughness = rough;
+            m.material.ao = ambientOcc;
+        }
+    );
+
+    engine["set_skin"] = [](uint32_t e, bool isSkin, sol::optional<float> sr, sol::optional<float> sg, sol::optional<float> sb) {
+        auto scene = Engine::Get().GetSceneStack().Active();
+        if (!scene) return;
+        auto& reg = scene->GetRegistry();
+        if (!reg.valid((entt::entity)e) || !reg.all_of<MeshComponent>((entt::entity)e)) return;
+        auto& m = reg.get<MeshComponent>((entt::entity)e);
+        m.material.isSkin = isSkin;
+        if (sr && sg && sb) m.material.subsurfaceColor = {*sr, *sg, *sb};
+    };
+
+    engine["get_pos"] = [](uint32_t e, sol::this_state s) -> sol::variadic_results {
+        sol::variadic_results res;
+        sol::state_view lua(s);
+        auto scene = Engine::Get().GetSceneStack().Active();
+        if (scene) {
+            auto& reg = scene->GetRegistry();
+            if (reg.valid((entt::entity)e) && reg.all_of<TransformComponent>((entt::entity)e)) {
+                auto& t = reg.get<TransformComponent>((entt::entity)e);
+                res.push_back({lua, sol::in_place, t.position.x});
+                res.push_back({lua, sol::in_place, t.position.y});
+                res.push_back({lua, sol::in_place, t.position.z});
+                return res;
+            }
+        }
+        res.push_back({lua, sol::in_place, 0.0f});
+        res.push_back({lua, sol::in_place, 0.0f});
+        res.push_back({lua, sol::in_place, 0.0f});
+        return res;
+    };
+
+    engine["get_rotation"] = [](uint32_t e, sol::this_state s) -> sol::variadic_results {
+        sol::variadic_results res;
+        sol::state_view lua(s);
+        auto scene = Engine::Get().GetSceneStack().Active();
+        if (scene) {
+            auto& reg = scene->GetRegistry();
+            if (reg.valid((entt::entity)e) && reg.all_of<TransformComponent>((entt::entity)e)) {
+                auto& t = reg.get<TransformComponent>((entt::entity)e);
+                glm::vec3 euler = glm::eulerAngles(t.rotation);
+                res.push_back({lua, sol::in_place, euler.x});
+                res.push_back({lua, sol::in_place, euler.y});
+                res.push_back({lua, sol::in_place, euler.z});
+                return res;
+            }
+        }
+        res.push_back({lua, sol::in_place, 0.0f});
+        res.push_back({lua, sol::in_place, 0.0f});
+        res.push_back({lua, sol::in_place, 0.0f});
+        return res;
+    };
+
+    engine["destroy"] = [](uint32_t e) {
+        auto scene = Engine::Get().GetSceneStack().Active();
+        if (!scene) return;
+        auto& reg = scene->GetRegistry();
+        if (reg.valid((entt::entity)e)) {
+            reg.destroy((entt::entity)e);
+        }
+    };
+
 
     // Plugins
     engine["load_plugin"] = [](const std::string& path) {
@@ -335,6 +1016,8 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
             return;
         auto& t = reg.get<TransformComponent>((entt::entity)e);
         t.rotation = glm::quat(glm::vec3(rx, ry, rz));
+        t.UpdateLocalMatrix();
+        t.worldMatrix = t.localMatrix;
     };
     engine["get_scale"] = [](uint32_t e, sol::this_state s) -> sol::variadic_results {
         sol::variadic_results res;
@@ -389,10 +1072,7 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
         Engine::Get().GetRenderer().GetCameraTransform().position = {x, y, z};
     };
     engine["look_at"] = [](float x, float y, float z) {
-        auto& t = Engine::Get().GetRenderer().GetCameraTransform();
-        glm::mat4 view = glm::lookAt(t.position, glm::vec3(x, y, z), glm::vec3(0, 1, 0));
-        glm::mat4 invView = glm::inverse(view);
-        t.rotation = glm::quat_cast(invView);
+        Engine::Get().GetRenderer().SetCameraLookAt(glm::vec3(x, y, z));
     };
 
     // --- 3D MOUSE RAYCASTING API ---
@@ -537,21 +1217,6 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
         return res;
     };
 
-    // --- PBR MATERIAL CONTROL (Phase 11) ---
-    engine["set_pbr"] = [](uint32_t e, float met, float rough, float ambientOcc) {
-        auto scene = Engine::Get().GetSceneStack().Active();
-        if (!scene)
-            return;
-        auto& reg = scene->GetRegistry();
-        if (!reg.valid((entt::entity)e))
-            return;
-        if (!reg.all_of<MeshComponent>((entt::entity)e))
-            return;
-        auto& m = reg.get<MeshComponent>((entt::entity)e);
-        m.material.metallic = met;
-        m.material.roughness = rough;
-        m.material.ao = ambientOcc;
-    };
 
     // --- REVERB ZONE CONTROL ---
     engine["add_reverb_zone"] = [](uint32_t e, float minDistance, float maxDistance, float factor) {
@@ -631,6 +1296,7 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
     engine["log"] = [](const std::string& msg) { Log::Info("[Lua] {}", msg); };
     engine["log_warn"] = [](const std::string& msg) { Log::Warn("[Lua] {}", msg); };
     engine["log_error"] = [](const std::string& msg) { Log::Error("[Lua] {}", msg); };
+    m_lua["engine"] = engine;
 
     // --- CVAR SYSTEM LUA API ---
     auto cvar = m_lua.create_table("cvar");
@@ -856,6 +1522,86 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
         [](float x, float y, float w, float h, uint32_t texID, float r, float g, float b, float a) {
             Renderer2D::DrawQuad({x, y}, {w, h}, texID, {r, g, b, a});
         };
+    gfx["draw_reflected_rect"] = [](float rx, float ry, float rw, float rh, float r, float g, float b, float a, float groundY, float t) {
+        float ry_ref = 2.0f * groundY - (ry + rh);
+        float rr = r * 0.65f + 0.12f;
+        float rg = g * 0.35f;
+        float rb = b * 0.75f + 0.16f;
+        float step = 4.0f;
+        for (float sy = 0.0f; sy < rh; sy += step) {
+            float cur_h = std::min(step, rh - sy);
+            float cur_y = ry_ref + sy;
+            float shift = std::sin(t * 7.5f + cur_y * 0.08f) * 6.2f;
+            float fade = std::max(0.0f, 1.0f - (cur_y - groundY) / 250.0f);
+            Renderer2D::DrawQuad({rx + shift, cur_y}, {rw, cur_h}, {rr, rg, rb, a * fade});
+        }
+    };
+    gfx["draw_reflected_rounded_rect"] = [](float rx, float ry, float rw, float rh, float radius, float r, float g, float b, float a, float groundY, float t) {
+        float ry_ref = 2.0f * groundY - (ry + rh);
+        float rr = r * 0.65f + 0.12f;
+        float rg = g * 0.35f;
+        float rb = b * 0.75f + 0.16f;
+        float step = 4.0f;
+        for (float sy = 0.0f; sy < rh; sy += step) {
+            float cur_h = std::min(step, rh - sy);
+            float cur_y = ry_ref + sy;
+            float shift = std::sin(t * 7.5f + cur_y * 0.08f) * 6.2f;
+            float fade = std::max(0.0f, 1.0f - (cur_y - groundY) / 250.0f);
+            float offset = 0.0f;
+            if (sy < radius) {
+                offset = radius - std::sqrt(std::max(0.0f, radius * radius - (radius - sy) * (radius - sy)));
+            } else if (sy > rh - radius) {
+                offset = radius - std::sqrt(std::max(0.0f, radius * radius - (sy - (rh - radius)) * (sy - (rh - radius))));
+            }
+            Renderer2D::DrawQuad({rx + offset + shift, cur_y}, {rw - 2.0f * offset, cur_h}, {rr, rg, rb, a * fade});
+        }
+    };
+    gfx["draw_reflected_triangle"] = [](float x1, float y1, float x2, float y2, float x3, float y3, float r, float g, float b, float a, float groundY, float t) {
+        if (y1 > y2) { std::swap(x1, x2); std::swap(y1, y2); }
+        if (y1 > y3) { std::swap(x1, x3); std::swap(y1, y3); }
+        if (y2 > y3) { std::swap(x2, x3); std::swap(y2, y3); }
+        float rr = r * 0.65f + 0.12f;
+        float rg = g * 0.35f;
+        float rb = b * 0.75f + 0.16f;
+        float step = 4.0f;
+        auto get_x = [](float y, float xa, float ya, float xb, float yb) -> float {
+            if (std::abs(ya - yb) < 0.0001f) return xa;
+            return xa + (xb - xa) * (y - ya) / (yb - ya);
+        };
+        float start_y = std::floor(y1);
+        float end_y = std::ceil(y3);
+        for (float y = start_y; y <= end_y; y += step) {
+            float xl, xr;
+            if (y < y2) {
+                xl = get_x(y, x1, y1, x3, y3);
+                xr = get_x(y, x1, y1, x2, y2);
+            } else {
+                xl = get_x(y, x1, y1, x3, y3);
+                xr = get_x(y, x2, y2, x3, y3);
+            }
+            if (xl > xr) std::swap(xl, xr);
+            float cur_y = 2.0f * groundY - y;
+            float shift = std::sin(t * 7.5f + cur_y * 0.08f) * 6.2f;
+            float fade = std::max(0.0f, 1.0f - (cur_y - groundY) / 250.0f);
+            Renderer2D::DrawQuad({xl + shift, cur_y - step}, {xr - xl, step}, {rr, rg, rb, a * fade});
+        }
+    };
+    gfx["draw_reflected_sprite"] = [](float rx, float ry, float rw, float rh, uint32_t texID, float r, float g, float b, float a, float groundY, float t) {
+        float ry_ref = 2.0f * groundY - (ry + rh);
+        float rr = r * 0.65f + 0.12f;
+        float rg = g * 0.35f;
+        float rb = b * 0.75f + 0.16f;
+        float step = 4.0f;
+        for (float sy = 0.0f; sy < rh; sy += step) {
+            float cur_h = std::min(step, rh - sy);
+            float cur_y = ry_ref + sy;
+            float shift = std::sin(t * 7.5f + cur_y * 0.08f) * 6.2f;
+            float fade = std::max(0.0f, 1.0f - (cur_y - groundY) / 250.0f);
+            float v0 = (rh - (sy + cur_h)) / rh;
+            float v1 = (rh - sy) / rh;
+            Renderer2D::DrawQuad({rx + shift, cur_y}, {rw, cur_h}, texID, {0.0f, v0}, {1.0f, v0}, {1.0f, v1}, {0.0f, v1}, {rr, rg, rb, a * fade});
+        }
+    };
     gfx["get_stats"] = [this]() {
         auto stats = Renderer2D::GetStats();
         sol::table s = m_lua.create_table();
@@ -892,7 +1638,7 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
             Renderer2D::DrawQuad({x, y + t}, {t, h - 2 * t}, c);          // left
             Renderer2D::DrawQuad({x + w - t, y + t}, {t, h - 2 * t}, c);  // right
         };
-    // Circle: approximated with N quads around center
+    // Circle outline: approximated with N quads around center
     gfx["draw_circle"] = [](float cx,
                              float cy,
                              float radius,
@@ -904,6 +1650,27 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
         int seg = segments.value_or(24);
         float step = 2.0f * 3.14159265f / (float)seg;
         float thickness = 2.0f;
+        for (int i = 0; i < seg; i++) {
+            float a1 = step * i, a2 = step * (i + 1);
+            float x1 = cx + std::cos(a1) * radius, y1 = cy + std::sin(a1) * radius;
+            float x2 = cx + std::cos(a2) * radius, y2 = cy + std::sin(a2) * radius;
+            float mx = (x1 + x2) * 0.5f - thickness * 0.5f;
+            float my = (y1 + y2) * 0.5f - thickness * 0.5f;
+            float dx = x2 - x1, dy = y2 - y1;
+            float len = std::sqrt(dx * dx + dy * dy);
+            Renderer2D::DrawQuad({mx, my}, {len, thickness}, {r, g, b, a.value_or(1.0f)});
+        }
+    };
+    gfx["draw_circle_outline"] = [](float cx,
+                                     float cy,
+                                     float radius,
+                                     float thickness,
+                                     float r,
+                                     float g,
+                                     float b,
+                                     sol::optional<float> a) {
+        int seg = 24;
+        float step = 2.0f * 3.14159265f / (float)seg;
         for (int i = 0; i < seg; i++) {
             float a1 = step * i, a2 = step * (i + 1);
             float x1 = cx + std::cos(a1) * radius, y1 = cy + std::sin(a1) * radius;
@@ -937,6 +1704,15 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
     gfx["screen_height"] = []() { return (float)Engine::Get().GetWindow().GetHeight(); };
 
     gfx["set_clear_color"] = [](float r, float g, float b) { Engine::Get().GetRenderer().SetClearColor({r, g, b}); };
+    gfx["set_color_grading"] = [](float exposure, float contrast, float saturation, float gamma, sol::optional<float> vignette) {
+        Engine::Get().GetRenderer().SetColorGrading(exposure, contrast, saturation, gamma, vignette.value_or(0.0f));
+    };
+    gfx["set_bloom_threshold"] = [](float threshold) {
+        Engine::Get().GetRenderer().SetBloomThreshold(threshold);
+    };
+    gfx["add_trauma"] = [](float amount) {
+        Engine::Get().GetRenderer().AddCameraTrauma(amount);
+    };
     gfx["draw_triangle"] =
         [](float x1, float y1, float x2, float y2, float x3, float y3, float r, float g, float b, float a) {
             Renderer2D::DrawTriangle({x1, y1}, {x2, y2}, {x3, y3}, {r, g, b, a});
@@ -1112,6 +1888,18 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
         res.push_back({lua, sol::in_place, rot.w});
         return res;
     };
+    camera["add_trauma"] = [](float amount) {
+        Engine::Get().GetRenderer().AddCameraTrauma(amount);
+    };
+    camera["get_trauma"] = []() {
+        return Engine::Get().GetRenderer().GetCameraTrauma();
+    };
+    camera["set_trauma"] = [](float trauma) {
+        Engine::Get().GetRenderer().SetCameraTrauma(trauma);
+    };
+    camera["shake"] = [](float intensity) {
+        Engine::Get().GetRenderer().AddCameraTrauma(intensity);
+    };
 
     // --- ASSET SYSTEM ---
     auto assets = m_lua.create_table("assets");
@@ -1124,11 +1912,44 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
     assets["create_building"] = [](float r, float g, float b) {
         return AssetLoader::CreateProceduralBuilding({r, g, b});
     };
+    assets["create_plane"] = [](float w, float d, sol::optional<float> tu, sol::optional<float> tv) {
+        return AssetLoader::CreatePlaneMesh(w, d, tu.value_or(1.0f), tv.value_or(1.0f));
+    };
+    assets["create_box"] = [](float w, float h, float d) {
+        return AssetLoader::CreateBoxMesh(w, h, d);
+    };
+    assets["create_cylinder"] = [](float r, float h, sol::optional<int> s) {
+        return AssetLoader::CreateCylinderMesh(r, h, s.value_or(16));
+    };
+    assets["create_sphere"] = [](float r, sol::optional<int> rings, sol::optional<int> segs) {
+        return AssetLoader::CreateSphereMesh(r, rings.value_or(12), segs.value_or(16));
+    };
+    assets["create_capsule"] = [](float r, float h, sol::optional<int> rings, sol::optional<int> segs) {
+        return AssetLoader::CreateCapsuleMesh(r, h, rings.value_or(8), segs.value_or(16));
+    };
+    assets["create_wedge"] = [](float w, float h, float d) {
+        return AssetLoader::CreateWedgeMesh(w, h, d);
+    };
+    assets["create_torus"] = [](float majorR, float minorR, sol::optional<int> radSegs, sol::optional<int> tubeSegs) {
+        return AssetLoader::CreateTorusMesh(majorR, minorR, radSegs.value_or(24), tubeSegs.value_or(16));
+    };
+    assets["create_icosphere"] = [](float radius, sol::optional<int> subdivisions) {
+        return AssetLoader::CreateIcosphereMesh(radius, subdivisions.value_or(2));
+    };
+    assets["create_humanoid"] = [](sol::optional<float> scale) {
+        return AssetLoader::CreateHumanoidMesh(scale.value_or(1.0f));
+    };
+    assets["create_terrain"] = [](float width, float depth, sol::optional<int> resolution, sol::optional<float> heightScale) {
+        return AssetLoader::CreateTerrainMesh(width, depth, resolution.value_or(32), heightScale.value_or(1.5f));
+    };
 
     // --- WINDOW API ---
     auto window = m_lua.create_table("window");
     window["get_width"] = []() { return Engine::Get().GetWindow().GetWidth(); };
     window["get_height"] = []() { return Engine::Get().GetWindow().GetHeight(); };
+    window["capture_screenshot"] = [](const std::string& path) {
+        return Engine::Get().GetWindow().CaptureScreenshot(path);
+    };
 
     // --- AUDIO API ---
     auto audio = m_lua.create_table("audio");
@@ -1139,16 +1960,53 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
     audio["stop_music"] = []() { Engine::Get().GetAudio().StopMusic(); };
     audio["set_music_volume"] = [](float vol) { Engine::Get().GetAudio().SetMusicVolume(vol); };
     audio["is_music_playing"] = []() { return Engine::Get().GetAudio().IsMusicPlaying(); };
+    audio["play_impact"] = [](float velocity, sol::optional<int> material, sol::optional<float> x, sol::optional<float> y, sol::optional<float> z) {
+        AudioSystem::AudioMaterial mat = (AudioSystem::AudioMaterial)(material.value_or(0));
+        bool is3D = x.has_value() && y.has_value() && z.has_value();
+        Engine::Get().GetAudio().PlayImpact(velocity, mat, x.value_or(0.0f), y.value_or(0.0f), z.value_or(0.0f), is3D);
+    };
 
     // VFX
     auto vfx = m_lua.create_table("vfx");
     vfx["emit"] =
-        [](float x, float y, float z, float vx, float vy, float vz, float r, float g, float b, int count, float size) {
+        [](float x, float y, float z, float vx, float vy, float vz, float r, float g, float b, int count, float size, sol::optional<float> lifetime) {
             auto vfxSys = Engine::Get().GetSystem<VFXSystem>();
             if (vfxSys) {
-                vfxSys->Emit({x, y, z}, {vx, vy, vz}, {r, g, b, 1.0f}, count, size);
+                vfxSys->Emit({x, y, z}, {vx, vy, vz}, {r, g, b, 1.0f}, count, size, lifetime.value_or(2.0f));
             }
         };
+    vfx["burst"] = [](float x, float y, float z, float r, float g, float b, int count, float speed, float size, sol::optional<float> lifetime) {
+        auto vfxSys = Engine::Get().GetSystem<VFXSystem>();
+        if (!vfxSys) return;
+        std::mt19937 randEng(std::random_device{}());
+        std::uniform_real_distribution<float> dist(-1.0f, 1.0f);
+        for (int i = 0; i < count; ++i) {
+            float theta = (dist(randEng) + 1.0f) * 3.14159265f;
+            float phi = std::acos(dist(randEng));
+            float vx = std::sin(phi) * std::cos(theta) * speed;
+            float vy = std::sin(phi) * std::sin(theta) * speed;
+            float vz = std::cos(phi) * speed;
+            vfxSys->Emit({x, y, z}, {vx, vy, vz}, {r, g, b, 1.0f}, 1, size, lifetime.value_or(0.8f));
+        }
+    };
+    vfx["burst_2d"] = [](float x, float y, float r, float g, float b, int count, float speed, float size, sol::optional<float> lifetime) {
+        auto vfxSys = Engine::Get().GetSystem<VFXSystem>();
+        if (!vfxSys) return;
+        std::mt19937 randEng(std::random_device{}());
+        std::uniform_real_distribution<float> dist(0.0f, 2.0f * 3.14159265f);
+        for (int i = 0; i < count; ++i) {
+            float angle = dist(randEng);
+            float vx = std::cos(angle) * speed;
+            float vy = std::sin(angle) * speed;
+            vfxSys->Emit({x, y, 0.0f}, {vx, vy, 0.0f}, {r, g, b, 1.0f}, 1, size, lifetime.value_or(0.6f));
+        }
+    };
+    vfx["emit_trail"] = [](float x, float y, float z, float r, float g, float b, float size, float lifetime) {
+        auto vfxSys = Engine::Get().GetSystem<VFXSystem>();
+        if (vfxSys) {
+            vfxSys->Emit({x, y, z}, {0.0f, 0.0f, 0.0f}, {r, g, b, 1.0f}, 1, size, lifetime);
+        }
+    };
     audio["play_3d"] = [](const std::string& path, float x, float y, float z) {
         Engine::Get().GetAudio().Play3DEffect(path, x, y, z);
     };
@@ -1158,6 +2016,23 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
     };
     audio["play_note"] = [](float freq, float duration, sol::optional<int> type) {
         Engine::Get().GetAudio().PlayNote(freq, duration, (WaveType)type.value_or(0));
+    };
+    audio["play_synth"] = [](float freq, float duration, sol::optional<sol::object> typeOrName, sol::optional<float> volume) {
+        (void)volume;
+        WaveType wt = WaveType::Square;
+        if (typeOrName.has_value()) {
+            if (typeOrName->is<int>()) {
+                wt = (WaveType)typeOrName->as<int>();
+            } else if (typeOrName->is<std::string>()) {
+                std::string s = typeOrName->as<std::string>();
+                if (s == "sine" || s == "Sine") wt = WaveType::Sine;
+                else if (s == "square" || s == "Square") wt = WaveType::Square;
+                else if (s == "triangle" || s == "Triangle") wt = WaveType::Triangle;
+                else if (s == "saw" || s == "Saw" || s == "sawtooth") wt = WaveType::Saw;
+                else if (s == "noise" || s == "Noise") wt = WaveType::Noise;
+            }
+        }
+        Engine::Get().GetAudio().PlayNote(freq, duration, wt);
     };
     audio["beep3d"] = [](float freq, float duration, float x, float y, float z, sol::optional<int> type) {
         Engine::Get().GetAudio().Play3DNote(freq, duration, x, y, z, (WaveType)type.value_or(0));
@@ -1172,18 +2047,75 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
     audio["set_envelope"] = [](float attack, float decay, float sustain, float release) {
         Engine::Get().GetAudio().SetEnvelope(attack, decay, sustain, release);
     };
+    audio["set_listener_velocity"] = [](float vx, float vy, float vz) {
+        Engine::Get().GetAudio().SetListenerVelocity(vx, vy, vz);
+    };
+    audio["set_doppler_factor"] = [](float factor) {
+        Engine::Get().GetAudio().SetDopplerFactor(factor);
+    };
+    audio["get_doppler_factor"] = []() -> float {
+        return Engine::Get().GetAudio().GetDopplerFactor();
+    };
+    audio["set_distance_attenuation"] = [](float minD, float maxD, float rolloff) {
+        Engine::Get().GetAudio().SetDistanceAttenuation(minD, maxD, rolloff);
+    };
+    audio["set_reverb"] = [](float roomSize, float damping, float wetGain) {
+        Engine::Get().GetAudio().SetReverbParameters(roomSize, damping, wetGain);
+    };
 
-    // --- INPUT API ---
+    // --- INPUT API (v11.0.0 Action Mapping & Gamepad Suite) ---
     auto input = m_lua.create_table("input");
+    m_lua["Input"] = input;
     input["get_mouse_pos"] = []() { return Engine::Get().GetInput().GetMousePosition(); };
+    input["get_mouse_position"] = [](sol::this_state s) -> sol::table {
+        sol::state_view lua(s);
+        sol::table pos = lua.create_table();
+        auto m = Engine::Get().GetInput().GetMousePosition();
+        pos["x"] = m.x;
+        pos["y"] = m.y;
+        return pos;
+    };
     input["get_mouse_x"] = []() { return Engine::Get().GetInput().GetMousePosition().x; };
     input["get_mouse_y"] = []() { return Engine::Get().GetInput().GetMousePosition().y; };
     input["is_down"] = [](const std::string& key) { return Engine::Get().GetInput().IsActionPressed(key); };
     input["is_just_pressed"] = [](const std::string& key) { return Engine::Get().GetInput().IsActionJustPressed(key); };
+    input["is_key_pressed"] = [](const std::string& keyName) -> bool {
+        return InputSystem::IsKeyPressed(InputSystem::KeyCodeFromString(keyName));
+    };
+    input["is_key_down"] = input["is_key_pressed"];
+    input["is_key_just_pressed"] = [](const std::string& keyName) -> bool {
+        return InputSystem::IsKeyJustPressed(InputSystem::KeyCodeFromString(keyName));
+    };
+    input["is_key_just_released"] = [](const std::string& keyName) -> bool {
+        return InputSystem::IsKeyJustReleased(InputSystem::KeyCodeFromString(keyName));
+    };
+    input["bind_action"] = [](const std::string& actionName, const std::string& keyName) {
+        Engine::Get().GetInput().BindAction(actionName, InputSystem::KeyCodeFromString(keyName));
+    };
+    input["bind_mouse_button"] = [](const std::string& actionName, int button) {
+        Engine::Get().GetInput().BindMouseButton(actionName, static_cast<pal::MouseButton>(button));
+    };
+    input["clear_action_bindings"] = [](const std::string& actionName) {
+        Engine::Get().GetInput().ClearActionBindings(actionName);
+    };
+    input["is_action_pressed"] = [](const std::string& actionName) -> bool {
+        return Engine::Get().GetInput().IsActionPressed(actionName);
+    };
+    input["is_action_down"] = input["is_action_pressed"];
+    input["is_action_just_pressed"] = [](const std::string& actionName) -> bool {
+        return Engine::Get().GetInput().IsActionJustPressed(actionName);
+    };
+    input["is_action_just_released"] = [](const std::string& actionName) -> bool {
+        return Engine::Get().GetInput().IsActionJustReleased(actionName);
+    };
+    input["get_action_axis"] = [](const std::string& negAction, const std::string& posAction) -> float {
+        return Engine::Get().GetInput().GetActionAxis(negAction, posAction);
+    };
     input["get_axis"] = [](const std::string& axis) { return Engine::Get().GetInput().GetAxis(axis); };
     input["is_gamepad_down"] = [](const std::string& btn) {
         return Engine::Get().GetInput().IsGamepadButtonPressed(btn);
     };
+    input["is_gamepad_button_pressed"] = input["is_gamepad_down"];
     input["vibrate"] = [](float left, float right, uint32_t ms) { Engine::Get().GetInput().Vibrate(left, right, ms); };
     input["is_mouse_down"] = [](int button) {
         Uint32 mouseState = SDL_GetMouseState(NULL, NULL);
@@ -1802,19 +2734,212 @@ bool ScriptSystem::OnInitialize(const EngineContext& context) {
         return fs ? fs->GetMatchState().roundsToWin : 2;
     };
 
-    Log::Info("ScriptSystem: Phase 13 - CSM + Gameplay Lua API + Renderer2D + FightingSystem Ready.");
+    // --- JOB SYSTEM BINDINGS (v12.0.0 Apex) ---
+    auto jobs = m_lua.create_table("jobs");
+    m_lua["Jobs"] = jobs;
+    jobs["dispatch"] = [](sol::function taskFunc, sol::optional<int> priority) -> uint64_t {
+        if (!Engine::IsInitialized() || !taskFunc.valid()) return 0;
+        auto jobSys = Engine::Get().GetSystem<JobSystem>();
+        if (!jobSys) return 0;
+        JobPriority p = static_cast<JobPriority>(priority.value_or(1));
+        auto handle = jobSys->Dispatch([taskFunc]() {
+            try {
+                taskFunc();
+            } catch (...) {}
+        }, p);
+        return handle.id;
+    };
+    jobs["parallel_for"] = [](uint32_t count, sol::function taskFunc, sol::optional<uint32_t> chunkSize) {
+        if (!Engine::IsInitialized() || !taskFunc.valid() || count == 0) return;
+        auto jobSys = Engine::Get().GetSystem<JobSystem>();
+        if (!jobSys) return;
+        jobSys->ParallelFor(count, [taskFunc](uint32_t i) {
+            try {
+                taskFunc(i);
+            } catch (...) {}
+        }, chunkSize.value_or(32));
+    };
+    jobs["wait_all"] = []() {
+        if (Engine::IsInitialized()) {
+            auto jobSys = Engine::Get().GetSystem<JobSystem>();
+            if (jobSys) jobSys->WaitAll();
+        }
+    };
+    jobs["get_worker_count"] = []() -> uint32_t {
+        if (!Engine::IsInitialized()) return 1;
+        auto jobSys = Engine::Get().GetSystem<JobSystem>();
+        return jobSys ? jobSys->GetWorkerCount() : 1;
+    };
+    jobs["get_active_jobs"] = []() -> uint32_t {
+        if (!Engine::IsInitialized()) return 0;
+        auto jobSys = Engine::Get().GetSystem<JobSystem>();
+        return jobSys ? jobSys->GetActiveJobCount() : 0;
+    };
+    jobs["get_queued_jobs"] = []() -> uint32_t {
+        if (!Engine::IsInitialized()) return 0;
+        auto jobSys = Engine::Get().GetSystem<JobSystem>();
+        return jobSys ? jobSys->GetQueuedJobCount() : 0;
+    };
+
+    // --- DECAL SYSTEM BINDINGS (v12.0.0 Apex) ---
+    auto decals = m_lua.create_table("decals");
+    m_lua["Decals"] = decals;
+    decals["spawn"] = [](float x, float y, float z,
+                         sol::optional<float> sx, sol::optional<float> sy, sol::optional<float> sz,
+                         sol::optional<std::string> texture, sol::optional<float> lifetime,
+                         sol::optional<int> blendMode) -> uint32_t {
+        if (!Engine::IsInitialized()) return 0;
+        auto decalSys = Engine::Get().GetSystem<DecalSystem>();
+        if (!decalSys) return 0;
+        glm::vec3 pos(x, y, z);
+        glm::quat rot(1.0f, 0.0f, 0.0f, 0.0f);
+        glm::vec3 extents(sx.value_or(1.0f), sy.value_or(1.0f), sz.value_or(0.2f));
+        std::string tex = texture.value_or("");
+        float lt = lifetime.value_or(10.0f);
+        int blend = blendMode.value_or(0);
+        return decalSys->SpawnDecal(pos, rot, extents, tex, lt, glm::vec4(1.0f), blend);
+    };
+    decals["clear_all"] = []() {
+        if (Engine::IsInitialized()) {
+            auto decalSys = Engine::Get().GetSystem<DecalSystem>();
+            if (decalSys) decalSys->ClearAll();
+        }
+    };
+    decals["get_count"] = []() -> size_t {
+        if (!Engine::IsInitialized()) return 0;
+        auto decalSys = Engine::Get().GetSystem<DecalSystem>();
+        return decalSys ? decalSys->GetActiveDecalCount() : 0;
+    };
+
+    // --- PROFILER BINDINGS (v12.0.0 Apex) ---
+    auto profiler = m_lua.create_table("profiler");
+    m_lua["Profiler"] = profiler;
+    profiler["begin_sample"] = [](const std::string& name) {
+        Profiler::Get().BeginSample(name);
+    };
+    profiler["end_sample"] = [](const std::string& name) {
+        Profiler::Get().EndSample(name);
+    };
+    profiler["get_avg_frame_time"] = []() -> float {
+        return Profiler::Get().GetAvgFrameTime();
+    };
+    profiler["get_min_frame_time"] = []() -> float {
+        return Profiler::Get().GetMinFrameTime();
+    };
+    profiler["get_max_frame_time"] = []() -> float {
+        return Profiler::Get().GetMaxFrameTime();
+    };
+    profiler["get_avg_fps"] = []() -> float {
+        return Profiler::Get().GetAvgFPS();
+    };
+    profiler["get_history"] = [](sol::this_state s) -> sol::table {
+        sol::state_view lua(s);
+        sol::table hist = lua.create_table();
+        const auto& data = Profiler::Get().GetFrameTimeHistory();
+        for (size_t i = 0; i < data.size(); ++i) {
+            hist[i + 1] = data[i];
+        }
+        return hist;
+    };
+    profiler["clear"] = []() {
+        Profiler::Get().Clear();
+    };
+
+    // --- EXTENDED AUDIO SFX GENERATOR BINDINGS (Updates 11-25) ---
+    auto audioTab = m_lua["audio"];
+    if (audioTab.valid()) {
+        audioTab["play_noise"] = [](float duration, sol::optional<int> type, sol::optional<float> vol) {
+            if (Engine::IsInitialized()) Engine::Get().GetAudio().PlayNoise(duration, type.value_or(0), vol.value_or(0.5f));
+        };
+        audioTab["play_explosion"] = [](sol::optional<float> intensity, sol::optional<float> x, sol::optional<float> y, sol::optional<float> z) {
+            if (Engine::IsInitialized()) {
+                bool is3D = x.has_value() && y.has_value();
+                Engine::Get().GetAudio().PlayExplosion(intensity.value_or(1.0f), x.value_or(0.0f), y.value_or(0.0f), z.value_or(0.0f), is3D);
+            }
+        };
+        audioTab["play_laser"] = [](sol::optional<float> duration, sol::optional<float> startFreq, sol::optional<float> endFreq) {
+            if (Engine::IsInitialized()) Engine::Get().GetAudio().PlayLaser(duration.value_or(0.2f), startFreq.value_or(880.0f), endFreq.value_or(110.0f));
+        };
+        audioTab["play_powerup"] = [](sol::optional<int> melodyType) {
+            if (Engine::IsInitialized()) Engine::Get().GetAudio().PlayPowerUp(melodyType.value_or(0));
+        };
+        audioTab["play_engine_rev"] = [](sol::optional<float> rpm) {
+            if (Engine::IsInitialized()) Engine::Get().GetAudio().PlayEngineRev(rpm.value_or(0.5f));
+        };
+        audioTab["set_ducking"] = [](bool enabled, sol::optional<float> level) {
+            if (Engine::IsInitialized()) Engine::Get().GetAudio().SetDucking(enabled, level.value_or(0.3f));
+        };
+        audioTab["set_mute"] = [](bool muted) {
+            if (Engine::IsInitialized()) Engine::Get().GetAudio().SetMasterMute(muted);
+        };
+        audioTab["is_muted"] = []() -> bool {
+            return Engine::IsInitialized() ? Engine::Get().GetAudio().IsMasterMuted() : false;
+        };
+    }
+
+    // --- EXTENDED RENDERER POST-FX BINDINGS (Updates 26-40) ---
+    auto gfxTab = m_lua["gfx"];
+    if (gfxTab.valid()) {
+        gfxTab["set_chromatic_aberration"] = [](float intensity) {
+            if (Engine::IsInitialized()) Engine::Get().GetRenderer().SetChromaticAberration(intensity);
+        };
+        gfxTab["set_radial_blur"] = [](float intensity) {
+            if (Engine::IsInitialized()) Engine::Get().GetRenderer().SetRadialBlur(intensity);
+        };
+        gfxTab["set_fxaa"] = [](bool enabled) {
+            if (Engine::IsInitialized()) Engine::Get().GetRenderer().SetFXAAEnabled(enabled);
+        };
+        gfxTab["set_pixel_snap"] = [](bool enabled) {
+            if (Engine::IsInitialized()) Engine::Get().GetRenderer().SetPixelSnap(enabled);
+        };
+        gfxTab["set_zoom"] = [](float zoom) {
+            if (Engine::IsInitialized()) Engine::Get().GetRenderer().SetCameraZoom(zoom);
+        };
+    }
+
+    // --- EXTENDED INPUT BINDINGS (Updates 41-50) ---
+    auto inputTab = m_lua["input"];
+    if (inputTab.valid()) {
+        inputTab["set_deadzone"] = [](float dz) {
+            if (Engine::IsInitialized()) Engine::Get().GetInput().SetGamepadDeadzone(dz);
+        };
+        inputTab["set_cursor_lock"] = [](bool locked) {
+            if (Engine::IsInitialized()) Engine::Get().GetInput().SetCursorLocked(locked);
+        };
+        inputTab["set_invert_y"] = [](bool invert) {
+            if (Engine::IsInitialized()) Engine::Get().GetInput().SetInvertY(invert);
+        };
+        inputTab["vibrate_pulse"] = [](float strength, uint32_t durationMS, sol::optional<uint32_t> pulses) {
+            if (Engine::IsInitialized()) Engine::Get().GetInput().VibratePulse(strength, durationMS, pulses.value_or(1));
+        };
+    }
+
+    // --- EXTENDED MATH & BEZIER BINDINGS (Updates 61-75) ---
+    auto mathTab = m_lua["math"];
+    if (mathTab.valid()) {
+        mathTab["clamp"] = [](float v, float minV, float maxV) -> float { return MathUtils::Clamp(v, minV, maxV); };
+        mathTab["lerp"] = [](float a, float b, float t) -> float { return MathUtils::Lerp(a, b, t); };
+        mathTab["approach"] = [](float c, float t, float delta) -> float { return MathUtils::Approach(c, t, delta); };
+        mathTab["sign"] = [](float v) -> float { return (v > 0.0f) ? 1.0f : ((v < 0.0f) ? -1.0f : 0.0f); };
+        mathTab["fast_sin"] = [](float x) -> float { return MathUtils::FastSin(x); };
+        mathTab["fast_cos"] = [](float x) -> float { return MathUtils::FastCos(x); };
+        mathTab["fast_inv_sqrt"] = [](float x) -> float { return MathUtils::FastInvSqrt(x); };
+    }
+
+    auto bezierTab = m_lua.create_table("bezier");
+    m_lua["Bezier"] = bezierTab;
+    bezierTab["eval"] = [](float p0, float p1, float p2, float p3, float t) -> float {
+        float u = 1.0f - t;
+        return (u * u * u * p0) + (3.0f * u * u * t * p1) + (3.0f * u * t * t * p2) + (t * t * t * p3);
+    };
+
+    Log::Info("ScriptSystem: Phase 15 - Mega Suite 100 Extensions (Math, Audio, Gfx, Input, Jobs, Decals, Profiler) Ready.");
     return true;
 }
 
 static void SafeSetErrorHandler(sol::protected_function& func, sol::state& lua) {
-    sol::object dbgObj = lua["debug"];
-    if (dbgObj.valid() && dbgObj.is<sol::table>()) {
-        sol::table dbg = dbgObj;
-        sol::object tbObj = dbg["traceback"];
-        if (tbObj.valid() && tbObj.is<sol::function>()) {
-            func.set_error_handler(tbObj);
-        }
-    }
+    (void)func;
+    (void)lua;
 }
 
 void ScriptSystem::ExecuteFile(const std::string& path) {
@@ -1837,6 +2962,9 @@ void ScriptSystem::ExecuteFile(const std::string& path) {
                         Log::Error("Core Library Runtime Error: {}", err.what());
                     } else {
                         m_coreLoaded = true;
+                        // Treat as already required so game scripts calling
+                        // require("core") do NOT re-execute the whole library.
+                        m_lua["package"]["loaded"]["core"] = true;
                     }
                 }
             }
@@ -1858,6 +2986,8 @@ void ScriptSystem::ExecuteFile(const std::string& path) {
                         Log::Error("Bridge Library Runtime Error: {}", err.what());
                     } else {
                         m_bridgeLoaded = true;
+                        // Prevent require("sba_bridge") from re-executing/reporting tests.
+                        m_lua["package"]["loaded"]["sba_bridge"] = true;
                     }
                 }
             }
@@ -1916,20 +3046,24 @@ void ScriptSystem::OnUpdate(float dt) {
         for (auto& evt : events) {
             uint32_t e1 = 0;
             uint32_t e2 = 0;
+            bool found1 = false;
+            bool found2 = false;
 
             auto view = reg.view<PhysicsComponent>();
             for (auto entity : view) {
                 if (view.get<PhysicsComponent>(entity).bodyID == evt.b1) {
                     e1 = (uint32_t)entity;
+                    found1 = true;
                 }
                 if (view.get<PhysicsComponent>(entity).bodyID == evt.b2) {
                     e2 = (uint32_t)entity;
+                    found2 = true;
                 }
-                if (e1 != 0 && e2 != 0)
+                if (found1 && found2)
                     break;
             }
 
-            if (e1 != 0 && e2 != 0) {
+            if (found1 && found2) {
                 SafeSetErrorHandler(cb, m_lua);
                 auto res = cb(e1, e2);
                 if (!res.valid()) {
@@ -1995,4 +3129,26 @@ void ScriptSystem::OnUIRender() {
     Engine::Get().AccumulateScriptTime(elapsed);
 }
 
+void ScriptSystem::ResetState() {
+    Log::Info("ScriptSystem: Resetting Lua State...");
+    m_lua = sol::state();
+    m_lua.open_libraries(sol::lib::base, sol::lib::math, sol::lib::string, sol::lib::table, sol::lib::package, sol::lib::debug, sol::lib::io);
+    m_coreLoaded = false;
+    m_bridgeLoaded = false;
+    
+    EngineContext context;
+    context.window = &Engine::Get().GetWindow();
+    context.engine = &Engine::Get();
+    OnInitialize(context);
+    
+    auto autoSys = Engine::Get().GetSystem<AutomationSystem>();
+    if (autoSys) {
+        autoSys->RegisterLuaBindings(m_lua);
+    }
+}
+
 }  // namespace starlight
+// Force rebuild asset sync trigger v3.
+
+
+

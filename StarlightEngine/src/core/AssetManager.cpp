@@ -209,4 +209,17 @@ namespace starlight {
         return 0.0f; 
     }
 
+    void AssetManager::FlushCache() {
+        std::lock_guard<std::mutex> lock(m_mutex);
+        for (auto it = m_assets.begin(); it != m_assets.end(); ) {
+            if (it->second.use_count() == 1) {
+                Log::Info("AssetManager: Flushing unused asset from cache: " + it->first);
+                it = m_assets.erase(it);
+            } else {
+                ++it;
+            }
+        }
+        m_metaCache.clear();
+    }
+
 }

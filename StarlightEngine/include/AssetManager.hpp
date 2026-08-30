@@ -88,6 +88,7 @@ namespace starlight {
         float GetLoadingProgress() const;
 
         AssetMetadata LoadMetadata(const std::string& assetPath) const;
+        void FlushCache();
 
     private:
         std::map<std::string, std::shared_ptr<Asset>> m_assets;

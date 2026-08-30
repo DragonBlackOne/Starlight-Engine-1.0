@@ -31,10 +31,20 @@ public:
     }
 };
 
+#include <crtdbg.h>
+#include <stdlib.h>
+
 int main(int argc, char* argv[]) {
     (void)argc; (void)argv;
     
-    // ConfiguraÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o de Janela Profissional
+    // Disable MSVC interactive GUI popups for asserts/errors to fail-fast in GDB/CTest
+    _CrtSetReportMode(_CRT_ASSERT, _CRTDBG_MODE_FILE);
+    _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDERR);
+    _CrtSetReportMode(_CRT_ERROR, _CRTDBG_MODE_FILE);
+    _CrtSetReportFile(_CRT_ERROR, _CRTDBG_FILE_STDERR);
+    _set_abort_behavior(0, _WRITE_ABORT_MSG | _CALL_REPORTFAULT);
+    
+    // ConfiguraÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â§ÃƒÆ’Ã‚Â£o de Janela Profissional
     WindowConfig config;
     config.title = "Starlight Engine Open Source Project v1.0";
     config.width = 1920;

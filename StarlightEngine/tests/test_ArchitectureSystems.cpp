@@ -209,6 +209,27 @@ TEST(InputSystemTest, KeyCodeTranslation) {
     EXPECT_EQ(InputSystem::StringFromKeyCode(pal::KeyCode::LShift), "LShift");
 }
 
+TEST(InputSystemTest, KeyCodeToScancodeMapping) {
+    // Normal keys
+    EXPECT_EQ(InputSystem::KeyCodeToScancodeValue(pal::KeyCode::Space), 44); // SDL_SCANCODE_SPACE
+    EXPECT_EQ(InputSystem::KeyCodeToScancodeValue(pal::KeyCode::A), 4);      // SDL_SCANCODE_A
+    EXPECT_EQ(InputSystem::KeyCodeToScancodeValue(pal::KeyCode::Z), 29);     // SDL_SCANCODE_Z
+    EXPECT_EQ(InputSystem::KeyCodeToScancodeValue(pal::KeyCode::Num0), 39);  // SDL_SCANCODE_0
+
+    // Function keys (mismapped in raw cast)
+    EXPECT_EQ(InputSystem::KeyCodeToScancodeValue(pal::KeyCode::F1), 58);    // SDL_SCANCODE_F1
+    EXPECT_EQ(InputSystem::KeyCodeToScancodeValue(pal::KeyCode::F12), 69);   // SDL_SCANCODE_F12
+
+    // Navigation keys (mismapped in raw cast)
+    EXPECT_EQ(InputSystem::KeyCodeToScancodeValue(pal::KeyCode::PrintScreen), 70); // SDL_SCANCODE_PRINTSCREEN
+    EXPECT_EQ(InputSystem::KeyCodeToScancodeValue(pal::KeyCode::Left), 80);        // SDL_SCANCODE_LEFT
+    EXPECT_EQ(InputSystem::KeyCodeToScancodeValue(pal::KeyCode::Up), 82);          // SDL_SCANCODE_UP
+
+    // Modifiers (mismapped in raw cast)
+    EXPECT_EQ(InputSystem::KeyCodeToScancodeValue(pal::KeyCode::LShift), 225);     // SDL_SCANCODE_LSHIFT
+    EXPECT_EQ(InputSystem::KeyCodeToScancodeValue(pal::KeyCode::LCtrl), 224);      // SDL_SCANCODE_LCTRL
+}
+
 TEST(CVarSystemTest, AudioAndFrameRateCVars) {
     CVarSystem cvars;
     float mockVolume = 1.0f;

@@ -154,23 +154,28 @@ function Timer.cancel(id) local ts=Timer._timers; for i=1,#ts do if ts[i].id==id
 function Timer.pause(id) for _,t in ipairs(Timer._timers) do if t.id==id then t.paused=true; return end end end
 function Timer.resume(id) for _,t in ipairs(Timer._timers) do if t.id==id then t.paused=false; return end end end
 function Timer.update(dt)
-    Engine.log("DEBUG: Timer.update called with dt = " .. tostring(dt) .. " (type: " .. type(dt) .. ")")
-    local ts=Timer._timers
-    Engine.log("DEBUG: Timer._timers size = " .. tostring(#ts))
-    for idx, t in ipairs(ts) do
-        Engine.log("  Timer[" .. idx .. "]: id=" .. tostring(t.id) .. ", time=" .. tostring(t.time) .. ", callback=" .. tostring(t.callback) .. ", repeating=" .. tostring(t.repeating) .. ", paused=" .. tostring(t.paused))
-    end
-    local i=1
-    while i<=#ts do local t=ts[i]
-        if not t.paused then t.time=t.time-dt
-            if t.time<=0 then
-                Engine.log("DEBUG: Triggering Timer callback for id=" .. tostring(t.id))
+    local ts = Timer._timers
+    local i = 1
+    while i <= #ts do
+        local t = ts[i]
+        if not t.paused then
+            t.time = t.time - dt
+            if t.time <= 0 then
                 local ok, err = pcall(t.callback)
-                if not ok then Engine.log_error("Timer error: "..tostring(err)) end
-                if t.repeating then t.time=t.time+t.interval; i=i+1
-                else ts[i]=ts[#ts]; ts[#ts]=nil end
-            else i=i+1 end
-        else i=i+1 end
+                if not ok then Engine.log_error("Timer error: " .. tostring(err)) end
+                if t.repeating then
+                    t.time = t.time + t.interval
+                    i = i + 1
+                else
+                    ts[i] = ts[#ts]
+                    ts[#ts] = nil
+                end
+            else
+                i = i + 1
+            end
+        else
+            i = i + 1
+        end
     end
 end
 
@@ -590,6 +595,64 @@ function string.ends(s, suffix) return suffix == "" or string.sub(s, -#suffix) =
 function string.trim(s) return s:match("^%s*(.-)%s*$") or s end
 
 -- ============================================================================
+-- Draw API Wrapper (maps to native gfx / Renderer2D)
+-- ============================================================================
+draw = {
+    rect_filled = function(x, y, w, h, r, g, b, a)
+        if gfx and gfx.draw_rect then
+            gfx.draw_rect(x, y, w, h, r or 1.0, g or 1.0, b or 1.0, a or 1.0)
+        end
+    end,
+    rect = function(x, y, w, h, r, g, b, a, thickness)
+        if gfx and gfx.draw_rect_outline then
+            gfx.draw_rect_outline(x, y, w, h, thickness or 2.0, r or 1.0, g or 1.0, b or 1.0, a or 1.0)
+        end
+    end,
+    text = function(x, y, text, r, g, b, a, scale)
+        if gfx and gfx.draw_text then
+            gfx.draw_text(tostring(text or ""), x, y, scale or 1.0, r or 1.0, g or 1.0, b or 1.0, a or 1.0)
+        end
+    end,
+    circle = function(cx, cy, radius, r, g, b, a, segs)
+        if gfx and gfx.draw_circle then
+            gfx.draw_circle(cx, cy, radius, r or 1.0, g or 1.0, b or 1.0, segs or 24, a or 1.0)
+        end
+    end,
+    circle_filled = function(cx, cy, radius, r, g, b, a)
+        if gfx and gfx.draw_circle_filled then
+            gfx.draw_circle_filled(cx, cy, radius, r or 1.0, g or 1.0, b or 1.0, a or 1.0)
+        end
+    end,
+    line = function(x1, y1, x2, y2, r, g, b, a, thickness)
+        if gfx and gfx.draw_line then
+            gfx.draw_line(x1, y1, x2, y2, thickness or 2.0, r or 1.0, g or 1.0, b or 1.0, a or 1.0)
+        end
+    end
+}
+
+if audio then
+    audio.play_synth = audio.play_synth or function(freq, duration, waveType, volume)
+        local wt = 0 -- Square by default
+        if type(waveType) == "string" then
+            local s = string.lower(waveType)
+            if s == "sine" then wt = 3
+            elseif s == "square" then wt = 0
+            elseif s == "saw" or s == "sawtooth" then wt = 1
+            elseif s == "triangle" then wt = 2
+            elseif s == "noise" then wt = 4
+            end
+        elseif type(waveType) == "number" then
+            wt = waveType
+        end
+        if audio.beep then
+            audio.beep(freq, duration or 0.1, wt)
+        elseif audio.play_note then
+            audio.play_note(freq, duration or 0.1, wt)
+        end
+    end
+end
+
+-- ============================================================================
 -- Legacy Compatibility Support
 -- ============================================================================
 imgui = {}
@@ -672,11 +735,112 @@ function AssetCache.clear()
     Engine.log("[AssetCache] Cache flushed completely.")
 end
 
--- Sync game settings with CVars on startup
-if cvar then
-    -- If there are save settings loaded, set them in the CVars
-    local dbgBoxes = Save.read("debugBoxes", false)
-    cvar.set("g_debugBoxes", dbgBoxes)
+-- ============================================================================
+-- FSM (Finite State Machine) Engine Suite (v12.0.0 Updates 61-75)
+-- ============================================================================
+FSM = {}
+function FSM.create(initialState, states)
+    local fsm = {
+        current = initialState,
+        states = states or {},
+        stateTime = 0
+    }
+    function fsm:change(newState, ...)
+        if self.states[self.current] and self.states[self.current].onExit then
+            self.states[self.current].onExit(self)
+        end
+        self.current = newState
+        self.stateTime = 0
+        if self.states[self.current] and self.states[self.current].onEnter then
+            self.states[self.current].onEnter(self, ...)
+        end
+    end
+    function fsm:update(dt, ...)
+        self.stateTime = self.stateTime + dt
+        if self.states[self.current] and self.states[self.current].onUpdate then
+            self.states[self.current].onUpdate(self, dt, ...)
+        end
+    end
+    function fsm:draw(...)
+        if self.states[self.current] and self.states[self.current].onDraw then
+            self.states[self.current].onDraw(self, ...)
+        end
+    end
+    if fsm.states[fsm.current] and fsm.states[fsm.current].onEnter then
+        fsm.states[fsm.current].onEnter(fsm)
+    end
+    return fsm
 end
 
-Engine.log("Starlight Standard Library v7.0 Loaded Successfully.")
+-- ============================================================================
+-- EventBus Pub/Sub Broker
+-- ============================================================================
+EventBus = { _listeners = {} }
+function EventBus.on(event, callback)
+    if not EventBus._listeners[event] then EventBus._listeners[event] = {} end
+    table.insert(EventBus._listeners[event], callback)
+    return function() EventBus.off(event, callback) end
+end
+function EventBus.off(event, callback)
+    if not EventBus._listeners[event] then return end
+    for i = #EventBus._listeners[event], 1, -1 do
+        if EventBus._listeners[event][i] == callback then
+            table.remove(EventBus._listeners[event], i)
+        end
+    end
+end
+function EventBus.emit(event, ...)
+    if not EventBus._listeners[event] then return end
+    for _, cb in ipairs(EventBus._listeners[event]) do
+        cb(...)
+    end
+end
+function EventBus.clear()
+    EventBus._listeners = {}
+end
+
+-- ============================================================================
+-- Graphics3D & Atmosphere Presets Suite
+-- ============================================================================
+Graphics3D = {}
+Atmosphere = {
+    DesertNoon = {
+        clearColor = { 0.35, 0.58, 0.88 },
+        exposure = 1.15,
+        contrast = 1.22,
+        saturation = 1.28,
+        gamma = 2.2,
+        fogDensity = 0.0018,
+        fogColor = { 0.82, 0.72, 0.58 }
+    },
+    SunsetGold = {
+        clearColor = { 0.85, 0.42, 0.22 },
+        exposure = 1.25,
+        contrast = 1.24,
+        saturation = 1.30,
+        gamma = 2.2,
+        fogDensity = 0.0035,
+        fogColor = { 0.95, 0.45, 0.18 }
+    },
+    CyberNight = {
+        clearColor = { 0.04, 0.02, 0.08 },
+        exposure = 1.10,
+        contrast = 1.28,
+        saturation = 1.40,
+        gamma = 2.2,
+        fogDensity = 0.0045,
+        fogColor = { 0.12, 0.04, 0.22 }
+    }
+}
+
+function Atmosphere.apply(preset)
+    if not preset then return end
+    if gfx.set_clear_color and preset.clearColor then
+        gfx.set_clear_color(preset.clearColor[1], preset.clearColor[2], preset.clearColor[3])
+    end
+    if gfx.set_color_grading then
+        gfx.set_color_grading(preset.exposure, preset.contrast, preset.saturation, preset.gamma, 0.20)
+    end
+end
+
+Engine.log("Starlight Standard Library v15.0.0 (Cosmos Suite) Loaded Successfully.")

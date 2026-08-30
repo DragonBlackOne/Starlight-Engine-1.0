@@ -99,6 +99,7 @@ static void data_callback(ma_device* pDevice, void* pOutput, const void* pInput,
     InternalAudioState* state = (InternalAudioState*)audioSystem->GetEngineHandle();
     float* fOutput = (float*)pOutput;
     float dt = 1.0f / (float)pDevice->sampleRate;
+    ma_uint32 channels = pDevice->playback.channels;
 
     // Note: Using a mutex in the audio callback is generally discouraged for low-latency,
     // but here it ensures absolute stability during the v4.0 industrial transition.
@@ -142,7 +143,7 @@ static void data_callback(ma_device* pDevice, void* pOutput, const void* pInput,
                 glm::vec3 vPos = {voice.pos[0], voice.pos[1], voice.pos[2]};
                 float dist = glm::distance(vPos, state->listenerPos);
                 float atten = 1.0f / (1.0f + dist * 0.1f);
-                glm::vec3 dir = glm::normalize(vPos - state->listenerPos);
+                glm::vec3 dir = (dist > 0.0001f) ? glm::normalize(vPos - state->listenerPos) : glm::vec3(0, 0, 1);
                 float pan = glm::dot(dir, glm::cross(state->listenerDir, glm::vec3(0, 1, 0)));
                 left += vs * atten * (1.0f - pan);
                 right += vs * atten * (1.0f + pan);
@@ -164,14 +165,25 @@ static void data_callback(ma_device* pDevice, void* pOutput, const void* pInput,
         audioSystem->GetLPLastL() = left;
         audioSystem->GetLPLastR() = right;
 
-        fOutput[i * 2 + 0] = left;
-        fOutput[i * 2 + 1] = right;
+        // Write safely depending on real channels
+        if (channels == 1) {
+            fOutput[i] = (left + right) * 0.5f;
+        } else if (channels == 2) {
+            fOutput[i * 2 + 0] = left;
+            fOutput[i * 2 + 1] = right;
+        } else {
+            fOutput[i * channels + 0] = left;
+            fOutput[i * channels + 1] = right;
+            for (ma_uint32 c = 2; c < channels; ++c) {
+                fOutput[i * channels + c] = 0.0f;
+            }
+        }
     }
 }
 
 AudioSystem::AudioSystem() : m_audioEngine(nullptr), m_initialized(false) {
-    m_voices.resize(8);
-    m_fmVoices.resize(6);
+    m_voices.resize(16);
+    m_fmVoices.resize(8);
 }
 
 AudioSystem::~AudioSystem() {
@@ -292,16 +304,23 @@ void AudioSystem::PlayMusic(const std::string& path, bool loop, float volume) {
         return;
     auto state = (InternalAudioState*)m_audioEngine;
 
-    StopMusic();
-
     std::lock_guard<std::mutex> lock(m_audioMutex);
+
+    if (state->musicSound) {
+        ma_sound_stop(state->musicSound);
+        ma_sound_uninit(state->musicSound);
+        delete state->musicSound;
+        state->musicSound = nullptr;
+    }
+
+    m_musicTrackVolume = std::clamp(volume, 0.0f, 1.0f);
     std::string resolved = PathResolver::Resolve(path);
     state->musicSound = new ma_sound();
     // MA_SOUND_FLAG_STREAM enables disk streaming (Essential for music!)
     if (ma_sound_init_from_file(&state->engine, resolved.c_str(), MA_SOUND_FLAG_STREAM, NULL, NULL, state->musicSound) ==
         MA_SUCCESS) {
         ma_sound_set_looping(state->musicSound, loop);
-        ma_sound_set_volume(state->musicSound, volume * m_musicVolume);
+        ma_sound_set_volume(state->musicSound, m_musicTrackVolume * m_musicVolume);
         ma_sound_start(state->musicSound);
     } else {
         delete state->musicSound;
@@ -330,7 +349,7 @@ void AudioSystem::SetMusicVolume(float volume) {
     auto state = (InternalAudioState*)m_audioEngine;
     std::lock_guard<std::mutex> lock(m_audioMutex);
     if (state->musicSound) {
-        ma_sound_set_volume(state->musicSound, m_musicVolume);
+        ma_sound_set_volume(state->musicSound, m_musicTrackVolume * m_musicVolume);
     }
 }
 
@@ -406,71 +425,241 @@ void AudioSystem::SetListenerPosition(float x, float y, float z, float dx, float
     ma_engine_listener_set_direction(&state->engine, 0, dx, dy, dz);
 }
 
+void AudioSystem::SetListenerVelocity(float vx, float vy, float vz) {
+    if (!m_initialized)
+        return;
+    auto state = (InternalAudioState*)m_audioEngine;
+    ma_engine_listener_set_velocity(&state->engine, 0, vx, vy, vz);
+}
+
+void AudioSystem::SetDopplerFactor(float factor) {
+    m_dopplerFactor = std::clamp(factor, 0.0f, 5.0f);
+}
+
+void AudioSystem::SetDistanceAttenuation(float minDistance, float maxDistance, float rolloff) {
+    m_minDistance = std::max(0.1f, minDistance);
+    m_maxDistance = std::max(m_minDistance + 0.1f, maxDistance);
+    m_rolloff = std::clamp(rolloff, 0.0f, 5.0f);
+}
+
+void AudioSystem::SetReverbParameters(float roomSize, float damping, float wetGain) {
+    m_reverbRoomSize = std::clamp(roomSize, 0.0f, 1.0f);
+    m_reverbDamping = std::clamp(damping, 0.0f, 1.0f);
+    m_reverbWetGain = std::clamp(wetGain, 0.0f, 1.0f);
+}
+
 void AudioSystem::Play3DNote(float freq, float duration, float x, float y, float z, WaveType type) {
     if (!m_initialized)
         return;
     std::lock_guard<std::mutex> lock(m_audioMutex);
-    for (auto& v : m_voices)
+    ChiptuneVoice* targetVoice = nullptr;
+    float maxTimer = -1.0f;
+    for (auto& v : m_voices) {
         if (!v.active) {
-            v.frequency = freq;
-            v.duration = duration;
-            v.timer = 0.0f;
-            v.type = type;
-            v.active = true;
-            v.state = 1;
-            v.envLevel = 0.0f;  // Start Attack
-            v.is3D = true;
-            v.pos[0] = x;
-            v.pos[1] = y;
-            v.pos[2] = z;
-            v.attack = m_envAttack;
-            v.decay = m_envDecay;
-            v.sustain = m_envSustain;
-            v.release = m_envRelease;
-            return;
+            targetVoice = &v;
+            break;
         }
+        if (v.timer > maxTimer) {
+            maxTimer = v.timer;
+            targetVoice = &v;
+        }
+    }
+    if (targetVoice) {
+        targetVoice->frequency = freq;
+        targetVoice->duration = duration;
+        targetVoice->timer = 0.0f;
+        targetVoice->phase = 0.0f;
+        targetVoice->type = type;
+        targetVoice->active = true;
+        targetVoice->state = 1;
+        targetVoice->envLevel = 0.0f;
+        targetVoice->is3D = true;
+        targetVoice->pos[0] = x;
+        targetVoice->pos[1] = y;
+        targetVoice->pos[2] = z;
+        targetVoice->attack = m_envAttack;
+        targetVoice->decay = m_envDecay;
+        targetVoice->sustain = m_envSustain;
+        targetVoice->release = m_envRelease;
+    }
 }
 
 void AudioSystem::PlayNote(float freq, float duration, WaveType type) {
     if (!m_initialized)
         return;
     std::lock_guard<std::mutex> lock(m_audioMutex);
-    for (auto& v : m_voices)
+    ChiptuneVoice* targetVoice = nullptr;
+    float maxTimer = -1.0f;
+    for (auto& v : m_voices) {
         if (!v.active) {
-            v.frequency = freq;
-            v.duration = duration;
-            v.timer = 0.0f;
-            v.type = type;
-            v.active = true;
-            v.state = 1;
-            v.envLevel = 0.0f;  // Start Attack
-            v.is3D = false;
-            v.attack = m_envAttack;
-            v.decay = m_envDecay;
-            v.sustain = m_envSustain;
-            v.release = m_envRelease;
-            return;
+            targetVoice = &v;
+            break;
         }
+        if (v.timer > maxTimer) {
+            maxTimer = v.timer;
+            targetVoice = &v;
+        }
+    }
+    if (targetVoice) {
+        targetVoice->frequency = freq;
+        targetVoice->duration = duration;
+        targetVoice->timer = 0.0f;
+        targetVoice->phase = 0.0f;
+        targetVoice->type = type;
+        targetVoice->active = true;
+        targetVoice->state = 1;
+        targetVoice->envLevel = 0.0f;
+        targetVoice->is3D = false;
+        targetVoice->attack = m_envAttack;
+        targetVoice->decay = m_envDecay;
+        targetVoice->sustain = m_envSustain;
+        targetVoice->release = m_envRelease;
+    }
 }
 
 void AudioSystem::PlayFMNote(float freq, float duration, int algorithm) {
     if (!m_initialized)
         return;
     std::lock_guard<std::mutex> lock(m_audioMutex);
-    for (auto& v : m_fmVoices)
+    FMVoice* targetVoice = nullptr;
+    float maxTimer = -1.0f;
+    for (auto& v : m_fmVoices) {
         if (!v.active) {
-            v.frequency = freq;
-            v.duration = duration;
-            v.timer = 0.0f;
-            v.algorithm = algorithm;
-            v.active = true;
-            v.is3D = false;
-            v.ops[0].state = 1;
-            v.ops[1].state = 1;
-            v.ops[2].state = 1;
-            v.ops[3].state = 1;
-            return;
+            targetVoice = &v;
+            break;
         }
+        if (v.timer > maxTimer) {
+            maxTimer = v.timer;
+            targetVoice = &v;
+        }
+    }
+    if (targetVoice) {
+        targetVoice->frequency = freq;
+        targetVoice->duration = duration;
+        targetVoice->timer = 0.0f;
+        targetVoice->algorithm = algorithm;
+        targetVoice->active = true;
+        targetVoice->is3D = false;
+        targetVoice->ops[0].state = 1;
+        targetVoice->ops[1].state = 1;
+        targetVoice->ops[2].state = 1;
+        targetVoice->ops[3].state = 1;
+    }
+}
+
+void AudioSystem::PlayImpact(float velocity, AudioMaterial material, float x, float y, float z, bool is3D) {
+    if (!m_initialized)
+        return;
+
+    float normVel = std::clamp(velocity / 20.0f, 0.1f, 2.5f);
+    float duration = std::clamp(0.08f + normVel * 0.05f, 0.05f, 0.35f);
+
+    switch (material) {
+        case AudioMaterial::Metal: {
+            float baseFreq = 880.0f * (0.8f + normVel * 0.4f);
+            if (is3D) {
+                Play3DNote(baseFreq, duration * 0.5f, x, y, z, WaveType::Triangle);
+                Play3DNote(baseFreq * 1.58f, duration, x, y, z, WaveType::Square);
+            } else {
+                PlayNote(baseFreq, duration * 0.5f, WaveType::Triangle);
+                PlayNote(baseFreq * 1.58f, duration, WaveType::Square);
+            }
+            break;
+        }
+        case AudioMaterial::Wood: {
+            float baseFreq = 220.0f * (0.7f + normVel * 0.3f);
+            if (is3D) {
+                Play3DNote(baseFreq, duration * 0.6f, x, y, z, WaveType::Triangle);
+            } else {
+                PlayNote(baseFreq, duration * 0.6f, WaveType::Triangle);
+            }
+            break;
+        }
+        case AudioMaterial::Concrete: {
+            float baseFreq = 110.0f * (0.8f + normVel * 0.3f);
+            if (is3D) {
+                Play3DNote(baseFreq, duration * 0.8f, x, y, z, WaveType::Saw);
+                Play3DNote(80.0f, duration * 0.5f, x, y, z, WaveType::Noise);
+            } else {
+                PlayNote(baseFreq, duration * 0.8f, WaveType::Saw);
+                PlayNote(80.0f, duration * 0.5f, WaveType::Noise);
+            }
+            break;
+        }
+        case AudioMaterial::Flesh: {
+            float baseFreq = 140.0f * (0.8f + normVel * 0.5f);
+            if (is3D) {
+                Play3DNote(baseFreq, duration * 0.6f, x, y, z, WaveType::Saw);
+                Play3DNote(90.0f, duration * 0.4f, x, y, z, WaveType::Noise);
+            } else {
+                PlayNote(baseFreq, duration * 0.6f, WaveType::Saw);
+                PlayNote(90.0f, duration * 0.4f, WaveType::Noise);
+            }
+            break;
+        }
+        case AudioMaterial::CyberShield: {
+            float baseFreq = 587.33f * (0.9f + normVel * 0.3f);
+            PlayFMNote(baseFreq, duration * 0.8f, 0);
+            break;
+        }
+        case AudioMaterial::Glass: {
+            float baseFreq = 1760.0f * (0.9f + normVel * 0.2f);
+            if (is3D) {
+                Play3DNote(baseFreq, duration * 0.4f, x, y, z, WaveType::Sine);
+                Play3DNote(baseFreq * 1.414f, duration * 0.3f, x, y, z, WaveType::Triangle);
+            } else {
+                PlayNote(baseFreq, duration * 0.4f, WaveType::Sine);
+                PlayNote(baseFreq * 1.414f, duration * 0.3f, WaveType::Triangle);
+            }
+            break;
+        }
+    }
+}
+
+void AudioSystem::PlayNoise(float duration, int noiseType, float volume) {
+    (void)noiseType;
+    (void)volume;
+    PlayNote(220.0f, duration, WaveType::Noise);
+}
+
+void AudioSystem::PlayExplosion(float intensity, float x, float y, float z, bool is3D) {
+    float dur = std::clamp(intensity * 0.8f, 0.2f, 2.5f);
+    if (is3D) {
+        Play3DNote(55.0f * (1.0f / (intensity + 0.1f)), dur, x, y, z, WaveType::Noise);
+        Play3DNote(40.0f, dur * 0.6f, x, y, z, WaveType::Sine);
+    } else {
+        PlayNote(55.0f * (1.0f / (intensity + 0.1f)), dur, WaveType::Noise);
+        PlayNote(40.0f, dur * 0.6f, WaveType::Sine);
+    }
+}
+
+void AudioSystem::PlayLaser(float duration, float startFreq, float endFreq) {
+    (void)endFreq;
+    PlayNote(startFreq, duration, WaveType::Saw);
+}
+
+void AudioSystem::PlayPowerUp(int melodyType) {
+    (void)melodyType;
+    PlayNote(523.25f, 0.1f, WaveType::Square); // C5
+    PlayNote(659.25f, 0.15f, WaveType::Square); // E5
+    PlayNote(783.99f, 0.25f, WaveType::Square); // G5
+}
+
+void AudioSystem::PlayEngineRev(float rpmNormalized) {
+    float freq = 60.0f + std::clamp(rpmNormalized, 0.0f, 1.0f) * 240.0f;
+    PlayNote(freq, 0.08f, WaveType::Saw);
+}
+
+void AudioSystem::SetDucking(bool enabled, float duckLevel) {
+    m_ducking = enabled;
+    m_duckLevel = std::clamp(duckLevel, 0.0f, 1.0f);
+    if (m_initialized) {
+        auto state = (InternalAudioState*)m_audioEngine;
+        if (state && state->musicSound) {
+            float effVol = m_ducking ? (m_musicVolume * m_duckLevel) : m_musicVolume;
+            ma_sound_set_volume(state->musicSound, effVol * m_musicTrackVolume);
+        }
+    }
 }
 
 void AudioSystem::OnUpdate(float dt) {

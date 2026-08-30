@@ -62,4 +62,17 @@ namespace starlight {
     private:
         std::vector<std::shared_ptr<Scene>> m_scenes;
     };
+
+    struct ColorRGB {
+        float r, g, b;
+    };
+
+    namespace Colors {
+        inline constexpr ColorRGB HotMagenta    { 1.0f, 0.2f, 0.95f };
+        inline constexpr ColorRGB CyberCyan     { 0.0f, 0.9f, 0.9f };
+        inline constexpr ColorRGB NeonViolet    { 0.55f, 0.12f, 0.75f };
+        inline constexpr ColorRGB SunsetOrange  { 1.0f, 0.45f, 0.05f };
+        inline constexpr ColorRGB GlowGold      { 1.0f, 0.85f, 0.1f };
+        inline constexpr ColorRGB DarkObsidian  { 0.04f, 0.02f, 0.08f };
+    }
 }

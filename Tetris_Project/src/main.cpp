@@ -1,4 +1,3 @@
-#include <iostream>
 #include "Engine.hpp"
 #include "Log.hpp"
 #include "ScriptSystem.hpp"

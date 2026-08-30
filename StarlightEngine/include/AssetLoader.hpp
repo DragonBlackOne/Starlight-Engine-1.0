@@ -25,6 +25,18 @@ namespace starlight {
         static uint32_t CreateProceduralIsometricTile(const glm::vec3& color);
         static uint32_t CreateProceduralBuilding(const glm::vec3& color);
 
+        // Procedural 3D Geometry Generators
+        static std::shared_ptr<Mesh> CreatePlaneMesh(float width, float depth, float tileU = 1.0f, float tileV = 1.0f);
+        static std::shared_ptr<Mesh> CreateBoxMesh(float width, float height, float depth);
+        static std::shared_ptr<Mesh> CreateCylinderMesh(float radius, float height, int segments = 16);
+        static std::shared_ptr<Mesh> CreateSphereMesh(float radius, int rings = 12, int segments = 16);
+        static std::shared_ptr<Mesh> CreateCapsuleMesh(float radius, float height, int rings = 8, int segments = 16);
+        static std::shared_ptr<Mesh> CreateIcosphereMesh(float radius, int subdivisions = 2);
+        static std::shared_ptr<Mesh> CreateTorusMesh(float majorRadius, float minorRadius, int radialSegments = 24, int tubularSegments = 16);
+        static std::shared_ptr<Mesh> CreateWedgeMesh(float width, float height, float depth);
+        static std::shared_ptr<Mesh> CreateHumanoidMesh(float scale = 1.0f);
+        static std::shared_ptr<Mesh> CreateTerrainMesh(float width, float depth, int resolution = 32, float heightScale = 1.5f);
+
         static void OptimizeMesh(std::vector<Vertex>& vertices, std::vector<uint32_t>& indices);
         static MeshData SimplifyMesh(const MeshData& input, float targetRatio);
     };

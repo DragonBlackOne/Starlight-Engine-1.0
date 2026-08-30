@@ -1,0 +1,108 @@
+#version 430
+
+layout(local_size_x = 256) in;
+
+struct FluidParticle {
+    vec4 position; // xyz = pos, w = density
+    vec4 velocity; // xyz = vel, w = pressure
+};
+
+layout(std430, binding = 0) buffer FluidBuffer {
+    FluidParticle particles[];
+};
+
+uniform int particle_count;
+uniform float dt;
+uniform float smoothing_radius;
+uniform float particle_mass;
+uniform float viscosity_coeff;
+uniform vec3 gravity;
+uniform vec3 box_size; // Simulation bounds
+
+// Spiky Kernel Gradient for Pressure
+// GradW(r, h) = -45 / (pi * h^6) * (h - r)^2 * r_norm
+float spiky_gradient_scalar(float r, float h) {
+    if (r > h || r <= 0.0001) return 0.0;
+    float diff = h - r;
+    return diff * diff;
+}
+
+// Viscosity Kernel Laplacian
+// LapW(r, h) = 45 / (pi * h^6) * (h - r)
+float viscosity_laplacian(float r, float h) {
+    if (r > h) return 0.0;
+    return h - r;
+}
+
+void main() {
+    uint id = gl_GlobalInvocationID.x;
+    if (id >= particle_count) return;
+
+    FluidParticle p = particles[id];
+    vec3 pos = p.position.xyz;
+    vec3 vel = p.velocity.xyz;
+    float density = p.position.w;
+    float pressure = p.velocity.w;
+    
+    vec3 pressure_force = vec3(0.0);
+    vec3 viscosity_force = vec3(0.0);
+    
+    float h = smoothing_radius;
+    float spiky_coeff = -45.0 / (3.14159 * pow(h, 6.0));
+    float visc_coeff = 45.0 / (3.14159 * pow(h, 6.0));
+    
+    for (int i = 0; i < particle_count; i++) {
+        if (id == i) continue;
+        
+        FluidParticle other = particles[i];
+        vec3 diff = pos - other.position.xyz;
+        float r = length(diff);
+        
+        if (r < h && r > 0.0001) {
+            vec3 r_norm = diff / r;
+            
+            // Pressure Force
+            // Fp = -mass * (Pi + Pj) / (2 * rhoj) * GradW
+            // Simplified: -mass * (Pi/rho^2 + Pj/rhoj^2) * GradW ? 
+            // Standard SPH: Fp_i = - sum(m_j * (p_i + p_j)/(2 * rho_j) * GradW)
+            // Note: We use a symmetric formulation for momentum conservation
+            
+            float term = (pressure + other.velocity.w) / (2.0 * other.position.w);
+            float grad = spiky_gradient_scalar(r, h);
+            pressure_force += r_norm * (term * grad);
+            
+            // Viscosity Force
+            // Fv = mu * sum(m_j * (v_j - v_i) / rho_j * LapW)
+            vec3 vel_diff = other.velocity.xyz - vel;
+            float lap = viscosity_laplacian(r, h);
+            viscosity_force += (vel_diff / other.position.w) * lap;
+        }
+    }
+    
+    pressure_force *= particle_mass * spiky_coeff;
+    viscosity_force *= particle_mass * viscosity_coeff * visc_coeff;
+    
+    vec3 total_force = pressure_force + viscosity_force + (gravity * density);
+    
+    // Acceleration = Force / Density
+    vec3 acceleration = total_force / density;
+    
+    // Integrate (Semi-implicit Euler)
+    vel += acceleration * dt;
+    pos += vel * dt;
+    
+    // Boundary Conditions (Box)
+    float damping = 0.5;
+    vec3 bounds = box_size * 0.5;
+    
+    if (pos.x < -bounds.x) { pos.x = -bounds.x; vel.x *= -damping; }
+    if (pos.x > bounds.x)  { pos.x = bounds.x;  vel.x *= -damping; }
+    if (pos.y < 0.0)       { pos.y = 0.0;       vel.y *= -damping; }
+    if (pos.y > bounds.y)  { pos.y = bounds.y;  vel.y *= -damping; }
+    if (pos.z < -bounds.z) { pos.z = -bounds.z; vel.z *= -damping; }
+    if (pos.z > bounds.z)  { pos.z = bounds.z;  vel.z *= -damping; }
+    
+    // Store
+    particles[id].position.xyz = pos;
+    particles[id].velocity.xyz = vel;
+}

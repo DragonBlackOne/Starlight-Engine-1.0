@@ -47,16 +47,21 @@ void main()
     vec2 redOffset = toCenter * chromaticStrength;
     vec2 blueOffset = -toCenter * chromaticStrength;
 
-    vec3 hdrColor;
-    hdrColor.r = texture(sceneTexture, uv + redOffset).r + texture(bloomTexture, uv + redOffset).r;
-    hdrColor.g = texture(sceneTexture, uv).g + texture(bloomTexture, uv).g;
-    hdrColor.b = texture(sceneTexture, uv + blueOffset).b + texture(bloomTexture, uv + blueOffset).b;
+    vec3 sceneSample = vec3(
+        texture(sceneTexture, uv + redOffset).r,
+        texture(sceneTexture, uv).g,
+        texture(sceneTexture, uv + blueOffset).b
+    );
+    vec3 bloomSample = vec3(
+        texture(bloomTexture, uv + redOffset).r,
+        texture(bloomTexture, uv).g,
+        texture(bloomTexture, uv + blueOffset).b
+    );
 
-    // Exposure tone mapping
-    vec3 mapped = vec3(1.0) - exp(-hdrColor * exposure);
-    
-    // ACES Filmic Tone Mapping
-    mapped = ACESFilm(mapped);
+    vec3 hdrColor = sceneSample + bloomSample * 0.35;
+
+    // ACES Filmic Tone Mapping directly on HDR linear color
+    vec3 mapped = ACESFilm(hdrColor * exposure);
     
     // Gamma correction
     mapped = pow(mapped, vec3(1.0 / gamma));

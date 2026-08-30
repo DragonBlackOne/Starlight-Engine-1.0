@@ -62,6 +62,11 @@ void main()
     float ao = texture(gRoughnessAO, TexCoords).g;
 
     vec3 N = normalize(Normal);
+    // Background pixels (no geometry) have zero normal -> normalize() would be NaN.
+    if (dot(Normal, Normal) < 0.0001) {
+        FragColor = vec4(0.0);
+        return;
+    }
     vec3 V = normalize(viewPos - FragPos);
 
     // Calculate reflectance at normal incidence; if dia-electric (like plastic) use F0 of 0.04 

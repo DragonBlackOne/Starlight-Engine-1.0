@@ -74,6 +74,11 @@ public:
     void Play3DEffect(const std::string& path, float x, float y, float z);
     void SetMasterVolume(float volume);
     void SetListenerPosition(float x, float y, float z, float dx, float dy, float dz);
+    void SetListenerVelocity(float vx, float vy, float vz);
+    void SetDopplerFactor(float factor);
+    float GetDopplerFactor() const { return m_dopplerFactor; }
+    void SetDistanceAttenuation(float minDistance, float maxDistance, float rolloff);
+    void SetReverbParameters(float roomSize, float damping, float wetGain);
 
     // Music Streaming
     void PlayMusic(const std::string& path, bool loop = true, float volume = 1.0f);
@@ -83,10 +88,13 @@ public:
         return m_audioEngine;
     }
 
-    // Retro APIs
+    enum class AudioMaterial { Metal = 0, Wood = 1, Concrete = 2, Flesh = 3, CyberShield = 4, Glass = 5 };
+
+    // Retro & Physics Synthesis APIs
     void PlayNote(float freq, float duration, WaveType type = WaveType::Square);
     void Play3DNote(float freq, float duration, float x, float y, float z, WaveType type = WaveType::Square);
     void PlayFMNote(float freq, float duration, int algorithm = 0);
+    void PlayImpact(float velocity, AudioMaterial material = AudioMaterial::Metal, float x = 0.0f, float y = 0.0f, float z = 0.0f, bool is3D = false);
     void SetOcclusion(float occlusionFactor);
 
     // Music & Volume APIs
@@ -107,6 +115,16 @@ public:
     }
     void SetEnvelope(float attack, float decay, float sustain, float release);
 
+    // Procedural Noise & SFX Generators (v12.0.0 Updates 11-25)
+    void PlayNoise(float duration, int noiseType = 0, float volume = 0.5f);
+    void PlayExplosion(float intensity = 1.0f, float x = 0.0f, float y = 0.0f, float z = 0.0f, bool is3D = false);
+    void PlayLaser(float duration = 0.2f, float startFreq = 880.0f, float endFreq = 110.0f);
+    void PlayPowerUp(int melodyType = 0);
+    void PlayEngineRev(float rpmNormalized = 0.5f);
+    void SetDucking(bool enabled, float duckLevel = 0.3f);
+    void SetMasterMute(bool muted) { m_masterMuted = muted; }
+    bool IsMasterMuted() const { return m_masterMuted; }
+
     std::mutex m_audioMutex;
 
     // Process audio callback needs access to these
@@ -121,6 +139,16 @@ public:
     }
     std::vector<FMVoice>& GetFMVoices() {
         return m_fmVoices;
+    }
+    size_t GetActiveVoiceCount() const {
+        size_t count = 0;
+        for (const auto& v : m_voices) {
+            if (v.active) count++;
+        }
+        for (const auto& v : m_fmVoices) {
+            if (v.active) count++;
+        }
+        return count;
     }
     float GetLowPassCutoffInternal() const {
         return m_lowPassCutoff;
@@ -140,13 +168,26 @@ private:
     float m_lpLastL = 0.0f, m_lpLastR = 0.0f;
 
     float m_musicVolume = 1.0f;
+    float m_musicTrackVolume = 1.0f;
     float m_effectsVolume = 1.0f;
+    bool m_masterMuted = false;
+    bool m_ducking = false;
+    float m_duckLevel = 0.3f;
 
     // Envelope defaults
     float m_envAttack = 0.01f;
     float m_envDecay = 0.1f;
     float m_envSustain = 0.5f;
     float m_envRelease = 0.2f;
+
+    // Spatial & 3D Audio Parameters
+    float m_dopplerFactor = 1.0f;
+    float m_minDistance = 1.0f;
+    float m_maxDistance = 100.0f;
+    float m_rolloff = 1.0f;
+    float m_reverbRoomSize = 0.0f;
+    float m_reverbDamping = 0.5f;
+    float m_reverbWetGain = 0.0f;
 
     void* m_audioEngine = nullptr;  // Opaque pointer to ma_engine
     bool m_initialized = false;

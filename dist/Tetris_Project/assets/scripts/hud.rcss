@@ -1,0 +1,71 @@
+body {
+    font-family: "Inconsolata";
+    font-weight: normal;
+    font-style: normal;
+    font-size: 14px;
+    color: #FF00AA; /* Hot Magenta */
+}
+
+.hud-panel {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    width: 280px;
+    padding: 15px;
+    border-radius: 8px;
+    background-color: rgba(13, 2, 25, 0.85); /* Dark Obsidian transparent */
+    border: 2px #00F0FF; /* Cyber Cyan */
+}
+
+.hud-title {
+    font-weight: bold;
+    font-size: 16px;
+    color: #00F0FF; /* Cyber Cyan */
+    margin-bottom: 12px;
+    text-align: center;
+}
+
+.hud-label {
+    font-size: 11px;
+    color: #FF5F00; /* Sunset Orange */
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+.health-bar-container {
+    width: 100%;
+    height: 16px;
+    background-color: rgba(10, 5, 10, 0.9);
+    border: 1px #FF00AA;
+    border-radius: 4px;
+    margin-top: 4px;
+}
+
+.health-fill {
+    height: 100%;
+    width: 85%;
+    background-color: #FF00AA; /* Magenta */
+}
+
+.shield-bar-container {
+    width: 100%;
+    height: 16px;
+    background-color: rgba(10, 5, 10, 0.9);
+    border: 1px #00F0FF;
+    border-radius: 4px;
+    margin-top: 4px;
+}
+
+.shield-fill {
+    height: 100%;
+    width: 60%;
+    background-color: #00F0FF; /* Cyber Cyan */
+}
+
+.critical-text {
+    font-weight: bold;
+    font-size: 11px;
+    color: #FFD700; /* Gold */
+    margin-top: 15px;
+    text-align: center;
+}

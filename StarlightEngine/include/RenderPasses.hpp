@@ -89,6 +89,7 @@ namespace starlight {
                     }
                 }
                 glCullFace(GL_BACK);
+                glDisable(GL_CULL_FACE);
                 glBindFramebuffer(GL_FRAMEBUFFER, 0);
             }
         }
@@ -105,6 +106,8 @@ namespace starlight {
             Renderer* r = *renderer;
 
             if (r->m_skyboxShader && r->m_skyboxCubemap) {
+                glBindFramebuffer(GL_FRAMEBUFFER, r->m_fbo.Get());
+                glViewport(0, 0, r->m_fboWidth, r->m_fboHeight);
                 glDepthFunc(GL_LEQUAL);
                 r->m_skyboxShader->Use();
                 r->m_skyboxShader->SetMat4U("view", glm::mat4(glm::mat3(r->m_view)));
@@ -134,11 +137,20 @@ namespace starlight {
 
             glBindFramebuffer(GL_FRAMEBUFFER, r->m_fbo.Get());
             glViewport(0, 0, r->m_fboWidth, r->m_fboHeight);
+            glEnable(GL_DEPTH_TEST);
+            glDepthFunc(GL_LESS);
+            glDisable(GL_CULL_FACE);
             
             r->m_pbrShader->Use();
             r->m_pbrShader->SetMat4U("projection", r->m_projectionMatrix);
             r->m_pbrShader->SetMat4U("view", r->m_view);
             r->m_pbrShader->SetVec3U("camPos", r->m_cameraTransform.position);
+
+            // Atmospheric distance fog (warm desert haze), configurable via r_fog_density
+            float fogDensity = cvarSys ? cvarSys->GetFloat("r_fog_density") : 0.0f;
+            r->m_pbrShader->SetVec3U("fogColor", r->m_clearColor);
+            r->m_pbrShader->SetFloatU("fogDensity", fogDensity);
+            r->m_pbrShader->SetIntU("fogEnabled", fogDensity > 0.0f ? 1 : 0);
 
             if (r->m_shadowSystem) {
                 r->m_shadowSystem->BindTextures(5);
@@ -165,6 +177,7 @@ namespace starlight {
             glActiveTexture(GL_TEXTURE8);
             glBindTexture(GL_TEXTURE_2D, r->m_iblData.brdfLUT);
             r->m_pbrShader->SetIntU("brdfLUT", 8);
+            r->m_pbrShader->SetIntU("useIBL", (r->m_iblData.irradianceMap != 0) ? 1 : 0);
 
             auto scenePtr = blackboard.Get<Scene*>("ActiveScene");
             if (scenePtr) {
@@ -184,6 +197,15 @@ namespace starlight {
                 r->m_pbrShader->SetIntU("lightCount", i);
             }
 
+            uint32_t defaultWhite = Renderer2D::GetWhiteTexture();
+            glActiveTexture(GL_TEXTURE0);
+            glBindTexture(GL_TEXTURE_2D, defaultWhite);
+            r->m_pbrShader->SetIntU("albedoMap", 0);
+
+            glActiveTexture(GL_TEXTURE1);
+            glBindTexture(GL_TEXTURE_2D, defaultWhite);
+            r->m_pbrShader->SetIntU("normalMap", 1);
+
             for (const auto& cmd : r->m_commandBuffer) {
                 if (!cmd.mesh) continue;
                 r->m_pbrShader->SetMat4U("model", cmd.transform);
@@ -191,7 +213,29 @@ namespace starlight {
                 r->m_pbrShader->SetFloatU("metallic", cmd.metallic);
                 r->m_pbrShader->SetFloatU("roughness", cmd.roughness);
                 r->m_pbrShader->SetFloatU("ao", cmd.ao);
-                r->m_pbrShader->SetIntU("useAlbedoMap", 0);
+                r->m_pbrShader->SetIntU("isSkin", cmd.isSkin ? 1 : 0);
+                r->m_pbrShader->SetVec3U("skinSubsurfaceColor", cmd.skinSubsurfaceColor);
+
+                if (cmd.albedoMap != 0) {
+                    glActiveTexture(GL_TEXTURE0);
+                    glBindTexture(GL_TEXTURE_2D, cmd.albedoMap);
+                    r->m_pbrShader->SetIntU("useAlbedoMap", 1);
+                } else {
+                    glActiveTexture(GL_TEXTURE0);
+                    glBindTexture(GL_TEXTURE_2D, defaultWhite);
+                    r->m_pbrShader->SetIntU("useAlbedoMap", 0);
+                }
+
+                if (cmd.normalMap != 0) {
+                    glActiveTexture(GL_TEXTURE1);
+                    glBindTexture(GL_TEXTURE_2D, cmd.normalMap);
+                    r->m_pbrShader->SetIntU("useNormalMap", 1);
+                } else {
+                    glActiveTexture(GL_TEXTURE1);
+                    glBindTexture(GL_TEXTURE_2D, defaultWhite);
+                    r->m_pbrShader->SetIntU("useNormalMap", 0);
+                }
+
                 cmd.mesh->Draw();
             }
 
@@ -305,6 +349,10 @@ namespace starlight {
             if (!rendererPtr) return;
             Renderer* r = *rendererPtr;
 
+            auto cvarSys = Engine::Get().GetSystem<CVarSystem>();
+            bool isDeferred = cvarSys ? cvarSys->GetBool("r_deferred") : false;
+            if (!isDeferred) return; // SSR needs the G-Buffer (deferred mode only)
+
             if (r->m_ssrShader) {
                 // We'll render SSR to a temporary buffer or use additive blending
                 // For now, let's just setup the shader and draw a quad
@@ -338,6 +386,10 @@ namespace starlight {
             if (!rendererPtr) return;
             Renderer* r = *rendererPtr;
     
+            auto cvarSys = Engine::Get().GetSystem<CVarSystem>();
+            bool isVolumetric = cvarSys ? cvarSys->GetBool("r_volumetric") : false;
+            if (!isVolumetric) return;
+
             if (r->m_volumetricShader && !r->m_lastLightPositions.empty()) {
                 r->m_volumetricShader->Use();
                 
@@ -388,8 +440,6 @@ namespace starlight {
             auto renderer = blackboard.Get<Renderer*>("Renderer");
             if (!renderer || !*renderer) return;
             Renderer* r = *renderer;
-
-            if (!r->m_screenShader) return;
 
             GLuint targetFBO = r->m_viewportFBO ? r->m_viewportFBO : 0;
             int vpW = r->m_viewportFBO ? r->m_viewportWidth : Engine::Get().GetWindow().GetWidth();

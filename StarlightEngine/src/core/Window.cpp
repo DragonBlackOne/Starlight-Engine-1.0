@@ -1,6 +1,9 @@
 #include "Window.hpp"
 #include <SDL2/SDL.h>
 #include <glad/glad.h>
+#include <filesystem>
+#include <fstream>
+#include <vector>
 #include "Log.hpp"
 #include "imgui.h"
 #include "imgui_impl_opengl3.h"
@@ -80,6 +83,9 @@ bool Window::Initialize(const WindowConfig& config) {
 
     ImGui_ImplSDL2_InitForOpenGL(m_window, m_glContext);
     ImGui_ImplOpenGL3_Init("#version 460");
+
+    SDL_ShowWindow(m_window);
+    SDL_RaiseWindow(m_window);
 
     m_initialized = true;
 
@@ -195,4 +201,34 @@ void Window::SetIcon(const std::string& path) {
     }
     stbi_image_free(data);
 }
+
+bool Window::CaptureScreenshot(const std::string& filepath) {
+    if (!m_initialized || m_width <= 0 || m_height <= 0) {
+        return false;
+    }
+
+    std::vector<unsigned char> pixels(m_width * m_height * 3);
+    glPixelStorei(GL_PACK_ALIGNMENT, 1);
+    glReadPixels(0, 0, m_width, m_height, GL_RGB, GL_UNSIGNED_BYTE, pixels.data());
+
+    std::filesystem::path p(filepath);
+    if (p.has_parent_path()) {
+        std::filesystem::create_directories(p.parent_path());
+    }
+
+    std::ofstream out(filepath, std::ios::binary);
+    if (!out.is_open()) {
+        Log::Error("Window: Failed to open file for screenshot: {}", filepath);
+        return false;
+    }
+
+    out << "P6\n" << m_width << " " << m_height << "\n255\n";
+    for (int y = m_height - 1; y >= 0; --y) {
+        out.write(reinterpret_cast<const char*>(&pixels[y * m_width * 3]), m_width * 3);
+    }
+    out.close();
+    Log::Info("Window: Screenshot saved successfully to {}", filepath);
+    return true;
+}
+
 }  // namespace starlight

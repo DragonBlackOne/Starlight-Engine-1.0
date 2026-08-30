@@ -1,0 +1,56 @@
+﻿[36m [INFO] 2026-08-29 16:07:41.503 Renderer v7.0: Object Created.[0m
+[36m [INFO] 2026-08-29 16:07:41.506 PluginSystem created.[0m
+[36m [INFO] 2026-08-29 16:07:41.506 MemoryManager: Subsystem initialized with Thread-Local fast-paths.[0m
+[36m [INFO] 2026-08-29 16:07:41.506 ConfigSystem: Loaded config file 'D:\Projetos\Fusion ENGINE\GodHand_Project\assets\engine.ini' with 4 sections.[0m
+[36m [INFO] 2026-08-29 16:07:41.765 Window initialized: God Hand // Fusion ENGINE (PS2 Retro 3D Brawler) (1280x720)[0m
+[36m [INFO] 2026-08-29 16:07:41.766 OpenGL Renderer: Radeon RX550/550 Series[0m
+[36m [INFO] 2026-08-29 16:07:41.766 Engine: System 'EditorSystem' is disabled by configuration.[0m
+[33m [WARN] 2026-08-29 16:07:41.766 PathResolver: 'assets/console_history.txt' not found in any known search path (cwd='D:\Projetos\Fusion ENGINE\GodHand_Project', exeDir='D:\Projetos\Fusion ENGINE\build\GodHand_Project\Release')[0m
+[36m [INFO] 2026-08-29 16:07:41.766 DebugConsole: Initialized (Press F1 or ` to toggle).[0m
+[36m [INFO] 2026-08-29 16:07:41.767 Physics System (Jolt) Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:41.888 ShadowSystem: Initialized with 2048x2048 resolution (4 cascades).[0m
+[36m [INFO] 2026-08-29 16:07:42.004 RenderGraph: Advanced Pipeline Initialized (Phase 12 - Ultra Edition).[0m
+[36m [INFO] 2026-08-29 16:07:42.006 TAAPass created.[0m
+[36m [INFO] 2026-08-29 16:07:42.006 Renderer v7.0: Industrial Pipeline Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.063 AudioSystem: Spatial 3D Engine & YM2612 Core active.[0m
+[36m [INFO] 2026-08-29 16:07:42.063 CVarSystem: Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.063 ConfigSystem: Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.063 EventBroker: Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.064 ScriptSystem: Phase 13 - CSM + Gameplay Lua API + Renderer2D + FightingSystem Ready.[0m
+[36m [INFO] 2026-08-29 16:07:42.064 Job System (Wicked) inicializado.[0m
+[36m [INFO] 2026-08-29 16:07:42.064 VFS System: Initialized for Open Source SDK.[0m
+[36m [INFO] 2026-08-29 16:07:42.064 AssetManager: Background Pipeline Initialized (Phase 12).[0m
+[36m [INFO] 2026-08-29 16:07:42.109 GPUCullingSystem: GPU-Driven Pipeline Initialized (Phase 16).[0m
+[36m [INFO] 2026-08-29 16:07:42.109 NetworkSystem: Networking layer active.[0m
+[36m [INFO] 2026-08-29 16:07:42.114 VFXSystem: Industrial GPU Particle Engine initialized (256000 particles).[0m
+[36m [INFO] 2026-08-29 16:07:42.115 SpriteAnimationSystem: Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.115 SpriteRendererSystem: Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.115 Camera2DSystem: Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.115 TilemapSystem: Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.115 PluginSystem initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.115 AutomationSystem: Test & Automation Framework Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.116 AutomationSystem: Lua bindings successfully registered.[0m
+[36m [INFO] 2026-08-29 16:07:42.116 CameraSystemAdapter: Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.116 ClothSystemAdapter: Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.116 HierarchySystemAdapter: Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.116 LODSystemAdapter: Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.116 VehicleSystemAdapter: Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.116 MeshDeformSystemAdapter: Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.116 AISystemAdapter: Initialized.[0m
+[36m [INFO] 2026-08-29 16:07:42.116 OctreeSystemAdapter: Initialized (world bounds 20km).[0m
+[36m [INFO] 2026-08-29 16:07:42.116 PickerSystemAdapter: Initialized (click to pick 3D entities).[0m
+[36m [INFO] 2026-08-29 16:07:42.116 SystemScheduler: Compiled 40 systems into 6 parallel layers.[0m
+[36m [INFO] 2026-08-29 16:07:42.116   Layer 0: DebugConsole InputSystem PhysicsSystem Renderer AudioSystem CVarSystem ConfigSystem EventBroker ScriptSystem JobSystem VFSSystem AssetManager GPUCullingSystem AnimationSystem EventSystem NetworkSystem NavigationSystem FileWatcher TweenSystem VFXSystem DashboardSystem GameplaySystem FightingSystem SpriteAnimationSystem SpriteRendererSystem TilemapSystem PluginSystem FootIKSystem RagdollSystem AutomationSystem ClothSystem LODSystem MeshDeformSystem PickerSystem [0m
+[36m [INFO] 2026-08-29 16:07:42.116   Layer 1: Camera2DSystem CameraSystem [0m
+[36m [INFO] 2026-08-29 16:07:42.116   Layer 2: HierarchySystem [0m
+[36m [INFO] 2026-08-29 16:07:42.116   Layer 3: VehicleSystem [0m
+[36m [INFO] 2026-08-29 16:07:42.116   Layer 4: AISystem [0m
+[36m [INFO] 2026-08-29 16:07:42.116   Layer 5: OctreeSystem [0m
+[36m [INFO] 2026-08-29 16:07:42.119 Engine initialized successfully.[0m
+[36m [INFO] 2026-08-29 16:07:42.119 GodHand_Project: Initializing 3D Beat 'Em Up Scene...[0m
+[36m [INFO] 2026-08-29 16:07:42.120 [Lua] Loading Starlight Standard Library v7.0 (Premium Outrun)...[0m
+[36m [INFO] 2026-08-29 16:07:42.121 [Lua] Starlight Standard Library v7.0 Loaded Successfully.[0m
+[36m [INFO] 2026-08-29 16:07:42.122 [Lua] SBA v7.0: Premium Outrun Bridge initialized ÔÇö Advanced Audio, Radial Chromatic Aberration & Vignette, Physics2D & SpriteAnim ready.[0m
+[36m [INFO] 2026-08-29 16:07:42.205 [Lua] God Hand: Starting 3D Brawler Game Scene...[0m
+[36m [INFO] 2026-08-29 16:07:42.209 [Lua] DEBUG: Timer.update called with dt = 4.0000000467444e-07 (type: number)[0m
+[36m [INFO] 2026-08-29 16:07:42.209 [Lua] DEBUG: Timer._timers size = 0[0m

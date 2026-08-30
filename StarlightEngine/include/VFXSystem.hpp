@@ -30,7 +30,7 @@ namespace starlight {
         bool IsMainThreadOnly() const override { return true; }
 
         // Industrial API
-        void Emit(const glm::vec3& pos, const glm::vec3& velRange, const glm::vec4& color, int count = 1, float size = 0.1f);
+        void Emit(const glm::vec3& pos, const glm::vec3& velRange, const glm::vec4& color, int count = 1, float size = 0.1f, float lifetime = 2.0f);
         void SetGravity(const glm::vec3& gravity) { m_gravity = gravity; }
         void SetMaxParticles(int maxParticles) {
             if (maxParticles > MAX_PARTICLES) maxParticles = MAX_PARTICLES;
@@ -59,6 +59,7 @@ namespace starlight {
             glm::vec4 color;
             int count;
             float size;
+            float lifetime = 2.0f;
         };
         std::vector<PendingEmission> m_pending;
 

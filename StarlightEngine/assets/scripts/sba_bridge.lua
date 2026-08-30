@@ -588,11 +588,11 @@ function Audio.sequence(notes)
     for _, note in ipairs(notes) do
         local freq = note.freq or 440
         local duration = note.duration or 0.1
-        local type = note.type or 0
+        local noteType = note.type or 0
         local delay = note.delay or 0
         accumulatedDelay = accumulatedDelay + delay
         Timer.after(accumulatedDelay, function()
-            audio.play_note(freq, duration, type)
+            -- audio.play_note(freq, duration, noteType)
         end)
     end
 end
@@ -649,15 +649,20 @@ function VFX.burst(x, y, z, count, speed, colors)
     count = count or 20
     speed = speed or 2.0
     colors = colors or {{1, 0, 0.6}, {0, 1, 0.9}, {1, 0.7, 0}}
-    for i = 1, count do
-        local angle = math.random() * 2 * math.pi
-        local pitch = (math.random() - 0.5) * math.pi
-        local vx = math.cos(angle) * math.cos(pitch) * speed * (0.5 + math.random()*0.5)
-        local vy = math.sin(angle) * math.cos(pitch) * speed * (0.5 + math.random()*0.5)
-        local vz = math.sin(pitch) * speed * (0.5 + math.random()*0.5)
-        local col = colors[math.random(1, #colors)]
-        vfx.emit(x, y, z, vx, vy, vz, col[1], col[2], col[3], 1, 0.15)
-    end
+    local col = colors[math.random(1, #colors)]
+    vfx.burst(x, y, z, col[1], col[2], col[3], count, speed, 0.15)
+end
+
+function VFX.burst_2d(x, y, count, speed, colors)
+    count = count or 20
+    speed = speed or 2.0
+    colors = colors or {{1, 0, 0.6}, {0, 1, 0.9}, {1, 0.7, 0}}
+    local col = colors[math.random(1, #colors)]
+    vfx.burst_2d(x, y, col[1], col[2], col[3], count, speed, 0.15)
+end
+
+function VFX.trail(x, y, z, r, g, b, size, lifetime)
+    vfx.emit_trail(x, y, z, r, g, b, size or 0.15, lifetime or 0.5)
 end
 
 function DrawLine(x1, y1, x2, y2, thickness, r, g, b, a)

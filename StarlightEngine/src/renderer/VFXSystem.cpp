@@ -63,8 +63,8 @@ namespace starlight {
         m_vao = 0;
     }
 
-    void VFXSystem::Emit(const glm::vec3& pos, const glm::vec3& velRange, const glm::vec4& color, int count, float size) {
-        m_pending.push_back({pos, velRange, color, count, size});
+    void VFXSystem::Emit(const glm::vec3& pos, const glm::vec3& velRange, const glm::vec4& color, int count, float size, float lifetime) {
+        m_pending.push_back({pos, velRange, color, count, size, lifetime});
     }
 
     void VFXSystem::OnUpdate(float dt) {
@@ -84,7 +84,7 @@ namespace starlight {
                 for (int i = 0; i < m_maxParticles && emitted < e.count; ++i) {
                     int idx = (searchStart + i) % m_maxParticles;
                     if (particles[idx].position.w <= 0.0f) {
-                        particles[idx].position = glm::vec4(e.pos, 2.0f); // 2.0s life
+                        particles[idx].position = glm::vec4(e.pos, e.lifetime); // Use custom lifetime
                         particles[idx].velocity = glm::vec4(
                             e.velRange.x * m_randomDistribution(m_randomEngine),
                             e.velRange.y * (0.5f + 0.5f * std::abs(m_randomDistribution(m_randomEngine))),
@@ -110,7 +110,7 @@ namespace starlight {
         // But for now, let's just dispatch.
         
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, m_ssbo);
-        m_computeShader->Dispatch(m_maxParticles / 256, 1, 1);
+        m_computeShader->Dispatch((m_maxParticles + 255) / 256, 1, 1);
         m_computeShader->Wait();
         glBindBufferBase(GL_SHADER_STORAGE_BUFFER, 0, 0);
     }

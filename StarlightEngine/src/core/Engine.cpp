@@ -16,6 +16,8 @@
 #include "GameplaySystem.hpp"
 #include "InputSystem.hpp"
 #include "JobSystem.hpp"
+#include "DecalSystem.hpp"
+#include "Profiler.hpp"
 #include "Log.hpp"
 #include "Memory.hpp"
 #include "NavigationSystem.hpp"
@@ -38,6 +40,7 @@
 #include "PluginSystem.hpp"
 #include "FootIK.hpp"
 #include "RagdollSystem.hpp"
+#include "AutomationSystem.hpp"
 
 #undef APIENTRY
 #include <SDL2/SDL.h>
@@ -88,6 +91,8 @@ Engine::Engine() {
     m_systems.RegisterSystem<PluginSystem>();
     m_systems.RegisterSystem<FootIKSystem>();
     m_systems.RegisterSystem<RagdollSystem>();
+    m_systems.RegisterSystem<AutomationSystem>();
+    m_systems.RegisterSystem<DecalSystem>();
 
     // Orphan System Adapters (Fase 2)
     m_systems.RegisterSystem<CameraSystemAdapter>();
@@ -145,7 +150,9 @@ bool Engine::Initialize(const WindowConfig& config) {
             activeConfig.title = configSys->GetString("Window", "title", config.title);
             activeConfig.maxFPS = configSys->GetInt("Window", "maxFPS", config.maxFPS);
             activeConfig.vsync = configSys->GetBool("Window", "vsync", config.vsync);
-            activeConfig.mode2D = configSys->GetBool("Window", "mode2D", config.mode2D);
+            // mode2D is an engine-level intent set in code (main.cpp); do NOT let
+            // engine.ini override it, otherwise all 2D games silently run in 3D mode.
+            activeConfig.mode2D = config.mode2D;
         }
     }
 
@@ -168,14 +175,38 @@ bool Engine::Initialize(const WindowConfig& config) {
     context.window = m_window.get();
     context.engine = this;
 
+    // Enable/disable systems based on configuration
+    if (configSys) {
+        for (auto& system : m_systems.GetSystems()) {
+            std::string sysName = system->GetName();
+            bool defaultEnabled = true;
+            if (sysName == "ConfigSystem" || sysName == "InputSystem" || 
+                sysName == "Renderer" || sysName == "EventBroker" || 
+                sysName == "ScriptSystem" || sysName == "AssetManager" || 
+                sysName == "VFSSystem") {
+                defaultEnabled = true;
+            } else if (sysName == "EditorSystem") {
+                defaultEnabled = configSys->GetBool("Systems", "EditorSystem", false);
+            } else {
+                defaultEnabled = configSys->GetBool("Systems", sysName, true);
+            }
+            system->SetEnabled(defaultEnabled);
+            if (!defaultEnabled) {
+                Log::Info("Engine: System '{}' is disabled by configuration.", sysName);
+            }
+        }
+    }
+
     m_systems.SortByPriority();
 
-    // Initialize all registered systems
+    // Initialize all registered and enabled systems
     bool allSystemsOK = true;
     for (auto& system : m_systems.GetSystems()) {
-        if (!system->OnInitialize(context)) {
-            Log::Error("Engine: System '{}' failed to initialize.", system->GetName());
-            allSystemsOK = false;
+        if (system->IsEnabled()) {
+            if (!system->OnInitialize(context)) {
+                Log::Error("Engine: System '{}' failed to initialize.", system->GetName());
+                allSystemsOK = false;
+            }
         }
     }
     if (!allSystemsOK) {
@@ -215,6 +246,7 @@ bool Engine::Initialize(const WindowConfig& config) {
         int initShowProfiler = configSys ? configSys->GetInt("Render", "showProfiler", 0) : 0;
         bool initCull = configSys ? configSys->GetBool("Render", "cull", true) : true;
         bool initCull2D = configSys ? configSys->GetBool("Render", "cull2d", true) : true;
+        float initFogDensity = configSys ? configSys->GetFloat("Render", "fogDensity", 0.0f) : 0.0f;
         
         float initVolume = configSys ? configSys->GetFloat("Audio", "volume", 1.0f) : 1.0f;
         float initMusicVolume = configSys ? configSys->GetFloat("Audio", "musicVolume", 1.0f) : 1.0f;
@@ -237,11 +269,12 @@ bool Engine::Initialize(const WindowConfig& config) {
         cvarSys->RegisterInt("r_showProfiler", initShowProfiler, "Show performance profiler overlay (0=Off, 1=Compact, 2=Detailed)");
         cvarSys->RegisterBool("r_cull", initCull, "Enable CPU frustum culling for 3D meshes");
         cvarSys->RegisterBool("r_cull2d", initCull2D, "Enable CPU viewport culling for 2D sprites/tilemaps");
-        cvarSys->RegisterBool("r_deferred", true, "Enable Deferred Shading Renderer");
+        cvarSys->RegisterBool("r_deferred", false, "Enable Deferred Shading Renderer");
         cvarSys->RegisterBool("r_taa", true, "Enable Temporal Anti-Aliasing (TAA)");
         cvarSys->RegisterBool("r_fsr", false, "Enable AMD FSR Quality Upscaling");
         cvarSys->RegisterFloat("r_fsr_sharpness", 0.8f, "AMD FSR Sharpening filter strength");
-        cvarSys->RegisterBool("r_crt", true, "Enable Retro CRT Scanline Shader");
+        cvarSys->RegisterBool("r_crt", false, "Enable Retro CRT Scanline Shader");
+        cvarSys->RegisterFloat("r_fog_density", initFogDensity, "Atmospheric distance fog density (0=off)");
 
         cvarSys->RegisterFloat("snd_volume", initVolume, "Master volume (0.0 to 1.0)", [](float val) {
             auto audio = Engine::Get().GetSystem<AudioSystem>();
@@ -392,6 +425,7 @@ void Engine::Run() {
         m_profilerStats.renderTime += (m_frameRenderTime - m_profilerStats.renderTime) * lerpFactor;
         m_profilerStats.updateTime += (m_frameUpdateTime - m_profilerStats.updateTime) * lerpFactor;
 
+        Profiler::Get().EndFrame(static_cast<float>(deltaTime * 1000.0));
         MemoryManager::ClearFrame();
 
         if (m_window->ShouldClose())

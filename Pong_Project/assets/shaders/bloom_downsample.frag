@@ -3,6 +3,8 @@ layout (location = 0) out vec3 downsample;
 
 uniform sampler2D srcTexture;
 uniform vec2 srcResolution;
+uniform float threshold = 1.0;
+uniform int isFirstMip = 0;
 
 in vec2 TexCoords;
 
@@ -37,13 +39,24 @@ void main()
     vec3 l = texture(srcTexture, vec2(TexCoords.x,       TexCoords.y - 2*y)).rgb;
     vec3 m = texture(srcTexture, vec2(TexCoords.x + 2*x, TexCoords.y - 2*y)).rgb;
 
-    // Apply weighted distribution:
-    // 0.5 + 0.125 + 0.125 + 0.125 + 0.125 = 1
-    // (g) is weighted 0.25, (d,e,i,j) are weighted 0.125 each, others 0.03125
-    downsample = e*0.125 + d*0.125 + i*0.125 + j*0.125 + g*0.5;
-    downsample += (a+b+c+f+h+k+l+m)*0.125;
-    
-    // Karis average to reduce fireflies
-    float luma = dot(downsample, vec3(0.2126, 0.7152, 0.0722));
-    downsample /= (1.0 + luma);
+    // Weighted distribution (Jimenez 13-tap filter with exact 1.0 energy sum):
+    vec3 corner = (a + c + k + m) * 0.03125;
+    vec3 edge   = (b + f + h + l) * 0.0625;
+    vec3 inner  = (d + e + i + j) * 0.125;
+    vec3 center = g * 0.125;
+    downsample = corner + edge + inner + center;
+
+    if (isFirstMip != 0) {
+        // Karis average on first pass to kill high-energy firefly subpixels
+        float luma = dot(downsample, vec3(0.2126, 0.7152, 0.0722));
+        downsample /= (1.0 + luma * 0.25);
+
+        float brightness = max(downsample.r, max(downsample.g, downsample.b));
+        float soft = brightness - threshold;
+        if (soft <= 0.0) {
+            downsample = vec3(0.0);
+        } else {
+            downsample *= (soft / max(brightness, 0.0001));
+        }
+    }
 }

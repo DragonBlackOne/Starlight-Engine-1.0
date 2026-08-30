@@ -59,6 +59,10 @@ namespace starlight {
         float metallic = 0.0f;
         float roughness = 0.5f;
         float ao = 1.0f;
+
+        // Humanoid Skin / Subsurface Scattering
+        bool isSkin = false;
+        glm::vec3 subsurfaceColor = {0.92f, 0.38f, 0.25f};
         
         // PBR Texture Maps (0 = none)
         uint32_t albedoMap = 0;
@@ -152,6 +156,7 @@ namespace starlight {
         JPH::BodyID bodyID;
         PhysicsComponent(JPH::BodyID id) : bodyID(id) {}
         PhysicsComponent() : bodyID(JPH::BodyID()) {}
+        ~PhysicsComponent();
     };
 
     struct RetroComponent {
@@ -223,6 +228,8 @@ namespace starlight {
         glm::vec3 velocity = {0.0f, 0.0f, 0.0f};
         bool isGrounded = false;
         void* joltCharacter = nullptr; // JPH::CharacterVirtual*
+        
+        ~CharacterControllerComponent();
     };
 
     struct FootIKComponent {

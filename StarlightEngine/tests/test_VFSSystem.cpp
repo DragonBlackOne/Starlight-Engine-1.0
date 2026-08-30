@@ -20,7 +20,7 @@ protected:
         }
 
         const char* fileContent = "Hello from ZIP!";
-        if (!mz_zip_writer_add_mem(&zipArchive, "test_inside.txt", fileContent, strlen(fileContent), MZ_DEFAULT_COMPRESSION)) {
+        if (!mz_zip_writer_add_mem(&zipArchive, "test_inside.txt", fileContent, strlen(fileContent), static_cast<mz_uint>(MZ_DEFAULT_COMPRESSION))) {
             mz_zip_writer_end(&zipArchive);
             FAIL() << "Failed to add file to temp zip archive";
         }

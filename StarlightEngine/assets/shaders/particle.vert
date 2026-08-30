@@ -1,7 +1,5 @@
 #version 330
 
-in vec3 in_position; // Not used for point sprites usually, but good for instancing
-
 // Particle data from SSBO (if using instancing) or Vertex Buffer
 // For this implementation, we'll assume we read from the same buffer as vertex attributes
 layout(location = 0) in vec4 in_particle_pos; // xyz = pos, w = life
@@ -25,8 +23,8 @@ void main() {
     }
     
     // Point size attenuation
-    float dist = length((m_view * vec4(pos, 1.0)).xyz);
-    gl_PointSize = size * (1000.0 / dist); // Scale by distance
+    float dist = max(length((m_view * vec4(pos, 1.0)).xyz), 0.01);
+    gl_PointSize = clamp(size * (1000.0 / dist), 1.0, 256.0); // Scale by distance
     
     v_color = in_particle_color;
     v_life = in_particle_pos.w;

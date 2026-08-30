@@ -2,10 +2,10 @@
 #include <memory>
 #include <vector>
 #include "Window.hpp"
+#include "Version.hpp"
 
 #include "CoreMinimal.hpp"
-#include "wiJobSystem.h"
-
+#include "wicked/core/wiJobSystem.h"
 #include "EngineSystem.hpp"
 
 namespace starlight {
@@ -23,6 +23,8 @@ class NetworkSystem;
 class AssetManager;
 class ConfigSystem;
 class SystemScheduler;
+class JobSystem;
+class DecalSystem;
 
 struct EngineTime {
     float deltaTime = 0.0f;
@@ -49,6 +51,15 @@ public:
     bool Initialize(const WindowConfig& config);
     void Run();
     void Shutdown();
+
+    // Version API (v10.0.0)
+    static constexpr const char* GetEngineName() { return STARLIGHT_ENGINE_NAME; }
+    static constexpr const char* GetVersionString() { return STARLIGHT_VERSION_STRING; }
+    static constexpr const char* GetVersionCodename() { return STARLIGHT_VERSION_CODENAME; }
+    static constexpr int GetVersionMajor() { return STARLIGHT_VERSION_MAJOR; }
+    static constexpr int GetVersionMinor() { return STARLIGHT_VERSION_MINOR; }
+    static constexpr int GetVersionPatch() { return STARLIGHT_VERSION_PATCH; }
+    static constexpr int GetVersionNumber() { return STARLIGHT_VERSION_NUMBER; }
 
     // Modularity
     SystemRegistry& GetRegistry() {

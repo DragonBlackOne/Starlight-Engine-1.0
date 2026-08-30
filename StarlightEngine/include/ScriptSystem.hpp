@@ -25,6 +25,7 @@ namespace starlight {
         bool IsMainThreadOnly() const override { return true; }
 
         void ExecuteFile(const std::string& path);
+        void ResetState();
         
         sol::state& GetLua() { return m_lua; }
 

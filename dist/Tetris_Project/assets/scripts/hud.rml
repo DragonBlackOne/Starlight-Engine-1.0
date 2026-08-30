@@ -1,0 +1,19 @@
+<rml>
+<head>
+    <link type="text/rcss" href="hud.rcss"/>
+</head>
+<body>
+    <div class="hud-panel">
+        <div class="hud-title">FUSION ENGINE HUD</div>
+        <div class="hud-label">VITALLITY</div>
+        <div class="health-bar-container">
+            <div class="health-fill"></div>
+        </div>
+        <div class="hud-label">CYBER SHIELD</div>
+        <div class="shield-bar-container">
+            <div class="shield-fill"></div>
+        </div>
+        <div class="critical-text">WARNING: NEON CORE OVERLOAD</div>
+    </div>
+</body>
+</rml>
