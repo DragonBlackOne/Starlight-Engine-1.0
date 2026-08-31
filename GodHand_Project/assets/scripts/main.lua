@@ -53,9 +53,13 @@ function OnStart()
 end
 
 function Game.populateOpenWorld()
-    -- Zone 1: Town Square & Cantina Porch
-    EnemyAI.spawn("punk", -3.2, 0.0, -4.5)
-    EnemyAI.spawn("punk", 3.2, 0.0, -4.5)
+    -- Exact enemy positioning to match image.png 1:1
+    local e1 = EnemyAI.spawn("punk", 0.6, 0.0, -3.2)
+    local e2 = EnemyAI.spawn("bruiser", 1.8, 0.0, -3.0)
+    e1.facingAngle = 220.0
+    e2.facingAngle = 215.0
+
+    -- Additional enemies across open world zones
 
     -- Zone 2: Red Rock Mesa & Saguaro Canyon
     EnemyAI.spawn("bruiser", 56.0, 0.0, -52.0)

@@ -23,12 +23,12 @@ local Camera = {
 }
 
 function Camera.init()
-    Camera.pos = { x = 0.0, y = 1.8, z = 4.0 }
-    Camera.targetPos = { x = 0.0, y = 1.30, z = 0.0 }
-    Camera.yaw = 0.0
-    Camera.pitch = 8.0
-    Camera.distance = 3.2
-    Camera.targetDistance = 3.2
+    Camera.pos = { x = -2.2, y = 1.6, z = 1.5 }
+    Camera.targetPos = { x = 0.2, y = 1.25, z = -2.8 }
+    Camera.yaw = 32.0
+    Camera.pitch = 7.0
+    Camera.distance = 3.6
+    Camera.targetDistance = 3.6
     Camera.trauma = 0.0
     Camera.zoomFactor = 1.0
     Camera.firstMouse = true

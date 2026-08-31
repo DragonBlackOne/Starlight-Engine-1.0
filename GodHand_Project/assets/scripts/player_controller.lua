@@ -73,10 +73,10 @@ function Player.init(startX, startY, startZ)
         HumanoidRig.destroy(Player.rig)
     end
 
-    Player.pos = { x = startX or 0.0, y = startY or 0.0, z = startZ or 0.0 }
+    Player.pos = { x = startX or -1.8, y = startY or 0.0, z = startZ or -2.2 }
     Player.velocity = { x = 0.0, y = 0.0, z = 0.0 }
-    Player.facingAngle = 0.0
-    Player.targetAngle = 0.0
+    Player.facingAngle = 42.0
+    Player.targetAngle = 42.0
     Player.leanAngle = 0.0
     Player.hp = Player.maxHp
     Player.state = "idle"

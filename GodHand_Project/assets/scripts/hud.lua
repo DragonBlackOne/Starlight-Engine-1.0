@@ -90,12 +90,11 @@ function HUD.drawClassicGodHandCluster(player, baseX, baseY)
         if i <= GodReel.godReelCardsCount then
             local pulse = 0.85 + math.sin(engine.get_time() * 8.0 + i) * 0.15
             if gfx.draw_circle_filled then
-                gfx.draw_circle_filled(ox, oy, 7.5, 1.0 * pulse, 0.90 * pulse, 0.40, 0.95)
+                gfx.draw_circle_filled(ox, oy, 7.5, 1.0 * pulse, 0.35 * pulse, 0.35, 0.95)
             end
             if gfx.draw_circle_outline then
                 gfx.draw_circle_outline(ox, oy, 7.5, 1.5, 1.0, 1.0, 1.0, 1.0)
             end
-            gfx.draw_text("★", ox - 4, oy - 6, 0.9, 0.1, 0.1, 0.1, 1.0)
         else
             if gfx.draw_circle_outline then
                 gfx.draw_circle_outline(ox, oy, 6.5, 1.2, 0.4, 0.4, 0.4, 0.6)
@@ -161,8 +160,8 @@ function HUD.drawTopRightRadar(player, enemies, centerX, centerY, radius)
         gfx.draw_circle_outline(centerX, centerY, radius * 0.5, 1.0, 0.40, 0.35, 0.20, 0.50)
     end
 
-    -- "OG" Emblem Top-Right Header
-    gfx.draw_text("OG", centerX + radius - 16, centerY - radius - 14, 1.4, 0.95, 0.82, 0.20, 1.0)
+    -- "0 G" Emblem Top-Right Header (1:1 with image.png)
+    gfx.draw_text("0 G", centerX + radius - 16, centerY - radius - 14, 1.4, 0.95, 0.82, 0.20, 1.0)
 
     -- Player Center Indicator
     if gfx.draw_circle_filled then
@@ -221,25 +220,27 @@ function HUD.drawGodReelMenu(screenW, screenH)
     for i = 1, 3 do
         local cardIdx = ((GodReel.selectedIndex - 2 + i - 1) % #GodReel.cards) + 1
         local card = GodReel.cards[cardIdx]
-        local isSelected = (cardIdx == GodReel.selectedIndex)
-        local cy = startY + (i - 1) * (cardH + 12)
+        if card then
+            local isSelected = (cardIdx == GodReel.selectedIndex)
+            local cy = startY + (i - 1) * (cardH + 12)
 
-        if isSelected then
-            gfx.draw_rect(startX - 4, cy - 4, cardW + 8, cardH + 8, 0.20, 0.12, 0.04, 0.95)
-            gfx.draw_rect(startX, cy, cardW, cardH, 0.45, 0.28, 0.10, 0.95)
-            gfx.draw_rect_outline(startX, cy, cardW, cardH, 3.0, 1.0, 0.85, 0.25, 1.0)
-            gfx.draw_text(card.name, startX + 22, cy + 12, 2.1, 1.0, 0.92, 0.35, 1.0)
-            gfx.draw_text("★" .. card.cost, startX + cardW - 40, cy + 14, 1.6, 1.0, 0.85, 0.20, 1.0)
-        else
-            gfx.draw_rect(startX, cy, cardW, cardH, 0.18, 0.14, 0.10, 0.80)
-            gfx.draw_rect_outline(startX, cy, cardW, cardH, 1.5, 0.65, 0.50, 0.20, 0.75)
-            gfx.draw_text(card.name, startX + 22, cy + 14, 1.6, 0.75, 0.65, 0.45, 0.85)
+            if isSelected then
+                gfx.draw_rect(startX - 4, cy - 4, cardW + 8, cardH + 8, 0.20, 0.12, 0.04, 0.95)
+                gfx.draw_rect(startX, cy, cardW, cardH, 0.45, 0.28, 0.10, 0.95)
+                gfx.draw_rect_outline(startX, cy, cardW, cardH, 3.0, 1.0, 0.85, 0.25, 1.0)
+                gfx.draw_text(card.name, startX + 22, cy + 12, 2.1, 1.0, 0.92, 0.35, 1.0)
+            else
+                gfx.draw_rect(startX, cy, cardW, cardH, 0.18, 0.14, 0.10, 0.80)
+                gfx.draw_rect_outline(startX, cy, cardW, cardH, 1.5, 0.65, 0.50, 0.20, 0.75)
+                gfx.draw_text(card.name, startX + 22, cy + 14, 1.6, 0.75, 0.65, 0.45, 0.85)
+            end
         end
     end
 
+    -- PS2 Controller Prompt Legend at Bottom (R1 Select, Cross OK, Triangle Cancel)
     local promptY = startY + 3 * (cardH + 12) + 16
-    gfx.draw_rect(startX - 20, promptY - 4, cardW + 40, 32, 0.05, 0.05, 0.08, 0.85)
-    gfx.draw_text("[UP/DOWN/R1] Select   [ENTER/X] OK   [TAB/ESC] Cancel", startX - 10, promptY + 4, 1.05, 0.92, 0.92, 0.92, 0.95)
+    gfx.draw_rect(startX - 20, promptY - 4, cardW + 40, 36, 0.05, 0.05, 0.08, 0.88)
+    gfx.draw_text("R1 Select   ✕ OK   ◯ OK   △ Cancel", startX - 10, promptY + 6, 1.15, 0.95, 0.95, 0.95, 0.95)
 end
 
 function HUD.drawTargetEnemy(player, enemies, x, y, w, h)
