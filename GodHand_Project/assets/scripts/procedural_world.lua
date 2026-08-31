@@ -30,45 +30,52 @@ function ProceduralWorld.init()
     table.insert(ProceduralWorld.entities, boardwalk)
 
     -- =========================================================================
-    -- Building 1: Main Double-Story Cantina & Saloon (North: z = -15.0)
+    -- Building 1: Adobe Building on the Right (1:1 Replica of image.png)
     -- =========================================================================
-    local cantina = engine.spawn_primitive("Cantina_Main", "box", 26.0, 10.0, 6.0)
-    engine.set_pos(cantina, 0.0, 5.0, -16.0)
-    engine.set_pbr(cantina, 0.86, 0.75, 0.62, 0.02, 0.85)
-    if engine.set_texture then engine.set_texture(cantina, "assets/textures/adobe_cantina_facade.jpg") end
+    local cantina = engine.spawn_primitive("Cantina_Main", "box", 18.0, 12.0, 16.0)
+    engine.set_pos(cantina, 12.0, 6.0, -8.0)
+    engine.set_pbr(cantina, 0.88, 0.78, 0.65, 0.02, 0.88)
+    if engine.set_texture then engine.set_texture(cantina, "assets/textures/adobe_wall_diffuse.png") end
     table.insert(ProceduralWorld.entities, cantina)
 
-    -- Saloon Porch Deck & Roof Pergola
-    local porchRoof = engine.spawn_primitive("Porch_Roof", "box", 26.5, 0.35, 4.8)
-    engine.set_pos(porchRoof, 0.0, 5.0, -11.5)
-    engine.set_pbr(porchRoof, 0.36, 0.22, 0.12, 0.05, 0.90)
-    table.insert(ProceduralWorld.entities, porchRoof)
-
-    -- Porch Support Columns
-    for colX = -12.0, 12.0, 4.0 do
-        local col = engine.spawn_primitive("Porch_Col_" .. colX, "cylinder", 0.22, 5.0, 8)
-        engine.set_pos(col, colX, 2.5, -9.2)
-        engine.set_pbr(col, 0.38, 0.24, 0.14, 0.05, 0.88)
-        table.insert(ProceduralWorld.entities, col)
+    -- Wooden roof vigas/beams sticking out along roofline (just under roof)
+    for beamZ = -15.0, -1.0, 1.8 do
+        local viga = engine.spawn_primitive("Adobe_Viga_" .. beamZ, "cylinder", 0.18, 2.2, 8)
+        engine.set_pos(viga, 2.8, 9.8, beamZ)
+        engine.set_rotation(viga, 0, 0, 1.57)
+        engine.set_pbr(viga, 0.38, 0.24, 0.14, 0.05, 0.90)
+        table.insert(ProceduralWorld.entities, viga)
     end
 
-    -- Balcony Railings
-    local balconyRail = engine.spawn_primitive("Balcony_Rail", "box", 26.0, 0.9, 0.15)
-    engine.set_pos(balconyRail, 0.0, 5.7, -9.2)
-    engine.set_pbr(balconyRail, 0.40, 0.26, 0.16, 0.05, 0.88)
-    table.insert(ProceduralWorld.entities, balconyRail)
+    -- Wooden doorway and hanging sign
+    local doorFrame = engine.spawn_primitive("Door_Frame", "box", 0.4, 4.5, 2.5)
+    engine.set_pos(doorFrame, 2.9, 2.25, -4.5)
+    engine.set_pbr(doorFrame, 0.32, 0.20, 0.12, 0.05, 0.90)
+    table.insert(ProceduralWorld.entities, doorFrame)
 
-    -- Terracotta Spanish Tile Roof
-    local roofTile = engine.spawn_primitive("Cantina_Roof_Tile", "wedge", 27.0, 3.2, 7.5)
-    engine.set_pos(roofTile, 0.0, 11.2, -16.0)
-    engine.set_pbr(roofTile, 0.72, 0.30, 0.18, 0.02, 0.88)
-    table.insert(ProceduralWorld.entities, roofTile)
-
-    -- Gold Cantina Saloon Sign
-    local saloonSign = engine.spawn_primitive("Saloon_Sign", "box", 9.0, 1.6, 0.25)
-    engine.set_pos(saloonSign, 0.0, 8.8, -12.8)
-    engine.set_pbr(saloonSign, 0.95, 0.82, 0.22, 0.85, 0.25)
+    local saloonSign = engine.spawn_primitive("Saloon_Sign", "box", 0.2, 1.2, 2.0)
+    engine.set_pos(saloonSign, 2.7, 4.8, -3.2)
+    engine.set_pbr(saloonSign, 0.85, 0.70, 0.25, 0.65, 0.35)
     table.insert(ProceduralWorld.entities, saloonSign)
+
+    -- Wooden Fence in Background (1:1 with image.png)
+    for fenceX = -18.0, 4.0, 2.5 do
+        -- Vertical Posts
+        local post = engine.spawn_primitive("Fence_Post_" .. fenceX, "cylinder", 0.12, 2.2, 6)
+        engine.set_pos(post, fenceX, 1.1, -6.5)
+        engine.set_pbr(post, 0.45, 0.32, 0.20, 0.05, 0.88)
+        table.insert(ProceduralWorld.entities, post)
+    end
+    -- Horizontal Rails (Top and Bottom)
+    local railTop = engine.spawn_primitive("Fence_Rail_Top", "box", 22.0, 0.12, 0.12)
+    engine.set_pos(railTop, -7.0, 1.8, -6.5)
+    engine.set_pbr(railTop, 0.45, 0.32, 0.20, 0.05, 0.88)
+    table.insert(ProceduralWorld.entities, railTop)
+
+    local railBot = engine.spawn_primitive("Fence_Rail_Bot", "box", 22.0, 0.12, 0.12)
+    engine.set_pos(railBot, -7.0, 1.0, -6.5)
+    engine.set_pbr(railBot, 0.45, 0.32, 0.20, 0.05, 0.88)
+    table.insert(ProceduralWorld.entities, railBot)
 
     -- Warm Amber Lantern Lights
     local lanternL = engine.spawn_light(-6.0, 4.0, -9.0, 1.0, 0.75, 0.35, 5.5)
